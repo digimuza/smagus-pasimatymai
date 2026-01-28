@@ -63,31 +63,7 @@ export default function Home() {
 
         <h1 className="text-2xl font-light text-primary">Santykių Klausimai</h1>
 
-        <button
-          onClick={toggleFullscreen}
-          className="text-text-muted hover:text-text transition-colors"
-          aria-label={isFullscreen ? 'Išeiti iš viso ekrano' : 'Visas ekranas'}
-        >
-          {isFullscreen ? (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
-              />
-            </svg>
-          )}
-        </button>
+        <div className="w-8" />
       </header>
 
       {/* Main content */}
