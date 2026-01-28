@@ -1,6 +1,6 @@
 # Santykių Klausimai
 
-Gilių klausimų žaidimas poroms - mobiliai pritaikyta web aplikacija su 400 klausimų.
+Gilių klausimų žaidimas poroms - mobiliai pritaikyta web aplikacija su 546 klausimais.
 
 ## Technologijos
 
@@ -40,7 +40,7 @@ npm start
   - **→ Dešinėn:** Atsakyta į klausimą
   - **↑ Aukštyn:** Super like - išsaugoti į mėgstamiausius
 - Haptinė grįžtamoji reakcija
-- 400 klausimų iš 14 kategorijų
+- 546 klausimai iš 14 kategorijų
 
 ### Kategorijų filtravimas
 - Šoninis meniu su visomis kategorijomis

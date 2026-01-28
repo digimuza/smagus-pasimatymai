@@ -1,6 +1,6 @@
 {
-  "title": "400 gilių klausimų",
-  "total_questions": 400,
+  "title": "546 gilių klausimų",
+  "total_questions": 546,
   "sections": [
     {
       "name": "Apie vaikystę ir praeitį",
@@ -90,7 +90,7 @@
     },
     {
       "name": "Apie svajones ir ateitį",
-      "range": "21–390",
+      "range": "21–415",
       "questions": [
         {
           "id": 21,
@@ -211,12 +211,72 @@
         {
           "id": 390,
           "question": "Kokią labdaros iniciatyvą norėtumėte palaikyti kartu kaip pora?"
+        },
+        {
+          "id": 401,
+          "question": "Kaip atrodo tavo idealus gyvenimas po penkerių metų?"
+        },
+        {
+          "id": 402,
+          "question": "Kokia svajonė iš vaikystės tave vis dar lanko?"
+        },
+        {
+          "id": 403,
+          "question": "Kiek tau svarbus karjeros augimas ir kaip tai derinsi su santykiais?"
+        },
+        {
+          "id": 404,
+          "question": "Kokį vaidmenį nori, kad šeima vaidintų tavo ateityje?"
+        },
+        {
+          "id": 405,
+          "question": "Kokia namų aplinka tau suteikia didžiausią ramybę?"
+        },
+        {
+          "id": 406,
+          "question": "Kaip įsivaizduoji idealius santykius, kai abu žmonės yra vyresni ir pensininkai?"
+        },
+        {
+          "id": 407,
+          "question": "Ką tau reiškia finansinis saugumas?"
+        },
+        {
+          "id": 408,
+          "question": "Kas tau neatsiejama, kalbant apie gyvenamąją vietą?"
+        },
+        {
+          "id": 409,
+          "question": "Kaip nori augti kaip asmenybė ateinančiais metais?"
+        },
+        {
+          "id": 410,
+          "question": "Kokios problemos ar klausimai tave įkvepia?"
+        },
+        {
+          "id": 411,
+          "question": "Kokį nuotykį norėtum patirti su tinkamu žmogumi?"
+        },
+        {
+          "id": 412,
+          "question": "Kaip įsivaizduoji individualių tikslų ir poros tikslų balansavimą?"
+        },
+        {
+          "id": 413,
+          "question": "Kokias tradicijas iš savo šeimos nori išlaikyti ar pakeisti?"
+        },
+        {
+          "id": 414,
+          "question": "Ką tau reiškia „partnerystė\" santykiuose?"
+        },
+        {
+          "id": 415,
+          "question": "Kaip nori spręsti svarbius gyvenimo sprendimus kaip pora?"
         }
       ]
     },
     {
       "name": "Apie baimes ir pažeidžiamumą",
-      "range": "41–360",
+      "range": "41–430",
       "questions": [
         {
           "id": 41,
@@ -337,12 +397,72 @@
         {
           "id": 360,
           "question": "Ar kartais nerimauji, kad mūsų skirtumai gali tapti problema ateityje?"
+        },
+        {
+          "id": 416,
+          "question": "Kaip tavo šeima sprendė konfliktus, kai augai?"
+        },
+        {
+          "id": 417,
+          "question": "Koks tavo pirmasis instinktas, kai jaučiesi kritikuojamas/-a ar nesuprastas/-a?"
+        },
+        {
+          "id": 418,
+          "question": "Kaip nori, kad kas nors prieitų prie tavęs, kai jie supykę dėl kažko?"
+        },
+        {
+          "id": 419,
+          "question": "Kas tau padeda nurimti, kai esi piktas/-a ar nusivylęs/-usi?"
+        },
+        {
+          "id": 420,
+          "question": "Kaip atrodo nuoširdžios atsiprašymas tau?"
+        },
+        {
+          "id": 421,
+          "question": "Kaip elgiesi, kai tu ir tau rūpimas žmogus matote dalykus skirtingai?"
+        },
+        {
+          "id": 422,
+          "question": "Kokia tavo didžiausia baimė santykiuose?"
+        },
+        {
+          "id": 423,
+          "question": "Kaip nori spręsti nesutarimus dėl svarbių sprendimų?"
+        },
+        {
+          "id": 424,
+          "question": "Koks tavo procesas dirbant su įskaudintais jausmais?"
+        },
+        {
+          "id": 425,
+          "question": "Kaip mėgsti spręsti konfliktus—iškart kalbėti ar pirmiau pagalvoti?"
+        },
+        {
+          "id": 426,
+          "question": "Kas tave verčia jaustis pakankamai saugiam/-ai būti visiškai sąžiningam/-ai apie sunkias temas?"
+        },
+        {
+          "id": 427,
+          "question": "Kaip nori, kad partneris tave palaikytų per sunkiausius laikus?"
+        },
+        {
+          "id": 428,
+          "question": "Kas tau padėtų jaustis labiau suprastam/-ai santykiuose?"
+        },
+        {
+          "id": 429,
+          "question": "Kaip taisoisi po ginčo?"
+        },
+        {
+          "id": 430,
+          "question": "Kas tau suteikia vilties dėl santykių, net kai jie sudėtingi?"
         }
       ]
     },
     {
       "name": "Apie meilę ir santykius",
-      "range": "61–80",
+      "range": "61–445",
       "questions": [
         {
           "id": 61,
@@ -423,6 +543,66 @@
         {
           "id": 80,
           "question": "Ar kada jautei, kad turi užsitarnauti meilę? Iš kur tai atėjo?"
+        },
+        {
+          "id": 431,
+          "question": "Kaip jaučiesi labiausiai mylimas/-a ir vertinamas/-a?"
+        },
+        {
+          "id": 432,
+          "question": "Koks tavo mėgstamiausias būdas parodyti meilę ypatingam žmogui?"
+        },
+        {
+          "id": 433,
+          "question": "Koks mažas gestas visada tave verčia jaustis rūpinamą?"
+        },
+        {
+          "id": 434,
+          "question": "Kaip mėgsti būti guodžiamas/-a, kai tau sunku?"
+        },
+        {
+          "id": 435,
+          "question": "Koks tavo mėgstamiausias prisiminimas, kai jauteisi giliai mylimas/-a?"
+        },
+        {
+          "id": 436,
+          "question": "Kaip mėgsti spręsti nesutarimus santykiuose?"
+        },
+        {
+          "id": 437,
+          "question": "Kokia fizinė meilė tau atrodo natūraliausia?"
+        },
+        {
+          "id": 438,
+          "question": "Kaip mėgsti švęsti ypatingas progas ir etapus?"
+        },
+        {
+          "id": 439,
+          "question": "Ką tau reiškia kokybiškas laikas santykiuose?"
+        },
+        {
+          "id": 440,
+          "question": "Kaip mėgsti duoti ir gauti atsiliepimus?"
+        },
+        {
+          "id": 441,
+          "question": "Kas akimirksniu verčia tave jaustis atsijungusiam/-ai nuo kažko?"
+        },
+        {
+          "id": 442,
+          "question": "Kaip parodai kam nors, kad galvoji apie juos?"
+        },
+        {
+          "id": 443,
+          "question": "Kas tau padeda jaustis labiausiai palaikomam/-ai streso metu?"
+        },
+        {
+          "id": 444,
+          "question": "Kaip mėgsti vėl prisijungti po laiko išskyrime?"
+        },
+        {
+          "id": 445,
+          "question": "Ką reiškia „būti šalia\" kam nors tau?"
         }
       ]
     },
@@ -554,7 +734,7 @@
     },
     {
       "name": "Apie asmenybę ir savęs pažinimą",
-      "range": "101–120",
+      "range": "101–460",
       "questions": [
         {
           "id": 101,
@@ -635,12 +815,72 @@
         {
           "id": 120,
           "question": "Jei galėtum ištrinti vieną savo savybę – kokią? O jei pridėti vieną?"
+        },
+        {
+          "id": 446,
+          "question": "Kokia svarbiausia gyvenimo pamoka, kurią išmokai iki šiol?"
+        },
+        {
+          "id": 447,
+          "question": "Kaip pasikeitė tavo prioritetai per pastaruosius kelerius metus?"
+        },
+        {
+          "id": 448,
+          "question": "Kokį įsitikinimą turėjai, bet vėliau persvarstyai?"
+        },
+        {
+          "id": 449,
+          "question": "Kokį vaidmenį asmeninis augimas vaidina tavo gyvenime?"
+        },
+        {
+          "id": 450,
+          "question": "Kokia tavo didžiausia stiprybė ir kaip ją išvystei?"
+        },
+        {
+          "id": 451,
+          "question": "Kurioje srityje nori toliau augti?"
+        },
+        {
+          "id": 452,
+          "question": "Kas tave verčia jaustis labiausiai gyvam/-ai ir autentiškai?"
+        },
+        {
+          "id": 453,
+          "question": "Kaip apibrėžti sėkmę sau?"
+        },
+        {
+          "id": 454,
+          "question": "Kokią vertybę išmokai iš savo šeimos, kurią nori išlaikyti?"
+        },
+        {
+          "id": 455,
+          "question": "Kokį šabloną iš savo šeimos nori pakeisti?"
+        },
+        {
+          "id": 456,
+          "question": "Kaip elgiesi, kai tavo vertybės konfliktuoja su kažkieno kito?"
+        },
+        {
+          "id": 457,
+          "question": "Ką tau reiškia dvasingumas ar gilesnė prasmė?"
+        },
+        {
+          "id": 458,
+          "question": "Kaip nori būti prisimintam/-ai žmonių, kurie tau svarbiausi?"
+        },
+        {
+          "id": 459,
+          "question": "Ką bandai tobulinti savyje?"
+        },
+        {
+          "id": 460,
+          "question": "Kaip nori, kad santykiai palaikytų tavo asmeninį augimą?"
         }
       ]
     },
     {
       "name": "Apie mus",
-      "range": "121–400",
+      "range": "121–472",
       "questions": [
         {
           "id": 121,
@@ -741,12 +981,60 @@
         {
           "id": 400,
           "question": "Koks naujas būdas, kaip galime išreikšti savo meilę ir vertinimą vienas kitam?"
+        },
+        {
+          "id": 461,
+          "question": "Padaryk tris tikrus „mes\" teiginius. Pavyzdžiui: „Mes abu šiame kambaryje jaučiamės…\""
+        },
+        {
+          "id": 462,
+          "question": "Užbaikite šį sakinį: „Norėčiau turėti ką nors, su kuo galėčiau pasidalinti…\""
+        },
+        {
+          "id": 463,
+          "question": "Jei taptum artimas draugas su manimi, pasidalink, ką būtų svarbu man žinoti."
+        },
+        {
+          "id": 464,
+          "question": "Pasakyk man, kas tau patinka manyje; būk labai sąžiningas/-a, sakydamas/-a dalykus, kurių galbūt nesakytum ką tik sutiktam žmogui."
+        },
+        {
+          "id": 465,
+          "question": "Pasidalink su manimi gėdingu momentu savo gyvenime."
+        },
+        {
+          "id": 466,
+          "question": "Kada paskutinį kartą verkei kito žmogaus akivaizdoje? Vienas/-a?"
+        },
+        {
+          "id": 467,
+          "question": "Pasakyk man kažką, kas tau patinka manyje jau dabar."
+        },
+        {
+          "id": 468,
+          "question": "Apie ką, jei apie ką nors, per daug rimta juokauti?"
+        },
+        {
+          "id": 469,
+          "question": "Jei šį vakarą mirtum be galimybės su kuo nors bendrauti, ko labiausiai gailėtumeis nepasakęs/-usi? Kodėl dar to nepasakei?"
+        },
+        {
+          "id": 470,
+          "question": "Tavo namai, kuriuose yra viskas, kas tau priklauso, užsidega. Po to, kai išgelbėjai artimuosius ir gyvūnus, turi laiko saugiai išnešti dar vieną daiktą. Kas tai būtų? Kodėl?"
+        },
+        {
+          "id": 471,
+          "question": "Iš visų tavo šeimos žmonių, kieno mirtis tau būtų labiausiai sukrėstanti? Kodėl?"
+        },
+        {
+          "id": 472,
+          "question": "Pasidalink asmenine problema ir paprašyk mano patarimo, kaip aš ją spręsčiau. Taip pat paprašyk manęs atspindėti, kaip atrodo tu jaučiesi dėl šios problemos."
         }
       ]
     },
     {
       "name": "Egzistenciniai klausimai",
-      "range": "136–150",
+      "range": "136–484",
       "questions": [
         {
           "id": 136,
@@ -807,12 +1095,60 @@
         {
           "id": 150,
           "question": "Jei galėtum užduoti vieną klausimą Dievui ar visatai – koks jis būtų?"
+        },
+        {
+          "id": 473,
+          "question": "Iš visų žmonių pasaulyje, ką pasirinktum vakarienės svečiu?"
+        },
+        {
+          "id": 474,
+          "question": "Ar norėtum būti garsus/-i? Kokiu būdu?"
+        },
+        {
+          "id": 475,
+          "question": "Ar kada nors repetuoji ką pasakysi prieš skambindamas telefonu? Kodėl?"
+        },
+        {
+          "id": 476,
+          "question": "Kaip atrodytų tobula diena tau?"
+        },
+        {
+          "id": 477,
+          "question": "Kada paskutinį kartą dainavaisi sau? Kam nors kitam?"
+        },
+        {
+          "id": 478,
+          "question": "Jei galėtum gyventi iki 90 metų ir išlaikyti 30-mečio protą arba kūną paskutiniams 60 metų, kurį pasirinktum?"
+        },
+        {
+          "id": 479,
+          "question": "Ar turi slaptą nuojautą, kaip mirsi?"
+        },
+        {
+          "id": 480,
+          "question": "Paminėk tris dalykus, kurie mums atrodo bendri."
+        },
+        {
+          "id": 481,
+          "question": "Už ką gyvenime jauti didžiausią dėkingumą?"
+        },
+        {
+          "id": 482,
+          "question": "Jei galėtum pakeisti bet ką dėl to, kaip buvai auginamas/-a, kas tai būtų?"
+        },
+        {
+          "id": 483,
+          "question": "Papasakok man savo gyvenimo istoriją per keturias minutes kuo detaliau."
+        },
+        {
+          "id": 484,
+          "question": "Jei galėtum rytoj pabusti įgijęs/-usi bet kokią savybę ar gebėjimą, kas tai būtų?"
         }
       ]
     },
     {
       "name": "Hipotetiniai ir „kas būtų, jei“ klausimai",
-      "range": "151–175",
+      "range": "151–546",
       "questions": [
         {
           "id": 151,
@@ -913,6 +1249,206 @@
         {
           "id": 175,
           "question": "Jei galėtum apsikabinti su vienu žmogumi, kurio nebėra – su kuo?"
+        },
+        {
+          "id": 497,
+          "question": "Kokia tavo mėgstamiausia dienos dalis? Kodėl?"
+        },
+        {
+          "id": 498,
+          "question": "Kas tave pralinksmina?"
+        },
+        {
+          "id": 499,
+          "question": "Kokie tavo tikslai ateinantiems metams?"
+        },
+        {
+          "id": 500,
+          "question": "Jei galėtum atsikratyti vieno blogo įpročio, koks tai būtų?"
+        },
+        {
+          "id": 501,
+          "question": "Jei turėtum mažiau baimių ir suvaržymų, kaip elgtumeis kitaip?"
+        },
+        {
+          "id": 502,
+          "question": "Kokie teigiami dalykai tau nutiko pastaruoju metu?"
+        },
+        {
+          "id": 503,
+          "question": "Gyvenimas per trumpas, kad toleruotum ____________."
+        },
+        {
+          "id": 504,
+          "question": "Papasakok apie įprotį, kuriuo didžiuojiesi atsisakęs/-usi."
+        },
+        {
+          "id": 505,
+          "question": "Kaip baimė yra paveikusi tave?"
+        },
+        {
+          "id": 506,
+          "question": "Kokie tavo mėgstamiausi desertai?"
+        },
+        {
+          "id": 507,
+          "question": "Koks tavo mėgstamiausias klausimas nepažįstamam žmogui, kad pradėtum pokalbį?"
+        },
+        {
+          "id": 508,
+          "question": "Ką nenormalaus ar drąsaus esi valgęs/-usi?"
+        },
+        {
+          "id": 509,
+          "question": "Ką darytum kitaip, jei žinotum, kad niekas tavęs neteistų?"
+        },
+        {
+          "id": 510,
+          "question": "Kokie tavo brangiausi asmeniniai daiktai?"
+        },
+        {
+          "id": 511,
+          "question": "Ką dar nesi daręs/-usi, bet nori padaryti prieš gyvenimo pabaigą?"
+        },
+        {
+          "id": 512,
+          "question": "Kas manęs nustebintų apie tave sužinojus?"
+        },
+        {
+          "id": 513,
+          "question": "Kuo esi padaręs/-usi ar sukūręs/-usi ir tuo didžiuojiesi?"
+        },
+        {
+          "id": 514,
+          "question": "Kam labiausiai mėgsti leisti pinigus ir kodėl?"
+        },
+        {
+          "id": 515,
+          "question": "Kaip pirmą kartą sutikai vieną savo geriausių draugų? Kuo jie dabar užsiima?"
+        },
+        {
+          "id": 516,
+          "question": "Kokia viena tavo mėgstamiausių citatų?"
+        },
+        {
+          "id": 517,
+          "question": "Kokie tavo gyvenimo tikslai?"
+        },
+        {
+          "id": 518,
+          "question": "Koks vienas mėgstamiausių švenčių prisiminimų?"
+        },
+        {
+          "id": 519,
+          "question": "Kokį patiekalą norėtum tobulai išmokti gaminti?"
+        },
+        {
+          "id": 520,
+          "question": "Ar turėjai pravardę? Kokia ji ir kas ją davė?"
+        },
+        {
+          "id": 521,
+          "question": "Ko gailies nusipirkęs/-usi?"
+        },
+        {
+          "id": 522,
+          "question": "Kokią profesiją norėjai turėti, kai buvai vaikas?"
+        },
+        {
+          "id": 523,
+          "question": "Kokios kitos karjeros ar darbai tave domina už tavo dabartinės karjeros ribų?"
+        },
+        {
+          "id": 524,
+          "question": "Kokia viena geriausių dovanų, kurią esi gavęs/-usi?"
+        },
+        {
+          "id": 525,
+          "question": "Koks buvo tavo pirmasis darbas, kaip jį gavai ir kaip tau sekėsi?"
+        },
+        {
+          "id": 526,
+          "question": "Kokie mokytojai paveikė tavo gyvenimą? Paaiškink."
+        },
+        {
+          "id": 527,
+          "question": "Kokiame gražiausiame viešbutyje esi apsistojęs/-usi? Kas jį padarė ypatingą?"
+        },
+        {
+          "id": 528,
+          "question": "Kuo norėtum būti puikus/-i?"
+        },
+        {
+          "id": 529,
+          "question": "Koks tavo idealus vakaras?"
+        },
+        {
+          "id": 530,
+          "question": "Kada viršijai savo paties lūkesčius? Ką padarei?"
+        },
+        {
+          "id": 531,
+          "question": "Be pinigų, ką esi gavęs/-usi iš darbo?"
+        },
+        {
+          "id": 532,
+          "question": "Ką mėgavaisi šiandien iki šiol?"
+        },
+        {
+          "id": 533,
+          "question": "Ką mėgavaisi vakar?"
+        },
+        {
+          "id": 534,
+          "question": "Iš visų gyvų žmonių, su kuo labiausiai norėtum vakarieniauti?"
+        },
+        {
+          "id": 535,
+          "question": "Kokie tavo mėgstamiausi filmai?"
+        },
+        {
+          "id": 536,
+          "question": "Kas tavo mėgstamiausi komikai? Kodėl randi juos juokingus?"
+        },
+        {
+          "id": 537,
+          "question": "Kas yra tavo draugas, kuris tave prajuokina? Kaip jis tai daro?"
+        },
+        {
+          "id": 538,
+          "question": "Kokie tavo mėgstamiausi kortų žaidimai ir kodėl jie tau patinka?"
+        },
+        {
+          "id": 539,
+          "question": "Kokie tavo mėgstamiausi saldumynai? Kodėl?"
+        },
+        {
+          "id": 540,
+          "question": "Kokie tavo mėgstamiausi gėrimai? Kodėl?"
+        },
+        {
+          "id": 541,
+          "question": "Kaip tave apibūdintų tavo tėvai?"
+        },
+        {
+          "id": 542,
+          "question": "Kokios buvo tavo mėgstamiausios knygos vaikystėje? Kodėl?"
+        },
+        {
+          "id": 543,
+          "question": "Koks tavo gyvenimo motas?"
+        },
+        {
+          "id": 544,
+          "question": "Ar esi išlaidotojas ar taupytojas? Paaiškink."
+        },
+        {
+          "id": 545,
+          "question": "Kokia viena tavo mėgstamiausių dainų? Kodėl?"
+        },
+        {
+          "id": 546,
+          "question": "Kokius komplimentus mėgsti gauti labiausiai?"
         }
       ]
     },
@@ -1130,7 +1666,7 @@
     },
     {
       "name": "Apie jausmus ir vidinį pasaulį",
-      "range": "226–370",
+      "range": "226–496",
       "questions": [
         {
           "id": 226,
@@ -1271,6 +1807,54 @@
         {
           "id": 370,
           "question": "Kokį vaidmenį mato tavo praeitis mūsų bendrai ateičiai?"
+        },
+        {
+          "id": 485,
+          "question": "Jei kristalinis kamuolys galėtų pasakyti tiesą apie tave, tavo gyvenimą, ateitį ar bet ką kitą, ką norėtum sužinoti?"
+        },
+        {
+          "id": 486,
+          "question": "Ar yra kažkas, apie ką svajoji ilgą laiką daryti? Kodėl dar to nepadarei?"
+        },
+        {
+          "id": 487,
+          "question": "Koks didžiausias tavo gyvenimo pasiekimas?"
+        },
+        {
+          "id": 488,
+          "question": "Ką vertini labiausiai draugystėje?"
+        },
+        {
+          "id": 489,
+          "question": "Koks tavo brangiausias prisiminimas?"
+        },
+        {
+          "id": 490,
+          "question": "Koks tavo baisiausias prisiminimas?"
+        },
+        {
+          "id": 491,
+          "question": "Jei žinotum, kad po metų staiga mirsi, ar keistum ką nors savo dabartiniame gyvenime? Kodėl?"
+        },
+        {
+          "id": 492,
+          "question": "Ką tau reiškia draugystė?"
+        },
+        {
+          "id": 493,
+          "question": "Kokį vaidmenį meilė ir meilumas vaidina tavo gyvenime?"
+        },
+        {
+          "id": 494,
+          "question": "Pasidalink kažkuo, ką laikai teigiama mano savybe. Pasidalink iš viso penkiais dalykais."
+        },
+        {
+          "id": 495,
+          "question": "Kiek artima ir šilta tavo šeima? Ar jauti, kad tavo vaikystė buvo laimingesnė nei daugumos?"
+        },
+        {
+          "id": 496,
+          "question": "Kaip jaučiesi dėl santykių su savo mama?"
         }
       ]
     },
