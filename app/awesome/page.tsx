@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuestions } from '@/context/QuestionContext';
@@ -9,6 +9,31 @@ export default function AwesomePage() {
   const router = useRouter();
   const { superlikedQuestions, resetProgress } = useQuestions();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Check fullscreen state on mount and listen for changes
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error('Fullscreen toggle failed:', error);
+    }
+  };
 
   const currentQuestion = superlikedQuestions[currentIndex];
 
@@ -88,7 +113,31 @@ export default function AwesomePage() {
 
         <h1 className="text-2xl font-light text-primary">⭐ Super Klausimai</h1>
 
-        <div className="w-8" /> {/* Spacer for centering */}
+        <button
+          onClick={toggleFullscreen}
+          className="text-text-muted hover:text-text transition-colors"
+          aria-label={isFullscreen ? 'Išeiti iš viso ekrano' : 'Visas ekranas'}
+        >
+          {isFullscreen ? (
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+              />
+            </svg>
+          )}
+        </button>
       </header>
 
       {/* Main content */}
