@@ -10,7 +10,6 @@ import { useHaptic } from '@/hooks/useHaptic';
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const {
     currentQuestion,
     skipQuestion,
@@ -20,30 +19,6 @@ export default function Home() {
   } = useQuestions();
   const { vibrate } = useHaptic();
   const router = useRouter();
-
-  // Check fullscreen state on mount and listen for changes
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, []);
-
-  const toggleFullscreen = async () => {
-    try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
-      }
-    } catch (error) {
-      console.error('Fullscreen toggle failed:', error);
-    }
-  };
 
   // Redirect to /awesome when no questions left
   useEffect(() => {
