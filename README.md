@@ -101,6 +101,18 @@ Aplikacija veikia kaip Progressive Web App:
 - Optimizuota mobiliam
 - Tamsus režimas
 
+### iPhone / iOS Vartotojams
+
+Fullscreen funkcija neveikia iOS Safari naršyklėje dėl Apple apribojimų.
+
+**Kaip gauti fullscreen patirtį iPhone:**
+1. Atidarykite svetainę Safari naršyklėje
+2. Paspauskite „Dalintis" mygtuką (kvadratas su rodykle)
+3. Pasirinkite „Pridėti prie pradinio ekrano"
+4. Atidarykite programėlę iš pradinio ekrano - ji veiks fullscreen režimu!
+
+Fullscreen mygtukas veikia Android ir kompiuteryje.
+
 ## Dizainas
 
 - **Tema:** Tamsus režimas su šiltomis/romantiškoms spalvomis
