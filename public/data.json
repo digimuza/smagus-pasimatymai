@@ -22,9 +22,8 @@
           {"id": 14, "question": "Koks gimtadienis tau paliko šilčiausią prisiminimą?"},
           {"id": 15, "question": "Kokią paslaptį saugojai vaikystėje, kurios niekas nežino iki šiol?"},
           {"id": 16, "question": "Kokį melą sau pasakojai, kad būtų lengviau augti?"},
-          {"id": 17, "question": "Koks kvapas ar garsas akimirksniu grąžina tave į vaikystę?"},
-          {"id": 18, "question": "Jei galėtum parašyti laišką sau mažai – ką jai pasakytum?"},
-          {"id": 19, "question": "Kokia vaikystės dalis vis dar skauda, nors metai praėjo?"},
+          {"id": 17, "question": "Koks kvapas vaizdas ar garsas akimirksniu grąžina tave į vaikystę?"},
+          {"id": 18, "question": "Jei galėtum išsiusti laišką sau į vaikystę – ką sau pasakytum?"},
           {"id": 20, "question": "Kas buvo tas suaugęs žmogus, kuris tave tikrai matė tokią, kokia buvai?"}
         ]
       },
@@ -36,9 +35,9 @@
           {"id": 22, "question": "Kokia svajonė tau atrodo per didelė, kad ją pasakytum garsiai?"},
           {"id": 23, "question": "Jei pinigai ir laikas nebūtų problema – kuo užpildytum savo dienas?"},
           {"id": 24, "question": "Kokia vieta pasaulyje traukia tave kaip magnetas?"},
-          {"id": 25, "question": "Kaip atrodytų diena, po kurios pasakytum „tai buvo tobula'?"},
+          {"id": 25, "question": "Kaip atrodytų diena, po kurios pasakytum \"tai buvo tobula\"?"},
           {"id": 26, "question": "Kokia ateities versija tave labiausiai gąsdina?"},
-          {"id": 27, "question": "Kokia mama norėtum būti – ir ko bijai nepavykti?"},
+          {"id": 27, "question": "Kokia mama norėtum būti – ir ko bijai kas gali nepavykti?"},
           {"id": 28, "question": "Kur jaustumeis namuose, net jei niekada ten nebuvai?"},
           {"id": 29, "question": "Ką norėtum išmokti, kas pakeistų tai, kaip jautiesi gyvendama?"},
           {"id": 30, "question": "Kokį pėdsaką norėtum palikti, kai tavęs nebebus?"},
