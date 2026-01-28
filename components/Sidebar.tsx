@@ -1,0 +1,146 @@
+'use client';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { useQuestions } from '@/context/QuestionContext';
+import { getCategoryQuestionCount } from '@/lib/questionEngine';
+
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const {
+    sections,
+    activeCategories,
+    toggleCategory,
+    resetProgress,
+    isCategoryActive,
+    availableQuestionsCount,
+  } = useQuestions();
+
+  console.log('Sidebar render - active categories:', activeCategories);
+
+  return (
+    <>
+      {/* Backdrop */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="fixed inset-0 bg-black/60 z-40 pointer-events-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <motion.div
+        className="fixed top-0 left-0 h-full w-80 max-w-full bg-background-light z-50 shadow-2xl overflow-y-auto pointer-events-auto"
+        initial={{ x: '-100%' }}
+        animate={{ x: isOpen ? 0 : '-100%' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-light text-primary">Kategorijos</h2>
+            <button
+              onClick={onClose}
+              className="text-text-muted hover:text-text transition-colors"
+              aria-label="Uždaryti"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Available questions count */}
+          <div className="mb-6 p-4 bg-background-lighter rounded-lg">
+            <p className="text-text-muted text-sm">Liko klausimų</p>
+            <p className="text-primary text-3xl font-bold">{availableQuestionsCount}</p>
+          </div>
+
+          {/* Categories */}
+          <div className="space-y-3 mb-8">
+            {sections.map((section) => {
+              const isActive = isCategoryActive(section.name);
+              const questionCount = getCategoryQuestionCount(sections, section.name);
+
+              return (
+                <button
+                  key={section.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Clicking category:', section.name);
+                    toggleCategory(section.name);
+                  }}
+                  type="button"
+                  className="w-full flex items-start gap-3 p-3 rounded-lg hover:bg-background-lighter transition-colors cursor-pointer text-left relative z-10"
+                >
+                  {/* Custom checkbox */}
+                  <div className="mt-1 flex-shrink-0 pointer-events-none">
+                    <div
+                      className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+                        isActive
+                          ? 'bg-primary border-primary'
+                          : 'bg-transparent border-primary'
+                      }`}
+                    >
+                      {isActive && (
+                        <svg
+                          className="w-3 h-3 text-background"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={3}
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex-1 pointer-events-none">
+                    <p className="text-text font-medium">{section.name}</p>
+                    <p className="text-text-dimmed text-sm">{questionCount} klausimų</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Reset button */}
+          <button
+            onClick={() => {
+              if (confirm('Ar tikrai norite iš naujo pradėti? Prarasite visą progresą.')) {
+                resetProgress();
+                onClose();
+              }
+            }}
+            className="w-full py-3 px-4 bg-accent/20 hover:bg-accent/30 text-accent rounded-lg transition-colors font-medium"
+          >
+            Iš naujo pradėti
+          </button>
+        </div>
+      </motion.div>
+    </>
+  );
+}
