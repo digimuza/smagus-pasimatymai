@@ -113,28 +113,17 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
         >
           <p className="text-sm text-white/90 font-medium">🎲 Spicy Card</p>
         </motion.div>
-      </div>
 
-      {/* Dismiss button */}
-      <motion.button
-        onClick={onDismiss}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-xl transition-colors font-medium flex items-center gap-2 z-20"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <span>Atlikta</span>
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-      </motion.button>
+        {/* Swipe instruction */}
+        <motion.p
+          className="text-sm text-white/70 mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          Braukite bet kuria kryptimi
+        </motion.p>
+      </div>
 
       {/* Swipe indicator */}
       <motion.div
