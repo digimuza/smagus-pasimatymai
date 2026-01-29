@@ -16,7 +16,7 @@ import {
   getAvailableQuestionsCount,
 } from '@/lib/questionEngine';
 import { SPICY_CARDS, DEFAULT_SPICY_SETTINGS } from '@/lib/spicyCardsData';
-import { SpicyCard, RARITY_PROBABILITIES } from '@/types/spicyCards';
+import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyCards';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
@@ -29,8 +29,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     activeCategories: SAFE_CATEGORIES,
     currentQuestionId: null as number | null,
     spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
-    spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity,
-    spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
+    spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity as SpicyCardRarity,
+    spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes as readonly string[],
   });
 
   const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
@@ -251,10 +251,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   );
 
   const updateSpicyCardsRarity = useCallback(
-    (rarity: string) => {
+    (rarity: SpicyCardRarity | string) => {
       setState((prev) => ({
         ...prev,
-        spicyCardsRarity: rarity,
+        spicyCardsRarity: rarity as SpicyCardRarity,
       }));
     },
     [setState]
@@ -311,7 +311,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     isCategoryActive,
     spicyCardsEnabled: state.spicyCardsEnabled || false,
     spicyCardsRarity: state.spicyCardsRarity || DEFAULT_SPICY_SETTINGS.rarity,
-    enabledSpicyCardTypes: state.spicyCardTypes || DEFAULT_SPICY_SETTINGS.enabledTypes,
+    enabledSpicyCardTypes: (state.spicyCardTypes || DEFAULT_SPICY_SETTINGS.enabledTypes) as string[],
     toggleSpicyCards,
     updateSpicyCardsRarity,
     toggleSpicyCardType,

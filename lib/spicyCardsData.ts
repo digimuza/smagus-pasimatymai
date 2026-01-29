@@ -990,6 +990,7 @@ export const DEFAULT_SPICY_SETTINGS = {
     'challenge',
     'compliment',
     'massage',
+    'slap',
     'whisper',
     'dare',
     'truth',
