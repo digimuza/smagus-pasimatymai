@@ -36,7 +36,7 @@ export default function SettingsPage() {
           </svg>
         </button>
 
-        <h1 className="text-2xl font-light text-primary">Nustatymai</h1>
+        <h1 className="text-2xl font-light text-primary">Pikantiškos kortelės</h1>
 
         <div className="w-8" />
       </header>
