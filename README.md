@@ -43,10 +43,12 @@ npm start
 - 546 klausimai iš 14 kategorijų
 
 ### Kategorijų filtravimas
+- Atskiras puslapis visoms kategorijoms (/categories)
 - Šoninis meniu su visomis kategorijomis
 - Multi-select pasirinkimas
 - Minimaliai 1 kategorija turi būti pasirinkta
 - Real-time klausimų skaičiavimas
+- Vizualus kategorijų grupavimas (pagrindinės / intymios)
 
 ### Super klausimai (/awesome)
 - Peržiūrėti išsaugotus mėgstamiausius klausimus
