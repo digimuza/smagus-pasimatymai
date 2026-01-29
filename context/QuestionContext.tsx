@@ -49,6 +49,23 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
+  // Sanitize active categories when data loads
+  useEffect(() => {
+    if (!questionData || !isStateLoaded) return;
+
+    const validCategoryNames = questionData.sections.map((s) => s.name);
+    const sanitized = Array.from(new Set(state.activeCategories)) // Remove duplicates
+      .filter((cat) => validCategoryNames.includes(cat)); // Remove invalid categories
+
+    // If all categories were removed or none remain, reset to SAFE_CATEGORIES
+    if (sanitized.length === 0) {
+      setState((prev) => ({ ...prev, activeCategories: SAFE_CATEGORIES }));
+    } else if (sanitized.length !== state.activeCategories.length) {
+      // Only update if something changed
+      setState((prev) => ({ ...prev, activeCategories: sanitized }));
+    }
+  }, [questionData, isStateLoaded, state.activeCategories, setState]);
+
   // Get all questions (flattened from all sections)
   const allQuestions = useMemo(() => {
     if (!questionData) return [];
