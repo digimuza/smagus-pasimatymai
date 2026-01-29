@@ -96,7 +96,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
 
           {/* Categories */}
-          <div className="space-y-3 mb-8">
+          <div className="space-y-2 mb-8">
             {sections.map((section) => {
               const isActive = isCategoryActive(section.name);
               const questionCount = getCategoryQuestionCount(sections, section.name);
@@ -111,38 +111,30 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     toggleCategory(section.name);
                   }}
                   type="button"
-                  className="w-full flex items-start gap-3 p-3 rounded-lg hover:bg-background-lighter transition-colors cursor-pointer text-left relative z-10"
+                  className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors cursor-pointer text-left relative z-10 ${
+                    isActive
+                      ? 'bg-primary/20 text-primary'
+                      : 'hover:bg-background-lighter text-text-muted'
+                  }`}
                 >
-                  {/* Custom checkbox */}
-                  <div className="mt-1 flex-shrink-0 pointer-events-none">
-                    <div
-                      className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
-                        isActive
-                          ? 'bg-primary border-primary'
-                          : 'bg-transparent border-primary'
-                      }`}
-                    >
-                      {isActive && (
-                        <svg
-                          className="w-3 h-3 text-background"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={3}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      )}
-                    </div>
-                  </div>
                   <div className="flex-1 pointer-events-none">
-                    <p className="text-text font-medium">{section.name}</p>
+                    <p className={`font-medium ${isActive ? 'text-primary' : 'text-text'}`}>
+                      {section.name}
+                    </p>
                     <p className="text-text-dimmed text-sm">{questionCount} klausimų</p>
                   </div>
+                  {isActive && (
+                    <div className="text-primary ml-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                  )}
                 </button>
               );
             })}
