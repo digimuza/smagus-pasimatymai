@@ -206,7 +206,7 @@ export const SPICY_CARDS: SpicyCard[] = [
     id: 'hug-2',
     type: 'hug',
     title: 'Šiluma',
-    description: 'Stipriai apkabink ir pasakyk "Myliu"',
+    description: 'Stipriai apkabink partnerį/-ę',
     icon: '🤗',
     color: '#FFB6C1',
   },
