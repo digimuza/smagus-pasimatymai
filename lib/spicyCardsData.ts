@@ -183,7 +183,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'whisper-8',
     type: 'whisper',
-    title: 'Aistра',
+    title: 'Aistra',
     description: 'Sušnibžděk: "Man patinka, kaip tu į mane žiūri"',
     icon: '🤫',
     color: '#FF1493',
