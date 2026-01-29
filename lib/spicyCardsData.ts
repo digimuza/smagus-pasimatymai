@@ -5,7 +5,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'kiss-1',
     type: 'kiss',
-    title: '💋 Bučinys',
+    title: 'Bučinys',
     description: 'Pabučiuok partnerį/-ę į lūpas',
     icon: '💋',
     color: '#FF6B9D',
@@ -13,7 +13,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'kiss-2',
     type: 'kiss',
-    title: '💋 Švelnumas',
+    title: 'Švelnumas',
     description: 'Švelniai pabučiuok partnerio/-ės kaktą',
     icon: '💋',
     color: '#FF6B9D',
@@ -21,7 +21,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'kiss-3',
     type: 'kiss',
-    title: '💋 Netikėtumas',
+    title: 'Netikėtumas',
     description: 'Pabučiuok partnerį/-ę į pasirinktą vietą',
     icon: '💋',
     color: '#FF6B9D',
@@ -31,7 +31,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'challenge-1',
     type: 'challenge',
-    title: '🎯 Iššūkis',
+    title: 'Iššūkis',
     description: 'Papasakok 3 dalykus, kuriuos mėgsti partneryje per 30 sekundžių',
     icon: '🎯',
     color: '#FFA500',
@@ -39,7 +39,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'challenge-2',
     type: 'challenge',
-    title: '🎯 Žaidimas',
+    title: 'Žaidimas',
     description: 'Pažvelk į partnerio akis 60 sekundžių be juoko',
     icon: '🎯',
     color: '#FFA500',
@@ -47,7 +47,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'challenge-3',
     type: 'challenge',
-    title: '🎯 Drąsa',
+    title: 'Drąsa',
     description: 'Padaryk kažką, ko niekada nedrįsai prašyti',
     icon: '🎯',
     color: '#FFA500',
@@ -57,7 +57,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'compliment-1',
     type: 'compliment',
-    title: '💝 Komplimentas',
+    title: 'Komplimentas',
     description: 'Pasakyk, kas tau labiausiai patinka partneryje fiziškai',
     icon: '💝',
     color: '#C77DFF',
@@ -65,7 +65,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'compliment-2',
     type: 'compliment',
-    title: '💝 Gražūs žodžiai',
+    title: 'Gražūs žodžiai',
     description: 'Pasakyk, kokia partnero savybė tave labiausiai traukia',
     icon: '💝',
     color: '#C77DFF',
@@ -73,7 +73,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'compliment-3',
     type: 'compliment',
-    title: '💝 Vertinimas',
+    title: 'Vertinimas',
     description: 'Pasakyk, už ką esi labiausiai dėkingas/-a partneriui',
     icon: '💝',
     color: '#C77DFF',
@@ -83,7 +83,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'massage-1',
     type: 'massage',
-    title: '💆 Masažas',
+    title: 'Masažas',
     description: 'Padaryk 2 minučių pečių masažą partneriui',
     icon: '💆',
     color: '#7B68EE',
@@ -91,7 +91,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'massage-2',
     type: 'massage',
-    title: '💆 Atsipalaidavimas',
+    title: 'Atsipalaidavimas',
     description: 'Švelniai pamasažuok partnero galvą',
     icon: '💆',
     color: '#7B68EE',
@@ -99,7 +99,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'massage-3',
     type: 'massage',
-    title: '💆 Rūpestis',
+    title: 'Rūpestis',
     description: 'Pamasažuok partneriui kojas 3 minutes',
     icon: '💆',
     color: '#7B68EE',
@@ -109,7 +109,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'slap-1',
     type: 'slap',
-    title: '👋 Žaismingas',
+    title: 'Žaismingas',
     description: 'Lengvai plokštelėk partnerį/-ę už kvailiojimą',
     icon: '👋',
     color: '#FF6347',
@@ -117,7 +117,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'slap-2',
     type: 'slap',
-    title: '👋 Bausmė',
+    title: 'Bausmė',
     description: 'Žaismingai nubauski partnerį už paskutinį pralaimėjimą',
     icon: '👋',
     color: '#FF6347',
@@ -127,7 +127,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'whisper-1',
     type: 'whisper',
-    title: '🤫 Šnibždesys',
+    title: 'Šnibždesys',
     description: 'Sušnibžděk į ausį, ką jautiesi dabar',
     icon: '🤫',
     color: '#FF1493',
@@ -135,7 +135,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'whisper-2',
     type: 'whisper',
-    title: '🤫 Paslaptis',
+    title: 'Paslaptis',
     description: 'Sušnibžděk savo slapčiausią norą',
     icon: '🤫',
     color: '#FF1493',
@@ -143,7 +143,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'whisper-3',
     type: 'whisper',
-    title: '🤫 Švelni paslaptis',
+    title: 'Švelni paslaptis',
     description: 'Sušnibžděk, kas tau labiausiai patinka partneryje',
     icon: '🤫',
     color: '#FF1493',
@@ -153,7 +153,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'dare-1',
     type: 'dare',
-    title: '🔥 Išdrįsk',
+    title: 'Išdrįsk',
     description: 'Išdrįsk pasakyti ką nors, ko niekada nesakei',
     icon: '🔥',
     color: '#FF4500',
@@ -161,7 +161,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'dare-2',
     type: 'dare',
-    title: '🔥 Drąsa',
+    title: 'Drąsa',
     description: 'Padaryk kažką spontaniško',
     icon: '🔥',
     color: '#FF4500',
@@ -169,7 +169,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'dare-3',
     type: 'dare',
-    title: '🔥 Rizika',
+    title: 'Rizika',
     description: 'Papasakok apie savo fantaziją',
     icon: '🔥',
     color: '#FF4500',
@@ -179,7 +179,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'truth-1',
     type: 'truth',
-    title: '💭 Tiesa',
+    title: 'Tiesa',
     description: 'Atsakyk į bet kokį partnero klausimą sąžiningai',
     icon: '💭',
     color: '#4169E1',
@@ -187,7 +187,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'truth-2',
     type: 'truth',
-    title: '💭 Atvirumas',
+    title: 'Atvirumas',
     description: 'Papasakok kažką, ko partneris dar nežino',
     icon: '💭',
     color: '#4169E1',
@@ -197,7 +197,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'hug-1',
     type: 'hug',
-    title: '🤗 Apkabinimas',
+    title: 'Apkabinimas',
     description: 'Apkabink partnerį/-ę 30 sekundžių tyloje',
     icon: '🤗',
     color: '#FFB6C1',
@@ -205,7 +205,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'hug-2',
     type: 'hug',
-    title: '🤗 Šiluma',
+    title: 'Šiluma',
     description: 'Stipriai apkabink ir pasakyk "Myliu"',
     icon: '🤗',
     color: '#FFB6C1',
@@ -215,7 +215,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'dance-1',
     type: 'dance',
-    title: '💃 Šokis',
+    title: 'Šokis',
     description: 'Pašokite lėtą šokį be muzikos',
     icon: '💃',
     color: '#DA70D6',
@@ -223,7 +223,7 @@ export const SPICY_CARDS: SpicyCard[] = [
   {
     id: 'dance-2',
     type: 'dance',
-    title: '💃 Judesys',
+    title: 'Judesys',
     description: 'Šokite kartu vieną minutę',
     icon: '💃',
     color: '#DA70D6',
@@ -255,14 +255,14 @@ export const RARITY_LABELS = {
 };
 
 export const SPICY_CARD_TYPE_LABELS = {
-  kiss: '💋 Bučinys',
-  challenge: '🎯 Iššūkis',
-  compliment: '💝 Komplimentas',
-  massage: '💆 Masažas',
-  slap: '👋 Žaismingas',
-  whisper: '🤫 Šnibždesys',
-  dare: '🔥 Išdrįsk',
-  truth: '💭 Tiesa',
-  hug: '🤗 Apkabinimas',
-  dance: '💃 Šokis',
+  kiss: 'Bučinys 💋',
+  challenge: 'Iššūkis 🎯',
+  compliment: 'Komplimentas 💝',
+  massage: 'Masažas 💆',
+  slap: 'Žaismingas 👋',
+  whisper: 'Šnibždesys 🤫',
+  dare: 'Išdrįsk 🔥',
+  truth: 'Tiesa 💭',
+  hug: 'Apkabinimas 🤗',
+  dance: 'Šokis 💃',
 };
