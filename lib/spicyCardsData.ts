@@ -231,7 +231,7 @@ export const SPICY_CARDS: SpicyCard[] = [
 ];
 
 export const DEFAULT_SPICY_SETTINGS = {
-  enabled: false,
+  enabled: true,
   rarity: 'medium' as const, // 30% chance
   enabledTypes: [
     'kiss',
