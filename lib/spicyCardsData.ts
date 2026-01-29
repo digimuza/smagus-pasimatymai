@@ -232,7 +232,7 @@ export const SPICY_CARDS: SpicyCard[] = [
 
 export const DEFAULT_SPICY_SETTINGS = {
   enabled: false,
-  frequency: 5, // Every 5 questions
+  rarity: 'medium' as const, // 30% chance
   enabledTypes: [
     'kiss',
     'challenge',
@@ -244,6 +244,14 @@ export const DEFAULT_SPICY_SETTINGS = {
     'hug',
     'dance',
   ] as const,
+};
+
+export const RARITY_LABELS = {
+  rare: '🔹 Retas (5%)',
+  'semi-rare': '🔸 Pusiau retas (15%)',
+  medium: '⚪ Vidutinis (30%)',
+  frequent: '🟡 Dažnas (40%)',
+  ultra: '🔥 Ultra dažnas (50%)',
 };
 
 export const SPICY_CARD_TYPE_LABELS = {

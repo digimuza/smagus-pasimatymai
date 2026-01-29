@@ -3,16 +3,17 @@
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useQuestions } from '@/context/QuestionContext';
-import { SPICY_CARD_TYPE_LABELS } from '@/lib/spicyCardsData';
+import { SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
+import { SpicyCardRarity } from '@/types/spicyCards';
 
 export default function SettingsPage() {
   const router = useRouter();
   const {
     spicyCardsEnabled,
-    spicyCardsFrequency,
+    spicyCardsRarity,
     enabledSpicyCardTypes,
     toggleSpicyCards,
-    updateSpicyCardsFrequency,
+    updateSpicyCardsRarity,
     toggleSpicyCardType,
   } = useQuestions();
 
@@ -74,33 +75,30 @@ export default function SettingsPage() {
 
             {spicyCardsEnabled && (
               <>
-                {/* Frequency */}
+                {/* Rarity */}
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-text font-normal">Dažnumas</label>
-                    <span className="text-primary text-xl font-light">
-                      Kas {spicyCardsFrequency} klausimų
-                    </span>
+                  <label className="text-text font-normal">Kaip dažnai rodys?</label>
+                  <div className="grid grid-cols-1 gap-2">
+                    {Object.entries(RARITY_LABELS).map(([rarity, label]) => {
+                      const isSelected = spicyCardsRarity === rarity;
+                      return (
+                        <button
+                          key={rarity}
+                          onClick={() => updateSpicyCardsRarity(rarity)}
+                          className={`p-3 rounded-lg border-2 transition-all text-left ${
+                            isSelected
+                              ? 'bg-primary/20 border-primary'
+                              : 'bg-background-lighter border-transparent hover:border-primary/30'
+                          }`}
+                        >
+                          <p className="text-sm font-normal">{label}</p>
+                        </button>
+                      );
+                    })}
                   </div>
-                  <input
-                    type="range"
-                    min="3"
-                    max="15"
-                    value={spicyCardsFrequency}
-                    onChange={(e) => updateSpicyCardsFrequency(Number(e.target.value))}
-                    className="w-full h-2 bg-background-lighter rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${
-                        ((spicyCardsFrequency - 3) / 12) * 100
-                      }%, var(--color-background-lighter) ${
-                        ((spicyCardsFrequency - 3) / 12) * 100
-                      }%, var(--color-background-lighter) 100%)`,
-                    }}
-                  />
-                  <div className="flex justify-between text-xs text-text-muted">
-                    <span>Dažnai (3)</span>
-                    <span>Retai (15)</span>
-                  </div>
+                  <p className="text-xs text-text-muted">
+                    Spicy cards pasirodo atsitiktinai su pasirinkta tikimybe
+                  </p>
                 </div>
 
                 {/* Card Types */}

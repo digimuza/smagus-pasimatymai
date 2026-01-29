@@ -16,7 +16,7 @@ import {
   getAvailableQuestionsCount,
 } from '@/lib/questionEngine';
 import { SPICY_CARDS, DEFAULT_SPICY_SETTINGS } from '@/lib/spicyCardsData';
-import { SpicyCard } from '@/types/spicyCards';
+import { SpicyCard, RARITY_PROBABILITIES } from '@/types/spicyCards';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
@@ -29,9 +29,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     activeCategories: SAFE_CATEGORIES,
     currentQuestionId: null as number | null,
     spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
-    spicyCardsFrequency: DEFAULT_SPICY_SETTINGS.frequency,
+    spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity,
     spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
-    questionsAnsweredSinceLastSpicy: 0,
   });
 
   const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
@@ -89,27 +88,28 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     return enabledCards[randomIndex];
   }, [state.spicyCardTypes]);
 
-  // Check if should show spicy card
+  // Check if should show spicy card (probability-based)
   const shouldShowSpicyCard = useCallback(() => {
     if (!state.spicyCardsEnabled) return false;
-    if (!state.spicyCardsFrequency) return false;
+    if (!state.spicyCardsRarity) return false;
 
-    const count = state.questionsAnsweredSinceLastSpicy || 0;
-    return count >= state.spicyCardsFrequency;
-  }, [state.spicyCardsEnabled, state.spicyCardsFrequency, state.questionsAnsweredSinceLastSpicy]);
+    const probability = RARITY_PROBABILITIES[state.spicyCardsRarity as keyof typeof RARITY_PROBABILITIES] || 0.30;
+    const randomValue = Math.random();
+
+    return randomValue < probability;
+  }, [state.spicyCardsEnabled, state.spicyCardsRarity]);
 
   // Load next question when needed
   const loadNextQuestion = useCallback(() => {
     if (!questionData) return;
 
-    // Check if we should show a spicy card instead
+    // Check if we should show a spicy card instead (probability-based)
     if (shouldShowSpicyCard()) {
       const spicyCard = getRandomSpicyCard();
       if (spicyCard) {
         setCurrentSpicyCard(spicyCard);
         setState((prev) => ({
           ...prev,
-          questionsAnsweredSinceLastSpicy: 0,
           currentQuestionId: null,
         }));
         return;
@@ -157,15 +157,9 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
           });
         }
 
-        // Increment spicy card counter for answered/superliked questions
-        const shouldIncrement = status === 'answered' || status === 'superliked';
-
         return {
           ...prev,
           questionStates: newQuestionStates,
-          questionsAnsweredSinceLastSpicy: shouldIncrement
-            ? (prev.questionsAnsweredSinceLastSpicy || 0) + 1
-            : prev.questionsAnsweredSinceLastSpicy,
         };
       });
 
@@ -245,11 +239,11 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     [setState]
   );
 
-  const updateSpicyCardsFrequency = useCallback(
-    (frequency: number) => {
+  const updateSpicyCardsRarity = useCallback(
+    (rarity: string) => {
       setState((prev) => ({
         ...prev,
-        spicyCardsFrequency: frequency,
+        spicyCardsRarity: rarity,
       }));
     },
     [setState]
@@ -281,9 +275,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
       activeCategories: SAFE_CATEGORIES,
       currentQuestionId: null,
       spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
-      spicyCardsFrequency: DEFAULT_SPICY_SETTINGS.frequency,
+      spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity,
       spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
-      questionsAnsweredSinceLastSpicy: 0,
     });
     setCurrentSpicyCard(null);
     setTimeout(loadNextQuestion, 0);
@@ -306,10 +299,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     resetProgress,
     isCategoryActive,
     spicyCardsEnabled: state.spicyCardsEnabled || false,
-    spicyCardsFrequency: state.spicyCardsFrequency || DEFAULT_SPICY_SETTINGS.frequency,
+    spicyCardsRarity: state.spicyCardsRarity || DEFAULT_SPICY_SETTINGS.rarity,
     enabledSpicyCardTypes: state.spicyCardTypes || DEFAULT_SPICY_SETTINGS.enabledTypes,
     toggleSpicyCards,
-    updateSpicyCardsFrequency,
+    updateSpicyCardsRarity,
     toggleSpicyCardType,
   };
 

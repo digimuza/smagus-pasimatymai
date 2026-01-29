@@ -29,9 +29,8 @@ export interface AppState {
   currentQuestionId: number | null;
   lastPlayed?: string;
   spicyCardsEnabled?: boolean;
-  spicyCardsFrequency?: number;
+  spicyCardsRarity?: string;
   spicyCardTypes?: string[];
-  questionsAnsweredSinceLastSpicy?: number;
 }
 
 export interface QuestionContextType {
@@ -51,9 +50,9 @@ export interface QuestionContextType {
   resetProgress: () => void;
   isCategoryActive: (categoryName: string) => boolean;
   spicyCardsEnabled: boolean;
-  spicyCardsFrequency: number;
+  spicyCardsRarity: string;
   enabledSpicyCardTypes: string[];
   toggleSpicyCards: (enabled: boolean) => void;
-  updateSpicyCardsFrequency: (frequency: number) => void;
+  updateSpicyCardsRarity: (rarity: string) => void;
   toggleSpicyCardType: (type: string) => void;
 }
