@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
 import { useQuestions } from '@/context/QuestionContext';
 import { SwipeCard } from '@/components/SwipeCard';
+import { SpicyCardDisplay } from '@/components/SpicyCardDisplay';
 import { Sidebar } from '@/components/Sidebar';
 import { useHaptic } from '@/hooks/useHaptic';
 
@@ -12,9 +13,11 @@ export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const {
     currentQuestion,
+    currentSpicyCard,
     skipQuestion,
     answerQuestion,
     superlikeQuestion,
+    dismissSpicyCard,
     availableQuestionsCount,
   } = useQuestions();
   const { vibrate } = useHaptic();
@@ -71,7 +74,13 @@ export default function Home() {
         {/* Card container */}
         <div className="relative w-full max-w-md h-96 mb-12">
           <AnimatePresence mode="wait">
-            {currentQuestion && (
+            {currentSpicyCard ? (
+              <SpicyCardDisplay
+                key={currentSpicyCard.id}
+                card={currentSpicyCard}
+                onDismiss={dismissSpicyCard}
+              />
+            ) : currentQuestion ? (
               <SwipeCard
                 key={currentQuestion.id}
                 question={currentQuestion}
@@ -79,7 +88,7 @@ export default function Home() {
                 onSwipeRight={handleSwipeRight}
                 onSwipeUp={handleSwipeUp}
               />
-            )}
+            ) : null}
           </AnimatePresence>
         </div>
 

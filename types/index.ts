@@ -28,6 +28,10 @@ export interface AppState {
   activeCategories: string[];
   currentQuestionId: number | null;
   lastPlayed?: string;
+  spicyCardsEnabled?: boolean;
+  spicyCardsFrequency?: number;
+  spicyCardTypes?: string[];
+  questionsAnsweredSinceLastSpicy?: number;
 }
 
 export interface QuestionContextType {
@@ -36,12 +40,20 @@ export interface QuestionContextType {
   questionStates: QuestionState[];
   activeCategories: string[];
   currentQuestion: Question | null;
+  currentSpicyCard: any | null;
   availableQuestionsCount: number;
   superlikedQuestions: Question[];
   skipQuestion: () => void;
   answerQuestion: () => void;
   superlikeQuestion: () => void;
+  dismissSpicyCard: () => void;
   toggleCategory: (categoryName: string) => void;
   resetProgress: () => void;
   isCategoryActive: (categoryName: string) => boolean;
+  spicyCardsEnabled: boolean;
+  spicyCardsFrequency: number;
+  enabledSpicyCardTypes: string[];
+  toggleSpicyCards: (enabled: boolean) => void;
+  updateSpicyCardsFrequency: (frequency: number) => void;
+  toggleSpicyCardType: (type: string) => void;
 }

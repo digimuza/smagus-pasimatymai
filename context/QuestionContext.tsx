@@ -15,6 +15,8 @@ import {
   getSuperlikedQuestions,
   getAvailableQuestionsCount,
 } from '@/lib/questionEngine';
+import { SPICY_CARDS, DEFAULT_SPICY_SETTINGS } from '@/lib/spicyCardsData';
+import { SpicyCard } from '@/types/spicyCards';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
@@ -26,7 +28,13 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     questionStates: [] as QuestionState[],
     activeCategories: SAFE_CATEGORIES,
     currentQuestionId: null as number | null,
+    spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
+    spicyCardsFrequency: DEFAULT_SPICY_SETTINGS.frequency,
+    spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
+    questionsAnsweredSinceLastSpicy: 0,
   });
+
+  const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
 
   // Load question data from JSON
   useEffect(() => {
@@ -69,9 +77,44 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     );
   }, [questionData, state.activeCategories, state.questionStates]);
 
+  // Get random spicy card
+  const getRandomSpicyCard = useCallback((): SpicyCard | null => {
+    const enabledCards = SPICY_CARDS.filter((card) =>
+      state.spicyCardTypes?.includes(card.type)
+    );
+
+    if (enabledCards.length === 0) return null;
+
+    const randomIndex = Math.floor(Math.random() * enabledCards.length);
+    return enabledCards[randomIndex];
+  }, [state.spicyCardTypes]);
+
+  // Check if should show spicy card
+  const shouldShowSpicyCard = useCallback(() => {
+    if (!state.spicyCardsEnabled) return false;
+    if (!state.spicyCardsFrequency) return false;
+
+    const count = state.questionsAnsweredSinceLastSpicy || 0;
+    return count >= state.spicyCardsFrequency;
+  }, [state.spicyCardsEnabled, state.spicyCardsFrequency, state.questionsAnsweredSinceLastSpicy]);
+
   // Load next question when needed
   const loadNextQuestion = useCallback(() => {
     if (!questionData) return;
+
+    // Check if we should show a spicy card instead
+    if (shouldShowSpicyCard()) {
+      const spicyCard = getRandomSpicyCard();
+      if (spicyCard) {
+        setCurrentSpicyCard(spicyCard);
+        setState((prev) => ({
+          ...prev,
+          questionsAnsweredSinceLastSpicy: 0,
+          currentQuestionId: null,
+        }));
+        return;
+      }
+    }
 
     const nextQuestion = getNextQuestion(
       questionData.sections,
@@ -79,11 +122,12 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
       state.questionStates
     );
 
+    setCurrentSpicyCard(null);
     setState((prev) => ({
       ...prev,
       currentQuestionId: nextQuestion?.id || null,
     }));
-  }, [questionData, state.activeCategories, state.questionStates, setState]);
+  }, [questionData, state.activeCategories, state.questionStates, setState, shouldShowSpicyCard, getRandomSpicyCard]);
 
   // Load initial question
   useEffect(() => {
@@ -113,9 +157,15 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
           });
         }
 
+        // Increment spicy card counter for answered/superliked questions
+        const shouldIncrement = status === 'answered' || status === 'superliked';
+
         return {
           ...prev,
           questionStates: newQuestionStates,
+          questionsAnsweredSinceLastSpicy: shouldIncrement
+            ? (prev.questionsAnsweredSinceLastSpicy || 0) + 1
+            : prev.questionsAnsweredSinceLastSpicy,
         };
       });
 
@@ -180,12 +230,62 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     [state.activeCategories]
   );
 
+  const dismissSpicyCard = useCallback(() => {
+    setCurrentSpicyCard(null);
+    setTimeout(loadNextQuestion, 0);
+  }, [loadNextQuestion]);
+
+  const toggleSpicyCards = useCallback(
+    (enabled: boolean) => {
+      setState((prev) => ({
+        ...prev,
+        spicyCardsEnabled: enabled,
+      }));
+    },
+    [setState]
+  );
+
+  const updateSpicyCardsFrequency = useCallback(
+    (frequency: number) => {
+      setState((prev) => ({
+        ...prev,
+        spicyCardsFrequency: frequency,
+      }));
+    },
+    [setState]
+  );
+
+  const toggleSpicyCardType = useCallback(
+    (type: string) => {
+      setState((prev) => {
+        const types = prev.spicyCardTypes || [];
+        const hasType = types.includes(type);
+
+        // Don't allow removing the last type
+        if (hasType && types.length === 1) {
+          return prev;
+        }
+
+        return {
+          ...prev,
+          spicyCardTypes: hasType ? types.filter((t) => t !== type) : [...types, type],
+        };
+      });
+    },
+    [setState]
+  );
+
   const resetProgress = useCallback(() => {
     setState({
       questionStates: [],
       activeCategories: SAFE_CATEGORIES,
       currentQuestionId: null,
+      spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
+      spicyCardsFrequency: DEFAULT_SPICY_SETTINGS.frequency,
+      spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
+      questionsAnsweredSinceLastSpicy: 0,
     });
+    setCurrentSpicyCard(null);
     setTimeout(loadNextQuestion, 0);
   }, [setState, loadNextQuestion]);
 
@@ -195,14 +295,22 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     questionStates: state.questionStates,
     activeCategories: state.activeCategories,
     currentQuestion,
+    currentSpicyCard,
     availableQuestionsCount,
     superlikedQuestions,
     skipQuestion,
     answerQuestion,
     superlikeQuestion,
+    dismissSpicyCard,
     toggleCategory,
     resetProgress,
     isCategoryActive,
+    spicyCardsEnabled: state.spicyCardsEnabled || false,
+    spicyCardsFrequency: state.spicyCardsFrequency || DEFAULT_SPICY_SETTINGS.frequency,
+    enabledSpicyCardTypes: state.spicyCardTypes || DEFAULT_SPICY_SETTINGS.enabledTypes,
+    toggleSpicyCards,
+    updateSpicyCardsFrequency,
+    toggleSpicyCardType,
   };
 
   if (isLoading) {

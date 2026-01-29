@@ -41,6 +41,7 @@ npm start
   - **↑ Aukštyn:** Super like - išsaugoti į mėgstamiausius
 - Haptinė grįžtamoji reakcija
 - 546 klausimai iš 14 kategorijų
+- **Spicy Cards** - užduočių kortelės, kurios pasirodo tarp klausimų
 
 ### Kategorijų filtravimas
 - Atskiras puslapis visoms kategorijoms (/categories)
@@ -54,6 +55,25 @@ npm start
 - Peržiūrėti išsaugotus mėgstamiausius klausimus
 - Navigacija tarp kortelių
 - Automatinis nukreipimas, kai baigiasi visi klausimai
+
+### Spicy Cards
+- **Užduočių kortelės** - įdomios užduotys ir iššūkiai tarp klausimų
+- **10 tipų kortelių:**
+  - 💋 Bučinys - romantiškos užduotys
+  - 🎯 Iššūkis - įdomūs iššūkiai porai
+  - 💝 Komplimentas - gražūs žodžiai
+  - 💆 Masažas - atsipalaidavimo užduotys
+  - 👋 Žaismingas - linksmos užduotys
+  - 🤫 Šnibždesys - intymūs šnabždesiai
+  - 🔥 Išdrįsk - drąsios užduotys
+  - 💭 Tiesa - atvirumo klausimai
+  - 🤗 Apkabinimas - šiltos užduotys
+  - 💃 Šokis - judesio užduotys
+- **Nustatymai:**
+  - Įjungti/išjungti spicy cards
+  - Nustatyti dažnumą (kas kiek klausimų)
+  - Pasirinkti norimus kortelių tipus
+- **30+ įvairių užduočių** visų tipų
 
 ### Duomenų išsaugojimas
 - LocalStorage persistence
