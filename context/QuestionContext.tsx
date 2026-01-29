@@ -148,10 +148,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   // Load initial question
   useEffect(() => {
-    if (isStateLoaded && !isLoading && !currentQuestion && availableQuestionsCount > 0) {
+    if (isStateLoaded && !isLoading && !currentQuestion && !currentSpicyCard && availableQuestionsCount > 0) {
       loadNextQuestion();
     }
-  }, [isStateLoaded, isLoading, currentQuestion, availableQuestionsCount, loadNextQuestion]);
+  }, [isStateLoaded, isLoading, currentQuestion, currentSpicyCard, availableQuestionsCount, loadNextQuestion]);
 
   // Update question state
   const updateQuestionState = useCallback(
@@ -204,23 +204,17 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   const toggleCategory = useCallback(
     (categoryName: string) => {
-      console.log('toggleCategory called with:', categoryName);
       setState((prev) => {
         const isActive = prev.activeCategories.includes(categoryName);
-        console.log('Current active categories:', prev.activeCategories);
-        console.log('Is category active?', isActive);
 
         // Prevent deselecting the last category
         if (isActive && prev.activeCategories.length === 1) {
-          console.log('Cannot deselect last category');
           return prev;
         }
 
         const newCategories = isActive
           ? prev.activeCategories.filter((cat) => cat !== categoryName)
           : [...prev.activeCategories, categoryName];
-
-        console.log('New categories:', newCategories);
 
         return {
           ...prev,
