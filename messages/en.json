@@ -82,7 +82,32 @@
       "cta": "Start Playing 💜",
       "noCta": "No registration needed. Just play."
     },
-    "footer": "Made with 💜 for those who want more than \"fine\""
+    "footer": "Made with 💜 for those who want more than \"fine\"",
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        {
+          "question": "Is it really free?",
+          "answer": "Yes! The entire core game experience is completely free and requires no registration. Just open and play."
+        },
+        {
+          "question": "Do I need an internet connection?",
+          "answer": "You need internet the first time to load the questions. After that, you can play offline — questions are cached in your browser."
+        },
+        {
+          "question": "How many questions are there?",
+          "answer": "Over 500 questions across different categories — from light and fun to deep and intimate. Each mode (couples, family, friends, kids) has unique questions."
+        },
+        {
+          "question": "Is it safe for kids?",
+          "answer": "The Kids mode has specially curated questions — no intimate or adult content. You can safely play with the little ones."
+        },
+        {
+          "question": "How do Spicy Cards work?",
+          "answer": "These are fun challenge cards that appear between questions. You can enable or disable them in settings, and adjust how often they show up."
+        }
+      ]
+    }
   },
   "audience": {
     "title": "Choose your mode",

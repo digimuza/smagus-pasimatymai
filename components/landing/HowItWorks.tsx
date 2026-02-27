@@ -15,7 +15,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-background-light/30">
+    <section className="py-16 sm:py-24 bg-background-light/30 content-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}

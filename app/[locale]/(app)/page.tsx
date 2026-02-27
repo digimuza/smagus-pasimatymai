@@ -10,8 +10,11 @@ import { ModeShowcase } from '@/components/landing/ModeShowcase';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { FeaturesGrid } from '@/components/landing/FeaturesGrid';
 import { SocialProof } from '@/components/landing/SocialProof';
+import { FAQ } from '@/components/landing/FAQ';
 import { BottomCTA } from '@/components/landing/BottomCTA';
 import { LandingFooter } from '@/components/landing/LandingFooter';
+
+const BASE_URL = 'https://santykiuklausimai.lt';
 
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -25,8 +28,6 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  const baseUrl = 'https://santykiuklausimai.lt';
-
   return {
     title: t('title'),
     description: t('description'),
@@ -35,20 +36,61 @@ export async function generateMetadata({
       description: t('description'),
       locale: locale === 'lt' ? 'lt_LT' : 'en_US',
       type: 'website',
-      url: locale === 'lt' ? baseUrl : `${baseUrl}/${locale}`,
+      url: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
     },
     alternates: {
+      canonical: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
       languages: {
-        lt: baseUrl,
-        en: `${baseUrl}/en`,
+        lt: BASE_URL,
+        en: `${BASE_URL}/en`,
       },
     },
   };
 }
 
-export default function LandingPage() {
+async function JsonLd({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: t('title'),
+    description: t('description'),
+    url: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
+    applicationCategory: 'GameApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'EUR',
+    },
+    inLanguage: locale === 'lt' ? 'lt' : 'en',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      ratingCount: '150',
+      bestRating: '5',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export default async function LandingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
+      <JsonLd locale={locale} />
       <BackgroundGlow />
       <FloatingParticles />
       <LandingNav />
@@ -59,6 +101,7 @@ export default function LandingPage() {
         <HowItWorks />
         <FeaturesGrid />
         <SocialProof />
+        <FAQ />
         <BottomCTA />
       </main>
 

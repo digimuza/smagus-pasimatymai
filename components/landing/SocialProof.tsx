@@ -4,7 +4,7 @@ export function SocialProof() {
   const t = useTranslations('landing');
 
   return (
-    <section className="py-12 sm:py-16">
+    <section className="py-12 sm:py-16 content-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
         <p className="text-text-dimmed text-sm italic">
           {t('testimonial')}
