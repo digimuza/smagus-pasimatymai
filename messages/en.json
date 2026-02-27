@@ -1,0 +1,144 @@
+{
+  "common": {
+    "appName": "Relationship Questions",
+    "loading": "Loading...",
+    "back": "Back",
+    "close": "Close",
+    "openMenu": "Open menu",
+    "next": "Next",
+    "previous": "Previous",
+    "confirm": "Are you sure you want to start over? All progress will be lost.",
+    "questions": "questions",
+    "languageSwitcher": {
+      "label": "Language"
+    }
+  },
+  "metadata": {
+    "title": "Relationship Questions — Conversation game for couples, family & friends",
+    "description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration."
+  },
+  "landing": {
+    "nav": {
+      "logo": "Relationship Questions"
+    },
+    "heroTitle1": "Rediscover the one",
+    "heroHighlight": "you love",
+    "heroTitle2": "all over again",
+    "heroDescription": "500+ questions that will make you laugh, blush, and fall in love all over again. Because \"how was your day\" isn't a real conversation. 😏",
+    "cta": "Start Playing 💜",
+    "noCta": "No registration needed. Just play.",
+    "swipeLeft": "← skip",
+    "swipeRight": "answer →",
+    "sampleQuestions": [
+      "What was your first impression when you saw me?",
+      "If we could travel anywhere in the world, where would you go with me?",
+      "What about me makes you laugh the most?",
+      "What was your most beautiful dream about us?",
+      "If our love were a song, what would it be?"
+    ],
+    "modes": {
+      "title": "Three ways to play",
+      "couples": {
+        "name": "Couples",
+        "description": "Deep questions that help you rediscover your partner. From sweet to spicy.",
+        "cta": "Play for couples"
+      },
+      "family": {
+        "name": "Family",
+        "description": "Questions that bring family members closer. Perfect for dinner or a road trip.",
+        "cta": "Play for family"
+      },
+      "friends": {
+        "name": "Friends",
+        "description": "Find out what you never asked. Perfect for parties and get-togethers.",
+        "cta": "Play with friends"
+      }
+    },
+    "howItWorks": {
+      "title": "How does it work?",
+      "step1": {
+        "title": "Choose a mode",
+        "description": "Couples, family, or friends — there's something for everyone."
+      },
+      "step2": {
+        "title": "Swipe cards",
+        "description": "Answer or skip — you set the pace."
+      },
+      "step3": {
+        "title": "Enjoy the conversation",
+        "description": "Real conversations that bring you closer. No phones, no excuses."
+      }
+    },
+    "features": {
+      "questions": { "count": "500+", "label": "questions" },
+      "spicy": { "count": "Spicy", "label": "challenges" },
+      "categories": { "count": "13", "label": "categories" }
+    },
+    "testimonial": "\"Better than Tinder — here you actually talk.\"",
+    "testimonialAuthor": "— Every couple that wasn't afraid to answer",
+    "bottomCta": {
+      "title": "Ready?",
+      "subtitle": "Start a conversation that actually matters.",
+      "cta": "Start Playing 💜",
+      "noCta": "No registration needed. Just play."
+    },
+    "footer": "Made with 💜 for those who want more than \"fine\""
+  },
+  "audience": {
+    "title": "Choose your mode",
+    "subtitle": "Who are you playing with today?",
+    "romantic": { "name": "Couples", "description": "Questions to help you rediscover your partner" },
+    "family": { "name": "Family", "description": "Warm questions for the whole family — from grandparents to kids" },
+    "friends": { "name": "Friends", "description": "Questions for friend gatherings and parties" },
+    "kids": { "name": "Kids", "description": "Fun and safe questions for the little ones" }
+  },
+  "game": {
+    "skip": "Skip",
+    "super": "Super",
+    "answered": "Answered",
+    "remaining": "Questions left: {count}",
+    "swipeSkip": "SKIP",
+    "swipeAnswered": "ANSWERED",
+    "swipeSuper": "⭐ SUPER",
+    "swipeDone": "DONE ✓",
+    "swipeAny": "Swipe in any direction",
+    "spicyBadge": "🎲 Spicy Card",
+    "deepQuestions": "{count} deep questions"
+  },
+  "categories": {
+    "title": "Categories",
+    "selectedCount": "Categories selected",
+    "main": "Main categories",
+    "intimate": "Intimate categories",
+    "intimateNote": "These categories are off by default",
+    "minWarning": "At least one category must be selected",
+    "startGame": "Start the game"
+  },
+  "settings": {
+    "title": "Spicy Cards",
+    "spicyToggleLabel": "🎲 Spicy Cards",
+    "spicyToggleDescription": "Add challenge cards between questions",
+    "rarityLabel": "How often to show?",
+    "rarityNote": "Spicy cards appear randomly based on the selected probability",
+    "cardTypes": "Card types",
+    "minTypeWarning": "At least one card type must be selected",
+    "info": "<strong>Spicy Cards</strong> are fun tasks and challenges that appear between questions to make the game more exciting and dynamic!",
+    "backToGame": "Back to game"
+  },
+  "sidebar": {
+    "title": "Categories",
+    "remaining": "Questions left",
+    "activeCategories": "Active categories",
+    "viewCategories": "Categories",
+    "spicyCards": "Spicy Cards",
+    "changeMode": "Change mode",
+    "reset": "Start over"
+  },
+  "awesome": {
+    "title": "⭐ Super Questions",
+    "empty": "All questions done!",
+    "emptyDescription": "You don't have any super questions. Go back and mark your favorites!",
+    "goBack": "Go back",
+    "reset": "Start over"
+  }
+}

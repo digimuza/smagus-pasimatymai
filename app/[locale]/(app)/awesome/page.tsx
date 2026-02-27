@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuestions } from '@/context/QuestionContext';
 import { fadeInUp, scaleIn } from '@/lib/animations';
@@ -9,6 +10,8 @@ import { PageLayout, PageContent, Header, Button, Card } from '@/components/ui';
 
 export default function AwesomePage() {
   const router = useRouter();
+  const t = useTranslations('awesome');
+  const tc = useTranslations('common');
   const { superlikedQuestions, resetProgress } = useQuestions();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,7 +30,7 @@ export default function AwesomePage() {
   };
 
   const handleReset = () => {
-    if (confirm('Ar tikrai norite iš naujo pradėti? Prarasite visą progresą.')) {
+    if (confirm(tc('confirm'))) {
       resetProgress();
       router.push('/game');
     }
@@ -40,17 +43,17 @@ export default function AwesomePage() {
           <motion.div {...fadeInUp} className="text-center space-y-6">
             <div className="text-6xl mb-4">⭐</div>
             <h1 className="text-3xl font-light text-primary mb-4">
-              Pasibaigė visi klausimai!
+              {t('empty')}
             </h1>
             <p className="text-text-muted mb-8">
-              Neturite nei vieno super klausimo. Grįžkite ir pažymėkite mėgstamiausius!
+              {t('emptyDescription')}
             </p>
             <div className="space-y-4 max-w-xs mx-auto">
               <Button variant="primary" size="lg" fullWidth onClick={() => router.push('/game')}>
-                Grįžti atgal
+                {t('goBack')}
               </Button>
               <Button variant="danger" size="lg" fullWidth onClick={handleReset}>
-                Iš naujo pradėti
+                {t('reset')}
               </Button>
             </div>
           </motion.div>
@@ -61,7 +64,7 @@ export default function AwesomePage() {
 
   return (
     <PageLayout>
-      <Header title="⭐ Super Klausimai" showBack />
+      <Header title={t('title')} showBack />
 
       <main className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="relative w-full max-w-md mb-8">
@@ -90,7 +93,7 @@ export default function AwesomePage() {
             onClick={handlePrevious}
             disabled={currentIndex === 0}
             className="p-3 bg-background-light hover:bg-background-lighter disabled:opacity-30 disabled:cursor-not-allowed rounded-full transition-colors"
-            aria-label="Ankstesnis"
+            aria-label={tc('previous')}
           >
             <svg className="w-6 h-6 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -105,7 +108,7 @@ export default function AwesomePage() {
             onClick={handleNext}
             disabled={currentIndex === superlikedQuestions.length - 1}
             className="p-3 bg-background-light hover:bg-background-lighter disabled:opacity-30 disabled:cursor-not-allowed rounded-full transition-colors"
-            aria-label="Kitas"
+            aria-label={tc('next')}
           >
             <svg className="w-6 h-6 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -114,7 +117,7 @@ export default function AwesomePage() {
         </div>
 
         <Button variant="danger" onClick={handleReset} className="mt-8">
-          Iš naujo pradėti
+          {t('reset')}
         </Button>
       </main>
     </PageLayout>

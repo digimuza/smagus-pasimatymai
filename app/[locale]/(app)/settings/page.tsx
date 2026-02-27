@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { useQuestions } from '@/context/QuestionContext';
 import { SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
 import { fadeInUp } from '@/lib/animations';
@@ -9,6 +10,7 @@ import { PageLayout, PageContent, Header, Toggle, Select, Card, Button } from '@
 
 export default function SettingsPage() {
   const router = useRouter();
+  const t = useTranslations('settings');
   const {
     spicyCardsEnabled,
     spicyCardsRarity,
@@ -25,7 +27,7 @@ export default function SettingsPage() {
 
   return (
     <PageLayout>
-      <Header title="Pikantiškos kortelės" showBack />
+      <Header title={t('title')} showBack />
 
       <PageContent>
         <Card {...fadeInUp}>
@@ -33,24 +35,24 @@ export default function SettingsPage() {
             <Toggle
               enabled={spicyCardsEnabled}
               onChange={toggleSpicyCards}
-              label="🎲 Spicy Cards"
-              description="Įtraukti užduočių korteles tarp klausimų"
+              label={t('spicyToggleLabel')}
+              description={t('spicyToggleDescription')}
             />
 
             {spicyCardsEnabled && (
               <>
                 <Select
-                  label="Kaip dažnai rodys?"
+                  label={t('rarityLabel')}
                   options={rarityOptions}
                   value={spicyCardsRarity}
                   onChange={updateSpicyCardsRarity}
                 />
                 <p className="text-xs text-text-muted">
-                  Spicy cards pasirodo atsitiktinai su pasirinkta tikimybe
+                  {t('rarityNote')}
                 </p>
 
                 <div className="space-y-3">
-                  <h3 className="text-text font-normal">Kortelių tipai</h3>
+                  <h3 className="text-text font-normal">{t('cardTypes')}</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {Object.entries(SPICY_CARD_TYPE_LABELS).map(([type, label]) => {
                       const isEnabled = enabledSpicyCardTypes.includes(type);
@@ -78,7 +80,7 @@ export default function SettingsPage() {
                   </div>
                   {enabledSpicyCardTypes.length === 1 && (
                     <p className="text-xs text-text-muted">
-                      Bent vienas kortelės tipas turi būti pasirinktas
+                      {t('minTypeWarning')}
                     </p>
                   )}
                 </div>
@@ -89,16 +91,13 @@ export default function SettingsPage() {
 
         <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
           <Card variant="outlined" className="border-primary/30 bg-primary/10">
-            <p className="text-sm text-text-muted">
-              <strong className="text-primary">Spicy Cards</strong> - tai įdomios užduotys ir
-              iššūkiai, kurie pasirodys tarp klausimų, kad žaidimas būtų įdomesnis ir dinamiškesnis!
-            </p>
+            <p className="text-sm text-text-muted" dangerouslySetInnerHTML={{ __html: t('info') }} />
           </Card>
         </motion.div>
 
         <div className="pt-4 pb-8">
           <Button variant="primary" size="lg" fullWidth onClick={() => router.push('/game')}>
-            Grįžti į žaidimą
+            {t('backToGame')}
           </Button>
         </div>
       </PageContent>
