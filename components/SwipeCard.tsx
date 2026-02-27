@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 import { Question } from '@/types';
 import { SWIPE_THRESHOLD } from '@/lib/constants';
+import { cardSwipe } from '@/lib/animations';
 
 interface SwipeCardProps {
   question: Question;
@@ -24,13 +25,11 @@ export function SwipeCard({ question, onSwipeLeft, onSwipeRight, onSwipeUp }: Sw
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const { offset, velocity } = info;
 
-    // Check for up swipe (super like)
     if (offset.y < -SWIPE_THRESHOLD || velocity.y < -500) {
       setExitY(-500);
       return;
     }
 
-    // Check for left/right swipe
     if (Math.abs(offset.x) > SWIPE_THRESHOLD || Math.abs(velocity.x) > 500) {
       if (offset.x < 0) {
         setExitX(-500);
@@ -42,35 +41,26 @@ export function SwipeCard({ question, onSwipeLeft, onSwipeRight, onSwipeUp }: Sw
 
   return (
     <motion.div
-      className="absolute w-full max-w-md h-96 bg-gradient-to-br from-background-light to-background-lighter rounded-2xl shadow-2xl p-8 cursor-grab active:cursor-grabbing"
-      style={{
-        x,
-        y,
-        rotateZ,
-        opacity,
-      }}
+      className="absolute w-full max-w-md h-96 bg-gradient-to-br from-background-light to-background-lighter rounded-2xl shadow-lg p-8 cursor-grab active:cursor-grabbing"
+      style={{ x, y, rotateZ, opacity }}
       drag
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
       dragElastic={0.7}
       onDragEnd={handleDragEnd}
-      initial={{ scale: 0, opacity: 0 }}
+      initial={cardSwipe.initial}
       animate={
         exitX !== 0 || exitY !== 0
           ? { x: exitX, y: exitY, opacity: 0, transition: { duration: 0.3 } }
-          : { scale: 1, opacity: 1 }
+          : cardSwipe.animate
       }
       onAnimationComplete={() => {
         if (exitX !== 0 || exitY !== 0) {
-          if (exitY < 0) {
-            onSwipeUp();
-          } else if (exitX < 0) {
-            onSwipeLeft();
-          } else if (exitX > 0) {
-            onSwipeRight();
-          }
+          if (exitY < 0) onSwipeUp();
+          else if (exitX < 0) onSwipeLeft();
+          else if (exitX > 0) onSwipeRight();
         }
       }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      transition={cardSwipe.transition}
       key={question.id}
     >
       <div className="h-full flex items-center justify-center">
@@ -79,7 +69,6 @@ export function SwipeCard({ question, onSwipeLeft, onSwipeRight, onSwipeUp }: Sw
         </p>
       </div>
 
-      {/* Swipe indicators */}
       <motion.div
         className="absolute top-8 left-8 text-accent font-bold text-xl rotate-[-15deg] opacity-0"
         style={{ opacity: useTransform(x, [-150, -50], [1, 0]) }}
