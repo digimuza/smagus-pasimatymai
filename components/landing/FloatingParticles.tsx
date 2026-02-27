@@ -3,21 +3,25 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
+const EMOJIS = ['💜', '💕', '✨', '🌹', '💫', '💗', '😘', '🦋', '💘'];
+
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
   id: i,
-  emoji: ['💜', '💕', '✨', '🔮', '💫', '💗'][i % 6],
-  left: `${8 + (i * 7.5) % 85}%`,
-  delay: i * 0.8,
-  duration: 6 + (i % 4) * 2,
-  size: 16 + (i % 3) * 8,
+  emoji: EMOJIS[i % EMOJIS.length],
+  left: `${5 + (i * 5.3) % 90}%`,
+  delay: i * 0.6,
+  duration: 6 + (i % 5) * 1.5,
+  size: 12 + (i % 5) * 5,
+  driftAmplitude: 20 + (i % 4) * 15,
 }));
 
-function Particle({ emoji, left, delay, duration, size }: {
+function Particle({ emoji, left, delay, duration, size, driftAmplitude }: {
   emoji: string;
   left: string;
   delay: number;
   duration: number;
   size: number;
+  driftAmplitude: number;
 }) {
   const travel = typeof window !== 'undefined' ? window.innerHeight + 100 : 900;
 
@@ -27,7 +31,7 @@ function Particle({ emoji, left, delay, duration, size }: {
       style={{ left, fontSize: size, bottom: -40 }}
       animate={{
         y: [0, -travel],
-        x: [0, Math.sin(delay) * 40, Math.cos(delay) * -30, Math.sin(delay) * 20],
+        x: [0, Math.sin(delay) * driftAmplitude, Math.cos(delay) * -driftAmplitude * 0.7, Math.sin(delay) * driftAmplitude * 0.5],
         opacity: [0, 1, 1, 0.6, 0],
         rotate: [0, 15, -10, 20, 0],
       }}

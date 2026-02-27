@@ -1,12 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/navigation';
 import { AnimatedCard } from './AnimatedCard';
 
 export function HeroSection() {
   const t = useTranslations('landing');
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <section className="relative py-12 sm:py-20 lg:py-28">
@@ -20,7 +22,7 @@ export function HeroSection() {
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text leading-tight mb-2">
             {t('heroTitle1')}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light via-primary to-accent">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-light via-primary to-accent bg-[length:200%_auto] animate-shimmer">
               {t('heroHighlight')}
             </span>
           </h1>
@@ -56,14 +58,33 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="flex flex-col items-center gap-4 w-full max-w-sm"
         >
-          <Link href="/audience" className="w-full">
+          <Link
+            href="/audience"
+            className="relative w-full"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <motion.div
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-primary-dark via-primary to-accent text-white font-semibold text-lg text-center shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30"
+              className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-primary-dark via-primary to-accent text-white font-semibold text-lg text-center shadow-lg shadow-primary/25 transition-shadow hover:shadow-xl hover:shadow-primary/30 animate-heartbeat"
             >
               {t('cta')}
             </motion.div>
+            {/* Floating heart on hover */}
+            <AnimatePresence>
+              {isHovered && (
+                <motion.span
+                  initial={{ scale: 0, opacity: 1, y: 0 }}
+                  animate={{ scale: 1, opacity: 0, y: -40 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  className="absolute -top-2 right-4 text-xl pointer-events-none"
+                >
+                  💗
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
           <p className="text-text-dimmed text-sm font-light">
             {t('noCta')}

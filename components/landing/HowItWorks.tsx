@@ -34,12 +34,21 @@ export function HowItWorks() {
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
+              transition={{
+                duration: 0.5,
+                delay: i * 0.15,
+                type: 'spring',
+                bounce: 0.4,
+              }}
               className="flex flex-col items-center text-center gap-4"
             >
-              <div className="w-16 h-16 rounded-2xl bg-background-lighter border border-primary/10 flex items-center justify-center text-3xl">
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
+                className="w-16 h-16 rounded-2xl bg-background-lighter border border-primary/10 flex items-center justify-center text-3xl"
+              >
                 {step.icon}
-              </div>
+              </motion.div>
               <div className="text-sm font-medium text-primary">
                 {String(i + 1).padStart(2, '0')}
               </div>
