@@ -165,5 +165,39 @@
     "emptyDescription": "You don't have any super questions. Go back and mark your favorites!",
     "goBack": "Go back",
     "reset": "Start over"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "loginSubtitle": "Save your progress across all devices",
+    "registerTitle": "Create account",
+    "registerSubtitle": "Create an account and never lose your progress",
+    "continueWithGoogle": "Continue with Google",
+    "or": "or",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "loginButton": "Sign in",
+    "registerButton": "Create account",
+    "submitting": "Please wait...",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "registerLink": "Create account",
+    "loginLink": "Sign in",
+    "genericError": "Something went wrong. Please try again.",
+    "profile": "Profile",
+    "logout": "Sign out"
+  },
+  "profile": {
+    "title": "Profile",
+    "emailProvider": "Email account",
+    "statsAnswered": "Answered",
+    "statsSuperliked": "Super",
+    "statsTotal": "Total",
+    "logout": "Sign out",
+    "dangerZone": "Danger zone",
+    "deleteWarning": "Deleting your account will permanently remove all data. Enter your email to confirm.",
+    "deleteConfirmPlaceholder": "Enter your email",
+    "deleteButton": "Delete account",
+    "deleting": "Deleting..."
   }
 }

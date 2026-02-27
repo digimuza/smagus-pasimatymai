@@ -20,12 +20,14 @@ import {
 import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_SPICY_SETTINGS, SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
 import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyCards';
+import { useAuth } from '@/context/AuthContext';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const t = useTranslations('common');
+  const { isAuthenticated, player } = useAuth();
   const [questionData, setQuestionData] = useState<QuestionData | null>(null);
   const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
   const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
@@ -46,6 +48,30 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize session tracking
   useSessionTracking({ locale, audience: state.audience || 'romantic' });
+
+  // Sync progress to server when authenticated
+  const syncedRef = useRef(false);
+  useEffect(() => {
+    if (!isAuthenticated || !state.audience || syncedRef.current) return;
+    syncedRef.current = true;
+
+    // Upload existing localStorage progress to server (merge on first login)
+    const localProgress = state.questionStates;
+    if (localProgress.length > 0) {
+      const items = localProgress.map((qs) => ({
+        questionId: qs.id,
+        status: qs.status === 'new' ? 'answered' : qs.status,
+        audience: state.audience!,
+        viewedAt: qs.answeredAt,
+      }));
+      fetch('/api/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ items }),
+      }).catch(() => {});
+    }
+  }, [isAuthenticated, state.audience, state.questionStates]);
 
   // Load question data from API (gated on audience selection)
   useEffect(() => {
@@ -201,34 +227,42 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   // Update question state
   const updateQuestionState = useCallback(
     (questionId: number, status: QuestionState['status']) => {
+      const answeredAt = new Date().toISOString();
+
       setState((prev) => {
         const existingIndex = prev.questionStates.findIndex((qs) => qs.id === questionId);
         const newQuestionStates = [...prev.questionStates];
 
         if (existingIndex >= 0) {
-          newQuestionStates[existingIndex] = {
-            id: questionId,
-            status,
-            answeredAt: new Date().toISOString(),
-          };
+          newQuestionStates[existingIndex] = { id: questionId, status, answeredAt };
         } else {
-          newQuestionStates.push({
-            id: questionId,
-            status,
-            answeredAt: new Date().toISOString(),
-          });
+          newQuestionStates.push({ id: questionId, status, answeredAt });
         }
 
-        return {
-          ...prev,
-          questionStates: newQuestionStates,
-        };
+        return { ...prev, questionStates: newQuestionStates };
       });
+
+      // Sync to server if authenticated
+      if (isAuthenticated && state.audience) {
+        fetch('/api/progress', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            items: [{
+              questionId,
+              status: status === 'new' ? 'answered' : status,
+              audience: state.audience,
+              viewedAt: answeredAt,
+            }],
+          }),
+        }).catch(() => {});
+      }
 
       // Load next question after updating state
       setTimeout(loadNextQuestion, 0);
     },
-    [setState, loadNextQuestion]
+    [setState, loadNextQuestion, isAuthenticated, state.audience]
   );
 
   // Actions
