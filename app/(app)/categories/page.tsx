@@ -8,19 +8,13 @@ export default function CategoriesPage() {
   const router = useRouter();
   const { sections, toggleCategory, isCategoryActive, activeCategories } = useQuestions();
 
-  // Split sections into safe and intimate categories
-  const intimateCategories = [
-    'Intymūs klausimai',
-    'Gilūs intymūs klausimai',
-    'Atviri klausimai apie seksą',
-  ];
-
+  // Split sections into safe and intimate categories using the type field
   const safeCategories = sections.filter(
-    (section) => !intimateCategories.includes(section.name)
+    (section) => section.type === 'safe'
   );
 
-  const intimateSections = sections.filter((section) =>
-    intimateCategories.includes(section.name)
+  const intimateSections = sections.filter(
+    (section) => section.type === 'intimate'
   );
 
   return (
@@ -28,7 +22,7 @@ export default function CategoriesPage() {
       {/* Header */}
       <header className="flex items-center justify-between p-6 bg-background-light">
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/game')}
           className="text-text-muted hover:text-text transition-colors"
           aria-label="Grįžti"
         >
@@ -229,7 +223,7 @@ export default function CategoriesPage() {
           {/* Back button */}
           <div className="pt-4 pb-8">
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/game')}
               className="w-full py-4 px-6 bg-primary hover:bg-primary-light text-background rounded-xl transition-colors font-medium"
             >
               Pradėti žaidimą

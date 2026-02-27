@@ -1,6 +1,6 @@
 {
   "title": "546 gilių klausimų",
-  "total_questions": 546,
+  "total_questions": 576,
   "sections": [
     {
       "name": "Apie vaikystę ir praeitį",
@@ -2273,6 +2273,132 @@
         {
           "id": 350,
           "question": "Ką norėtum, kad daryčiau daugiau sekso metu, bet niekada nesakei?"
+        }
+      ]
+    },
+    {
+      "name": "Valentino dienos klausimai 💘",
+      "range": "351–380",
+      "questions": [
+        {
+          "id": 351,
+          "question": "Kokią mūsų akimirką pakartotum šį vakarą, jei galėtum?"
+        },
+        {
+          "id": 352,
+          "question": "Kas manyje tave priverčia šypsotis, kai manęs nematai?"
+        },
+        {
+          "id": 353,
+          "question": "Jei turėtum aprašyti mūsų chemiją vienu žodžiu – koks tai būtų?"
+        },
+        {
+          "id": 354,
+          "question": "Kokį mano prisilietimą jauti ilgiausiai, kai manęs nėra šalia?"
+        },
+        {
+          "id": 355,
+          "question": "Kas tave labiausiai sužavėjo, kai pirmą kartą mane pamatei?"
+        },
+        {
+          "id": 356,
+          "question": "Jei galėtum pavogti vieną valandą tik mudviem – ką darytume?"
+        },
+        {
+          "id": 357,
+          "question": "Koks mano įprotis tave tyliai pamišina geru būdu?"
+        },
+        {
+          "id": 358,
+          "question": "Ar prisimeni momentą, kai supratai, kad tai daugiau nei draugystė?"
+        },
+        {
+          "id": 359,
+          "question": "Kokia mano kūno dalis tave labiausiai vilioja?"
+        },
+        {
+          "id": 360,
+          "question": "Jei rašytum meilės laišką man – nuo ko pradėtum?"
+        },
+        {
+          "id": 361,
+          "question": "Kas tave labiau jaudina – mano žvilgsnis ar prisilietimas?"
+        },
+        {
+          "id": 362,
+          "question": "Kokią nuodėmingą mintį apie mane turėjai visai neseniai?"
+        },
+        {
+          "id": 363,
+          "question": "Jei mūsų santykiai būtų filmas – koks būtų jo žanras?"
+        },
+        {
+          "id": 364,
+          "question": "Koks romantiškas gestas iš manęs tave ištirpdytų?"
+        },
+        {
+          "id": 365,
+          "question": "Ar yra daina, kuri tau primena mane kiekvieną kartą?"
+        },
+        {
+          "id": 366,
+          "question": "Kokį mano komplimentą prisimeni iki šiol?"
+        },
+        {
+          "id": 367,
+          "question": "Jei galėtum suplanuoti tobulą pasimatymą – kaip jis atrodytų?"
+        },
+        {
+          "id": 368,
+          "question": "Kas mūsų santykiuose tave priverčia jaustis saugiausiai?"
+        },
+        {
+          "id": 369,
+          "question": "Ar kada nors svajoji apie mūsų ateitį – ir ką matai?"
+        },
+        {
+          "id": 370,
+          "question": "Koks mano judesys ar gestas tave tyliai sujaudina?"
+        },
+        {
+          "id": 371,
+          "question": "Jei turėtum apibūdinti mano bučinį – koks jis?"
+        },
+        {
+          "id": 372,
+          "question": "Kokią vietą pasaulyje norėtum aplankyti tik su manimi?"
+        },
+        {
+          "id": 373,
+          "question": "Kas tave labiausiai traukia – mano drąsa ar švelnumas?"
+        },
+        {
+          "id": 374,
+          "question": "Ar yra kažkas, ką norėtum, kad pasakyčiau dažniau?"
+        },
+        {
+          "id": 375,
+          "question": "Koks buvo tavo pirmas jausmas, kai supratai, kad mane myli?"
+        },
+        {
+          "id": 376,
+          "question": "Jei galėčiau išpildyti vieną tavo romantišką norą – koks jis būtų?"
+        },
+        {
+          "id": 377,
+          "question": "Kokia mūsų bendra akimirka tave vis dar priverčia raudonuoti?"
+        },
+        {
+          "id": 378,
+          "question": "Ar tau patinka, kai viešai parodau jausmus, ar labiau privačiai?"
+        },
+        {
+          "id": 379,
+          "question": "Kas mūsų santykiuose yra tavo mažoji paslaptinga malonė?"
+        },
+        {
+          "id": 380,
+          "question": "Jei šis vakaras būtų paskutinis – ką norėtum man pasakyti?"
         }
       ]
     }

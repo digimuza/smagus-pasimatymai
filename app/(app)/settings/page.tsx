@@ -22,7 +22,7 @@ export default function SettingsPage() {
       {/* Header */}
       <header className="flex items-center justify-between p-6 bg-background-light">
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/game')}
           className="text-text-muted hover:text-text transition-colors"
           aria-label="Grįžti"
         >
@@ -155,7 +155,7 @@ export default function SettingsPage() {
           {/* Back button */}
           <div className="pt-4 pb-8">
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/game')}
               className="w-full py-4 px-6 bg-primary hover:bg-primary-light text-background rounded-xl transition-colors font-medium"
             >
               Grįžti į žaidimą

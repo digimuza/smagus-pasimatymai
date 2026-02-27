@@ -5,6 +5,7 @@ export interface Question {
 
 export interface Section {
   name: string;
+  type: 'safe' | 'intimate';
   range: string;
   questions: Question[];
 }

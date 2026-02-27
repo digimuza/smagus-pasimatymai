@@ -12,6 +12,7 @@ export const SAFE_CATEGORIES = [
   'Apie ryšį ir žmones',
   'Apie prasmę ir gyvenimo klausimus',
   'Apie jausmus ir vidinį pasaulį',
+  'Valentino dienos klausimai 💘',
 ];
 
 // Categories that are NOT selected by default (intimate questions)

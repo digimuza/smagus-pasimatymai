@@ -9,24 +9,26 @@ import {
   QuestionData,
 } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { STORAGE_KEY, SAFE_CATEGORIES } from '@/lib/constants';
+import { STORAGE_KEY } from '@/lib/constants';
 import {
   getNextQuestion,
   getSuperlikedQuestions,
   getAvailableQuestionsCount,
 } from '@/lib/questionEngine';
-import { SPICY_CARDS, DEFAULT_SPICY_SETTINGS } from '@/lib/spicyCardsData';
+import { DEFAULT_SPICY_SETTINGS, SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
 import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyCards';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
   const [questionData, setQuestionData] = useState<QuestionData | null>(null);
+  const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
+  const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [state, setState, isStateLoaded] = useLocalStorage(STORAGE_KEY, {
     questionStates: [] as QuestionState[],
-    activeCategories: SAFE_CATEGORIES,
+    activeCategories: [] as string[],
     currentQuestionId: null as number | null,
     spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
     spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity as SpicyCardRarity,
@@ -35,12 +37,29 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
 
-  // Load question data from JSON
+  // Load question data from API
   useEffect(() => {
-    fetch('/data.json')
+    fetch('/api/game-data')
       .then((res) => res.json())
-      .then((data: QuestionData) => {
-        setQuestionData(data);
+      .then((data) => {
+        const qData: QuestionData = {
+          title: data.title,
+          total_questions: data.total_questions,
+          sections: data.sections,
+        };
+        setQuestionData(qData);
+
+        // Set spicy cards from API
+        if (data.spicyCards) {
+          setSpicyCards(data.spicyCards);
+        }
+
+        // Derive safe categories from API data
+        const safeNames = data.sections
+          .filter((s: Section) => s.type === 'safe')
+          .map((s: Section) => s.name);
+        setSafeCategoryNames(safeNames);
+
         setIsLoading(false);
       })
       .catch((error) => {
@@ -49,22 +68,26 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
-  // Sanitize active categories when data loads
+  // Initialize active categories once data loads and state is ready
   useEffect(() => {
-    if (!questionData || !isStateLoaded) return;
+    if (!questionData || !isStateLoaded || safeCategoryNames.length === 0) return;
+
+    // If stored activeCategories is empty (first load), default to safe categories
+    if (state.activeCategories.length === 0) {
+      setState((prev) => ({ ...prev, activeCategories: safeCategoryNames }));
+      return;
+    }
 
     const validCategoryNames = questionData.sections.map((s) => s.name);
-    const sanitized = Array.from(new Set(state.activeCategories)) // Remove duplicates
-      .filter((cat) => validCategoryNames.includes(cat)); // Remove invalid categories
+    const sanitized = Array.from(new Set(state.activeCategories))
+      .filter((cat) => validCategoryNames.includes(cat));
 
-    // If all categories were removed or none remain, reset to SAFE_CATEGORIES
     if (sanitized.length === 0) {
-      setState((prev) => ({ ...prev, activeCategories: SAFE_CATEGORIES }));
+      setState((prev) => ({ ...prev, activeCategories: safeCategoryNames }));
     } else if (sanitized.length !== state.activeCategories.length) {
-      // Only update if something changed
       setState((prev) => ({ ...prev, activeCategories: sanitized }));
     }
-  }, [questionData, isStateLoaded, state.activeCategories, setState]);
+  }, [questionData, isStateLoaded, safeCategoryNames, state.activeCategories, setState]);
 
   // Get all questions (flattened from all sections)
   const allQuestions = useMemo(() => {
@@ -95,7 +118,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
   // Get random spicy card
   const getRandomSpicyCard = useCallback((): SpicyCard | null => {
-    const enabledCards = SPICY_CARDS.filter((card) =>
+    const enabledCards = spicyCards.filter((card) =>
       state.spicyCardTypes?.includes(card.type)
     );
 
@@ -103,7 +126,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
     const randomIndex = Math.floor(Math.random() * enabledCards.length);
     return enabledCards[randomIndex];
-  }, [state.spicyCardTypes]);
+  }, [spicyCards, state.spicyCardTypes]);
 
   // Check if should show spicy card (probability-based)
   const shouldShowSpicyCard = useCallback(() => {
@@ -283,7 +306,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   const resetProgress = useCallback(() => {
     setState({
       questionStates: [],
-      activeCategories: SAFE_CATEGORIES,
+      activeCategories: safeCategoryNames.length > 0 ? safeCategoryNames : [],
       currentQuestionId: null,
       spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
       spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity,
@@ -291,7 +314,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     });
     setCurrentSpicyCard(null);
     setTimeout(loadNextQuestion, 0);
-  }, [setState, loadNextQuestion]);
+  }, [setState, loadNextQuestion, safeCategoryNames]);
 
   const value: QuestionContextType = {
     questions: allQuestions,

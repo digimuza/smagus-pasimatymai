@@ -9,7 +9,7 @@ import { SpicyCardDisplay } from '@/components/SpicyCardDisplay';
 import { Sidebar } from '@/components/Sidebar';
 import { useHaptic } from '@/hooks/useHaptic';
 
-export default function Home() {
+export default function GamePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const {
     currentQuestion,
@@ -95,15 +95,15 @@ export default function Home() {
         {/* Swipe hints */}
         <div className="grid grid-cols-3 gap-4 w-full max-w-md text-center text-sm">
           <div className="space-y-1">
-            <div className="text-accent text-2xl">←</div>
+            <div className="text-accent text-2xl">&larr;</div>
             <p className="text-text-muted">Praleisti</p>
           </div>
           <div className="space-y-1">
-            <div className="text-primary-light text-2xl">↑</div>
+            <div className="text-primary-light text-2xl">&uarr;</div>
             <p className="text-text-muted">Super</p>
           </div>
           <div className="space-y-1">
-            <div className="text-primary text-2xl">→</div>
+            <div className="text-primary text-2xl">&rarr;</div>
             <p className="text-text-muted">Atsakyta</p>
           </div>
         </div>

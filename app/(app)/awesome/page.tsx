@@ -27,7 +27,7 @@ export default function AwesomePage() {
   const handleReset = () => {
     if (confirm('Ar tikrai norite iš naujo pradėti? Prarasite visą progresą.')) {
       resetProgress();
-      router.push('/');
+      router.push('/game');
     }
   };
 
@@ -49,7 +49,7 @@ export default function AwesomePage() {
 
           <div className="space-y-4">
             <button
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/game')}
               className="w-full max-w-xs py-4 px-6 bg-primary hover:bg-primary-light text-background rounded-lg transition-colors font-medium"
             >
               Grįžti atgal
@@ -72,7 +72,7 @@ export default function AwesomePage() {
       {/* Header */}
       <header className="flex items-center justify-between p-6 bg-background-light">
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/game')}
           className="text-text-muted hover:text-text transition-colors"
           aria-label="Grįžti"
         >
