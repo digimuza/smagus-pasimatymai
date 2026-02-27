@@ -90,6 +90,23 @@ export const Players: CollectionConfig = {
       },
     },
     {
+      name: 'currentStreak',
+      type: 'number',
+      defaultValue: 0,
+      admin: { description: 'Current consecutive days played' },
+    },
+    {
+      name: 'longestStreak',
+      type: 'number',
+      defaultValue: 0,
+      admin: { description: 'Longest streak ever achieved' },
+    },
+    {
+      name: 'lastPlayedDate',
+      type: 'text',
+      admin: { description: 'YYYY-MM-DD of last play session' },
+    },
+    {
       name: 'spicySettings',
       type: 'group',
       fields: [

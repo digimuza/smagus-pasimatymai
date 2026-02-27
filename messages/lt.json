@@ -157,6 +157,7 @@
     "viewCategories": "Kategorijos",
     "spicyCards": "Pikantiškos kortelės",
     "changeMode": "Pakeisti režimą",
+    "submitQuestion": "Pasiūlyti klausimą",
     "reset": "Iš naujo pradėti"
   },
   "awesome": {
@@ -164,7 +165,27 @@
     "empty": "Pasibaigė visi klausimai!",
     "emptyDescription": "Neturite nei vieno super klausimo. Grįžkite ir pažymėkite mėgstamiausius!",
     "goBack": "Grįžti atgal",
-    "reset": "Iš naujo pradėti"
+    "reset": "Iš naujo pradėti",
+    "search": "Ieškoti klausimų...",
+    "viewCards": "Kortelės",
+    "viewList": "Sąrašas",
+    "share": "Dalintis",
+    "unfavorite": "Pašalinti"
+  },
+  "daily": {
+    "label": "Dienos klausimas",
+    "share": "Dalintis",
+    "shareTag": "Santykių Klausimai — Dienos klausimas"
+  },
+  "submit": {
+    "title": "Pasiūlyti klausimą",
+    "subtitle": "Jūsų klausimas bus peržiūrėtas prieš publikuojant",
+    "placeholder": "Parašykite klausimą...",
+    "minChars": "Min. 10 simbolių",
+    "submitButton": "Siųsti",
+    "submitting": "Siunčiama...",
+    "success": "Klausimas išsiųstas!",
+    "successNote": "Peržiūrėsime ir pridėsime jį prie žaidimo"
   },
   "auth": {
     "loginTitle": "Prisijungti",

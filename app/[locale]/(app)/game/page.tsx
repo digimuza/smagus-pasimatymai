@@ -10,6 +10,8 @@ import { SpicyCardDisplay } from '@/components/SpicyCardDisplay';
 import { Sidebar } from '@/components/Sidebar';
 import { Paywall } from '@/components/payments/Paywall';
 import { useHaptic } from '@/hooks/useHaptic';
+import { useAuth } from '@/context/AuthContext';
+import { StreakBadge } from '@/components/StreakBadge';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
 import { PageLayout, Header } from '@/components/ui';
 
@@ -29,14 +31,24 @@ export default function GamePage() {
     setShowPaywall,
   } = useQuestions();
   const { vibrate } = useHaptic();
+  const { isAuthenticated, updateStreak } = useAuth();
   const router = useRouter();
   const t = useTranslations();
+  const streakUpdatedRef = useState(false);
 
   useEffect(() => {
     if (!audience) {
       router.push('/audience');
     }
   }, [audience, router]);
+
+  // Update streak when game starts
+  useEffect(() => {
+    if (audience && isAuthenticated && !streakUpdatedRef[0]) {
+      streakUpdatedRef[1](true);
+      updateStreak();
+    }
+  }, [audience, isAuthenticated, updateStreak, streakUpdatedRef]);
 
   useEffect(() => {
     if (audience && availableQuestionsCount === 0) {
@@ -81,7 +93,10 @@ export default function GamePage() {
           </button>
         }
         rightAction={
-          <div className="w-8 text-center text-xl">{currentAudience?.icon}</div>
+          <div className="flex items-center gap-2">
+            <StreakBadge />
+            <span className="text-xl">{currentAudience?.icon}</span>
+          </div>
         }
       />
 

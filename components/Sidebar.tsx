@@ -8,6 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
 import { Sheet, Button, Counter } from '@/components/ui';
 import { LoginSheet } from '@/components/auth/LoginSheet';
+import { SubmitQuestion } from '@/components/SubmitQuestion';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const ta = useTranslations('auth');
   const { player, isAuthenticated, logout } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
+  const [showSubmit, setShowSubmit] = useState(false);
   const {
     sections,
     activeCategories,
@@ -95,6 +97,17 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {t('changeMode')}
           </Button>
 
+          {isAuthenticated && (
+            <Button
+              variant="secondary"
+              fullWidth
+              icon={<span className="text-lg">💡</span>}
+              onClick={() => { setShowSubmit(true); onClose(); }}
+            >
+              {t('submitQuestion')}
+            </Button>
+          )}
+
           <Button
             variant="danger"
             fullWidth
@@ -154,6 +167,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
       </div>
       <LoginSheet isOpen={showLogin} onClose={() => setShowLogin(false)} />
+      <SubmitQuestion isOpen={showSubmit} onClose={() => setShowSubmit(false)} />
     </Sheet>
   );
 }
