@@ -82,7 +82,32 @@
       "cta": "Pradėti žaidimą 💜",
       "noCta": "Nereikia registracijos. Tiesiog žaiskite."
     },
-    "footer": "Sukurta su 💜 tiems, kurie nori daugiau nei \u201Egerai\u201C"
+    "footer": "Sukurta su 💜 tiems, kurie nori daugiau nei \u201Egerai\u201C",
+    "faq": {
+      "title": "Dažnai užduodami klausimai",
+      "items": [
+        {
+          "question": "Ar tikrai nemokama?",
+          "answer": "Taip! Visa pagrindinė žaidimo patirtis yra visiškai nemokama ir nereikia registracijos. Tiesiog atidaryk ir žaisk."
+        },
+        {
+          "question": "Ar reikia interneto?",
+          "answer": "Pirmu kartu reikia interneto, kad užsikrautų klausimai. Po to gali žaisti ir be ryšio — klausimai saugomi tavo naršyklėje."
+        },
+        {
+          "question": "Kiek klausimų yra?",
+          "answer": "Daugiau nei 500 klausimų skirtingose kategorijose — nuo lengvų iki gilių ir intymių. Kiekvienam režimui (poroms, šeimai, draugams, vaikams) yra unikalūs klausimai."
+        },
+        {
+          "question": "Ar saugu vaikams?",
+          "answer": "Režimas «Vaikams» turi specialiai atrinktus klausimus — jokio intymaus ar suaugusiesiems skirto turinio. Galite ramiai žaisti su mažaisiais."
+        },
+        {
+          "question": "Kaip veikia «Spicy Cards»?",
+          "answer": "Tai linksmų užduočių kortelės, kurios pasirodo tarp klausimų. Galite jas įjungti arba išjungti nustatymuose, taip pat reguliuoti, kaip dažnai jos pasirodo."
+        }
+      ]
+    }
   },
   "audience": {
     "title": "Pasirinkite režimą",

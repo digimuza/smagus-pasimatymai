@@ -17,7 +17,7 @@ export function BottomCTA() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="relative py-16 sm:py-24">
+    <section className="relative py-16 sm:py-24 content-auto">
       {/* Floating hearts */}
       {FLOATING_HEARTS.map((heart, i) => (
         <motion.span

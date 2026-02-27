@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 const EMOJIS = ['💜', '💕', '✨', '🌹', '💫', '💗', '😘', '🦋', '💘'];
 
@@ -27,7 +27,7 @@ function Particle({ emoji, left, delay, duration, size, driftAmplitude }: {
 
   return (
     <motion.div
-      className="absolute pointer-events-none select-none"
+      className="absolute pointer-events-none select-none will-change-transform"
       style={{ left, fontSize: size, bottom: -40 }}
       animate={{
         y: [0, -travel],
@@ -49,15 +49,16 @@ function Particle({ emoji, left, delay, duration, size, driftAmplitude }: {
 
 export function FloatingParticles() {
   const [mounted, setMounted] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted || prefersReducedMotion) return null;
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
       {PARTICLES.map((p) => (
         <Particle key={p.id} {...p} />
       ))}
