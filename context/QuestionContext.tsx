@@ -35,17 +35,24 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
     spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity as SpicyCardRarity,
     spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes as readonly string[],
+    audience: null as string | null,
   });
 
   const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
   const questionViewedAt = useRef<number>(Date.now());
 
   // Initialize session tracking
-  useSessionTracking({ locale: 'lt', audience: 'romantic' });
+  useSessionTracking({ locale: 'lt', audience: state.audience || 'romantic' });
 
-  // Load question data from API
+  // Load question data from API (gated on audience selection)
   useEffect(() => {
-    fetch('/api/game-data')
+    if (!state.audience) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    fetch(`/api/game-data?audience=${encodeURIComponent(state.audience)}`)
       .then((res) => res.json())
       .then((data) => {
         const qData: QuestionData = {
@@ -72,7 +79,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
         console.error('Failed to load questions:', error);
         setIsLoading(false);
       });
-  }, []);
+  }, [state.audience]);
 
   // Initialize active categories once data loads and state is ready
   useEffect(() => {
@@ -324,15 +331,30 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     [setState]
   );
 
+  const setAudience = useCallback((slug: string) => {
+    setState((prev) => ({
+      ...prev,
+      audience: slug,
+      questionStates: [],
+      activeCategories: [],
+      currentQuestionId: null,
+    }));
+    setQuestionData(null);
+    setSpicyCards([]);
+    setSafeCategoryNames([]);
+    setCurrentSpicyCard(null);
+  }, [setState]);
+
   const resetProgress = useCallback(() => {
-    setState({
+    setState((prev) => ({
+      ...prev,
       questionStates: [],
       activeCategories: safeCategoryNames.length > 0 ? safeCategoryNames : [],
       currentQuestionId: null,
       spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
       spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity,
       spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
-    });
+    }));
     setCurrentSpicyCard(null);
     setTimeout(loadNextQuestion, 0);
   }, [setState, loadNextQuestion, safeCategoryNames]);
@@ -346,6 +368,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     currentSpicyCard,
     availableQuestionsCount,
     superlikedQuestions,
+    audience: state.audience || null,
+    setAudience,
     skipQuestion,
     answerQuestion,
     superlikeQuestion,

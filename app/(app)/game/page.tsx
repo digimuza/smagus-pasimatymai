@@ -8,6 +8,7 @@ import { SwipeCard } from '@/components/SwipeCard';
 import { SpicyCardDisplay } from '@/components/SpicyCardDisplay';
 import { Sidebar } from '@/components/Sidebar';
 import { useHaptic } from '@/hooks/useHaptic';
+import { AUDIENCE_DEFAULTS } from '@/types/audience';
 
 export default function GamePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -19,16 +20,26 @@ export default function GamePage() {
     superlikeQuestion,
     dismissSpicyCard,
     availableQuestionsCount,
+    audience,
   } = useQuestions();
   const { vibrate } = useHaptic();
   const router = useRouter();
 
+  // Redirect to /audience if no audience selected
+  useEffect(() => {
+    if (!audience) {
+      router.push('/audience');
+    }
+  }, [audience, router]);
+
   // Redirect to /awesome when no questions left
   useEffect(() => {
-    if (availableQuestionsCount === 0) {
+    if (audience && availableQuestionsCount === 0) {
       router.push('/awesome');
     }
-  }, [availableQuestionsCount, router]);
+  }, [audience, availableQuestionsCount, router]);
+
+  const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
   const handleSwipeLeft = () => {
     vibrate('light');
@@ -66,7 +77,9 @@ export default function GamePage() {
 
         <h1 className="text-2xl font-light text-primary">Santykių Klausimai</h1>
 
-        <div className="w-8" />
+        <div className="w-8 text-center text-xl">
+          {currentAudience?.icon}
+        </div>
       </header>
 
       {/* Main content */}

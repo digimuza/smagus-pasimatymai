@@ -1,0 +1,96 @@
+{
+  "sections": [
+    {
+      "name": "Gyvūnai ir gamta",
+      "type": "safe",
+      "questions": [
+        { "question": "Jei galėtum būti bet koks gyvūnas, koks būtum?" },
+        { "question": "Koks yra tavo mėgstamiausias gyvūnas ir kodėl?" },
+        { "question": "Jei turėtum drakoną, kaip jį pavadintum?" },
+        { "question": "Koks gyvūnas būtų geriausias draugas?" },
+        { "question": "Jei galėtum kalbėti su gyvūnais, ką paklaustum?" },
+        { "question": "Koks yra keisčiausias gyvūnas, kurį žinai?" },
+        { "question": "Jei turėtum zoologijos sodą, kokie gyvūnai ten gyventų?" },
+        { "question": "Kas yra drąsesnis — liūtas ar lokys?" },
+        { "question": "Kokį gyvūną norėtum turėti namuose?" },
+        { "question": "Jei būtum paukštis, kur skristum?" }
+      ]
+    },
+    {
+      "name": "Vaizduotė ir svajonės",
+      "type": "safe",
+      "questions": [
+        { "question": "Jei galėtum turėti bet kokią supergalią, kokią pasirinktum?" },
+        { "question": "Jei galėtum nuvykti į bet kurią pasaką, kokią pasirinktum?" },
+        { "question": "Ką darytum, jei rastum skraidantį kilimą?" },
+        { "question": "Jei galėtum sukurti naują spalvą, kokia ji būtų?" },
+        { "question": "Koks būtų tavo svajonių namas?" },
+        { "question": "Jei turėtum stebuklų lazdelę, kokius tris dalykus padarytum?" },
+        { "question": "Jei galėtum būti nematomas vienai dienai, ką darytum?" },
+        { "question": "Kokį robotą norėtum turėti?" },
+        { "question": "Jei galėtum keliauti laiku, kur nukeliautum?" },
+        { "question": "Ką darytum, jei vieną dieną pabusti debesyse?" }
+      ]
+    },
+    {
+      "name": "Mėgstami dalykai",
+      "type": "safe",
+      "questions": [
+        { "question": "Koks tavo mėgstamiausias valgis?" },
+        { "question": "Kokia tavo mėgstamiausia spalva?" },
+        { "question": "Koks tavo mėgstamiausias filmas ar serialas?" },
+        { "question": "Kokia tavo mėgstamiausia knyga ar pasaka?" },
+        { "question": "Koks tavo mėgstamiausias žaidimas?" },
+        { "question": "Kokia tavo mėgstamiausia metų laikas?" },
+        { "question": "Koks tavo mėgstamiausias dalykas mokykloje?" },
+        { "question": "Kokia tavo mėgstamiausia daina?" },
+        { "question": "Koks tavo mėgstamiausias ledų skonis?" },
+        { "question": "Kokia tavo mėgstamiausia šventė?" }
+      ]
+    },
+    {
+      "name": "Juokingi klausimai",
+      "type": "safe",
+      "questions": [
+        { "question": "Koks buvo juokingiausias dalykas, kuris tau nutiko?" },
+        { "question": "Jei maistas galėtų kalbėti, ką sakytų bulvytės?" },
+        { "question": "Koks garsas tave labiausiai prajuokina?" },
+        { "question": "Jei tavo nosis galėtų uostyti spalvas, kokia spalva kvepėtų geriausiai?" },
+        { "question": "Ką darytų dinozauras, jei ateitų į mokyklą?" },
+        { "question": "Jei galėtum valgyti tik vieną maistą visą gyvenimą, kokį?" },
+        { "question": "Koks buvo keisčiausias sapnas, kurį sapnavai?" },
+        { "question": "Jei katės valdytų pasaulį, kas pasikeistų?" },
+        { "question": "Koks juokingiausias žodis, kurį žinai?" },
+        { "question": "Jei galėtum būti bet koks daiktas, koks būtum?" }
+      ]
+    },
+    {
+      "name": "Draugystė",
+      "type": "safe",
+      "questions": [
+        { "question": "Kas padaro žmogų geru draugu?" },
+        { "question": "Koks buvo linksmiausias momentas su draugais?" },
+        { "question": "Ką norėtum veikti su geriausiu draugu?" },
+        { "question": "Kaip paguodi draugą, kai jam liūdna?" },
+        { "question": "Koks buvo geriausias dalykas, kurį draugas tau padarė?" },
+        { "question": "Jei galėtum nuvykti su draugu bet kur, kur vyktum?" },
+        { "question": "Ką darytum, jei draugas paprašytų pagalbos?" },
+        { "question": "Koks yra svarbiausias dalykas draugystėje?" }
+      ]
+    },
+    {
+      "name": "Nuotykiai",
+      "type": "safe",
+      "questions": [
+        { "question": "Jei rastum paslėptą lobį, ką su juo darytum?" },
+        { "question": "Koks buvo tavo didžiausias nuotykis?" },
+        { "question": "Jei galėtum tyrinėti kosmosą, ką norėtum rasti?" },
+        { "question": "Ką darytum negyvenamoje saloje?" },
+        { "question": "Jei turėtum povandeninį laivą, kur plauktum?" },
+        { "question": "Koks būtų tavo svajonių nuotykis?" },
+        { "question": "Jei galėtum kopti į bet kokį kalną, kurį pasirinktum?" },
+        { "question": "Ką darytum, jei rastum slaptą tunelį savo namuose?" }
+      ]
+    }
+  ]
+}

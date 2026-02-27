@@ -14,7 +14,7 @@ This roadmap covers the evolution of Santykių Klausimai from a static question 
 |--------|------|--------|------|------------|
 | 1 | [PayloadCMS Completion](sprint-01-payload-completion.md) | Complete | M | — |
 | 2 | [Statistics & Analytics](sprint-02-statistics-analytics.md) | Complete | M | Sprint 1 |
-| 3 | [Audience Expansion](sprint-03-audience-expansion.md) | Not Started | L | Sprint 1 |
+| 3 | [Audience Expansion](sprint-03-audience-expansion.md) | Complete | L | Sprint 1 |
 | 4 | [Design System](sprint-04-design-system.md) | Not Started | L | Sprint 1 |
 | 5 | [Internationalization](sprint-05-internationalization.md) | Not Started | L | Sprint 4 |
 | 6 | [Landing Page](sprint-06-landing-page.md) | Not Started | M | Sprint 5 |

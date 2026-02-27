@@ -1,0 +1,77 @@
+[
+  {
+    "type": "challenge",
+    "title": "Gyvūno garsas",
+    "description": "Pamėgdžiok bet kokio gyvūno garsą — kiti turi atspėti, koks tai gyvūnas!"
+  },
+  {
+    "type": "dance",
+    "title": "Šokio judesys",
+    "description": "Sugalvok juokingą šokio judesį ir visi turi jį pakartoti!"
+  },
+  {
+    "type": "challenge",
+    "title": "Juokingas veidas",
+    "description": "Padaryk pačią juokingiausią grimasą, kokią gali!"
+  },
+  {
+    "type": "compliment",
+    "title": "Šaunus komplimentas",
+    "description": "Pasakyk ką nors gražaus žmogui, sėdinčiam šalia tavęs!"
+  },
+  {
+    "type": "hug",
+    "title": "Draugiškas apkabinimas",
+    "description": "Apkabink žmogų, su kuriuo žaidi!"
+  },
+  {
+    "type": "challenge",
+    "title": "Robotas",
+    "description": "30 sekundžių elkis kaip robotas — kalbėk ir judėk kaip robotas!"
+  },
+  {
+    "type": "dance",
+    "title": "Pengvino šokis",
+    "description": "Pašok kaip pingvinas — juokingiausias laimi!"
+  },
+  {
+    "type": "truth",
+    "title": "Du tiesos, vienas melas",
+    "description": "Pasakyk du teisingus dalykus ir vieną melą — kiti turi atspėti melą!"
+  },
+  {
+    "type": "challenge",
+    "title": "Supermenas",
+    "description": "Parodyk, kaip atrodytų tavo superherojaus poza!"
+  },
+  {
+    "type": "compliment",
+    "title": "Tu esi...",
+    "description": "Baigk sakinį: 'Tu esi nuostabus, nes...' kiekvienam žaidėjui!"
+  },
+  {
+    "type": "challenge",
+    "title": "Statula",
+    "description": "Sustink kaip statula — kas pirmas pajudės, pralaimėjo!"
+  },
+  {
+    "type": "dance",
+    "title": "Lėtas judesys",
+    "description": "Padaryk viską labai lėtai 15 sekundžių — kaip sulėtintame filme!"
+  },
+  {
+    "type": "hug",
+    "title": "Aukštas penketas",
+    "description": "Duok aukštą penketą visiems, kas žaidžia!"
+  },
+  {
+    "type": "challenge",
+    "title": "Baliono iššūkis",
+    "description": "Įsivaizduok, kad esi balionas — pūskis, pūskis ir BAM — sprogo!"
+  },
+  {
+    "type": "truth",
+    "title": "Mėgstamiausias",
+    "description": "Pasakyk savo mėgstamiausią gyvūną, spalvą ir valgį — per 5 sekundes!"
+  }
+]

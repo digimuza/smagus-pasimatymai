@@ -10,6 +10,7 @@ import { Questions } from './collections/Questions';
 import { QuestionEvents } from './collections/QuestionEvents';
 import { SpicyCardTypes } from './collections/SpicyCardTypes';
 import { SpicyCards } from './collections/SpicyCards';
+import { Audiences } from './collections/Audiences';
 import { Users } from './collections/Users';
 
 const filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,7 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   editor: lexicalEditor(),
-  collections: [Users, Categories, Questions, SpicyCardTypes, SpicyCards, GameSessions, QuestionEvents],
+  collections: [Users, Categories, Questions, SpicyCardTypes, SpicyCards, GameSessions, QuestionEvents, Audiences],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

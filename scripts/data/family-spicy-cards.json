@@ -1,0 +1,77 @@
+[
+  {
+    "type": "compliment",
+    "title": "Pasakyk komplimentą",
+    "description": "Pasakyk šiltą komplimentą šeimos nariui, sėdinčiam šalia tavęs."
+  },
+  {
+    "type": "hug",
+    "title": "Grupinis apkabinimas",
+    "description": "Visi šeimos nariai turi apsikabinti bent 10 sekundžių!"
+  },
+  {
+    "type": "challenge",
+    "title": "Šeimos žaidimas",
+    "description": "Parodyk juokingą veidą — kas padaro juokingiausią, laimi!"
+  },
+  {
+    "type": "truth",
+    "title": "Šeimos tiesa",
+    "description": "Pasakyk vieną dalyką, kuriuo didžiuojiesi kitame šeimos naryje."
+  },
+  {
+    "type": "dance",
+    "title": "Šeimos šokis",
+    "description": "Visi turi atsistoti ir pašokti 30 sekundžių!"
+  },
+  {
+    "type": "compliment",
+    "title": "Dėkingumo ratas",
+    "description": "Kiekvienas šeimos narys pasako, už ką dėkingas sėdinčiam kairėje."
+  },
+  {
+    "type": "challenge",
+    "title": "Pantomima",
+    "description": "Parodyk pantomima bet kokį šeimos prisiminimą — kiti turi atspėti!"
+  },
+  {
+    "type": "hug",
+    "title": "Apkabink artimiausią",
+    "description": "Apkabink šeimos narį, su kuriuo seniai nesikabinai."
+  },
+  {
+    "type": "truth",
+    "title": "Geriausias prisiminimas",
+    "description": "Papasakok savo geriausią prisiminimą su šeimos nariu, sėdinčiu priešais."
+  },
+  {
+    "type": "challenge",
+    "title": "Talentų šou",
+    "description": "Parodyk savo paslėptą talentą — 30 sekundžių!"
+  },
+  {
+    "type": "dance",
+    "title": "Šokio iššūkis",
+    "description": "Išmokyk šeimą vieno šokio judesio — visi turi pakartoti!"
+  },
+  {
+    "type": "compliment",
+    "title": "Meilės laiškas",
+    "description": "Pasakyk trim žodžiais, ką tau reiškia šeima."
+  },
+  {
+    "type": "challenge",
+    "title": "Šeimos portretas",
+    "description": "Per 60 sekundžių nupiešk visą šeimą — kūrybingumas svarbesnis už meną!"
+  },
+  {
+    "type": "hug",
+    "title": "Rankų suspaudimas",
+    "description": "Suspausk ranką šeimos nariui ir pasakyk: 'Džiaugiuosi, kad esi mano šeimoje.'"
+  },
+  {
+    "type": "truth",
+    "title": "Šeimos kvizas",
+    "description": "Užduok klausimą apie save — ar šeima žino atsakymą?"
+  }
+]

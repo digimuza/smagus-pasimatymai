@@ -179,7 +179,7 @@ export default function LandingPage() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="flex flex-col items-center gap-4 w-full max-w-sm"
         >
-          <Link href="/game" className="w-full">
+          <Link href="/audience" className="w-full">
             <motion.div
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}

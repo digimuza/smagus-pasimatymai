@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useQuestions } from '@/context/QuestionContext';
+import { AUDIENCE_DEFAULTS } from '@/types/audience';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -17,7 +18,10 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     resetProgress,
     availableQuestionsCount,
     spicyCardsEnabled,
+    audience,
   } = useQuestions();
+
+  const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
   return (
     <>
@@ -123,6 +127,18 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   />
                 </svg>
               )}
+            </button>
+
+            {/* Change audience button */}
+            <button
+              onClick={() => {
+                router.push('/audience');
+                onClose();
+              }}
+              className="w-full py-3 px-4 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+            >
+              <span className="text-lg">{currentAudience?.icon || '🎮'}</span>
+              Pakeisti režimą
             </button>
 
             {/* Reset button */}

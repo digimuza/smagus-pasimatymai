@@ -6,7 +6,7 @@ import { useQuestions } from '@/context/QuestionContext';
 
 export default function CategoriesPage() {
   const router = useRouter();
-  const { sections, toggleCategory, isCategoryActive, activeCategories } = useQuestions();
+  const { sections, toggleCategory, isCategoryActive, activeCategories, audience } = useQuestions();
 
   // Split sections into safe and intimate categories using the type field
   const safeCategories = sections.filter(
@@ -130,8 +130,8 @@ export default function CategoriesPage() {
             </div>
           </div>
 
-          {/* Intimate Categories */}
-          <div>
+          {/* Intimate Categories — hidden for kids */}
+          {audience !== 'kids' && <div>
             <h2 className="text-lg font-light text-accent mb-2">
               Intymios kategorijos
             </h2>
@@ -205,7 +205,7 @@ export default function CategoriesPage() {
                 );
               })}
             </div>
-          </div>
+          </div>}
 
           {/* Warning */}
           {activeCategories.length === 1 && (

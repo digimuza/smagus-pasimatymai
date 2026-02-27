@@ -1,0 +1,82 @@
+[
+  {
+    "type": "challenge",
+    "title": "Imitacija",
+    "description": "Pamėgdžiok bet kurį draugą iš grupės — kiti turi atspėti, ką rodai!"
+  },
+  {
+    "type": "truth",
+    "title": "Tiesos momentas",
+    "description": "Atsakyk sąžiningai: koks buvo gėdingiausias momentas šiais metais?"
+  },
+  {
+    "type": "dare",
+    "title": "Socialinė drąsa",
+    "description": "Paskambink paskutiniam žmogui savo kontaktuose ir pasakyk 'Labas, galvoju apie tave!'"
+  },
+  {
+    "type": "challenge",
+    "title": "Kalbėk neliesdamas",
+    "description": "60 sekundžių kalbėk tema, kurią pasirenka draugai — be pauzių!"
+  },
+  {
+    "type": "compliment",
+    "title": "Komplimentų ratas",
+    "description": "Kiekvienas draugas turi pasakyti vieną dalyką, kurį vertina tavyje."
+  },
+  {
+    "type": "dance",
+    "title": "Šokio dvikova",
+    "description": "Šokio battle! Tu prieš žmogų kairėje — kiti sprendžia, kas laimėjo!"
+  },
+  {
+    "type": "dare",
+    "title": "Drąsus postas",
+    "description": "Padaryk selfie su juokinga grimasa ir parodyk draugams!"
+  },
+  {
+    "type": "truth",
+    "title": "Kas greičiau?",
+    "description": "Grupė sprendžia: kas iš jūsų greičiausiai... (nutylėjimas, kurį užpildo draugai)?"
+  },
+  {
+    "type": "challenge",
+    "title": "Akcentas",
+    "description": "Minutę kalbėk bet kokiu akcentu — jei nustosi, pralaimėjai!"
+  },
+  {
+    "type": "hug",
+    "title": "Grupinis apkabinimas",
+    "description": "Visi draugai turi susikabinti ir pasakyti: 'Mes esame geriausia kompanija!'"
+  },
+  {
+    "type": "dare",
+    "title": "Paskutinė nuotrauka",
+    "description": "Parodyk paskutinę nuotrauką savo telefone ir papasakok istoriją!"
+  },
+  {
+    "type": "challenge",
+    "title": "Pantomima",
+    "description": "Parodyk pantomima savo draugo hobį — kiti turi atspėti!"
+  },
+  {
+    "type": "truth",
+    "title": "Sąžiningai apie mane",
+    "description": "Kiekvienas draugas turi pasakyti vieną sąžiningą dalyką apie tave."
+  },
+  {
+    "type": "compliment",
+    "title": "Paslėptas talentas",
+    "description": "Parodyk draugams kažką, ko jie apie tave nežino — talentą, triuką ar faktą!"
+  },
+  {
+    "type": "dance",
+    "title": "TikTok šokis",
+    "description": "Pašok bet kokį TikTok šokį — arba sugalvok savo!"
+  },
+  {
+    "type": "challenge",
+    "title": "Karaoke",
+    "description": "Padainuok dainos posmą, kurį pasirenka draugai — be muzikos!"
+  }
+]

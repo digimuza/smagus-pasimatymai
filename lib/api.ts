@@ -10,7 +10,7 @@ export async function getAllCategoriesWithQuestions(locale = 'lt', audience = 'r
     limit: 100,
   });
 
-  const sections = await Promise.all(
+  const allSections = await Promise.all(
     categories.docs.map(async (cat) => {
       const questions = await payload.find({
         collection: 'questions',
@@ -35,6 +35,13 @@ export async function getAllCategoriesWithQuestions(locale = 'lt', audience = 'r
       };
     })
   );
+
+  // Filter out empty sections and intimate sections for kids
+  const sections = allSections.filter((s) => {
+    if (s.questions.length === 0) return false;
+    if (audience === 'kids' && s.type === 'intimate') return false;
+    return true;
+  });
 
   return sections;
 }

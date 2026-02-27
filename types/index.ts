@@ -32,6 +32,7 @@ export interface AppState {
   spicyCardsEnabled?: boolean;
   spicyCardsRarity?: string;
   spicyCardTypes?: string[];
+  audience?: string | null;
 }
 
 export interface QuestionContextType {
@@ -43,6 +44,8 @@ export interface QuestionContextType {
   currentSpicyCard: any | null;
   availableQuestionsCount: number;
   superlikedQuestions: Question[];
+  audience: string | null;
+  setAudience: (slug: string) => void;
   skipQuestion: () => void;
   answerQuestion: () => void;
   superlikeQuestion: () => void;

@@ -197,7 +197,178 @@ async function seed() {
   }
   console.log(`Spicy cards: ${spicyCreated} created, ${spicySkipped} skipped (already exist)`);
 
-  console.log('Seed complete!');
+  // 5. Seed Audiences collection
+  const AUDIENCE_DEFS = [
+    { slug: 'romantic', name: 'Poroms', description: 'Klausimai, kurie padės geriau pažinti savo antrąją pusę', icon: '💜', color: '#9B59B6', sortOrder: 1 },
+    { slug: 'family', name: 'Šeimai', description: 'Šilti klausimai visai šeimai — nuo senelių iki vaikų', icon: '🏠', color: '#3498DB', sortOrder: 2 },
+    { slug: 'friends', name: 'Draugams', description: 'Klausimai draugų vakarams ir kompanijoms', icon: '🎉', color: '#E67E22', sortOrder: 3 },
+    { slug: 'kids', name: 'Vaikams', description: 'Linksmi ir saugūs klausimai mažiesiems', icon: '🌈', color: '#2ECC71', sortOrder: 4 },
+  ];
+
+  console.log('\n--- Seeding Audiences ---');
+  for (const aud of AUDIENCE_DEFS) {
+    const existing = await payload.find({
+      collection: 'audiences',
+      where: { slug: { equals: aud.slug } },
+      limit: 1,
+    });
+
+    if (existing.docs.length > 0) {
+      console.log(`Audience already exists: ${aud.slug}`);
+    } else {
+      await payload.create({
+        collection: 'audiences',
+        data: { ...aud, isActive: true },
+      });
+      console.log(`Audience created: ${aud.slug}`);
+    }
+  }
+
+  // 6. Seed new audience questions from JSON files
+  const AUDIENCE_DATA_FILES: { audience: string; file: string }[] = [
+    { audience: 'family', file: 'family-questions.json' },
+    { audience: 'kids', file: 'kids-questions.json' },
+    { audience: 'friends', file: 'friends-questions.json' },
+  ];
+
+  for (const { audience, file } of AUDIENCE_DATA_FILES) {
+    console.log(`\n--- Seeding ${audience} questions ---`);
+    const filePath = path.resolve(__dirname, 'data', file);
+    const rawJson = fs.readFileSync(filePath, 'utf-8');
+    const audienceData = JSON.parse(rawJson);
+
+    // Track max sortOrder for new categories
+    const existingCats = await payload.find({
+      collection: 'categories',
+      sort: '-sortOrder',
+      limit: 1,
+    });
+    let nextSortOrder = (existingCats.docs[0]?.sortOrder || 0) + 1;
+
+    for (const section of audienceData.sections) {
+      // Find or create category
+      const existingCat = await payload.find({
+        collection: 'categories',
+        where: { name: { equals: section.name } },
+        limit: 1,
+      });
+
+      let catId: number;
+      if (existingCat.docs.length > 0) {
+        catId = existingCat.docs[0].id;
+        console.log(`  Category already exists: ${section.name}`);
+      } else {
+        const cat = await payload.create({
+          collection: 'categories',
+          data: {
+            name: section.name,
+            type: section.type || 'safe',
+            sortOrder: nextSortOrder++,
+            locale: 'lt',
+          },
+        });
+        catId = cat.id;
+        console.log(`  Category created: ${section.name}`);
+      }
+
+      // Create questions (idempotent by question text + audience + category)
+      let createdQ = 0;
+      let skippedQ = 0;
+
+      for (const q of section.questions) {
+        const existing = await payload.find({
+          collection: 'questions',
+          where: {
+            question: { equals: q.question },
+            audience: { equals: audience },
+            category: { equals: catId },
+          },
+          limit: 1,
+        });
+
+        if (existing.docs.length > 0) {
+          skippedQ++;
+          continue;
+        }
+
+        try {
+          await payload.create({
+            collection: 'questions',
+            data: {
+              question: q.question,
+              category: catId,
+              locale: 'lt',
+              audience: audience as 'romantic' | 'family' | 'kids' | 'friends',
+              status: 'published',
+            },
+          });
+          createdQ++;
+        } catch (e: any) {
+          console.error(`  Error creating ${audience} question: ${e.message}`);
+        }
+      }
+      console.log(`    Questions: ${createdQ} created, ${skippedQ} skipped`);
+    }
+  }
+
+  // 7. Seed new audience spicy cards from JSON files
+  const SPICY_DATA_FILES: { audience: string; file: string }[] = [
+    { audience: 'family', file: 'family-spicy-cards.json' },
+    { audience: 'kids', file: 'kids-spicy-cards.json' },
+    { audience: 'friends', file: 'friends-spicy-cards.json' },
+  ];
+
+  for (const { audience, file } of SPICY_DATA_FILES) {
+    console.log(`\n--- Seeding ${audience} spicy cards ---`);
+    const filePath = path.resolve(__dirname, 'data', file);
+    const rawJson = fs.readFileSync(filePath, 'utf-8');
+    const cards: { type: string; title: string; description: string }[] = JSON.parse(rawJson);
+
+    let createdSC = 0;
+    let skippedSC = 0;
+
+    for (const card of cards) {
+      const typeId = typeIdMap.get(card.type);
+      if (!typeId) {
+        console.error(`  Unknown card type: ${card.type}`);
+        continue;
+      }
+
+      const existing = await payload.find({
+        collection: 'spicy-cards',
+        where: {
+          title: { equals: card.title },
+          audience: { equals: audience },
+        },
+        limit: 1,
+      });
+
+      if (existing.docs.length > 0) {
+        skippedSC++;
+        continue;
+      }
+
+      try {
+        await payload.create({
+          collection: 'spicy-cards',
+          data: {
+            title: card.title,
+            description: card.description,
+            cardType: typeId,
+            locale: 'lt',
+            audience: audience as 'romantic' | 'family' | 'kids' | 'friends',
+            status: 'published',
+          },
+        });
+        createdSC++;
+      } catch (e: any) {
+        console.error(`  Error creating ${audience} spicy card: ${e.message}`);
+      }
+    }
+    console.log(`  Spicy cards: ${createdSC} created, ${skippedSC} skipped`);
+  }
+
+  console.log('\nSeed complete!');
   process.exit(0);
 }
 
