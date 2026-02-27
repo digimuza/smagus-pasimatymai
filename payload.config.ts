@@ -5,7 +5,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import { Categories } from './collections/Categories';
+import { GameSessions } from './collections/GameSessions';
 import { Questions } from './collections/Questions';
+import { QuestionEvents } from './collections/QuestionEvents';
 import { SpicyCardTypes } from './collections/SpicyCardTypes';
 import { SpicyCards } from './collections/SpicyCards';
 import { Users } from './collections/Users';
@@ -15,7 +17,7 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   editor: lexicalEditor(),
-  collections: [Users, Categories, Questions, SpicyCardTypes, SpicyCards],
+  collections: [Users, Categories, Questions, SpicyCardTypes, SpicyCards, GameSessions, QuestionEvents],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -31,6 +33,7 @@ export default buildConfig({
     },
     components: {
       beforeDashboard: ['./components/admin/DashboardStats'],
+      afterDashboard: ['./components/admin/StatisticsDashboard'],
     },
   },
 });

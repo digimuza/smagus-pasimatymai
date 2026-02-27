@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import {
   Question,
   QuestionState,
@@ -9,12 +9,14 @@ import {
   QuestionData,
 } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useSessionTracking } from '@/hooks/useSessionTracking';
 import { STORAGE_KEY } from '@/lib/constants';
 import {
   getNextQuestion,
   getSuperlikedQuestions,
   getAvailableQuestionsCount,
 } from '@/lib/questionEngine';
+import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_SPICY_SETTINGS, SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
 import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyCards';
 
@@ -36,6 +38,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   });
 
   const [currentSpicyCard, setCurrentSpicyCard] = useState<SpicyCard | null>(null);
+  const questionViewedAt = useRef<number>(Date.now());
+
+  // Initialize session tracking
+  useSessionTracking({ locale: 'lt', audience: 'romantic' });
 
   // Load question data from API
   useEffect(() => {
@@ -152,6 +158,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           currentQuestionId: null,
         }));
+        questionViewedAt.current = Date.now();
         return;
       }
     }
@@ -167,6 +174,11 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
       ...prev,
       currentQuestionId: nextQuestion?.id || null,
     }));
+
+    if (nextQuestion) {
+      trackEvent('viewed', nextQuestion.id);
+      questionViewedAt.current = Date.now();
+    }
   }, [questionData, state.activeCategories, state.questionStates, setState, shouldShowSpicyCard, getRandomSpicyCard]);
 
   // Load initial question
@@ -212,16 +224,22 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   // Actions
   const skipQuestion = useCallback(() => {
     if (!currentQuestion) return;
+    const timeSpent = Date.now() - questionViewedAt.current;
+    trackEvent('skipped', currentQuestion.id, timeSpent);
     updateQuestionState(currentQuestion.id, 'skipped');
   }, [currentQuestion, updateQuestionState]);
 
   const answerQuestion = useCallback(() => {
     if (!currentQuestion) return;
+    const timeSpent = Date.now() - questionViewedAt.current;
+    trackEvent('answered', currentQuestion.id, timeSpent);
     updateQuestionState(currentQuestion.id, 'answered');
   }, [currentQuestion, updateQuestionState]);
 
   const superlikeQuestion = useCallback(() => {
     if (!currentQuestion) return;
+    const timeSpent = Date.now() - questionViewedAt.current;
+    trackEvent('superliked', currentQuestion.id, timeSpent);
     updateQuestionState(currentQuestion.id, 'superliked');
   }, [currentQuestion, updateQuestionState]);
 
@@ -259,9 +277,12 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   );
 
   const dismissSpicyCard = useCallback(() => {
+    if (currentSpicyCard) {
+      trackEvent('spicy_dismissed', currentSpicyCard.id);
+    }
     setCurrentSpicyCard(null);
     setTimeout(loadNextQuestion, 0);
-  }, [loadNextQuestion]);
+  }, [currentSpicyCard, loadNextQuestion]);
 
   const toggleSpicyCards = useCallback(
     (enabled: boolean) => {

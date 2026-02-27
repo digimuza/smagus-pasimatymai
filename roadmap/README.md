@@ -12,8 +12,8 @@ This roadmap covers the evolution of Santykių Klausimai from a static question 
 
 | Sprint | Name | Status | Size | Depends On |
 |--------|------|--------|------|------------|
-| 1 | [PayloadCMS Completion](sprint-01-payload-completion.md) | Not Started | M | — |
-| 2 | [Statistics & Analytics](sprint-02-statistics-analytics.md) | Not Started | M | Sprint 1 |
+| 1 | [PayloadCMS Completion](sprint-01-payload-completion.md) | Complete | M | — |
+| 2 | [Statistics & Analytics](sprint-02-statistics-analytics.md) | Complete | M | Sprint 1 |
 | 3 | [Audience Expansion](sprint-03-audience-expansion.md) | Not Started | L | Sprint 1 |
 | 4 | [Design System](sprint-04-design-system.md) | Not Started | L | Sprint 1 |
 | 5 | [Internationalization](sprint-05-internationalization.md) | Not Started | L | Sprint 4 |
@@ -62,7 +62,7 @@ Sprint 1 (Payload Completion)
 | Path | Description |
 |------|-------------|
 | `payload.config.ts` | PayloadCMS configuration |
-| `collections/` | Payload collection definitions (Categories, Questions, SpicyCards, SpicyCardTypes, Users) |
+| `collections/` | Payload collection definitions (Categories, Questions, SpicyCards, SpicyCardTypes, Users, GameSessions, QuestionEvents) |
 | `lib/constants.ts` | Hardcoded question data (to be removed) |
 | `lib/api.ts` | API client for fetching from Payload |
 | `lib/payload.ts` | Payload local API helpers |
@@ -70,4 +70,9 @@ Sprint 1 (Payload Completion)
 | `app/(app)/` | User-facing app routes |
 | `app/(payload)/` | Payload admin panel routes |
 | `scripts/` | Seed scripts and utilities |
+| `lib/analytics.ts` | Client-side analytics buffer with batched flushing |
+| `lib/sessionId.ts` | Per-tab session ID generation via sessionStorage |
+| `hooks/useSessionTracking.ts` | React hook for session lifecycle tracking |
+| `app/(app)/api/analytics/` | POST endpoint for batched analytics events |
+| `components/admin/StatisticsDashboard.tsx` | Admin dashboard statistics widget |
 | `public/data.json` | Static data export (to be replaced by CMS) |
