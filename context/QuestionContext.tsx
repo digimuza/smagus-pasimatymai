@@ -432,6 +432,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     spicyCardsEnabled: state.spicyCardsEnabled || false,
     spicyCardsRarity: state.spicyCardsRarity || DEFAULT_SPICY_SETTINGS.rarity,
     enabledSpicyCardTypes: (state.spicyCardTypes || DEFAULT_SPICY_SETTINGS.enabledTypes) as string[],
+    updateQuestionState,
     toggleSpicyCards,
     updateSpicyCardsRarity,
     toggleSpicyCardType,

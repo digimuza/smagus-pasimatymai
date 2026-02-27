@@ -10,6 +10,12 @@ export interface PlayerSubscription {
   trialEnd?: string;
 }
 
+export interface PlayerStreak {
+  currentStreak: number;
+  longestStreak: number;
+  lastPlayedDate: string | null;
+}
+
 export interface Player {
   id: number;
   email: string;
@@ -29,6 +35,7 @@ export interface Player {
 interface AuthContextType {
   player: Player | null;
   subscription: PlayerSubscription | null;
+  streak: PlayerStreak;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
@@ -37,6 +44,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   refreshPlayer: () => Promise<void>;
   updatePlayer: (data: Partial<Player>) => Promise<void>;
+  updateStreak: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,6 +52,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [player, setPlayer] = useState<Player | null>(null);
   const [subscription, setSubscription] = useState<PlayerSubscription | null>(null);
+  const [streak, setStreak] = useState<PlayerStreak>({ currentStreak: 0, longestStreak: 0, lastPlayedDate: null });
   const [isLoading, setIsLoading] = useState(true);
 
   // Check current session on mount
@@ -167,6 +176,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setPlayer(null);
     setSubscription(null);
+    setStreak({ currentStreak: 0, longestStreak: 0, lastPlayedDate: null });
+  }, []);
+
+  const updateStreak = useCallback(async () => {
+    try {
+      const res = await fetch('/api/streak', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setStreak(data);
+      }
+    } catch {
+      // ignore
+    }
   }, []);
 
   const updatePlayer = useCallback(async (data: Partial<Player>) => {
@@ -192,6 +217,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         player,
         subscription,
+        streak,
         isAuthenticated: !!player,
         isLoading,
         login,
@@ -200,6 +226,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         logout,
         refreshPlayer,
         updatePlayer,
+        updateStreak,
       }}
     >
       {children}

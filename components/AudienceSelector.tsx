@@ -11,6 +11,7 @@ import { canAccessAudience } from '@/lib/subscription';
 import { fadeInUp, pressAnimation, staggerDelay } from '@/lib/animations';
 import { PageLayout } from '@/components/ui';
 import { Paywall } from '@/components/payments/Paywall';
+import { DailyQuestion } from '@/components/DailyQuestion';
 
 export function AudienceSelector() {
   const router = useRouter();
@@ -82,6 +83,11 @@ export function AudienceSelector() {
             );
           })}
         </div>
+
+        {/* Daily question */}
+        <motion.div {...fadeInUp} transition={{ delay: 0.8 }} className="w-full max-w-md mt-8">
+          <DailyQuestion audience="romantic" />
+        </motion.div>
       </main>
 
       <Paywall isOpen={showPaywall} onClose={() => setShowPaywall(false)} trigger="audience_locked" />

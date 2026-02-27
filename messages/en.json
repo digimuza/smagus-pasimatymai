@@ -157,6 +157,7 @@
     "viewCategories": "Categories",
     "spicyCards": "Spicy Cards",
     "changeMode": "Change mode",
+    "submitQuestion": "Suggest a question",
     "reset": "Start over"
   },
   "awesome": {
@@ -164,7 +165,27 @@
     "empty": "All questions done!",
     "emptyDescription": "You don't have any super questions. Go back and mark your favorites!",
     "goBack": "Go back",
-    "reset": "Start over"
+    "reset": "Start over",
+    "search": "Search questions...",
+    "viewCards": "Cards",
+    "viewList": "List",
+    "share": "Share",
+    "unfavorite": "Remove"
+  },
+  "daily": {
+    "label": "Question of the day",
+    "share": "Share",
+    "shareTag": "Relationship Questions — Question of the day"
+  },
+  "submit": {
+    "title": "Suggest a question",
+    "subtitle": "Your question will be reviewed before publishing",
+    "placeholder": "Write a question...",
+    "minChars": "Min. 10 characters",
+    "submitButton": "Submit",
+    "submitting": "Submitting...",
+    "success": "Question submitted!",
+    "successNote": "We'll review and add it to the game"
   },
   "auth": {
     "loginTitle": "Sign in",
