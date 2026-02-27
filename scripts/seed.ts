@@ -1,3 +1,6 @@
+// Load env vars before any payload imports (workaround for @next/env + tsx incompatibility)
+import './load-env';
+
 import { getPayload } from 'payload';
 import config from '../payload.config';
 import * as fs from 'fs';
@@ -28,19 +31,25 @@ async function seed() {
   console.log('Starting seed...');
 
   // 1. Create admin user
-  try {
-    await payload.create({
-      collection: 'users',
-      data: {
-        email: 'admin@santykiuklausimai.lt',
-        password: 'changeme123',
-      },
-    });
-    console.log('Admin user created');
-  } catch (e: any) {
-    if (e.message?.includes('unique') || e.message?.includes('duplicate')) {
-      console.log('Admin user already exists, skipping');
-    } else {
+  const existingUsers = await payload.find({
+    collection: 'users',
+    where: { email: { equals: 'admin@santykiuklausimai.lt' } },
+    limit: 1,
+  });
+
+  if (existingUsers.docs.length > 0) {
+    console.log('Admin user already exists, skipping');
+  } else {
+    try {
+      await payload.create({
+        collection: 'users',
+        data: {
+          email: 'admin@santykiuklausimai.lt',
+          password: 'changeme123',
+        },
+      });
+      console.log('Admin user created');
+    } catch (e: any) {
       console.error('Error creating admin user:', e.message);
     }
   }
@@ -56,7 +65,16 @@ async function seed() {
     const section = data.sections[i];
     const type = INTIMATE_CATEGORY_NAMES.includes(section.name) ? 'intimate' : 'safe';
 
-    try {
+    const existingCat = await payload.find({
+      collection: 'categories',
+      where: { name: { equals: section.name } },
+      limit: 1,
+    });
+
+    if (existingCat.docs.length > 0) {
+      categoryIdMap.set(section.name, existingCat.docs[0].id);
+      console.log(`Category already exists: ${section.name}`);
+    } else {
       const cat = await payload.create({
         collection: 'categories',
         data: {
@@ -68,20 +86,6 @@ async function seed() {
       });
       categoryIdMap.set(section.name, cat.id);
       console.log(`Category created: ${section.name} (${type})`);
-    } catch (e: any) {
-      if (e.message?.includes('unique') || e.message?.includes('duplicate')) {
-        const existing = await payload.find({
-          collection: 'categories',
-          where: { name: { equals: section.name } },
-          limit: 1,
-        });
-        if (existing.docs[0]) {
-          categoryIdMap.set(section.name, existing.docs[0].id);
-          console.log(`Category already exists: ${section.name}`);
-        }
-      } else {
-        throw e;
-      }
     }
 
     // Create questions for this category (idempotent by legacyId)
@@ -125,7 +129,16 @@ async function seed() {
   const typeIdMap = new Map<string, number>();
 
   for (const typeDef of SPICY_CARD_TYPE_DEFS) {
-    try {
+    const existingType = await payload.find({
+      collection: 'spicy-card-types',
+      where: { slug: { equals: typeDef.slug } },
+      limit: 1,
+    });
+
+    if (existingType.docs.length > 0) {
+      typeIdMap.set(typeDef.slug, existingType.docs[0].id);
+      console.log(`Spicy card type already exists: ${typeDef.slug}`);
+    } else {
       const created = await payload.create({
         collection: 'spicy-card-types',
         data: {
@@ -135,20 +148,6 @@ async function seed() {
       });
       typeIdMap.set(typeDef.slug, created.id);
       console.log(`Spicy card type created: ${typeDef.slug}`);
-    } catch (e: any) {
-      if (e.message?.includes('unique') || e.message?.includes('duplicate')) {
-        const existing = await payload.find({
-          collection: 'spicy-card-types',
-          where: { slug: { equals: typeDef.slug } },
-          limit: 1,
-        });
-        if (existing.docs[0]) {
-          typeIdMap.set(typeDef.slug, existing.docs[0].id);
-          console.log(`Spicy card type already exists: ${typeDef.slug}`);
-        }
-      } else {
-        throw e;
-      }
     }
   }
 
