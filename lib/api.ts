@@ -1,10 +1,11 @@
 import { getPayloadClient } from './payload';
 
-export async function getAllCategoriesWithQuestions() {
+export async function getAllCategoriesWithQuestions(locale = 'lt', audience = 'romantic') {
   const payload = await getPayloadClient();
 
   const categories = await payload.find({
     collection: 'categories',
+    where: { locale: { equals: locale } },
     sort: 'sortOrder',
     limit: 100,
   });
@@ -13,7 +14,12 @@ export async function getAllCategoriesWithQuestions() {
     categories.docs.map(async (cat) => {
       const questions = await payload.find({
         collection: 'questions',
-        where: { category: { equals: cat.id } },
+        where: {
+          category: { equals: cat.id },
+          locale: { equals: locale },
+          audience: { equals: audience },
+          status: { equals: 'published' },
+        },
         limit: 1000,
         sort: 'legacyId',
       });
@@ -33,11 +39,16 @@ export async function getAllCategoriesWithQuestions() {
   return sections;
 }
 
-export async function getAllSpicyCards() {
+export async function getAllSpicyCards(locale = 'lt', audience = 'romantic') {
   const payload = await getPayloadClient();
 
   const cards = await payload.find({
     collection: 'spicy-cards',
+    where: {
+      locale: { equals: locale },
+      audience: { equals: audience },
+      status: { equals: 'published' },
+    },
     limit: 1000,
     depth: 1,
   });

@@ -5,6 +5,12 @@ export const Categories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  access: {
+    read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => !!req.user,
+  },
   fields: [
     {
       name: 'name',
@@ -25,6 +31,16 @@ export const Categories: CollectionConfig = {
       name: 'sortOrder',
       type: 'number',
       required: true,
+    },
+    {
+      name: 'locale',
+      type: 'select',
+      required: true,
+      defaultValue: 'lt',
+      options: [
+        { label: 'Lietuvių', value: 'lt' },
+        { label: 'English', value: 'en' },
+      ],
     },
   ],
 };

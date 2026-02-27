@@ -63,6 +63,7 @@ async function seed() {
           name: section.name,
           type,
           sortOrder: i + 1,
+          locale: 'lt',
         },
       });
       categoryIdMap.set(section.name, cat.id);
@@ -83,9 +84,23 @@ async function seed() {
       }
     }
 
-    // Create questions for this category
+    // Create questions for this category (idempotent by legacyId)
     const catId = categoryIdMap.get(section.name)!;
+    let createdCount = 0;
+    let skippedCount = 0;
+
     for (const q of section.questions) {
+      const existing = await payload.find({
+        collection: 'questions',
+        where: { legacyId: { equals: q.id } },
+        limit: 1,
+      });
+
+      if (existing.docs.length > 0) {
+        skippedCount++;
+        continue;
+      }
+
       try {
         await payload.create({
           collection: 'questions',
@@ -93,23 +108,30 @@ async function seed() {
             question: q.question,
             category: catId,
             legacyId: q.id,
+            locale: 'lt',
+            audience: 'romantic',
+            status: 'published',
           },
         });
+        createdCount++;
       } catch (e: any) {
         console.error(`Error creating question ${q.id}: ${e.message}`);
       }
     }
-    console.log(`  Created ${section.questions.length} questions`);
+    console.log(`  Questions: ${createdCount} created, ${skippedCount} skipped (already exist)`);
   }
 
-  // 3. Create spicy card types
+  // 3. Create spicy card types (idempotent by slug unique constraint)
   const typeIdMap = new Map<string, number>();
 
   for (const typeDef of SPICY_CARD_TYPE_DEFS) {
     try {
       const created = await payload.create({
         collection: 'spicy-card-types',
-        data: typeDef,
+        data: {
+          ...typeDef,
+          locale: 'lt',
+        },
       });
       typeIdMap.set(typeDef.slug, created.id);
       console.log(`Spicy card type created: ${typeDef.slug}`);
@@ -130,15 +152,30 @@ async function seed() {
     }
   }
 
-  // 4. Import spicy cards from spicyCardsData
-  // We import the array data inline since it's a TS module
+  // 4. Import spicy cards (idempotent by title + cardType)
   const { SPICY_CARDS } = await import('../lib/spicyCardsData');
 
-  let spicyCount = 0;
+  let spicyCreated = 0;
+  let spicySkipped = 0;
+
   for (const card of SPICY_CARDS) {
     const typeId = typeIdMap.get(card.type);
     if (!typeId) {
       console.error(`Unknown card type: ${card.type}`);
+      continue;
+    }
+
+    const existing = await payload.find({
+      collection: 'spicy-cards',
+      where: {
+        title: { equals: card.title },
+        cardType: { equals: typeId },
+      },
+      limit: 1,
+    });
+
+    if (existing.docs.length > 0) {
+      spicySkipped++;
       continue;
     }
 
@@ -149,14 +186,17 @@ async function seed() {
           title: card.title,
           description: card.description,
           cardType: typeId,
+          locale: 'lt',
+          audience: 'romantic',
+          status: 'published',
         },
       });
-      spicyCount++;
+      spicyCreated++;
     } catch (e: any) {
       console.error(`Error creating spicy card ${card.id}: ${e.message}`);
     }
   }
-  console.log(`Created ${spicyCount} spicy cards`);
+  console.log(`Spicy cards: ${spicyCreated} created, ${spicySkipped} skipped (already exist)`);
 
   console.log('Seed complete!');
   process.exit(0);

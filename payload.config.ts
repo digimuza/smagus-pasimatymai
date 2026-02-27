@@ -29,5 +29,8 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      beforeDashboard: ['./components/admin/DashboardStats'],
+    },
   },
 });

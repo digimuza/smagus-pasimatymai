@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
 import { getAllCategoriesWithQuestions, getAllSpicyCards } from '@/lib/api';
 
+export const dynamic = 'force-dynamic';
 export const revalidate = 300; // 5 minutes ISR cache
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const locale = searchParams.get('locale') || 'lt';
+    const audience = searchParams.get('audience') || 'romantic';
+
     const [sections, spicyCards] = await Promise.all([
-      getAllCategoriesWithQuestions(),
-      getAllSpicyCards(),
+      getAllCategoriesWithQuestions(locale, audience),
+      getAllSpicyCards(locale, audience),
     ]);
 
     const totalQuestions = sections.reduce(
