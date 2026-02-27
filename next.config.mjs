@@ -1,5 +1,8 @@
 import withPayload from '@payloadcms/next/withPayload';
+import createNextIntlPlugin from 'next-intl/plugin';
 import withPWAInit from '@ducanh2912/next-pwa';
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
 const withPWA = withPWAInit({
   dest: 'public',
@@ -26,4 +29,4 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-export default withPayload(withPWA(nextConfig));
+export default withPayload(withNextIntl(withPWA(nextConfig)));

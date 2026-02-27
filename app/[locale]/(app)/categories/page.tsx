@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { useQuestions } from '@/context/QuestionContext';
 import { staggerContainer, staggerItem } from '@/lib/animations';
@@ -8,6 +9,8 @@ import { PageLayout, PageContent, Header, Counter, Checkbox, Button } from '@/co
 
 export default function CategoriesPage() {
   const router = useRouter();
+  const t = useTranslations('categories');
+  const tc = useTranslations('common');
   const { sections, toggleCategory, isCategoryActive, activeCategories, audience } = useQuestions();
 
   const safeCategories = sections.filter((s) => s.type === 'safe');
@@ -15,18 +18,18 @@ export default function CategoriesPage() {
 
   return (
     <PageLayout>
-      <Header title="Kategorijos" showBack />
+      <Header title={t('title')} showBack />
 
       <PageContent>
         <Counter
           current={activeCategories.length}
           total={sections.length}
-          label="Pasirinkta kategorijų"
+          label={t('selectedCount')}
         />
 
         {/* Safe Categories */}
         <div>
-          <h2 className="text-lg font-light text-primary mb-4">Pagrindinės kategorijos</h2>
+          <h2 className="text-lg font-light text-primary mb-4">{t('main')}</h2>
           <motion.div
             className="space-y-3"
             variants={staggerContainer}
@@ -57,7 +60,7 @@ export default function CategoriesPage() {
                     />
                     <div className="text-right">
                       <p className="text-2xl font-light text-primary">{section.questions.length}</p>
-                      <p className="text-xs text-text-muted">klausimų</p>
+                      <p className="text-xs text-text-muted">{tc('questions')}</p>
                     </div>
                   </button>
                 </motion.div>
@@ -69,8 +72,8 @@ export default function CategoriesPage() {
         {/* Intimate Categories — hidden for kids */}
         {audience !== 'kids' && intimateSections.length > 0 && (
           <div>
-            <h2 className="text-lg font-light text-accent mb-2">Intymios kategorijos</h2>
-            <p className="text-sm text-text-muted mb-4">Šios kategorijos išjungtos pagal nutylėjimą</p>
+            <h2 className="text-lg font-light text-accent mb-2">{t('intimate')}</h2>
+            <p className="text-sm text-text-muted mb-4">{t('intimateNote')}</p>
             <motion.div
               className="space-y-3"
               variants={staggerContainer}
@@ -102,7 +105,7 @@ export default function CategoriesPage() {
                       />
                       <div className="text-right">
                         <p className="text-2xl font-light text-accent">{section.questions.length}</p>
-                        <p className="text-xs text-text-muted">klausimų</p>
+                        <p className="text-xs text-text-muted">{tc('questions')}</p>
                       </div>
                     </button>
                   </motion.div>
@@ -118,13 +121,13 @@ export default function CategoriesPage() {
             animate={{ opacity: 1, scale: 1 }}
             className="bg-accent/10 border border-accent/30 rounded-xl p-4 text-center"
           >
-            <p className="text-sm text-text-muted">Bent viena kategorija turi būti pasirinkta</p>
+            <p className="text-sm text-text-muted">{t('minWarning')}</p>
           </motion.div>
         )}
 
         <div className="pt-4 pb-8">
           <Button variant="primary" size="lg" fullWidth onClick={() => router.push('/game')}>
-            Pradėti žaidimą
+            {t('startGame')}
           </Button>
         </div>
       </PageContent>

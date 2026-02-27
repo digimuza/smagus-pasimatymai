@@ -25,6 +25,23 @@ export const colors = {
   success: '#34d399',
   warning: '#fbbf24',
   info: '#60a5fa',
+  mode: {
+    couples: {
+      DEFAULT: '#9B59B6',
+      light: '#BB8FCE',
+      dark: '#7D3C98',
+    },
+    family: {
+      DEFAULT: '#3498DB',
+      light: '#7FB3D8',
+      dark: '#2471A3',
+    },
+    friends: {
+      DEFAULT: '#E67E22',
+      light: '#F0B27A',
+      dark: '#CA6F1E',
+    },
+  },
 } as const;
 
 export const spacing = {

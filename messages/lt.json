@@ -1,0 +1,144 @@
+{
+  "common": {
+    "appName": "Santykių Klausimai",
+    "loading": "Kraunama...",
+    "back": "Grįžti",
+    "close": "Uždaryti",
+    "openMenu": "Atidaryti meniu",
+    "next": "Kitas",
+    "previous": "Ankstesnis",
+    "confirm": "Ar tikrai norite iš naujo pradėti? Prarasite visą progresą.",
+    "questions": "klausimų",
+    "languageSwitcher": {
+      "label": "Kalba"
+    }
+  },
+  "metadata": {
+    "title": "Santykių Klausimai — Pokalbių žaidimas poroms, šeimai ir draugams",
+    "description": "500+ gilių klausimų, kurie privers juoktis, raudonuoti ir pamilti iš naujo. Žaiskite poroms, šeimai ar draugams. Nemokama, be registracijos."
+  },
+  "landing": {
+    "nav": {
+      "logo": "Santykių Klausimai"
+    },
+    "heroTitle1": "Pažink savo",
+    "heroHighlight": "mylimiausią",
+    "heroTitle2": "žmogų iš naujo",
+    "heroDescription": "500+ klausimų, kurie privers juoktis, raudonuoti ir pamilti vienam kitą dar kartą. Nes \u201Ekaip sekėsi\u201C nėra tikras pokalbis. 😏",
+    "cta": "Pradėti žaidimą 💜",
+    "noCta": "Nereikia registracijos. Tiesiog žaiskite.",
+    "swipeLeft": "← praleisti",
+    "swipeRight": "atsakyti →",
+    "sampleQuestions": [
+      "Koks buvo pirmasis įspūdis, kai mane pamatei?",
+      "Jei galėtume nukeliauti bet kur pasaulyje, kur norėtum vykti su manimi?",
+      "Kas manyje tave labiausiai prajuokina?",
+      "Koks buvo tavo gražiausias sapnas apie mudu?",
+      "Jei mūsų meilė būtų daina, kokia ji būtų?"
+    ],
+    "modes": {
+      "title": "Trys būdai žaisti",
+      "couples": {
+        "name": "Poroms",
+        "description": "Gilūs klausimai, kurie padės iš naujo pažinti savo partnerį. Nuo švelnių iki aštrių.",
+        "cta": "Žaisti poroms"
+      },
+      "family": {
+        "name": "Šeimai",
+        "description": "Klausimai, kurie suartins šeimos narius. Idealūs vakarienei ar kelionei automobiliu.",
+        "cta": "Žaisti šeimai"
+      },
+      "friends": {
+        "name": "Draugams",
+        "description": "Sužinok tai, ko niekada neklausei. Tobula vakarėliams ir susitikimams.",
+        "cta": "Žaisti draugams"
+      }
+    },
+    "howItWorks": {
+      "title": "Kaip tai veikia?",
+      "step1": {
+        "title": "Pasirink režimą",
+        "description": "Poroms, šeimai ar draugams — kiekvienas ras sau tinkamą."
+      },
+      "step2": {
+        "title": "Braukyk korteles",
+        "description": "Atsakyk arba praleisk — tu renkiesi tempą."
+      },
+      "step3": {
+        "title": "Mėgaukis pokalbiu",
+        "description": "Tikri pokalbiai, kurie suartina. Be telefonų, be dingsčių."
+      }
+    },
+    "features": {
+      "questions": { "count": "500+", "label": "klausimų" },
+      "spicy": { "count": "Spicy", "label": "iššūkiai" },
+      "categories": { "count": "13", "label": "kategorijų" }
+    },
+    "testimonial": "\u201EGeresnis už Tinder \u2014 čia tikrai kalbatės.\u201C",
+    "testimonialAuthor": "— Kiekviena pora, kuri nebijojo atsakyti",
+    "bottomCta": {
+      "title": "Pasiruošę?",
+      "subtitle": "Pradėkite pokalbį, kuris iš tikrųjų svarbus.",
+      "cta": "Pradėti žaidimą 💜",
+      "noCta": "Nereikia registracijos. Tiesiog žaiskite."
+    },
+    "footer": "Sukurta su 💜 tiems, kurie nori daugiau nei \u201Egerai\u201C"
+  },
+  "audience": {
+    "title": "Pasirinkite režimą",
+    "subtitle": "Kam šiandien žaidžiate?",
+    "romantic": { "name": "Poroms", "description": "Klausimai, kurie padės geriau pažinti savo antrąją pusę" },
+    "family": { "name": "Šeimai", "description": "Šilti klausimai visai šeimai — nuo senelių iki vaikų" },
+    "friends": { "name": "Draugams", "description": "Klausimai draugų vakarams ir kompanijoms" },
+    "kids": { "name": "Vaikams", "description": "Linksmi ir saugūs klausimai mažiesiems" }
+  },
+  "game": {
+    "skip": "Praleisti",
+    "super": "Super",
+    "answered": "Atsakyta",
+    "remaining": "Liko klausimų: {count}",
+    "swipeSkip": "PRALEISTI",
+    "swipeAnswered": "ATSAKYTA",
+    "swipeSuper": "⭐ SUPER",
+    "swipeDone": "ATLIKTA ✓",
+    "swipeAny": "Braukite bet kuria kryptimi",
+    "spicyBadge": "🎲 Spicy Card",
+    "deepQuestions": "{count} gilių klausimų"
+  },
+  "categories": {
+    "title": "Kategorijos",
+    "selectedCount": "Pasirinkta kategorijų",
+    "main": "Pagrindinės kategorijos",
+    "intimate": "Intymios kategorijos",
+    "intimateNote": "Šios kategorijos išjungtos pagal nutylėjimą",
+    "minWarning": "Bent viena kategorija turi būti pasirinkta",
+    "startGame": "Pradėti žaidimą"
+  },
+  "settings": {
+    "title": "Pikantiškos kortelės",
+    "spicyToggleLabel": "🎲 Spicy Cards",
+    "spicyToggleDescription": "Įtraukti užduočių korteles tarp klausimų",
+    "rarityLabel": "Kaip dažnai rodys?",
+    "rarityNote": "Spicy cards pasirodo atsitiktinai su pasirinkta tikimybe",
+    "cardTypes": "Kortelių tipai",
+    "minTypeWarning": "Bent vienas kortelės tipas turi būti pasirinktas",
+    "info": "<strong>Spicy Cards</strong> - tai įdomios užduotys ir iššūkiai, kurie pasirodys tarp klausimų, kad žaidimas būtų įdomesnis ir dinamiškesnis!",
+    "backToGame": "Grįžti į žaidimą"
+  },
+  "sidebar": {
+    "title": "Kategorijos",
+    "remaining": "Liko klausimų",
+    "activeCategories": "Aktyvios kategorijos",
+    "viewCategories": "Kategorijos",
+    "spicyCards": "Pikantiškos kortelės",
+    "changeMode": "Pakeisti režimą",
+    "reset": "Iš naujo pradėti"
+  },
+  "awesome": {
+    "title": "⭐ Super Klausimai",
+    "empty": "Pasibaigė visi klausimai!",
+    "emptyDescription": "Neturite nei vieno super klausimo. Grįžkite ir pažymėkite mėgstamiausius!",
+    "goBack": "Grįžti atgal",
+    "reset": "Iš naujo pradėti"
+  }
+}
