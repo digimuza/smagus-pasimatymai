@@ -16,7 +16,7 @@ This roadmap covers the evolution of Santykių Klausimai from a static question 
 | 2 | [Statistics & Analytics](sprint-02-statistics-analytics.md) | Complete | M | Sprint 1 |
 | 3 | [Audience Expansion](sprint-03-audience-expansion.md) | Complete | L | Sprint 1 |
 | 4 | [Design System](sprint-04-design-system.md) | Complete | L | Sprint 1 |
-| 5 | [Internationalization](sprint-05-internationalization.md) | Not Started | L | Sprint 4 |
+| 5 | [Internationalization](sprint-05-internationalization.md) | Complete | L | Sprint 4 |
 | 6 | [Landing Page](sprint-06-landing-page.md) | Not Started | M | Sprint 5 |
 | 7 | [User Accounts](sprint-07-user-accounts.md) | Not Started | L | Sprint 1 |
 | 8 | [Stripe Payments](sprint-08-stripe-payments.md) | Not Started | L | Sprint 7 |
@@ -67,7 +67,7 @@ Sprint 1 (Payload Completion)
 | `lib/api.ts` | API client for fetching from Payload |
 | `lib/payload.ts` | Payload local API helpers |
 | `context/QuestionContext.tsx` | React context for question state management |
-| `app/(app)/` | User-facing app routes |
+| `app/[locale]/(app)/` | User-facing app routes (locale-aware) |
 | `app/(payload)/` | Payload admin panel routes |
 | `scripts/` | Seed scripts and utilities |
 | `lib/analytics.ts` | Client-side analytics buffer with batched flushing |

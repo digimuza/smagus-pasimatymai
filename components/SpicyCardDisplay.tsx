@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { SpicyCard } from '@/types/spicyCards';
 import { SWIPE_THRESHOLD } from '@/lib/constants';
 import { spicyCardFlip, fadeInUp } from '@/lib/animations';
@@ -13,6 +14,7 @@ interface SpicyCardDisplayProps {
 }
 
 export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
+  const t = useTranslations('game');
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const [exitX, setExitX] = useState(0);
@@ -87,11 +89,11 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
         </motion.p>
 
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}>
-          <Badge className="bg-white/20 text-white/90 backdrop-blur-sm">🎲 Spicy Card</Badge>
+          <Badge className="bg-white/20 text-white/90 backdrop-blur-sm">{t('spicyBadge')}</Badge>
         </motion.div>
 
         <motion.p className="text-sm text-white/70 mt-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
-          Braukite bet kuria kryptimi
+          {t('swipeAny')}
         </motion.p>
       </div>
 
@@ -99,7 +101,7 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
         className="absolute top-8 left-1/2 -translate-x-1/2 text-white font-bold text-xl opacity-0 pointer-events-none"
         style={{ opacity: useTransform(x, [-150, -50, 0, 50, 150], [1, 0, 0, 0, 1]) }}
       >
-        ATLIKTA ✓
+        {t('swipeDone')}
       </motion.div>
     </motion.div>
   );

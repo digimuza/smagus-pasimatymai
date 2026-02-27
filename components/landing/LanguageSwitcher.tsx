@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { locales, localeFlags, type Locale } from '@/i18n/config';
 
 export function LanguageSwitcher() {
@@ -11,20 +11,7 @@ export function LanguageSwitcher() {
 
   function switchLocale(newLocale: Locale) {
     if (newLocale === locale) return;
-
-    // Remove current locale prefix from pathname
-    const segments = pathname.split('/');
-    const hasLocalePrefix = locales.includes(segments[1] as Locale);
-    const pathWithoutLocale = hasLocalePrefix
-      ? '/' + segments.slice(2).join('/')
-      : pathname;
-
-    // Build new path
-    const newPath = newLocale === 'lt'
-      ? pathWithoutLocale || '/'
-      : `/${newLocale}${pathWithoutLocale}`;
-
-    router.push(newPath);
+    router.replace(pathname, { locale: newLocale });
   }
 
   return (

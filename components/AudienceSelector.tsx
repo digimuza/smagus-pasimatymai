@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { useQuestions } from '@/context/QuestionContext';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
 import { fadeInUp, pressAnimation, staggerDelay } from '@/lib/animations';
@@ -9,6 +10,7 @@ import { PageLayout } from '@/components/ui';
 
 export function AudienceSelector() {
   const router = useRouter();
+  const t = useTranslations();
   const { setAudience } = useQuestions();
 
   const handleSelect = (slug: string) => {
@@ -31,15 +33,15 @@ export function AudienceSelector() {
       >
         <div className="flex items-center gap-3">
           <span className="text-3xl">💜</span>
-          <span className="text-xl font-light text-text-muted tracking-wide">Santykių Klausimai</span>
+          <span className="text-xl font-light text-text-muted tracking-wide">{t('common.appName')}</span>
         </div>
       </motion.header>
 
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 pb-12 relative z-10">
         <motion.div {...fadeInUp} transition={{ delay: 0.2 }} className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-text mb-3">Pasirinkite režimą</h1>
-          <p className="text-text-muted text-lg font-light">Kam šiandien žaidžiate?</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-text mb-3">{t('audience.title')}</h1>
+          <p className="text-text-muted text-lg font-light">{t('audience.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-4 w-full max-w-md">
@@ -55,9 +57,9 @@ export function AudienceSelector() {
               style={{ boxShadow: `0 4px 20px ${audience.color}15` }}
             >
               <span className="text-5xl">{audience.icon}</span>
-              <span className="text-text font-semibold text-lg">{audience.name}</span>
+              <span className="text-text font-semibold text-lg">{t(`audience.${audience.slug}.name`)}</span>
               <span className="text-text-muted text-sm font-light text-center leading-snug">
-                {audience.description}
+                {t(`audience.${audience.slug}.description`)}
               </span>
             </motion.button>
           ))}
