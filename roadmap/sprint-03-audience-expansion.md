@@ -6,42 +6,74 @@
 
 ## Goal
 
-Expand the game beyond romantic couples to serve families, kids, and friend groups. Each audience gets its own curated question set and audience-appropriate spicy cards. The UI should let users pick their audience at the start and filter all content accordingly.
+Expand the game beyond romantic couples to serve families, kids, and friend groups. Each audience gets its own curated question set and audience-appropriate spicy cards. The UI lets users pick their audience at the start and filters all content accordingly.
+
+## Design Decision
+
+Kept `audience` as a SELECT field on Questions and SpicyCards (no risky DB migration). Created an `Audiences` collection purely for UI metadata (name, icon, color, description). The audience slug values match the existing select options.
 
 ## Tasks
 
-- [x] **[M]** Create `Audiences` collection — New collection in `collections/Audiences.ts` with fields: `slug` (text, unique: `romantic`, `family`, `kids`, `friends`), `name` (text), `description` (textarea), `icon` (text, emoji or icon name), `color` (text, hex), `ageRestriction` (number, minimum age), `isActive` (checkbox, default true), `sortOrder` (number).
+- [x] **[M]** Create `Audiences` collection — `collections/Audiences.ts` with fields: slug (unique), name, description, icon, color, isActive, sortOrder. Public read, auth write. Registered in `payload.config.ts`. Added `Audience` interface to `payload-types.ts`.
 
-- [x] **[S]** Seed default audiences — Add to `scripts/seed.ts`: create the four audiences (romantic, family, kids, friends) with appropriate descriptions, icons, and colors.
+- [x] **[S]** Create audience type definitions — `types/audience.ts` with `AudienceSlug` type, `AudienceMetadata` interface, and `AUDIENCE_DEFAULTS` array (hardcoded fallback for client-side rendering of the 4 audiences).
 
-- [x] **[S]** Update Questions collection relationship — Change the `audience` field in `collections/Questions.ts` from a select to a relationship field pointing to the Audiences collection. Update seed script accordingly.
+- [x] **[S]** Seed default audiences — Added to `scripts/seed.ts`: creates 4 audience records (romantic, family, kids, friends) with Lithuanian names, descriptions, icons, and colors. Idempotent by slug.
 
-- [x] **[S]** Update SpicyCards collection relationship — Same change for `collections/SpicyCards.ts` — replace audience select with relationship to Audiences.
+- [x] **[M]** Wire audience into QuestionContext — Added `audience: string | null` to localStorage state. API fetch gated on `state.audience` being truthy. Passes `?audience=` to `/api/game-data`. `setAudience(slug)` clears questionStates/activeCategories/currentQuestionId. Fixed `useSessionTracking` to use dynamic audience.
 
-- [x] **[M]** Build audience selector UI — Create `components/AudienceSelector.tsx` as a full-screen or modal component shown before the game starts. Display audience cards with icon, name, description. Store selection in localStorage and QuestionContext.
+- [x] **[M]** Build audience selector page — `components/AudienceSelector.tsx` as full-screen grid of 4 audience cards with framer-motion animations. `app/(app)/audience/page.tsx` route. On tap: sets audience then navigates to `/game`.
 
-- [x] **[M]** Update QuestionContext for audience filtering — Modify `context/QuestionContext.tsx` to accept an `audienceSlug` parameter. Fetch only questions matching the selected audience. Reset question state when audience changes.
+- [x] **[M]** Game flow integration:
+  - `app/(app)/game/page.tsx` — redirects to `/audience` if no audience selected; shows audience icon in header.
+  - `app/(app)/page.tsx` — CTA href changed from `/game` to `/audience`.
+  - `components/Sidebar.tsx` — added "Pakeisti režimą" button with current audience icon.
+  - `app/(app)/categories/page.tsx` — hides "Intymios kategorijos" section when `audience === 'kids'`.
 
-- [x] **[S]** Update API filtering for audiences — Modify `lib/api.ts` to filter by audience relationship: `where[audience.slug][equals]=family`.
+- [x] **[S]** Kids safety + empty category filtering — `lib/api.ts` filters out sections with 0 questions (prevents empty categories) and additionally filters out `type === 'intimate'` sections when `audience === 'kids'`.
 
-- [x] **[XL]** Write 100+ family questions — Create a seed data file `scripts/data/family-questions.json` with 100+ age-appropriate family discussion questions across existing categories (or new family-specific categories). Cover topics: memories, values, dreams, gratitude, silly/fun.
+- [x] **[XL]** Write 104 family questions — `scripts/data/family-questions.json` across 8 categories: Šeimos prisiminimai, Vertybės ir pamokos, Svajonės ir ateitis, Dėkingumas, Linksmi klausimai, Emocijos ir jausmai, Kasdienybė, Kartų ryšys.
 
-- [x] **[L]** Write 50+ kids questions — Create `scripts/data/kids-questions.json` with 50+ simple, fun questions suitable for ages 6–12. Use simple Lithuanian language. Categories: animals, imagination, favorites, silly, adventure.
+- [x] **[L]** Write 56 kids questions — `scripts/data/kids-questions.json` across 6 categories: Gyvūnai ir gamta, Vaizduotė ir svajonės, Mėgstami dalykai, Juokingi klausimai, Draugystė, Nuotykiai. Simple Lithuanian, age-appropriate.
 
-- [x] **[XL]** Write 100+ friends questions — Create `scripts/data/friends-questions.json` with 100+ questions for friend groups. Cover: deep conversations, would-you-rather, embarrassing stories, opinions, challenges.
+- [x] **[XL]** Write 104 friends questions — `scripts/data/friends-questions.json` across 8 categories: Gilūs pokalbiai, Ar norėtum, Gėdingi prisiminimai, Nuomonės, Draugystė, Iššūkiai ir žaidimai, Hipotezės, Vakarėlių klausimai.
 
-- [x] **[M]** Create audience-specific spicy cards — Create seed data files for family spicy cards (wholesome challenges), kids spicy cards (silly dares), and friends spicy cards (party-style challenges). 15+ cards per audience.
+- [x] **[M]** Create audience-specific spicy cards — 15 family cards (wholesome: compliment, hug, challenge, truth, dance), 15 kids cards (silly safe dares — NO kiss/whisper/dare/slap/massage), 16 friends cards (party-style challenges).
 
-- [x] **[S]** Add audience badge to game UI — Show a small badge/chip in the game header indicating the current audience (e.g., "Šeima" with family icon). Tapping it opens the audience selector.
+- [x] **[S]** Update seed script — Seeds Audiences collection (4 records), then for each new audience: reads JSON, creates categories if needed, creates questions with correct audience value. Idempotent by question text + audience + category.
 
-- [x] **[S]** Update category filtering per audience — Some categories may not apply to all audiences (e.g., "Intymu" shouldn't appear for kids). Add an `audiences` relationship (hasMany) to the Categories collection and filter accordingly.
+## Files Changed
+
+| Action | File |
+|--------|------|
+| Create | `collections/Audiences.ts` |
+| Create | `types/audience.ts` |
+| Create | `components/AudienceSelector.tsx` |
+| Create | `app/(app)/audience/page.tsx` |
+| Create | `scripts/data/family-questions.json` |
+| Create | `scripts/data/kids-questions.json` |
+| Create | `scripts/data/friends-questions.json` |
+| Create | `scripts/data/family-spicy-cards.json` |
+| Create | `scripts/data/kids-spicy-cards.json` |
+| Create | `scripts/data/friends-spicy-cards.json` |
+| Modify | `payload.config.ts` |
+| Modify | `payload-types.ts` |
+| Modify | `types/index.ts` |
+| Modify | `context/QuestionContext.tsx` |
+| Modify | `app/(app)/game/page.tsx` |
+| Modify | `app/(app)/page.tsx` |
+| Modify | `components/Sidebar.tsx` |
+| Modify | `app/(app)/categories/page.tsx` |
+| Modify | `lib/api.ts` |
+| Modify | `scripts/seed.ts` |
 
 ## Acceptance Criteria
 
-- Audience selector appears on first launch or when no audience is selected
-- Selecting "Family" shows only family questions and family-appropriate spicy cards
-- Kids audience has no intimate/adult content in questions or spicy cards
-- Each audience has a meaningful number of questions (romantic: 576, family: 100+, kids: 50+, friends: 100+)
-- Audience selection persists across page reloads (localStorage)
-- API correctly filters by audience — no cross-audience content leaks
-- Switching audiences resets the question queue and viewed state
+- [x] Audience selector appears on first launch or when no audience is selected
+- [x] Selecting "Family" shows only family questions and family-appropriate spicy cards
+- [x] Kids audience has no intimate/adult content in questions or spicy cards
+- [x] Each audience has a meaningful number of questions (romantic: 576, family: 104, kids: 56, friends: 104)
+- [x] Audience selection persists across page reloads (localStorage)
+- [x] API correctly filters by audience — no cross-audience content leaks
+- [x] Switching audiences resets the question queue and viewed state
+- [x] `npm run build` passes with zero errors
