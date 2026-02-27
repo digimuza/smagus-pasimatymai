@@ -1,10 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useQuestions } from '@/context/QuestionContext';
 import { SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
-import { SpicyCardRarity } from '@/types/spicyCards';
+import { fadeInUp } from '@/lib/animations';
+import { PageLayout, PageContent, Header, Toggle, Select, Card, Button } from '@/components/ui';
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -17,91 +18,37 @@ export default function SettingsPage() {
     toggleSpicyCardType,
   } = useQuestions();
 
+  const rarityOptions = Object.entries(RARITY_LABELS).map(([value, label]) => ({
+    value,
+    label: label as string,
+  }));
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
-      <header className="flex items-center justify-between p-6 bg-background-light">
-        <button
-          onClick={() => router.push('/game')}
-          className="text-text-muted hover:text-text transition-colors"
-          aria-label="Grįžti"
-        >
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
+    <PageLayout>
+      <Header title="Pikantiškos kortelės" showBack />
+
+      <PageContent>
+        <Card {...fadeInUp}>
+          <div className="space-y-6">
+            <Toggle
+              enabled={spicyCardsEnabled}
+              onChange={toggleSpicyCards}
+              label="🎲 Spicy Cards"
+              description="Įtraukti užduočių korteles tarp klausimų"
             />
-          </svg>
-        </button>
-
-        <h1 className="text-2xl font-light text-primary">Pikantiškos kortelės</h1>
-
-        <div className="w-8" />
-      </header>
-
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto p-6">
-        <div className="max-w-2xl mx-auto space-y-8">
-          {/* Spicy Cards Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-background-light rounded-xl p-6 space-y-6"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-light text-primary mb-1">
-                  🎲 Spicy Cards
-                </h2>
-                <p className="text-sm text-text-muted">
-                  Įtraukti užduočių korteles tarp klausimų
-                </p>
-              </div>
-              <button
-                onClick={() => toggleSpicyCards(!spicyCardsEnabled)}
-                className={`relative w-14 h-8 rounded-full transition-colors ${
-                  spicyCardsEnabled ? 'bg-primary' : 'bg-background-lighter'
-                }`}
-              >
-                <motion.div
-                  className="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md"
-                  animate={{ x: spicyCardsEnabled ? 24 : 0 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                />
-              </button>
-            </div>
 
             {spicyCardsEnabled && (
               <>
-                {/* Rarity */}
-                <div className="space-y-3">
-                  <label className="text-text font-normal">Kaip dažnai rodys?</label>
-                  <div className="grid grid-cols-1 gap-2">
-                    {Object.entries(RARITY_LABELS).map(([rarity, label]) => {
-                      const isSelected = spicyCardsRarity === rarity;
-                      return (
-                        <button
-                          key={rarity}
-                          onClick={() => updateSpicyCardsRarity(rarity)}
-                          className={`p-3 rounded-lg border-2 transition-all text-left ${
-                            isSelected
-                              ? 'bg-primary/20 border-primary'
-                              : 'bg-background-lighter border-transparent hover:border-primary/30'
-                          }`}
-                        >
-                          <p className="text-sm font-normal">{label}</p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <p className="text-xs text-text-muted">
-                    Spicy cards pasirodo atsitiktinai su pasirinkta tikimybe
-                  </p>
-                </div>
+                <Select
+                  label="Kaip dažnai rodys?"
+                  options={rarityOptions}
+                  value={spicyCardsRarity}
+                  onChange={updateSpicyCardsRarity}
+                />
+                <p className="text-xs text-text-muted">
+                  Spicy cards pasirodo atsitiktinai su pasirinkta tikimybe
+                </p>
 
-                {/* Card Types */}
                 <div className="space-y-3">
                   <h3 className="text-text font-normal">Kortelių tipai</h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -137,32 +84,24 @@ export default function SettingsPage() {
                 </div>
               </>
             )}
-          </motion.div>
+          </div>
+        </Card>
 
-          {/* Info box */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-primary/10 border border-primary/30 rounded-xl p-4"
-          >
+        <motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
+          <Card variant="outlined" className="border-primary/30 bg-primary/10">
             <p className="text-sm text-text-muted">
               <strong className="text-primary">Spicy Cards</strong> - tai įdomios užduotys ir
               iššūkiai, kurie pasirodys tarp klausimų, kad žaidimas būtų įdomesnis ir dinamiškesnis!
             </p>
-          </motion.div>
+          </Card>
+        </motion.div>
 
-          {/* Back button */}
-          <div className="pt-4 pb-8">
-            <button
-              onClick={() => router.push('/game')}
-              className="w-full py-4 px-6 bg-primary hover:bg-primary-light text-background rounded-xl transition-colors font-medium"
-            >
-              Grįžti į žaidimą
-            </button>
-          </div>
+        <div className="pt-4 pb-8">
+          <Button variant="primary" size="lg" fullWidth onClick={() => router.push('/game')}>
+            Grįžti į žaidimą
+          </Button>
         </div>
-      </main>
-    </div>
+      </PageContent>
+    </PageLayout>
   );
 }
