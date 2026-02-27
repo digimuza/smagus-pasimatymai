@@ -165,5 +165,39 @@
     "emptyDescription": "Neturite nei vieno super klausimo. Grįžkite ir pažymėkite mėgstamiausius!",
     "goBack": "Grįžti atgal",
     "reset": "Iš naujo pradėti"
+  },
+  "auth": {
+    "loginTitle": "Prisijungti",
+    "loginSubtitle": "Išsaugokite savo progresą visuose įrenginiuose",
+    "registerTitle": "Registruotis",
+    "registerSubtitle": "Sukurkite paskyrą ir niekada nepraraskite progreso",
+    "continueWithGoogle": "Tęsti su Google",
+    "or": "arba",
+    "namePlaceholder": "Vardas",
+    "emailPlaceholder": "El. paštas",
+    "passwordPlaceholder": "Slaptažodis",
+    "loginButton": "Prisijungti",
+    "registerButton": "Registruotis",
+    "submitting": "Palaukite...",
+    "noAccount": "Neturite paskyros?",
+    "hasAccount": "Jau turite paskyrą?",
+    "registerLink": "Registruotis",
+    "loginLink": "Prisijungti",
+    "genericError": "Įvyko klaida. Bandykite dar kartą.",
+    "profile": "Profilis",
+    "logout": "Atsijungti"
+  },
+  "profile": {
+    "title": "Profilis",
+    "emailProvider": "El. pašto paskyra",
+    "statsAnswered": "Atsakyta",
+    "statsSuperliked": "Super",
+    "statsTotal": "Iš viso",
+    "logout": "Atsijungti",
+    "dangerZone": "Pavojinga zona",
+    "deleteWarning": "Ištrynus paskyrą, visi duomenys bus prarasti negrįžtamai. Įveskite savo el. paštą patvirtinimui.",
+    "deleteConfirmPlaceholder": "Įveskite el. paštą",
+    "deleteButton": "Ištrinti paskyrą",
+    "deleting": "Trinama..."
   }
 }

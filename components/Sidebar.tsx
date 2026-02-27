@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useQuestions } from '@/context/QuestionContext';
+import { useAuth } from '@/context/AuthContext';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
 import { Sheet, Button, Counter } from '@/components/ui';
+import { LoginSheet } from '@/components/auth/LoginSheet';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,6 +18,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter();
   const t = useTranslations('sidebar');
   const tc = useTranslations('common');
+  const ta = useTranslations('auth');
+  const { player, isAuthenticated, logout } = useAuth();
+  const [showLogin, setShowLogin] = useState(false);
   const {
     sections,
     activeCategories,
@@ -102,7 +108,52 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             {t('reset')}
           </Button>
         </div>
+
+        {/* Auth section */}
+        <div className="border-t border-primary/10 pt-6">
+          {isAuthenticated && player ? (
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 p-3 bg-background-lighter rounded-xl">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {player.avatar ? (
+                    <img src={player.avatar} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-white text-xs font-semibold">
+                      {(player.name || player.email).charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="text-text text-sm font-medium truncate">{player.name || player.email}</p>
+                </div>
+              </div>
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={() => { router.push('/profile'); onClose(); }}
+              >
+                {ta('profile')}
+              </Button>
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={async () => { await logout(); onClose(); }}
+              >
+                {ta('logout')}
+              </Button>
+            </div>
+          ) : (
+            <Button
+              variant="primary"
+              fullWidth
+              onClick={() => { setShowLogin(true); onClose(); }}
+            >
+              {ta('loginButton')}
+            </Button>
+          )}
+        </div>
       </div>
+      <LoginSheet isOpen={showLogin} onClose={() => setShowLogin(false)} />
     </Sheet>
   );
 }

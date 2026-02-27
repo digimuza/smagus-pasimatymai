@@ -1,5 +1,6 @@
 'use client';
 
+import { AuthProvider } from '@/context/AuthContext';
 import { QuestionProvider } from '@/context/QuestionContext';
 
 export default function AppLayout({
@@ -7,5 +8,9 @@ export default function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <QuestionProvider>{children}</QuestionProvider>;
+  return (
+    <AuthProvider>
+      <QuestionProvider>{children}</QuestionProvider>
+    </AuthProvider>
+  );
 }
