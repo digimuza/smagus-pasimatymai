@@ -8,6 +8,7 @@ import { useQuestions } from '@/context/QuestionContext';
 import { SwipeCard } from '@/components/SwipeCard';
 import { SpicyCardDisplay } from '@/components/SpicyCardDisplay';
 import { Sidebar } from '@/components/Sidebar';
+import { Paywall } from '@/components/payments/Paywall';
 import { useHaptic } from '@/hooks/useHaptic';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
 import { PageLayout, Header } from '@/components/ui';
@@ -23,6 +24,9 @@ export default function GamePage() {
     dismissSpicyCard,
     availableQuestionsCount,
     audience,
+    isContentLimited,
+    showPaywall,
+    setShowPaywall,
   } = useQuestions();
   const { vibrate } = useHaptic();
   const router = useRouter();
@@ -36,9 +40,13 @@ export default function GamePage() {
 
   useEffect(() => {
     if (audience && availableQuestionsCount === 0) {
-      router.push('/awesome');
+      if (isContentLimited) {
+        setShowPaywall(true);
+      } else {
+        router.push('/awesome');
+      }
     }
-  }, [audience, availableQuestionsCount, router]);
+  }, [audience, availableQuestionsCount, isContentLimited, setShowPaywall, router]);
 
   const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
@@ -115,6 +123,7 @@ export default function GamePage() {
       </main>
 
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Paywall isOpen={showPaywall} onClose={() => setShowPaywall(false)} trigger="question_limit" />
     </PageLayout>
   );
 }

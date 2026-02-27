@@ -187,6 +187,30 @@
     "profile": "Profilis",
     "logout": "Atsijungti"
   },
+  "payments": {
+    "title": "Atrakinkite visus klausimus",
+    "subtitle": "Gaukite neribotą prieigą prie visų režimų ir klausimų",
+    "monthly": "Mėnesinis",
+    "monthlyPrice": "4,99 \u20ac",
+    "perMonth": "per mėnesį",
+    "yearly": "Metinis",
+    "yearlyPrice": "29,99 \u20ac",
+    "perYear": "per metus",
+    "savePercent": "-50%",
+    "feature": {
+      "allQuestions": "Visi klausimai be ribojimų",
+      "allAudiences": "Visi režimai: poroms, šeimai, draugams, vaikams",
+      "spicyCards": "Spicy Cards iššūkiai",
+      "progressSync": "Progreso sinchronizacija tarp įrenginių",
+      "noAds": "Be jokių reklamų"
+    },
+    "startTrial": "Išbandyti 7 dienas nemokamai",
+    "processing": "Palaukite...",
+    "trialNote": "7 dienų nemokamas bandomasis laikotarpis. Galite atšaukti bet kada.",
+    "premiumBadge": "Premium",
+    "freeBadge": "Nemokama",
+    "manageSubscription": "Valdyti prenumeratą"
+  },
   "profile": {
     "title": "Profilis",
     "emailProvider": "El. pašto paskyra",

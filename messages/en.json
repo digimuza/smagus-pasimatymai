@@ -187,6 +187,30 @@
     "profile": "Profile",
     "logout": "Sign out"
   },
+  "payments": {
+    "title": "Unlock all questions",
+    "subtitle": "Get unlimited access to all modes and questions",
+    "monthly": "Monthly",
+    "monthlyPrice": "\u20ac4.99",
+    "perMonth": "per month",
+    "yearly": "Yearly",
+    "yearlyPrice": "\u20ac29.99",
+    "perYear": "per year",
+    "savePercent": "-50%",
+    "feature": {
+      "allQuestions": "All questions without limits",
+      "allAudiences": "All modes: couples, family, friends, kids",
+      "spicyCards": "Spicy Cards challenges",
+      "progressSync": "Progress sync across devices",
+      "noAds": "No ads ever"
+    },
+    "startTrial": "Try 7 days free",
+    "processing": "Processing...",
+    "trialNote": "7-day free trial. Cancel anytime.",
+    "premiumBadge": "Premium",
+    "freeBadge": "Free",
+    "manageSubscription": "Manage subscription"
+  },
   "profile": {
     "title": "Profile",
     "emailProvider": "Email account",

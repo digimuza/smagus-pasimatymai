@@ -19,7 +19,7 @@ This roadmap covers the evolution of Santykių Klausimai from a static question 
 | 5 | [Internationalization](sprint-05-internationalization.md) | Complete | L | Sprint 4 |
 | 6 | [Landing Page](sprint-06-landing-page.md) | Complete | M | Sprint 5 |
 | 7 | [User Accounts](sprint-07-user-accounts.md) | Complete | L | Sprint 1 |
-| 8 | [Stripe Payments](sprint-08-stripe-payments.md) | Not Started | L | Sprint 7 |
+| 8 | [Stripe Payments](sprint-08-stripe-payments.md) | Complete | L | Sprint 7 |
 | 9 | [Advanced Features](sprint-09-advanced-features.md) | Not Started | L | Sprints 2, 3, 4, 7, 8 |
 | 10 | [Production Launch](sprint-10-production-launch.md) | Not Started | L | Sprint 9 |
 
