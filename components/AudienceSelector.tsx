@@ -1,19 +1,29 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useQuestions } from '@/context/QuestionContext';
+import { useAuth } from '@/context/AuthContext';
 import { AUDIENCE_DEFAULTS } from '@/types/audience';
+import { canAccessAudience } from '@/lib/subscription';
 import { fadeInUp, pressAnimation, staggerDelay } from '@/lib/animations';
 import { PageLayout } from '@/components/ui';
+import { Paywall } from '@/components/payments/Paywall';
 
 export function AudienceSelector() {
   const router = useRouter();
   const t = useTranslations();
   const { setAudience } = useQuestions();
+  const { subscription } = useAuth();
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const handleSelect = (slug: string) => {
+    if (!canAccessAudience(slug, subscription)) {
+      setShowPaywall(true);
+      return;
+    }
     setAudience(slug);
     router.push('/game');
   };
@@ -45,26 +55,36 @@ export function AudienceSelector() {
         </motion.div>
 
         <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-          {AUDIENCE_DEFAULTS.map((audience, index) => (
-            <motion.button
-              key={audience.slug}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={staggerDelay(index)}
-              {...pressAnimation}
-              onClick={() => handleSelect(audience.slug)}
-              className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-background-light border-2 border-transparent hover:border-primary/30 transition-colors"
-              style={{ boxShadow: `0 4px 20px ${audience.color}15` }}
-            >
-              <span className="text-5xl">{audience.icon}</span>
-              <span className="text-text font-semibold text-lg">{t(`audience.${audience.slug}.name`)}</span>
-              <span className="text-text-muted text-sm font-light text-center leading-snug">
-                {t(`audience.${audience.slug}.description`)}
-              </span>
-            </motion.button>
-          ))}
+          {AUDIENCE_DEFAULTS.map((audience, index) => {
+            const locked = !canAccessAudience(audience.slug, subscription);
+            return (
+              <motion.button
+                key={audience.slug}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={staggerDelay(index)}
+                {...pressAnimation}
+                onClick={() => handleSelect(audience.slug)}
+                className="relative flex flex-col items-center gap-3 p-6 rounded-2xl bg-background-light border-2 border-transparent hover:border-primary/30 transition-colors"
+                style={{ boxShadow: `0 4px 20px ${audience.color}15` }}
+              >
+                {locked && (
+                  <span className="absolute top-2 right-2 bg-accent/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                    PRO
+                  </span>
+                )}
+                <span className="text-5xl">{audience.icon}</span>
+                <span className="text-text font-semibold text-lg">{t(`audience.${audience.slug}.name`)}</span>
+                <span className="text-text-muted text-sm font-light text-center leading-snug">
+                  {t(`audience.${audience.slug}.description`)}
+                </span>
+              </motion.button>
+            );
+          })}
         </div>
       </main>
+
+      <Paywall isOpen={showPaywall} onClose={() => setShowPaywall(false)} trigger="audience_locked" />
     </PageLayout>
   );
 }

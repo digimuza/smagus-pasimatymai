@@ -59,4 +59,7 @@ export interface QuestionContextType {
   toggleSpicyCards: (enabled: boolean) => void;
   updateSpicyCardsRarity: (rarity: string) => void;
   toggleSpicyCardType: (type: string) => void;
+  isContentLimited: boolean;
+  showPaywall: boolean;
+  setShowPaywall: (show: boolean) => void;
 }

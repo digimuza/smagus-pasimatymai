@@ -2,6 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
+export interface PlayerSubscription {
+  plan: 'free' | 'monthly' | 'yearly';
+  status: 'active' | 'canceled' | 'past_due' | 'trialing' | 'expired';
+  currentPeriodEnd?: string;
+  cancelAtPeriodEnd?: boolean;
+  trialEnd?: string;
+}
+
 export interface Player {
   id: number;
   email: string;
@@ -20,6 +28,7 @@ export interface Player {
 
 interface AuthContextType {
   player: Player | null;
+  subscription: PlayerSubscription | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
@@ -34,12 +43,38 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [player, setPlayer] = useState<Player | null>(null);
+  const [subscription, setSubscription] = useState<PlayerSubscription | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Check current session on mount
   useEffect(() => {
     checkSession();
   }, []);
+
+  const fetchSubscription = async (playerId: number) => {
+    try {
+      const res = await fetch(`/api/subscriptions?where[player][equals]=${playerId}&limit=1`, {
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.docs?.[0]) {
+          const sub = data.docs[0];
+          setSubscription({
+            plan: sub.plan,
+            status: sub.status,
+            currentPeriodEnd: sub.currentPeriodEnd,
+            cancelAtPeriodEnd: sub.cancelAtPeriodEnd,
+            trialEnd: sub.trialEnd,
+          });
+          return;
+        }
+      }
+    } catch {
+      // ignore
+    }
+    setSubscription({ plan: 'free', status: 'active' });
+  };
 
   const checkSession = async () => {
     try {
@@ -48,6 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
         if (data.user) {
           setPlayer(data.user);
+          await fetchSubscription(data.user.id);
         }
       }
     } catch {
@@ -130,6 +166,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // ignore
     }
     setPlayer(null);
+    setSubscription(null);
   }, []);
 
   const updatePlayer = useCallback(async (data: Partial<Player>) => {
@@ -154,6 +191,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         player,
+        subscription,
         isAuthenticated: !!player,
         isLoading,
         login,

@@ -6,11 +6,14 @@ import { useRouter } from '@/i18n/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useQuestions } from '@/context/QuestionContext';
 import { Header, Button } from '@/components/ui';
+import { SubscriptionBadge } from '@/components/payments/SubscriptionBadge';
+import { isPremium } from '@/lib/subscription';
 
 export default function ProfilePage() {
   const t = useTranslations('profile');
   const tc = useTranslations('common');
-  const { player, logout, isAuthenticated, isLoading } = useAuth();
+  const { player, subscription, logout, isAuthenticated, isLoading } = useAuth();
+  const tp = useTranslations('payments');
   const { questionStates } = useQuestions();
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -85,9 +88,12 @@ export default function ProfilePage() {
               <p className="text-text font-semibold truncate">{player.name}</p>
             )}
             <p className="text-text-muted text-sm truncate">{player.email}</p>
-            <p className="text-text-dimmed text-xs mt-1">
-              {player.provider === 'google' ? 'Google' : t('emailProvider')}
-            </p>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-text-dimmed text-xs">
+                {player.provider === 'google' ? 'Google' : t('emailProvider')}
+              </p>
+              <SubscriptionBadge />
+            </div>
           </div>
         </div>
 
@@ -109,6 +115,24 @@ export default function ProfilePage() {
 
         {/* Actions */}
         <div className="space-y-3">
+          {isPremium(subscription) && (
+            <Button
+              variant="secondary"
+              fullWidth
+              onClick={async () => {
+                const res = await fetch('/api/billing/portal', {
+                  method: 'POST',
+                  credentials: 'include',
+                });
+                if (res.ok) {
+                  const { url } = await res.json();
+                  if (url) window.location.href = url;
+                }
+              }}
+            >
+              {tp('manageSubscription')}
+            </Button>
+          )}
           <Button
             variant="secondary"
             fullWidth

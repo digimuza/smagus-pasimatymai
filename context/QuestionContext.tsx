@@ -21,17 +21,19 @@ import { trackEvent } from '@/lib/analytics';
 import { DEFAULT_SPICY_SETTINGS, SPICY_CARD_TYPE_LABELS, RARITY_LABELS } from '@/lib/spicyCardsData';
 import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyCards';
 import { useAuth } from '@/context/AuthContext';
+import { isPremium, canAccessSpicyCards, getQuestionLimit } from '@/lib/subscription';
 
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
   const locale = useLocale();
   const t = useTranslations('common');
-  const { isAuthenticated, player } = useAuth();
+  const { isAuthenticated, player, subscription } = useAuth();
   const [questionData, setQuestionData] = useState<QuestionData | null>(null);
   const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
   const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showPaywall, setShowPaywall] = useState(false);
 
   const [state, setState, isStateLoaded] = useLocalStorage(STORAGE_KEY, {
     questionStates: [] as QuestionState[],
@@ -131,11 +133,23 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     }
   }, [questionData, isStateLoaded, safeCategoryNames, state.activeCategories, setState]);
 
-  // Get all questions (flattened from all sections)
+  // Question limit based on subscription
+  const questionLimit = useMemo(() => getQuestionLimit(subscription), [subscription]);
+
+  // Get all questions (flattened from all sections, limited for free users)
   const allQuestions = useMemo(() => {
     if (!questionData) return [];
-    return questionData.sections.flatMap((section) => section.questions);
-  }, [questionData]);
+    const all = questionData.sections.flatMap((section) => section.questions);
+    if (questionLimit === Infinity) return all;
+    return all.slice(0, questionLimit);
+  }, [questionData, questionLimit]);
+
+  // Whether the user is seeing a limited set of content
+  const isContentLimited = useMemo(() => {
+    if (!questionData) return false;
+    const totalAvailable = questionData.sections.flatMap((s) => s.questions).length;
+    return totalAvailable > questionLimit;
+  }, [questionData, questionLimit]);
 
   // Get current question
   const currentQuestion = useMemo(() => {
@@ -170,8 +184,9 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     return enabledCards[randomIndex];
   }, [spicyCards, state.spicyCardTypes]);
 
-  // Check if should show spicy card (probability-based)
+  // Check if should show spicy card (probability-based, premium only)
   const shouldShowSpicyCard = useCallback(() => {
+    if (!canAccessSpicyCards(subscription)) return false;
     if (!state.spicyCardsEnabled) return false;
     if (!state.spicyCardsRarity) return false;
 
@@ -179,7 +194,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     const randomValue = Math.random();
 
     return randomValue < probability;
-  }, [state.spicyCardsEnabled, state.spicyCardsRarity]);
+  }, [subscription, state.spicyCardsEnabled, state.spicyCardsRarity]);
 
   // Load next question when needed
   const loadNextQuestion = useCallback(() => {
@@ -420,6 +435,9 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     toggleSpicyCards,
     updateSpicyCardsRarity,
     toggleSpicyCardType,
+    isContentLimited,
+    showPaywall,
+    setShowPaywall,
   };
 
   if (isLoading) {
