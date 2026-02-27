@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import {
   Question,
   QuestionState,
@@ -23,6 +24,8 @@ import { SpicyCard, SpicyCardRarity, RARITY_PROBABILITIES } from '@/types/spicyC
 const QuestionContext = createContext<QuestionContextType | undefined>(undefined);
 
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
+  const locale = useLocale();
+  const t = useTranslations('common');
   const [questionData, setQuestionData] = useState<QuestionData | null>(null);
   const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
   const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
@@ -42,7 +45,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   const questionViewedAt = useRef<number>(Date.now());
 
   // Initialize session tracking
-  useSessionTracking({ locale: 'lt', audience: state.audience || 'romantic' });
+  useSessionTracking({ locale, audience: state.audience || 'romantic' });
 
   // Load question data from API (gated on audience selection)
   useEffect(() => {
@@ -52,7 +55,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
     }
 
     setIsLoading(true);
-    fetch(`/api/game-data?audience=${encodeURIComponent(state.audience)}`)
+    fetch(`/api/game-data?audience=${encodeURIComponent(state.audience)}&locale=${encodeURIComponent(locale)}`)
       .then((res) => res.json())
       .then((data) => {
         const qData: QuestionData = {
@@ -79,7 +82,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
         console.error('Failed to load questions:', error);
         setIsLoading(false);
       });
-  }, [state.audience]);
+  }, [state.audience, locale]);
 
   // Initialize active categories once data loads and state is ready
   useEffect(() => {
@@ -388,7 +391,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-primary text-xl">Kraunama...</div>
+        <div className="text-primary text-xl">{t('loading')}</div>
       </div>
     );
   }

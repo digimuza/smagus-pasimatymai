@@ -1,6 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 
 interface HeaderProps {
   title: string;
@@ -20,12 +21,13 @@ export function Header({
   className = '',
 }: HeaderProps) {
   const router = useRouter();
+  const t = useTranslations('common');
 
   const left = leftAction ?? (showBack ? (
     <button
       onClick={() => router.push(backHref)}
       className="text-text-muted hover:text-text transition-colors"
-      aria-label="Grįžti"
+      aria-label={t('back')}
     >
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

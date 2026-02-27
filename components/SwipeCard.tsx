@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { Question } from '@/types';
 import { SWIPE_THRESHOLD } from '@/lib/constants';
 import { cardSwipe } from '@/lib/animations';
@@ -14,6 +15,7 @@ interface SwipeCardProps {
 }
 
 export function SwipeCard({ question, onSwipeLeft, onSwipeRight, onSwipeUp }: SwipeCardProps) {
+  const t = useTranslations('game');
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const [exitX, setExitX] = useState(0);
@@ -73,21 +75,21 @@ export function SwipeCard({ question, onSwipeLeft, onSwipeRight, onSwipeUp }: Sw
         className="absolute top-8 left-8 text-accent font-bold text-xl rotate-[-15deg] opacity-0"
         style={{ opacity: useTransform(x, [-150, -50], [1, 0]) }}
       >
-        PRALEISTI
+        {t('swipeSkip')}
       </motion.div>
 
       <motion.div
         className="absolute top-8 right-8 text-primary font-bold text-xl rotate-[15deg] opacity-0"
         style={{ opacity: useTransform(x, [50, 150], [0, 1]) }}
       >
-        ATSAKYTA
+        {t('swipeAnswered')}
       </motion.div>
 
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-primary-light font-bold text-xl opacity-0"
         style={{ opacity: useTransform(y, [-150, -50], [1, 0]) }}
       >
-        ⭐ SUPER
+        {t('swipeSuper')}
       </motion.div>
     </motion.div>
   );
