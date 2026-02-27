@@ -5,6 +5,12 @@ export const SpicyCardTypes: CollectionConfig = {
   admin: {
     useAsTitle: 'label',
   },
+  access: {
+    read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => !!req.user,
+  },
   fields: [
     {
       name: 'slug',
@@ -26,6 +32,16 @@ export const SpicyCardTypes: CollectionConfig = {
       name: 'color',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'locale',
+      type: 'select',
+      required: true,
+      defaultValue: 'lt',
+      options: [
+        { label: 'Lietuvių', value: 'lt' },
+        { label: 'English', value: 'en' },
+      ],
     },
   ],
 };
