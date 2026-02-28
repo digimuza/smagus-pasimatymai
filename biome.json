@@ -65,7 +65,8 @@
 				"useDefaultSwitchClause": "warn"
 			},
 			"suspicious": {
-				"noArrayIndexKey": "off"
+				"noArrayIndexKey": "off",
+				"noUnknownAtRules": "off"
 			}
 		}
 	},
