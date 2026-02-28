@@ -12,7 +12,7 @@ interface PaywallProps {
 	trigger?: string;
 }
 
-const FEATURES_FREE = ["50questions", "romanticOnly", "basicCategories"];
+const _FEATURES_FREE = ["50questions", "romanticOnly", "basicCategories"];
 const FEATURES_PREMIUM = [
 	"allQuestions",
 	"allAudiences",
@@ -21,7 +21,7 @@ const FEATURES_PREMIUM = [
 	"noAds",
 ];
 
-export function Paywall({ isOpen, onClose, trigger }: PaywallProps) {
+export function Paywall({ isOpen, onClose, trigger: _trigger }: PaywallProps) {
 	const t = useTranslations("payments");
 	const { isAuthenticated } = useAuth();
 	const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">(
@@ -71,6 +71,7 @@ export function Paywall({ isOpen, onClose, trigger }: PaywallProps) {
 								: "border-primary/10 bg-background-lighter"
 						}`}
 						onClick={() => setSelectedPlan("monthly")}
+						type="button"
 					>
 						<p className="font-semibold text-text">{t("monthly")}</p>
 						<p className="mt-1 font-bold text-primary text-xl">
@@ -86,6 +87,7 @@ export function Paywall({ isOpen, onClose, trigger }: PaywallProps) {
 								: "border-primary/10 bg-background-lighter"
 						}`}
 						onClick={() => setSelectedPlan("yearly")}
+						type="button"
 					>
 						<span className="absolute -top-2 right-2 rounded-full bg-accent px-2 py-0.5 font-bold text-white text-xs">
 							{t("savePercent")}

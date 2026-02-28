@@ -36,6 +36,7 @@ export function UserMenu() {
 			<button
 				className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-accent ring-2 ring-primary/20 transition-all hover:ring-primary/40"
 				onClick={() => setIsOpen(!isOpen)}
+				type="button"
 			>
 				{player.avatar ? (
 					<img
@@ -75,6 +76,7 @@ export function UserMenu() {
 									router.push("/profile");
 									setIsOpen(false);
 								}}
+								type="button"
 							>
 								{t("profile")}
 							</button>
@@ -84,6 +86,7 @@ export function UserMenu() {
 									await logout();
 									setIsOpen(false);
 								}}
+								type="button"
 							>
 								{t("logout")}
 							</button>

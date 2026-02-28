@@ -23,7 +23,7 @@ export function Select({
 }: SelectProps) {
 	return (
 		<div className={`space-y-3 ${className}`}>
-			{label && <label className="font-normal text-text">{label}</label>}
+			{label && <span className="font-normal text-text">{label}</span>}
 			<div className="grid grid-cols-1 gap-2">
 				{options.map((option) => {
 					const isSelected = value === option.value;
@@ -36,6 +36,7 @@ export function Select({
 							}`}
 							key={option.value}
 							onClick={() => onChange(option.value)}
+							type="button"
 						>
 							<p className="flex items-center gap-2 font-normal text-sm">
 								{option.icon && <span>{option.icon}</span>}

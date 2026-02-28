@@ -33,7 +33,7 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 	);
 
 	const handleDragEnd = (
-		event: MouseEvent | TouchEvent | PointerEvent,
+		_event: MouseEvent | TouchEvent | PointerEvent,
 		info: PanInfo,
 	) => {
 		const { offset, velocity } = info;

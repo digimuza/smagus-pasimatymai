@@ -44,6 +44,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 						aria-label={tc("close")}
 						className="text-text-muted transition-colors hover:text-text"
 						onClick={onClose}
+						type="button"
 					>
 						<svg
 							className="h-6 w-6"

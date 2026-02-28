@@ -35,6 +35,7 @@ export function Toggle({
 				}`}
 				onClick={() => onChange(!enabled)}
 				role="switch"
+				type="button"
 			>
 				<motion.div
 					animate={{ x: enabled ? 24 : 0 }}

@@ -75,12 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	});
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Check current session on mount
-	useEffect(() => {
-		checkSession();
-	}, []);
-
-	const fetchSubscription = async (playerId: number) => {
+	const fetchSubscription = useCallback(async (playerId: number) => {
 		try {
 			const res = await fetch(
 				`/api/subscriptions?where[player][equals]=${playerId}&limit=1`,
@@ -106,9 +101,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			// ignore
 		}
 		setSubscription({ plan: "free", status: "active" });
-	};
+	}, []);
 
-	const checkSession = async () => {
+	const checkSession = useCallback(async () => {
 		try {
 			const res = await fetch("/api/players/me", { credentials: "include" });
 			if (res.ok) {
@@ -123,7 +118,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		} finally {
 			setIsLoading(false);
 		}
-	};
+	}, [fetchSubscription]);
+
+	// Check current session on mount
+	useEffect(() => {
+		checkSession();
+	}, [checkSession]);
 
 	const refreshPlayer = useCallback(async () => {
 		try {

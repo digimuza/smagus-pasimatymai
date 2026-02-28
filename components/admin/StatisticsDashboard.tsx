@@ -83,7 +83,8 @@ const StatisticsDashboard: React.FC = () => {
 					const totalMs = withDuration.reduce((sum, s) => {
 						return (
 							sum +
-							(new Date(s.endedAt!).getTime() - new Date(s.startedAt).getTime())
+							(new Date(s.endedAt as string).getTime() -
+								new Date(s.startedAt).getTime())
 						);
 					}, 0);
 					setAvgDuration(Math.round(totalMs / withDuration.length / 1000));

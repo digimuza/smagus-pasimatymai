@@ -80,6 +80,7 @@ export default function SettingsPage() {
 																toggleSpicyCardType(type);
 															}
 														}}
+														type="button"
 													>
 														<p className="font-normal text-sm">{label}</p>
 													</button>

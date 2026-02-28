@@ -41,6 +41,7 @@ export function Checkbox({
 			disabled={disabled}
 			onClick={() => !disabled && onChange(!checked)}
 			role="checkbox"
+			type="button"
 		>
 			<div
 				className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded border-2 transition-colors ${

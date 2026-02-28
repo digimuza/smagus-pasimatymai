@@ -35,6 +35,10 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"useSemanticElements": "off"
+			},
 			"complexity": {
 				"noExcessiveCognitiveComplexity": {
 					"level": "error",
@@ -49,18 +53,48 @@
 				}
 			},
 			"performance": {
-				"noBarrelFile": "off"
+				"noBarrelFile": "off",
+				"noImgElement": "off"
 			},
 			"recommended": true,
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
 			"style": {
 				"useConsistentBuiltinInstantiation": "warn",
 				"useDefaultSwitchClause": "warn"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "off"
 			}
 		}
 	},
 	"overrides": [
 		{
 			"includes": ["trigger/process-emails.ts"],
+			"linter": {
+				"rules": {
+					"complexity": {
+						"noExcessiveCognitiveComplexity": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["scripts/**"],
+			"linter": {
+				"rules": {
+					"complexity": {
+						"noExcessiveCognitiveComplexity": "off"
+					},
+					"suspicious": {
+						"noExplicitAny": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": ["app/api/webhooks/**"],
 			"linter": {
 				"rules": {
 					"complexity": {

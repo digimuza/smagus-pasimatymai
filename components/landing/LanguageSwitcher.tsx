@@ -26,6 +26,7 @@ export function LanguageSwitcher() {
 					}`}
 					key={l}
 					onClick={() => switchLocale(l)}
+					type="button"
 				>
 					{localeFlags[l]}
 				</button>

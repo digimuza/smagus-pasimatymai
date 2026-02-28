@@ -91,6 +91,7 @@ export default function GamePage() {
 						aria-label={t("common.openMenu")}
 						className="text-text-muted transition-colors hover:text-text"
 						onClick={() => setIsSidebarOpen(true)}
+						type="button"
 					>
 						<svg
 							className="h-8 w-8"

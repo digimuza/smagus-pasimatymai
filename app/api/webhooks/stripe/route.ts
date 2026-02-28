@@ -210,6 +210,8 @@ export async function POST(req: NextRequest) {
 			}
 			break;
 		}
+		default:
+			break;
 	}
 
 	return NextResponse.json({ received: true });

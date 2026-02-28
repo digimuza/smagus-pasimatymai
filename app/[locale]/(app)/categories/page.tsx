@@ -63,6 +63,7 @@ export default function CategoriesPage() {
 										} ${isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
 										disabled={isDisabled}
 										onClick={() => !isDisabled && toggleCategory(section.name)}
+										type="button"
 									>
 										<Checkbox
 											checked={isActive}
@@ -115,6 +116,7 @@ export default function CategoriesPage() {
 											onClick={() =>
 												!isDisabled && toggleCategory(section.name)
 											}
+											type="button"
 										>
 											<Checkbox
 												checked={isActive}

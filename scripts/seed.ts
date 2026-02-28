@@ -1,8 +1,8 @@
 // Load env vars before any payload imports (workaround for @next/env + tsx incompatibility)
 import "./load-env";
 
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { getPayload } from "payload";
 import config from "../payload.config";
 
@@ -96,7 +96,7 @@ async function seed() {
 		}
 
 		// Create questions for this category (idempotent by legacyId)
-		const catId = categoryIdMap.get(section.name)!;
+		const catId = categoryIdMap.get(section.name) as number;
 		let createdCount = 0;
 		let skippedCount = 0;
 

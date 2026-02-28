@@ -21,22 +21,13 @@ import {
 	getNextQuestion,
 	getSuperlikedQuestions,
 } from "@/lib/questionEngine";
-import {
-	DEFAULT_SPICY_SETTINGS,
-	RARITY_LABELS,
-	SPICY_CARD_TYPE_LABELS,
-} from "@/lib/spicyCardsData";
-import {
-	canAccessSpicyCards,
-	getQuestionLimit,
-	isPremium,
-} from "@/lib/subscription";
-import {
-	Question,
-	type QuestionContextType,
-	type QuestionData,
-	type QuestionState,
-	type Section,
+import { DEFAULT_SPICY_SETTINGS } from "@/lib/spicyCardsData";
+import { canAccessSpicyCards, getQuestionLimit } from "@/lib/subscription";
+import type {
+	QuestionContextType,
+	QuestionData,
+	QuestionState,
+	Section,
 } from "@/types";
 import {
 	RARITY_PROBABILITIES,
@@ -51,7 +42,7 @@ const QuestionContext = createContext<QuestionContextType | undefined>(
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	const locale = useLocale();
 	const t = useTranslations("common");
-	const { isAuthenticated, player, subscription } = useAuth();
+	const { isAuthenticated, subscription } = useAuth();
 	const [questionData, setQuestionData] = useState<QuestionData | null>(null);
 	const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
 	const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
@@ -86,7 +77,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		const localProgress = state.questionStates;
 		if (localProgress.length > 0) {
 			const items = localProgress.map((qs) => ({
-				audience: state.audience!,
+				audience: state.audience as string,
 				questionId: qs.id,
 				status: qs.status === "new" ? "answered" : qs.status,
 				viewedAt: qs.answeredAt,

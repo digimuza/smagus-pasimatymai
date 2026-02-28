@@ -3,8 +3,8 @@ function getDateStr(date: Date): string {
 }
 
 function diffDays(dateA: string, dateB: string): number {
-	const a = new Date(dateA + "T00:00:00Z");
-	const b = new Date(dateB + "T00:00:00Z");
+	const a = new Date(`${dateA}T00:00:00Z`);
+	const b = new Date(`${dateB}T00:00:00Z`);
 	return Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24));
 }
 

@@ -1,8 +1,8 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import path from "path";
 import { buildConfig } from "payload";
-import { fileURLToPath } from "url";
 import { Audiences } from "./collections/Audiences";
 import { Categories } from "./collections/Categories";
 import { DailyQuestions } from "./collections/DailyQuestions";

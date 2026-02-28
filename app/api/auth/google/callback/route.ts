@@ -11,8 +11,8 @@ const GOOGLE_REDIRECT_URI =
 async function exchangeCodeForTokens(code: string) {
 	const res = await fetch("https://oauth2.googleapis.com/token", {
 		body: new URLSearchParams({
-			client_id: GOOGLE_CLIENT_ID!,
-			client_secret: GOOGLE_CLIENT_SECRET!,
+			client_id: GOOGLE_CLIENT_ID || "",
+			client_secret: GOOGLE_CLIENT_SECRET || "",
 			code,
 			grant_type: "authorization_code",
 			redirect_uri: GOOGLE_REDIRECT_URI,

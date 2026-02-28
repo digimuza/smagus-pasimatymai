@@ -8,7 +8,7 @@ export function SocialProof() {
 			<div className="mx-auto max-w-6xl space-y-3 px-4 text-center sm:px-6 lg:px-8">
 				<p className="text-sm text-text-dimmed italic">{t("testimonial")}</p>
 				<div className="flex justify-center gap-1">
-					{[...Array(5)].map((_, i) => (
+					{[...new Array(5)].map((_, i) => (
 						<span className="text-primary text-sm" key={i}>
 							★
 						</span>

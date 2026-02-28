@@ -46,6 +46,7 @@ export function DailyQuestion({ audience }: { audience: string }) {
 			<button
 				className="flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-primary"
 				onClick={handleShare}
+				type="button"
 			>
 				<svg
 					className="h-4 w-4"

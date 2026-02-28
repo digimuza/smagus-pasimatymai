@@ -1,6 +1,6 @@
-import * as fs from "fs";
-import Module from "module";
-import * as path from "path";
+import * as fs from "node:fs";
+import Module from "node:module";
+import * as path from "node:path";
 
 // Load .env.local manually
 const envPath = path.resolve(__dirname, "../.env.local");

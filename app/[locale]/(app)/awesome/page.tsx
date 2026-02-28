@@ -144,6 +144,7 @@ export default function AwesomePage() {
 									: "text-text-muted"
 							}`}
 							onClick={() => setView("cards")}
+							type="button"
 						>
 							{t("viewCards")}
 						</button>
@@ -154,6 +155,7 @@ export default function AwesomePage() {
 									: "text-text-muted"
 							}`}
 							onClick={() => setView("list")}
+							type="button"
 						>
 							{t("viewList")}
 						</button>
@@ -196,6 +198,7 @@ export default function AwesomePage() {
 								currentQuestion &&
 								shareQuestion(currentQuestion.question, audience || undefined)
 							}
+							type="button"
 						>
 							<svg
 								className="h-5 w-5"
@@ -217,6 +220,7 @@ export default function AwesomePage() {
 							onClick={() =>
 								currentQuestion && handleUnfavorite(currentQuestion)
 							}
+							type="button"
 						>
 							<svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
 								<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -231,6 +235,7 @@ export default function AwesomePage() {
 							className="rounded-full bg-background-light p-3 transition-colors hover:bg-background-lighter disabled:cursor-not-allowed disabled:opacity-30"
 							disabled={currentIndex === 0}
 							onClick={handlePrevious}
+							type="button"
 						>
 							<svg
 								className="h-6 w-6 text-text"
@@ -254,6 +259,7 @@ export default function AwesomePage() {
 							className="rounded-full bg-background-light p-3 transition-colors hover:bg-background-lighter disabled:cursor-not-allowed disabled:opacity-30"
 							disabled={currentIndex === filteredQuestions.length - 1}
 							onClick={handleNext}
+							type="button"
 						>
 							<svg
 								className="h-6 w-6 text-text"
@@ -294,6 +300,7 @@ export default function AwesomePage() {
 										onClick={() =>
 											shareQuestion(q.question, audience || undefined)
 										}
+										type="button"
 									>
 										<svg
 											className="h-4 w-4"
@@ -312,6 +319,7 @@ export default function AwesomePage() {
 									<button
 										className="p-1.5 text-accent/60 transition-colors hover:text-accent"
 										onClick={() => handleUnfavorite(q)}
+										type="button"
 									>
 										<svg
 											className="h-4 w-4"

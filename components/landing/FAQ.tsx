@@ -21,6 +21,7 @@ function FAQItem({
 				aria-expanded={isOpen}
 				className="group flex w-full items-center justify-between py-5 text-left"
 				onClick={onToggle}
+				type="button"
 			>
 				<span className="pr-4 font-medium text-text">{question}</span>
 				<motion.span

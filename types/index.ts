@@ -41,7 +41,7 @@ export interface QuestionContextType {
 	audience: string | null;
 	availableQuestionsCount: number;
 	currentQuestion: Question | null;
-	currentSpicyCard: any | null;
+	currentSpicyCard: import("./spicyCards").SpicyCard | null;
 	dismissSpicyCard: () => void;
 	enabledSpicyCardTypes: string[];
 	isCategoryActive: (categoryName: string) => boolean;

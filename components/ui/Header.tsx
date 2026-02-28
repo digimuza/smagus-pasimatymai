@@ -30,6 +30,7 @@ export function Header({
 				aria-label={t("back")}
 				className="text-text-muted transition-colors hover:text-text"
 				onClick={() => router.push(backHref)}
+				type="button"
 			>
 				<svg
 					className="h-8 w-8"
