@@ -1,43 +1,41 @@
-'use client';
+"use client";
 
-type BadgeVariant = 'default' | 'success' | 'warning' | 'info';
-type BadgeSize = 'sm' | 'md';
+type BadgeVariant = "default" | "success" | "warning" | "info";
+type BadgeSize = "sm" | "md";
 
 interface BadgeProps {
-  variant?: BadgeVariant;
-  size?: BadgeSize;
-  children: React.ReactNode;
-  className?: string;
+	children: React.ReactNode;
+	className?: string;
+	size?: BadgeSize;
+	variant?: BadgeVariant;
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: 'bg-primary/20 text-primary',
-  success: 'bg-success/20 text-success',
-  warning: 'bg-warning/20 text-warning',
-  info: 'bg-info/20 text-info',
+	default: "bg-primary/20 text-primary",
+	info: "bg-info/20 text-info",
+	success: "bg-success/20 text-success",
+	warning: "bg-warning/20 text-warning",
 };
 
 const sizeStyles: Record<BadgeSize, string> = {
-  sm: 'px-2 py-0.5 text-xs',
-  md: 'px-3 py-1 text-sm',
+	md: "px-3 py-1 text-sm",
+	sm: "px-2 py-0.5 text-xs",
 };
 
 export function Badge({
-  variant = 'default',
-  size = 'md',
-  children,
-  className = '',
+	variant = "default",
+	size = "md",
+	children,
+	className = "",
 }: BadgeProps) {
-  return (
-    <span
-      className={`
+	return (
+		<span
+			className={`
         ${variantStyles[variant]}
-        ${sizeStyles[size]}
-        inline-flex items-center gap-1 rounded-full font-medium
-        ${className}
+        ${sizeStyles[size]}inline-flex items-center gap-1 rounded-full font-medium ${className}
       `}
-    >
-      {children}
-    </span>
-  );
+		>
+			{children}
+		</span>
+	);
 }

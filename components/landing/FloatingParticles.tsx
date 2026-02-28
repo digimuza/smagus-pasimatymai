@@ -1,67 +1,82 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-const EMOJIS = ['💜', '💕', '✨', '🌹', '💫', '💗', '😘', '🦋', '💘'];
+const EMOJIS = ["💜", "💕", "✨", "🌹", "💫", "💗", "😘", "🦋", "💘"];
 
 const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
-  id: i,
-  emoji: EMOJIS[i % EMOJIS.length],
-  left: `${5 + (i * 5.3) % 90}%`,
-  delay: i * 0.6,
-  duration: 6 + (i % 5) * 1.5,
-  size: 12 + (i % 5) * 5,
-  driftAmplitude: 20 + (i % 4) * 15,
+	delay: i * 0.6,
+	driftAmplitude: 20 + (i % 4) * 15,
+	duration: 6 + (i % 5) * 1.5,
+	emoji: EMOJIS[i % EMOJIS.length],
+	id: i,
+	left: `${5 + ((i * 5.3) % 90)}%`,
+	size: 12 + (i % 5) * 5,
 }));
 
-function Particle({ emoji, left, delay, duration, size, driftAmplitude }: {
-  emoji: string;
-  left: string;
-  delay: number;
-  duration: number;
-  size: number;
-  driftAmplitude: number;
+function Particle({
+	emoji,
+	left,
+	delay,
+	duration,
+	size,
+	driftAmplitude,
+}: {
+	emoji: string;
+	left: string;
+	delay: number;
+	duration: number;
+	size: number;
+	driftAmplitude: number;
 }) {
-  const travel = typeof window !== 'undefined' ? window.innerHeight + 100 : 900;
+	const travel = typeof window !== "undefined" ? window.innerHeight + 100 : 900;
 
-  return (
-    <motion.div
-      className="absolute pointer-events-none select-none will-change-transform"
-      style={{ left, fontSize: size, bottom: -40 }}
-      animate={{
-        y: [0, -travel],
-        x: [0, Math.sin(delay) * driftAmplitude, Math.cos(delay) * -driftAmplitude * 0.7, Math.sin(delay) * driftAmplitude * 0.5],
-        opacity: [0, 1, 1, 0.6, 0],
-        rotate: [0, 15, -10, 20, 0],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: 'easeOut',
-      }}
-    >
-      {emoji}
-    </motion.div>
-  );
+	return (
+		<motion.div
+			animate={{
+				opacity: [0, 1, 1, 0.6, 0],
+				rotate: [0, 15, -10, 20, 0],
+				x: [
+					0,
+					Math.sin(delay) * driftAmplitude,
+					Math.cos(delay) * -driftAmplitude * 0.7,
+					Math.sin(delay) * driftAmplitude * 0.5,
+				],
+				y: [0, -travel],
+			}}
+			className="pointer-events-none absolute select-none will-change-transform"
+			style={{ bottom: -40, fontSize: size, left }}
+			transition={{
+				delay,
+				duration,
+				ease: "easeOut",
+				repeat: Infinity,
+			}}
+		>
+			{emoji}
+		</motion.div>
+	);
 }
 
 export function FloatingParticles() {
-  const [mounted, setMounted] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
+	const [mounted, setMounted] = useState(false);
+	const prefersReducedMotion = useReducedMotion();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
-  if (!mounted || prefersReducedMotion) return null;
+	if (!mounted || prefersReducedMotion) return null;
 
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      {PARTICLES.map((p) => (
-        <Particle key={p.id} {...p} />
-      ))}
-    </div>
-  );
+	return (
+		<div
+			aria-hidden="true"
+			className="pointer-events-none fixed inset-0 overflow-hidden"
+		>
+			{PARTICLES.map((p) => (
+				<Particle key={p.id} {...p} />
+			))}
+		</div>
+	);
 }

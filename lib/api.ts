@@ -1,76 +1,81 @@
-import { getPayloadClient } from './payload';
+import { getPayloadClient } from "./payload";
 
-export async function getAllCategoriesWithQuestions(locale = 'lt', audience = 'romantic') {
-  const payload = await getPayloadClient();
+export async function getAllCategoriesWithQuestions(
+	locale = "lt",
+	audience = "romantic",
+) {
+	const payload = await getPayloadClient();
 
-  const categories = await payload.find({
-    collection: 'categories',
-    where: { locale: { equals: locale } },
-    sort: 'sortOrder',
-    limit: 100,
-  });
+	const categories = await payload.find({
+		collection: "categories",
+		limit: 100,
+		sort: "sortOrder",
+		where: { locale: { equals: locale } },
+	});
 
-  const allSections = await Promise.all(
-    categories.docs.map(async (cat) => {
-      const questions = await payload.find({
-        collection: 'questions',
-        where: {
-          category: { equals: cat.id },
-          locale: { equals: locale },
-          audience: { equals: audience },
-          status: { equals: 'published' },
-        },
-        limit: 1000,
-        sort: 'legacyId',
-      });
+	const allSections = await Promise.all(
+		categories.docs.map(async (cat) => {
+			const questions = await payload.find({
+				collection: "questions",
+				limit: 1000,
+				sort: "legacyId",
+				where: {
+					audience: { equals: audience },
+					category: { equals: cat.id },
+					locale: { equals: locale },
+					status: { equals: "published" },
+				},
+			});
 
-      return {
-        name: cat.name,
-        type: cat.type as 'safe' | 'intimate',
-        range: `${questions.docs.length} klausimų`,
-        questions: questions.docs.map((q) => ({
-          id: q.id,
-          question: q.question,
-        })),
-      };
-    })
-  );
+			return {
+				name: cat.name,
+				questions: questions.docs.map((q) => ({
+					id: q.id,
+					question: q.question,
+				})),
+				range: `${questions.docs.length} klausimų`,
+				type: cat.type as "safe" | "intimate",
+			};
+		}),
+	);
 
-  // Filter out empty sections and intimate sections for kids
-  const sections = allSections.filter((s) => {
-    if (s.questions.length === 0) return false;
-    if (audience === 'kids' && s.type === 'intimate') return false;
-    return true;
-  });
+	// Filter out empty sections and intimate sections for kids
+	const sections = allSections.filter((s) => {
+		if (s.questions.length === 0) return false;
+		if (audience === "kids" && s.type === "intimate") return false;
+		return true;
+	});
 
-  return sections;
+	return sections;
 }
 
-export async function getAllSpicyCards(locale = 'lt', audience = 'romantic') {
-  const payload = await getPayloadClient();
+export async function getAllSpicyCards(locale = "lt", audience = "romantic") {
+	const payload = await getPayloadClient();
 
-  const cards = await payload.find({
-    collection: 'spicy-cards',
-    where: {
-      locale: { equals: locale },
-      audience: { equals: audience },
-      status: { equals: 'published' },
-    },
-    limit: 1000,
-    depth: 1,
-  });
+	const cards = await payload.find({
+		collection: "spicy-cards",
+		depth: 1,
+		limit: 1000,
+		where: {
+			audience: { equals: audience },
+			locale: { equals: locale },
+			status: { equals: "published" },
+		},
+	});
 
-  return cards.docs.map((card) => {
-    const cardType = card.cardType as { slug: string; icon: string; color: string } | number;
-    const isPopulated = typeof cardType !== 'number';
+	return cards.docs.map((card) => {
+		const cardType = card.cardType as
+			| { slug: string; icon: string; color: string }
+			| number;
+		const isPopulated = typeof cardType !== "number";
 
-    return {
-      id: String(card.id),
-      type: isPopulated ? cardType.slug : '',
-      title: card.title,
-      description: card.description,
-      icon: isPopulated ? cardType.icon : '',
-      color: isPopulated ? cardType.color : '',
-    };
-  });
+		return {
+			color: isPopulated ? cardType.color : "",
+			description: card.description,
+			icon: isPopulated ? cardType.icon : "",
+			id: String(card.id),
+			title: card.title,
+			type: isPopulated ? cardType.slug : "",
+		};
+	});
 }

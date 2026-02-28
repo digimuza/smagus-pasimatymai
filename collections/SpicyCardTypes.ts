@@ -1,47 +1,47 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig } from "payload";
 
 export const SpicyCardTypes: CollectionConfig = {
-  slug: 'spicy-card-types',
-  admin: {
-    useAsTitle: 'label',
-  },
-  access: {
-    read: () => true,
-    create: ({ req }) => !!req.user,
-    update: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-  },
-  fields: [
-    {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
-      name: 'label',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'icon',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'color',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: 'locale',
-      type: 'select',
-      required: true,
-      defaultValue: 'lt',
-      options: [
-        { label: 'Lietuvių', value: 'lt' },
-        { label: 'English', value: 'en' },
-      ],
-    },
-  ],
+	access: {
+		create: ({ req }) => !!req.user,
+		delete: ({ req }) => !!req.user,
+		read: () => true,
+		update: ({ req }) => !!req.user,
+	},
+	admin: {
+		useAsTitle: "label",
+	},
+	fields: [
+		{
+			name: "slug",
+			required: true,
+			type: "text",
+			unique: true,
+		},
+		{
+			name: "label",
+			required: true,
+			type: "text",
+		},
+		{
+			name: "icon",
+			required: true,
+			type: "text",
+		},
+		{
+			name: "color",
+			required: true,
+			type: "text",
+		},
+		{
+			defaultValue: "lt",
+			name: "locale",
+			options: [
+				{ label: "Lietuvių", value: "lt" },
+				{ label: "English", value: "en" },
+			],
+			required: true,
+			type: "select",
+		},
+	],
+	slug: "spicy-card-types",
 };

@@ -1,66 +1,66 @@
 export interface Question {
-  id: number;
-  question: string;
+	id: number;
+	question: string;
 }
 
 export interface Section {
-  name: string;
-  type: 'safe' | 'intimate';
-  range: string;
-  questions: Question[];
+	name: string;
+	questions: Question[];
+	range: string;
+	type: "safe" | "intimate";
 }
 
 export interface QuestionData {
-  title: string;
-  total_questions: number;
-  sections: Section[];
+	sections: Section[];
+	title: string;
+	total_questions: number;
 }
 
-export type QuestionStatus = 'new' | 'skipped' | 'answered' | 'superliked';
+export type QuestionStatus = "new" | "skipped" | "answered" | "superliked";
 
 export interface QuestionState {
-  id: number;
-  status: QuestionStatus;
-  answeredAt?: string;
+	answeredAt?: string;
+	id: number;
+	status: QuestionStatus;
 }
 
 export interface AppState {
-  questionStates: QuestionState[];
-  activeCategories: string[];
-  currentQuestionId: number | null;
-  lastPlayed?: string;
-  spicyCardsEnabled?: boolean;
-  spicyCardsRarity?: string;
-  spicyCardTypes?: string[];
-  audience?: string | null;
+	activeCategories: string[];
+	audience?: string | null;
+	currentQuestionId: number | null;
+	lastPlayed?: string;
+	questionStates: QuestionState[];
+	spicyCardsEnabled?: boolean;
+	spicyCardsRarity?: string;
+	spicyCardTypes?: string[];
 }
 
 export interface QuestionContextType {
-  questions: Question[];
-  sections: Section[];
-  questionStates: QuestionState[];
-  activeCategories: string[];
-  currentQuestion: Question | null;
-  currentSpicyCard: any | null;
-  availableQuestionsCount: number;
-  superlikedQuestions: Question[];
-  audience: string | null;
-  setAudience: (slug: string) => void;
-  skipQuestion: () => void;
-  answerQuestion: () => void;
-  superlikeQuestion: () => void;
-  dismissSpicyCard: () => void;
-  toggleCategory: (categoryName: string) => void;
-  resetProgress: () => void;
-  isCategoryActive: (categoryName: string) => boolean;
-  spicyCardsEnabled: boolean;
-  spicyCardsRarity: string;
-  enabledSpicyCardTypes: string[];
-  toggleSpicyCards: (enabled: boolean) => void;
-  updateSpicyCardsRarity: (rarity: string) => void;
-  toggleSpicyCardType: (type: string) => void;
-  updateQuestionState: (questionId: number, status: QuestionStatus) => void;
-  isContentLimited: boolean;
-  showPaywall: boolean;
-  setShowPaywall: (show: boolean) => void;
+	activeCategories: string[];
+	answerQuestion: () => void;
+	audience: string | null;
+	availableQuestionsCount: number;
+	currentQuestion: Question | null;
+	currentSpicyCard: any | null;
+	dismissSpicyCard: () => void;
+	enabledSpicyCardTypes: string[];
+	isCategoryActive: (categoryName: string) => boolean;
+	isContentLimited: boolean;
+	questionStates: QuestionState[];
+	questions: Question[];
+	resetProgress: () => void;
+	sections: Section[];
+	setAudience: (slug: string) => void;
+	setShowPaywall: (show: boolean) => void;
+	showPaywall: boolean;
+	skipQuestion: () => void;
+	spicyCardsEnabled: boolean;
+	spicyCardsRarity: string;
+	superlikedQuestions: Question[];
+	superlikeQuestion: () => void;
+	toggleCategory: (categoryName: string) => void;
+	toggleSpicyCards: (enabled: boolean) => void;
+	toggleSpicyCardType: (type: string) => void;
+	updateQuestionState: (questionId: number, status: QuestionStatus) => void;
+	updateSpicyCardsRarity: (rarity: string) => void;
 }

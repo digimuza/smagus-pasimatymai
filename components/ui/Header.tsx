@@ -1,45 +1,61 @@
-'use client';
+"use client";
 
-import { useRouter } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 
 interface HeaderProps {
-  title: string;
-  showBack?: boolean;
-  backHref?: string;
-  leftAction?: React.ReactNode;
-  rightAction?: React.ReactNode;
-  className?: string;
+	backHref?: string;
+	className?: string;
+	leftAction?: React.ReactNode;
+	rightAction?: React.ReactNode;
+	showBack?: boolean;
+	title: string;
 }
 
 export function Header({
-  title,
-  showBack = false,
-  backHref = '/game',
-  leftAction,
-  rightAction,
-  className = '',
+	title,
+	showBack = false,
+	backHref = "/game",
+	leftAction,
+	rightAction,
+	className = "",
 }: HeaderProps) {
-  const router = useRouter();
-  const t = useTranslations('common');
+	const router = useRouter();
+	const t = useTranslations("common");
 
-  const left = leftAction ?? (showBack ? (
-    <button
-      onClick={() => router.push(backHref)}
-      className="text-text-muted hover:text-text transition-colors"
-      aria-label={t('back')}
-    >
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-  ) : <div className="w-8" />);
+	const left =
+		leftAction ??
+		(showBack ? (
+			<button
+				aria-label={t("back")}
+				className="text-text-muted transition-colors hover:text-text"
+				onClick={() => router.push(backHref)}
+			>
+				<svg
+					className="h-8 w-8"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
+					<path
+						d="M15 19l-7-7 7-7"
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						strokeWidth={2}
+					/>
+				</svg>
+			</button>
+		) : (
+			<div className="w-8" />
+		));
 
-  return (
-    <header className={`flex items-center justify-between p-6 bg-background-light ${className}`}>
-      {left}
-      <h1 className="text-2xl font-light text-primary">{title}</h1>
-      {rightAction ?? <div className="w-8" />}
-    </header>
-  );
+	return (
+		<header
+			className={`flex items-center justify-between bg-background-light p-6 ${className}`}
+		>
+			{left}
+			<h1 className="font-light text-2xl text-primary">{title}</h1>
+			{rightAction ?? <div className="w-8" />}
+		</header>
+	);
 }

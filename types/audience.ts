@@ -1,45 +1,45 @@
-export type AudienceSlug = 'romantic' | 'family' | 'kids' | 'friends';
+export type AudienceSlug = "romantic" | "family" | "kids" | "friends";
 
 export interface AudienceMetadata {
-  slug: AudienceSlug;
-  name: string;
-  description: string;
-  icon: string;
-  color: string;
-  sortOrder: number;
+	color: string;
+	description: string;
+	icon: string;
+	name: string;
+	slug: AudienceSlug;
+	sortOrder: number;
 }
 
 export const AUDIENCE_DEFAULTS: AudienceMetadata[] = [
-  {
-    slug: 'romantic',
-    name: 'Poroms',
-    description: 'Klausimai, kurie padės geriau pažinti savo antrąją pusę',
-    icon: '💜',
-    color: '#9B59B6',
-    sortOrder: 1,
-  },
-  {
-    slug: 'family',
-    name: 'Šeimai',
-    description: 'Šilti klausimai visai šeimai — nuo senelių iki vaikų',
-    icon: '🏠',
-    color: '#3498DB',
-    sortOrder: 2,
-  },
-  {
-    slug: 'friends',
-    name: 'Draugams',
-    description: 'Klausimai draugų vakarams ir kompanijoms',
-    icon: '🎉',
-    color: '#E67E22',
-    sortOrder: 3,
-  },
-  {
-    slug: 'kids',
-    name: 'Vaikams',
-    description: 'Linksmi ir saugūs klausimai mažiesiems',
-    icon: '🌈',
-    color: '#2ECC71',
-    sortOrder: 4,
-  },
+	{
+		color: "#9B59B6",
+		description: "Klausimai, kurie padės geriau pažinti savo antrąją pusę",
+		icon: "💜",
+		name: "Poroms",
+		slug: "romantic",
+		sortOrder: 1,
+	},
+	{
+		color: "#3498DB",
+		description: "Šilti klausimai visai šeimai — nuo senelių iki vaikų",
+		icon: "🏠",
+		name: "Šeimai",
+		slug: "family",
+		sortOrder: 2,
+	},
+	{
+		color: "#E67E22",
+		description: "Klausimai draugų vakarams ir kompanijoms",
+		icon: "🎉",
+		name: "Draugams",
+		slug: "friends",
+		sortOrder: 3,
+	},
+	{
+		color: "#2ECC71",
+		description: "Linksmi ir saugūs klausimai mažiesiems",
+		icon: "🌈",
+		name: "Vaikams",
+		slug: "kids",
+		sortOrder: 4,
+	},
 ];

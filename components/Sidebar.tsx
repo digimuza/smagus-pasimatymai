@@ -1,173 +1,241 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from '@/i18n/navigation';
-import { useTranslations } from 'next-intl';
-import { useQuestions } from '@/context/QuestionContext';
-import { useAuth } from '@/context/AuthContext';
-import { AUDIENCE_DEFAULTS } from '@/types/audience';
-import { Sheet, Button, Counter } from '@/components/ui';
-import { LoginSheet } from '@/components/auth/LoginSheet';
-import { SubmitQuestion } from '@/components/SubmitQuestion';
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { LoginSheet } from "@/components/auth/LoginSheet";
+import { SubmitQuestion } from "@/components/SubmitQuestion";
+import { Button, Counter, Sheet } from "@/components/ui";
+import { useAuth } from "@/context/AuthContext";
+import { useQuestions } from "@/context/QuestionContext";
+import { useRouter } from "@/i18n/navigation";
+import { AUDIENCE_DEFAULTS } from "@/types/audience";
 
 interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
+	isOpen: boolean;
+	onClose: () => void;
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const router = useRouter();
-  const t = useTranslations('sidebar');
-  const tc = useTranslations('common');
-  const ta = useTranslations('auth');
-  const { player, isAuthenticated, logout } = useAuth();
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSubmit, setShowSubmit] = useState(false);
-  const {
-    sections,
-    activeCategories,
-    resetProgress,
-    availableQuestionsCount,
-    spicyCardsEnabled,
-    audience,
-  } = useQuestions();
+	const router = useRouter();
+	const t = useTranslations("sidebar");
+	const tc = useTranslations("common");
+	const ta = useTranslations("auth");
+	const { player, isAuthenticated, logout } = useAuth();
+	const [showLogin, setShowLogin] = useState(false);
+	const [showSubmit, setShowSubmit] = useState(false);
+	const {
+		sections,
+		activeCategories,
+		resetProgress,
+		availableQuestionsCount,
+		spicyCardsEnabled,
+		audience,
+	} = useQuestions();
 
-  const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
+	const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
-  return (
-    <Sheet isOpen={isOpen} onClose={onClose} side="left">
-      <div className="p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-primary">{t('title')}</h2>
-          <button
-            onClick={onClose}
-            className="text-text-muted hover:text-text transition-colors"
-            aria-label={tc('close')}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+	return (
+		<Sheet isOpen={isOpen} onClose={onClose} side="left">
+			<div className="p-6">
+				{/* Header */}
+				<div className="mb-6 flex items-center justify-between">
+					<h2 className="font-light text-2xl text-primary">{t("title")}</h2>
+					<button
+						aria-label={tc("close")}
+						className="text-text-muted transition-colors hover:text-text"
+						onClick={onClose}
+					>
+						<svg
+							className="h-6 w-6"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								d="M6 18L18 6M6 6l12 12"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+							/>
+						</svg>
+					</button>
+				</div>
 
-        <Counter total={availableQuestionsCount} label={t('remaining')} className="mb-6 p-4 bg-background-lighter rounded-lg" />
+				<Counter
+					className="mb-6 rounded-lg bg-background-lighter p-4"
+					label={t("remaining")}
+					total={availableQuestionsCount}
+				/>
 
-        <div className="mb-6 p-4 bg-background-lighter rounded-lg">
-          <p className="text-text-muted text-sm mb-2">{t('activeCategories')}</p>
-          <p className="text-primary text-2xl font-light">
-            {activeCategories.length} / {sections.length}
-          </p>
-        </div>
+				<div className="mb-6 rounded-lg bg-background-lighter p-4">
+					<p className="mb-2 text-sm text-text-muted">
+						{t("activeCategories")}
+					</p>
+					<p className="font-light text-2xl text-primary">
+						{activeCategories.length} / {sections.length}
+					</p>
+				</div>
 
-        <div className="space-y-3 mb-8">
-          <Button
-            variant="secondary"
-            fullWidth
-            icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-              </svg>
-            }
-            onClick={() => { router.push('/categories'); onClose(); }}
-          >
-            {t('viewCategories')}
-          </Button>
+				<div className="mb-8 space-y-3">
+					<Button
+						fullWidth
+						icon={
+							<svg
+								className="h-5 w-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									d="M4 6h16M4 10h16M4 14h16M4 18h16"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+								/>
+							</svg>
+						}
+						onClick={() => {
+							router.push("/categories");
+							onClose();
+						}}
+						variant="secondary"
+					>
+						{t("viewCategories")}
+					</Button>
 
-          <Button
-            variant="secondary"
-            fullWidth
-            icon={<span className="text-lg">🎲</span>}
-            onClick={() => { router.push('/settings'); onClose(); }}
-          >
-            <span className="flex-1 text-left">{t('spicyCards')}</span>
-            {spicyCardsEnabled && (
-              <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-          </Button>
+					<Button
+						fullWidth
+						icon={<span className="text-lg">🎲</span>}
+						onClick={() => {
+							router.push("/settings");
+							onClose();
+						}}
+						variant="secondary"
+					>
+						<span className="flex-1 text-left">{t("spicyCards")}</span>
+						{spicyCardsEnabled && (
+							<svg
+								className="h-5 w-5 text-green-500"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									d="M5 13l4 4L19 7"
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2.5}
+								/>
+							</svg>
+						)}
+					</Button>
 
-          <Button
-            variant="secondary"
-            fullWidth
-            icon={<span className="text-lg">{currentAudience?.icon || '🎮'}</span>}
-            onClick={() => { router.push('/audience'); onClose(); }}
-          >
-            {t('changeMode')}
-          </Button>
+					<Button
+						fullWidth
+						icon={
+							<span className="text-lg">{currentAudience?.icon || "🎮"}</span>
+						}
+						onClick={() => {
+							router.push("/audience");
+							onClose();
+						}}
+						variant="secondary"
+					>
+						{t("changeMode")}
+					</Button>
 
-          {isAuthenticated && (
-            <Button
-              variant="secondary"
-              fullWidth
-              icon={<span className="text-lg">💡</span>}
-              onClick={() => { setShowSubmit(true); onClose(); }}
-            >
-              {t('submitQuestion')}
-            </Button>
-          )}
+					{isAuthenticated && (
+						<Button
+							fullWidth
+							icon={<span className="text-lg">💡</span>}
+							onClick={() => {
+								setShowSubmit(true);
+								onClose();
+							}}
+							variant="secondary"
+						>
+							{t("submitQuestion")}
+						</Button>
+					)}
 
-          <Button
-            variant="danger"
-            fullWidth
-            onClick={() => {
-              if (confirm(tc('confirm'))) {
-                resetProgress();
-                onClose();
-              }
-            }}
-          >
-            {t('reset')}
-          </Button>
-        </div>
+					<Button
+						fullWidth
+						onClick={() => {
+							if (confirm(tc("confirm"))) {
+								resetProgress();
+								onClose();
+							}
+						}}
+						variant="danger"
+					>
+						{t("reset")}
+					</Button>
+				</div>
 
-        {/* Auth section */}
-        <div className="border-t border-primary/10 pt-6">
-          {isAuthenticated && player ? (
-            <div className="space-y-3">
-              <div className="flex items-center gap-3 p-3 bg-background-lighter rounded-xl">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center overflow-hidden flex-shrink-0">
-                  {player.avatar ? (
-                    <img src={player.avatar} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-white text-xs font-semibold">
-                      {(player.name || player.email).charAt(0).toUpperCase()}
-                    </span>
-                  )}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-text text-sm font-medium truncate">{player.name || player.email}</p>
-                </div>
-              </div>
-              <Button
-                variant="secondary"
-                fullWidth
-                onClick={() => { router.push('/profile'); onClose(); }}
-              >
-                {ta('profile')}
-              </Button>
-              <Button
-                variant="secondary"
-                fullWidth
-                onClick={async () => { await logout(); onClose(); }}
-              >
-                {ta('logout')}
-              </Button>
-            </div>
-          ) : (
-            <Button
-              variant="primary"
-              fullWidth
-              onClick={() => { setShowLogin(true); onClose(); }}
-            >
-              {ta('loginButton')}
-            </Button>
-          )}
-        </div>
-      </div>
-      <LoginSheet isOpen={showLogin} onClose={() => setShowLogin(false)} />
-      <SubmitQuestion isOpen={showSubmit} onClose={() => setShowSubmit(false)} />
-    </Sheet>
-  );
+				{/* Auth section */}
+				<div className="border-primary/10 border-t pt-6">
+					{isAuthenticated && player ? (
+						<div className="space-y-3">
+							<div className="flex items-center gap-3 rounded-xl bg-background-lighter p-3">
+								<div className="flex h-8 w-8 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-accent">
+									{player.avatar ? (
+										<img
+											alt=""
+											className="h-full w-full object-cover"
+											src={player.avatar}
+										/>
+									) : (
+										<span className="font-semibold text-white text-xs">
+											{(player.name || player.email).charAt(0).toUpperCase()}
+										</span>
+									)}
+								</div>
+								<div className="min-w-0">
+									<p className="truncate font-medium text-sm text-text">
+										{player.name || player.email}
+									</p>
+								</div>
+							</div>
+							<Button
+								fullWidth
+								onClick={() => {
+									router.push("/profile");
+									onClose();
+								}}
+								variant="secondary"
+							>
+								{ta("profile")}
+							</Button>
+							<Button
+								fullWidth
+								onClick={async () => {
+									await logout();
+									onClose();
+								}}
+								variant="secondary"
+							>
+								{ta("logout")}
+							</Button>
+						</div>
+					) : (
+						<Button
+							fullWidth
+							onClick={() => {
+								setShowLogin(true);
+								onClose();
+							}}
+							variant="primary"
+						>
+							{ta("loginButton")}
+						</Button>
+					)}
+				</div>
+			</div>
+			<LoginSheet isOpen={showLogin} onClose={() => setShowLogin(false)} />
+			<SubmitQuestion
+				isOpen={showSubmit}
+				onClose={() => setShowSubmit(false)}
+			/>
+		</Sheet>
+	);
 }

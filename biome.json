@@ -1,0 +1,78 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on",
+				"useSortedAttributes": "on",
+				"useSortedInterfaceMembers": "on",
+				"useSortedKeys": "on"
+			}
+		},
+		"enabled": true
+	},
+	"css": {
+		"linter": {
+			"enabled": true
+		},
+		"parser": {
+			"cssModules": true,
+			"tailwindDirectives": true
+		}
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"complexity": {
+				"noExcessiveCognitiveComplexity": {
+					"level": "error",
+					"options": { "maxAllowedComplexity": 25 }
+				}
+			},
+			"nursery": {
+				"useSortedClasses": {
+					"fix": "safe",
+					"level": "warn",
+					"options": { "functions": ["cn", "clsx", "cva"] }
+				}
+			},
+			"performance": {
+				"noBarrelFile": "off"
+			},
+			"recommended": true,
+			"style": {
+				"useConsistentBuiltinInstantiation": "warn",
+				"useDefaultSwitchClause": "warn"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["trigger/process-emails.ts"],
+			"linter": {
+				"rules": {
+					"complexity": {
+						"noExcessiveCognitiveComplexity": "off"
+					}
+				}
+			}
+		}
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": true
+	}
+}

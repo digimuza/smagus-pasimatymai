@@ -1,41 +1,45 @@
 {
-  "name": "santykiu-klausimai",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "seed": "npx tsx scripts/seed.ts",
-    "payload": "npx payload",
-    "generate:types": "npx payload generate:types"
-  },
-  "dependencies": {
-    "@payloadcms/db-postgres": "^3.77.0",
-    "@payloadcms/next": "^3.77.0",
-    "@payloadcms/richtext-lexical": "^3.77.0",
-    "framer-motion": "^12.34.3",
-    "graphql": "^16.12.0",
-    "next": "^15.5.12",
-    "next-intl": "^4.8.3",
-    "payload": "^3.77.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "stripe": "^20.4.0"
-  },
-  "devDependencies": {
-    "@ducanh2912/next-pwa": "^10.2.9",
-    "@types/node": "^20.11.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "autoprefixer": "^10.4.17",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "^15.5.12",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.3.0",
-    "webpack": "^5.90.0"
-  }
+	"dependencies": {
+		"@payloadcms/db-postgres": "^3.77.0",
+		"@payloadcms/next": "^3.77.0",
+		"@payloadcms/richtext-lexical": "^3.77.0",
+		"framer-motion": "^12.34.3",
+		"graphql": "^16.12.0",
+		"next": "^15.5.12",
+		"next-intl": "^4.8.3",
+		"payload": "^3.77.0",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"stripe": "^20.4.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.4",
+		"@ducanh2912/next-pwa": "^10.2.9",
+		"@infisical/cli": "^0.43.40",
+		"@types/node": "^20.11.0",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"autoprefixer": "^10.4.17",
+		"eslint": "^8.56.0",
+		"eslint-config-next": "^15.5.12",
+		"postcss": "^8.4.35",
+		"tailwindcss": "^3.4.1",
+		"tsx": "^4.21.0",
+		"typescript": "^5.3.0",
+		"webpack": "^5.90.0"
+	},
+	"name": "santykiu-klausimai",
+	"packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34",
+	"private": true,
+	"scripts": {
+		"build": "next build",
+		"dev": "next dev",
+		"generate:types": "npx payload generate:types",
+		"lint": "biome check --write .",
+		"payload": "npx payload",
+		"seed": "npx tsx scripts/seed.ts",
+		"start": "next start"
+	},
+	"type": "module",
+	"version": "0.1.0"
 }

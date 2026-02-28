@@ -1,156 +1,174 @@
 {
-  "sections": [
-    {
-      "name": "Gilūs pokalbiai",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks buvo geriausias patarimas, kurį gavai?" },
-        { "question": "Ko labiausiai bijai gyvenime?" },
-        { "question": "Koks buvo tavo lūžio taškas gyvenime?" },
-        { "question": "Jei galėtum pakeisti vieną savo sprendimą, kokį?" },
-        { "question": "Kas tave labiausiai motyvuoja?" },
-        { "question": "Kokia tavo didžiausia svajonė?" },
-        { "question": "Kas padėjo tau tapti tuo, kas esi?" },
-        { "question": "Koks buvo sunkiausias gyvenimo etapas?" },
-        { "question": "Ką norėtum pasakyti savo jaunesniam sau?" },
-        { "question": "Koks gyvenimo įvykis tave labiausiai pakeitė?" },
-        { "question": "Ko labiausiai gailies?" },
-        { "question": "Koks tavo didžiausias pasiekimas?" },
-        { "question": "Ką darytum, jei žinotum, kad nepavyks?" }
-      ]
-    },
-    {
-      "name": "Ar norėtum",
-      "type": "safe",
-      "questions": [
-        { "question": "Ar norėtum žinoti savo ateitį, ar gyventi nežinomybėje?" },
-        { "question": "Ar norėtum turėti daug pinigų, ar daug laisvo laiko?" },
-        { "question": "Ar norėtum gyventi mieste ar kaime?" },
-        { "question": "Ar norėtum mokėti skraidyti, ar būti nematomam?" },
-        { "question": "Ar norėtum visada sakyti tiesą, ar niekada nemeluoti?" },
-        { "question": "Ar norėtum gyventi 200 metų, ar turėti tobulą sveikatą?" },
-        { "question": "Ar norėtum keliauti laiku į praeitį, ar ateitį?" },
-        { "question": "Ar norėtum būti garsu, ar laimingas?" },
-        { "question": "Ar norėtum niekada nemiegoti, ar niekada nevalgyti?" },
-        { "question": "Ar norėtum mokėti visas kalbas, ar groti visais instrumentais?" },
-        { "question": "Ar norėtum gyventi kosmose, ar po vandeniu?" },
-        { "question": "Ar rinktumeis amžiną vasarą, ar amžiną rudenį?" },
-        { "question": "Ar norėtum skaityti mintis, ar matyti ateitį?" }
-      ]
-    },
-    {
-      "name": "Gėdingi prisiminimai",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks buvo gėdingiausias momentas mokykloje?" },
-        { "question": "Kokią kvailystę padarei, bet dabar juokiesi?" },
-        { "question": "Koks buvo nemaloniausias pasimatymas?" },
-        { "question": "Kokią paslaptį ilgai slėpei nuo tėvų?" },
-        { "question": "Koks buvo tavo didžiausias fiasko?" },
-        { "question": "Kokią gėdingą žinutę išsiuntei ne tam žmogui?" },
-        { "question": "Koks buvo juokingiausias nesusipratimas?" },
-        { "question": "Kokia buvo tavo blogiausia šukuosena?" },
-        { "question": "Koks buvo keisčiausias dalykas, kurį padarei dėl susidomėjimo?" },
-        { "question": "Kokią gėdingą dainą slapta mėgsti?" },
-        { "question": "Koks buvo tavo nemaloniausias momentas viešumoje?" },
-        { "question": "Kokio melo dabar gėdijiesi?" },
-        { "question": "Koks buvo tavo netikėčiausias fail?" }
-      ]
-    },
-    {
-      "name": "Nuomonės",
-      "type": "safe",
-      "questions": [
-        { "question": "Kokia populiari nuomonė, su kuria nesutinki?" },
-        { "question": "Koks labiausiai pervertintas dalykas?" },
-        { "question": "Kokia socialinių tinklų tendencija tave erzina?" },
-        { "question": "Koks geriausias filmas visų laikų?" },
-        { "question": "Koks labiausiai neįvertintas maistas?" },
-        { "question": "Kokia yra blogiausia mada, kurią matei?" },
-        { "question": "Koks geriausias būdas praleisti penktadienio vakarą?" },
-        { "question": "Kokia yra geriausia daina, kuri buvo sukurta?" },
-        { "question": "Koks labiausiai pervertintas hobis?" },
-        { "question": "Kokia yra blogiausia pizza pradžia?" },
-        { "question": "Koks geriausias metų laikas ir kodėl?" },
-        { "question": "Kokia yra geriausia TV laida visų laikų?" },
-        { "question": "Koks populiarus patarimas iš tikrųjų yra blogas?" }
-      ]
-    },
-    {
-      "name": "Draugystė",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks buvo geriausias momentas mūsų draugystėje?" },
-        { "question": "Ką pirmą kartą pagalvojai, kai mane sutikai?" },
-        { "question": "Koks buvo juokingiausias nuotykis su draugais?" },
-        { "question": "Kas mane labiausiai nustebino tavyje?" },
-        { "question": "Koks draugas turėjo didžiausią įtaką tavo gyvenimui?" },
-        { "question": "Ką labiausiai vertini mūsų draugystėje?" },
-        { "question": "Kokį nuotykį dar norime patirti kartu?" },
-        { "question": "Koks buvo sunkiausias momentas mūsų draugystėje?" },
-        { "question": "Ką darytum, jei aš išvykčiau gyventi į kitą šalį?" },
-        { "question": "Kokį bendrą prisiminimą niekada nepamiršit?" },
-        { "question": "Koks dalykas mus labiausiai sujungia?" },
-        { "question": "Ką norėtum pakeisti mūsų draugystėje?" },
-        { "question": "Kokia buvo geriausia kelionė su draugais?" }
-      ]
-    },
-    {
-      "name": "Iššūkiai ir žaidimai",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks buvo kvailiausia drąsa, kurią priėmei?" },
-        { "question": "Jei turėtum gyventi viename TV šou, kuriame?" },
-        { "question": "Koks yra sunkiausias dalykas, kurį esi daręs?" },
-        { "question": "Jei turėtum pasirinkti naują vardą, kokį pasirinktum?" },
-        { "question": "Koks talentas, kurį norėtum turėti?" },
-        { "question": "Jei galėtum būti bet kokia istorine asmenybe, kuo būtum?" },
-        { "question": "Koks buvo didžiausias fizinis iššūkis tavo gyvenime?" },
-        { "question": "Jei turėtum rašyti knygą, apie ką ji būtų?" },
-        { "question": "Koks buvo geriausias lažybas, kurias laimėjai?" },
-        { "question": "Jei galėtum turėti bet kokį darbą, kokį pasirinktum?" },
-        { "question": "Koks buvo drąsiausias tavo poelgis?" },
-        { "question": "Jei galėtum mokytis pas bet ką, pas ką mokytumeis?" },
-        { "question": "Kokį iššūkį norėtum įveikti šiemet?" }
-      ]
-    },
-    {
-      "name": "Hipotezės",
-      "type": "safe",
-      "questions": [
-        { "question": "Ką darytum su milijonu eurų?" },
-        { "question": "Jei liktų viena diena gyventi, ką darytum?" },
-        { "question": "Jei galėtum pasikviesti vakarienei bet ką, ką pasirinktum?" },
-        { "question": "Ką darytum, jei niekas nežiūrėtų?" },
-        { "question": "Jei galėtum pabusti bet kurioje šalyje rytoj, kurioje?" },
-        { "question": "Ką darytum, jei turėtum papildomą valandą kiekvieną dieną?" },
-        { "question": "Jei galėtum pažvelgti į bet kieno dienoraštį, kieno?" },
-        { "question": "Ką darytum, jei nebereikėtų dirbti?" },
-        { "question": "Jei turėtum superkompiuterį, ką su juo darytum?" },
-        { "question": "Ką darytum kitaip, jei gyventum iš naujo?" },
-        { "question": "Jei galėtum išspręsti vieną pasaulio problemą, kokią?" },
-        { "question": "Ką darytum, jei galėtum sustabdyti laiką?" },
-        { "question": "Jei galėtum atkeliauti iš ateities, ką pasakytum sau?" }
-      ]
-    },
-    {
-      "name": "Vakarėlių klausimai",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks buvo geriausias vakarėlis, kuriame dalyvavai?" },
-        { "question": "Kokia daina visada iškelia ant kojų?" },
-        { "question": "Koks buvo tavo didžiausias vakarėlio nuotykis?" },
-        { "question": "Koks gėrimas geriausiai atspindi tavo asmenybę?" },
-        { "question": "Koks buvo juokingiausias vakarėlio momentas?" },
-        { "question": "Kokia tema būtų tavo svajonių vakarėliui?" },
-        { "question": "Koks buvo keisčiausias dalykas, kurį matei vakarėlyje?" },
-        { "question": "Jei rengtum tobulą vakarą, ką pakviestum?" },
-        { "question": "Kokia muzika turi groti geram vakarėlyje?" },
-        { "question": "Koks buvo ilgiausias vakarėlis, kuriame buvai?" },
-        { "question": "Kokį žaidimą visada siūlai vakarėlyje?" },
-        { "question": "Koks buvo netikėčiausias dalykas, nutikęs per šventę?" },
-        { "question": "Kokia buvo gėdingiausia vakarėlio akimirka?" }
-      ]
-    }
-  ]
+	"sections": [
+		{
+			"name": "Gilūs pokalbiai",
+			"questions": [
+				{ "question": "Koks buvo geriausias patarimas, kurį gavai?" },
+				{ "question": "Ko labiausiai bijai gyvenime?" },
+				{ "question": "Koks buvo tavo lūžio taškas gyvenime?" },
+				{ "question": "Jei galėtum pakeisti vieną savo sprendimą, kokį?" },
+				{ "question": "Kas tave labiausiai motyvuoja?" },
+				{ "question": "Kokia tavo didžiausia svajonė?" },
+				{ "question": "Kas padėjo tau tapti tuo, kas esi?" },
+				{ "question": "Koks buvo sunkiausias gyvenimo etapas?" },
+				{ "question": "Ką norėtum pasakyti savo jaunesniam sau?" },
+				{ "question": "Koks gyvenimo įvykis tave labiausiai pakeitė?" },
+				{ "question": "Ko labiausiai gailies?" },
+				{ "question": "Koks tavo didžiausias pasiekimas?" },
+				{ "question": "Ką darytum, jei žinotum, kad nepavyks?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Ar norėtum",
+			"questions": [
+				{
+					"question": "Ar norėtum žinoti savo ateitį, ar gyventi nežinomybėje?"
+				},
+				{ "question": "Ar norėtum turėti daug pinigų, ar daug laisvo laiko?" },
+				{ "question": "Ar norėtum gyventi mieste ar kaime?" },
+				{ "question": "Ar norėtum mokėti skraidyti, ar būti nematomam?" },
+				{ "question": "Ar norėtum visada sakyti tiesą, ar niekada nemeluoti?" },
+				{
+					"question": "Ar norėtum gyventi 200 metų, ar turėti tobulą sveikatą?"
+				},
+				{ "question": "Ar norėtum keliauti laiku į praeitį, ar ateitį?" },
+				{ "question": "Ar norėtum būti garsu, ar laimingas?" },
+				{ "question": "Ar norėtum niekada nemiegoti, ar niekada nevalgyti?" },
+				{
+					"question": "Ar norėtum mokėti visas kalbas, ar groti visais instrumentais?"
+				},
+				{ "question": "Ar norėtum gyventi kosmose, ar po vandeniu?" },
+				{ "question": "Ar rinktumeis amžiną vasarą, ar amžiną rudenį?" },
+				{ "question": "Ar norėtum skaityti mintis, ar matyti ateitį?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Gėdingi prisiminimai",
+			"questions": [
+				{ "question": "Koks buvo gėdingiausias momentas mokykloje?" },
+				{ "question": "Kokią kvailystę padarei, bet dabar juokiesi?" },
+				{ "question": "Koks buvo nemaloniausias pasimatymas?" },
+				{ "question": "Kokią paslaptį ilgai slėpei nuo tėvų?" },
+				{ "question": "Koks buvo tavo didžiausias fiasko?" },
+				{ "question": "Kokią gėdingą žinutę išsiuntei ne tam žmogui?" },
+				{ "question": "Koks buvo juokingiausias nesusipratimas?" },
+				{ "question": "Kokia buvo tavo blogiausia šukuosena?" },
+				{
+					"question": "Koks buvo keisčiausias dalykas, kurį padarei dėl susidomėjimo?"
+				},
+				{ "question": "Kokią gėdingą dainą slapta mėgsti?" },
+				{ "question": "Koks buvo tavo nemaloniausias momentas viešumoje?" },
+				{ "question": "Kokio melo dabar gėdijiesi?" },
+				{ "question": "Koks buvo tavo netikėčiausias fail?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Nuomonės",
+			"questions": [
+				{ "question": "Kokia populiari nuomonė, su kuria nesutinki?" },
+				{ "question": "Koks labiausiai pervertintas dalykas?" },
+				{ "question": "Kokia socialinių tinklų tendencija tave erzina?" },
+				{ "question": "Koks geriausias filmas visų laikų?" },
+				{ "question": "Koks labiausiai neįvertintas maistas?" },
+				{ "question": "Kokia yra blogiausia mada, kurią matei?" },
+				{ "question": "Koks geriausias būdas praleisti penktadienio vakarą?" },
+				{ "question": "Kokia yra geriausia daina, kuri buvo sukurta?" },
+				{ "question": "Koks labiausiai pervertintas hobis?" },
+				{ "question": "Kokia yra blogiausia pizza pradžia?" },
+				{ "question": "Koks geriausias metų laikas ir kodėl?" },
+				{ "question": "Kokia yra geriausia TV laida visų laikų?" },
+				{ "question": "Koks populiarus patarimas iš tikrųjų yra blogas?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Draugystė",
+			"questions": [
+				{ "question": "Koks buvo geriausias momentas mūsų draugystėje?" },
+				{ "question": "Ką pirmą kartą pagalvojai, kai mane sutikai?" },
+				{ "question": "Koks buvo juokingiausias nuotykis su draugais?" },
+				{ "question": "Kas mane labiausiai nustebino tavyje?" },
+				{ "question": "Koks draugas turėjo didžiausią įtaką tavo gyvenimui?" },
+				{ "question": "Ką labiausiai vertini mūsų draugystėje?" },
+				{ "question": "Kokį nuotykį dar norime patirti kartu?" },
+				{ "question": "Koks buvo sunkiausias momentas mūsų draugystėje?" },
+				{ "question": "Ką darytum, jei aš išvykčiau gyventi į kitą šalį?" },
+				{ "question": "Kokį bendrą prisiminimą niekada nepamiršit?" },
+				{ "question": "Koks dalykas mus labiausiai sujungia?" },
+				{ "question": "Ką norėtum pakeisti mūsų draugystėje?" },
+				{ "question": "Kokia buvo geriausia kelionė su draugais?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Iššūkiai ir žaidimai",
+			"questions": [
+				{ "question": "Koks buvo kvailiausia drąsa, kurią priėmei?" },
+				{ "question": "Jei turėtum gyventi viename TV šou, kuriame?" },
+				{ "question": "Koks yra sunkiausias dalykas, kurį esi daręs?" },
+				{ "question": "Jei turėtum pasirinkti naują vardą, kokį pasirinktum?" },
+				{ "question": "Koks talentas, kurį norėtum turėti?" },
+				{
+					"question": "Jei galėtum būti bet kokia istorine asmenybe, kuo būtum?"
+				},
+				{ "question": "Koks buvo didžiausias fizinis iššūkis tavo gyvenime?" },
+				{ "question": "Jei turėtum rašyti knygą, apie ką ji būtų?" },
+				{ "question": "Koks buvo geriausias lažybas, kurias laimėjai?" },
+				{ "question": "Jei galėtum turėti bet kokį darbą, kokį pasirinktum?" },
+				{ "question": "Koks buvo drąsiausias tavo poelgis?" },
+				{ "question": "Jei galėtum mokytis pas bet ką, pas ką mokytumeis?" },
+				{ "question": "Kokį iššūkį norėtum įveikti šiemet?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Hipotezės",
+			"questions": [
+				{ "question": "Ką darytum su milijonu eurų?" },
+				{ "question": "Jei liktų viena diena gyventi, ką darytum?" },
+				{
+					"question": "Jei galėtum pasikviesti vakarienei bet ką, ką pasirinktum?"
+				},
+				{ "question": "Ką darytum, jei niekas nežiūrėtų?" },
+				{
+					"question": "Jei galėtum pabusti bet kurioje šalyje rytoj, kurioje?"
+				},
+				{
+					"question": "Ką darytum, jei turėtum papildomą valandą kiekvieną dieną?"
+				},
+				{ "question": "Jei galėtum pažvelgti į bet kieno dienoraštį, kieno?" },
+				{ "question": "Ką darytum, jei nebereikėtų dirbti?" },
+				{ "question": "Jei turėtum superkompiuterį, ką su juo darytum?" },
+				{ "question": "Ką darytum kitaip, jei gyventum iš naujo?" },
+				{ "question": "Jei galėtum išspręsti vieną pasaulio problemą, kokią?" },
+				{ "question": "Ką darytum, jei galėtum sustabdyti laiką?" },
+				{ "question": "Jei galėtum atkeliauti iš ateities, ką pasakytum sau?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Vakarėlių klausimai",
+			"questions": [
+				{ "question": "Koks buvo geriausias vakarėlis, kuriame dalyvavai?" },
+				{ "question": "Kokia daina visada iškelia ant kojų?" },
+				{ "question": "Koks buvo tavo didžiausias vakarėlio nuotykis?" },
+				{ "question": "Koks gėrimas geriausiai atspindi tavo asmenybę?" },
+				{ "question": "Koks buvo juokingiausias vakarėlio momentas?" },
+				{ "question": "Kokia tema būtų tavo svajonių vakarėliui?" },
+				{
+					"question": "Koks buvo keisčiausias dalykas, kurį matei vakarėlyje?"
+				},
+				{ "question": "Jei rengtum tobulą vakarą, ką pakviestum?" },
+				{ "question": "Kokia muzika turi groti geram vakarėlyje?" },
+				{ "question": "Koks buvo ilgiausias vakarėlis, kuriame buvai?" },
+				{ "question": "Kokį žaidimą visada siūlai vakarėlyje?" },
+				{ "question": "Koks buvo netikėčiausias dalykas, nutikęs per šventę?" },
+				{ "question": "Kokia buvo gėdingiausia vakarėlio akimirka?" }
+			],
+			"type": "safe"
+		}
+	]
 }

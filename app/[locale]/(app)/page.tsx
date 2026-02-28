@@ -1,111 +1,110 @@
-import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { locales } from '@/i18n/config';
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { BackgroundGlow } from "@/components/landing/BackgroundGlow";
+import { BottomCTA } from "@/components/landing/BottomCTA";
+import { FAQ } from "@/components/landing/FAQ";
+import { FeaturesGrid } from "@/components/landing/FeaturesGrid";
+import { FloatingParticles } from "@/components/landing/FloatingParticles";
+import { HeroSection } from "@/components/landing/HeroSection";
+import { HowItWorks } from "@/components/landing/HowItWorks";
+import { LandingFooter } from "@/components/landing/LandingFooter";
+import { LandingNav } from "@/components/landing/LandingNav";
+import { ModeShowcase } from "@/components/landing/ModeShowcase";
+import { SocialProof } from "@/components/landing/SocialProof";
+import { locales } from "@/i18n/config";
 
-import { BackgroundGlow } from '@/components/landing/BackgroundGlow';
-import { FloatingParticles } from '@/components/landing/FloatingParticles';
-import { LandingNav } from '@/components/landing/LandingNav';
-import { HeroSection } from '@/components/landing/HeroSection';
-import { ModeShowcase } from '@/components/landing/ModeShowcase';
-import { HowItWorks } from '@/components/landing/HowItWorks';
-import { FeaturesGrid } from '@/components/landing/FeaturesGrid';
-import { SocialProof } from '@/components/landing/SocialProof';
-import { FAQ } from '@/components/landing/FAQ';
-import { BottomCTA } from '@/components/landing/BottomCTA';
-import { LandingFooter } from '@/components/landing/LandingFooter';
-
-const BASE_URL = 'https://santykiuklausimai.lt';
+const BASE_URL = "https://santykiuklausimai.lt";
 
 export async function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+	return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+	const { locale } = await params;
+	const t = await getTranslations({ locale, namespace: "metadata" });
 
-  return {
-    title: t('title'),
-    description: t('description'),
-    openGraph: {
-      title: t('title'),
-      description: t('description'),
-      locale: locale === 'lt' ? 'lt_LT' : 'en_US',
-      type: 'website',
-      url: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
-    },
-    alternates: {
-      canonical: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
-      languages: {
-        lt: BASE_URL,
-        en: `${BASE_URL}/en`,
-      },
-    },
-  };
+	return {
+		alternates: {
+			canonical: locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`,
+			languages: {
+				en: `${BASE_URL}/en`,
+				lt: BASE_URL,
+			},
+		},
+		description: t("description"),
+		openGraph: {
+			description: t("description"),
+			locale: locale === "lt" ? "lt_LT" : "en_US",
+			title: t("title"),
+			type: "website",
+			url: locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`,
+		},
+		title: t("title"),
+	};
 }
 
 async function JsonLd({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'metadata' });
+	const t = await getTranslations({ locale, namespace: "metadata" });
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: t('title'),
-    description: t('description'),
-    url: locale === 'lt' ? BASE_URL : `${BASE_URL}/${locale}`,
-    applicationCategory: 'GameApplication',
-    operatingSystem: 'Any',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'EUR',
-    },
-    inLanguage: locale === 'lt' ? 'lt' : 'en',
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: '150',
-      bestRating: '5',
-    },
-  };
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		aggregateRating: {
+			"@type": "AggregateRating",
+			bestRating: "5",
+			ratingCount: "150",
+			ratingValue: "4.8",
+		},
+		applicationCategory: "GameApplication",
+		description: t("description"),
+		inLanguage: locale === "lt" ? "lt" : "en",
+		name: t("title"),
+		offers: {
+			"@type": "Offer",
+			price: "0",
+			priceCurrency: "EUR",
+		},
+		operatingSystem: "Any",
+		url: locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`,
+	};
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  );
+	return (
+		<script
+			dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+			type="application/ld+json"
+		/>
+	);
 }
 
 export default async function LandingPage({
-  params,
+	params,
 }: {
-  params: Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params;
+	const { locale } = await params;
 
-  return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      <JsonLd locale={locale} />
-      <BackgroundGlow />
-      <FloatingParticles />
-      <LandingNav />
+	return (
+		<div className="relative flex min-h-screen flex-col overflow-hidden">
+			<JsonLd locale={locale} />
+			<BackgroundGlow />
+			<FloatingParticles />
+			<LandingNav />
 
-      <main className="flex-1 relative z-10">
-        <HeroSection />
-        <ModeShowcase />
-        <HowItWorks />
-        <FeaturesGrid />
-        <SocialProof />
-        <FAQ />
-        <BottomCTA />
-      </main>
+			<main className="relative z-10 flex-1">
+				<HeroSection />
+				<ModeShowcase />
+				<HowItWorks />
+				<FeaturesGrid />
+				<SocialProof />
+				<FAQ />
+				<BottomCTA />
+			</main>
 
-      <LandingFooter />
-    </div>
-  );
+			<LandingFooter />
+		</div>
+	);
 }

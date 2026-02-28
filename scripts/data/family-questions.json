@@ -1,156 +1,172 @@
 {
-  "sections": [
-    {
-      "name": "Šeimos prisiminimai",
-      "type": "safe",
-      "questions": [
-        { "question": "Koks jūsų gražiausias bendras šeimos prisiminimas?" },
-        { "question": "Kokią šeimos tradiciją labiausiai mėgstate?" },
-        { "question": "Koks buvo linksmiausias dalykas, nutikęs per šeimos šventes?" },
-        { "question": "Kokią istoriją šeimoje pasakojate vis iš naujo?" },
-        { "question": "Koks buvo geriausias šeimos atostogas?" },
-        { "question": "Kokį šeimos receptą labiausiai mėgstate?" },
-        { "question": "Koks buvo jūsų linksmiausias šeimos nuotykis?" },
-        { "question": "Kokios dainos primena jums vaikystės namus?" },
-        { "question": "Koks buvo geriausias gimtadienio prisiminimas?" },
-        { "question": "Kokį šeimos narį norėtumėte geriau pažinti?" },
-        { "question": "Koks senelių pasakojimas jums labiausiai įstrigo?" },
-        { "question": "Kokią šeimos nuotrauką labiausiai mėgstate?" },
-        { "question": "Koks buvo jūsų pirmasis bendras šeimos žaidimas?" }
-      ]
-    },
-    {
-      "name": "Vertybės ir pamokos",
-      "type": "safe",
-      "questions": [
-        { "question": "Ko svarbaus išmokote iš savo tėvų?" },
-        { "question": "Kokią vertybę norėtumėte perduoti savo vaikams?" },
-        { "question": "Koks buvo geriausias patarimas, kurį gavote iš šeimos nario?" },
-        { "question": "Kokia šeimos taisyklė jums atrodo svarbiausia?" },
-        { "question": "Ko šeima jus išmokė apie draugystę?" },
-        { "question": "Koks šeimos narys jums yra didžiausias pavyzdys?" },
-        { "question": "Kokia pamoka, kurią išmokote sunkiu būdu?" },
-        { "question": "Ką reiškia būti geru šeimos nariu?" },
-        { "question": "Kokiu šeimos pasiekimu labiausiai didžiuojatės?" },
-        { "question": "Ko norėtumėte, kad šeima žinotų apie jus?" },
-        { "question": "Kaip šeima padėjo jums tapti tuo, kas esate?" },
-        { "question": "Kokia šeimos vertybė padeda sunkiais momentais?" },
-        { "question": "Koks buvo sunkiausias sprendimas, kurį priėmėte kaip šeima?" }
-      ]
-    },
-    {
-      "name": "Svajonės ir ateitis",
-      "type": "safe",
-      "questions": [
-        { "question": "Kur norėtumėte nuvykti visa šeima?" },
-        { "question": "Kokią naują tradiciją norėtumėte pradėti?" },
-        { "question": "Koks jūsų svajonių šeimos savaitgalis?" },
-        { "question": "Kokį naują dalyką norėtumėte išmokti kartu?" },
-        { "question": "Koks jūsų svajonių šeimos namas?" },
-        { "question": "Kokį projektą norėtumėte įgyvendinti kartu?" },
-        { "question": "Kokio šeimos augintinio svajojate?" },
-        { "question": "Kur matote savo šeimą po 10 metų?" },
-        { "question": "Kokią šeimos kelionę planuotumėte?" },
-        { "question": "Kokį šeimos tikslą norėtumėte pasiekti šiemet?" },
-        { "question": "Kokią šeimos veiklą norėtumėte daryti dažniau?" },
-        { "question": "Ką norėtumėte pasakyti savo šeimai po 20 metų?" },
-        { "question": "Kokį šeimos hobį norėtumėte turėti?" }
-      ]
-    },
-    {
-      "name": "Dėkingumas",
-      "type": "safe",
-      "questions": [
-        { "question": "Už ką labiausiai dėkingi savo šeimai?" },
-        { "question": "Koks šeimos nario poelgis jus labiausiai sujaudino?" },
-        { "question": "Už kokią smulkmeną dėkingi šiandien?" },
-        { "question": "Koks šeimos narys visada pakelia nuotaiką?" },
-        { "question": "Kokį šeimos nario talentą labiausiai vertinate?" },
-        { "question": "Koks buvo malonusis šios savaitės momentas?" },
-        { "question": "Už ką dėkingi savo broliui/sesei?" },
-        { "question": "Koks geriausias dalykas, kurį šeima daro kartu?" },
-        { "question": "Už kokią pagalbą dėkingi šiandien?" },
-        { "question": "Koks šeimos nario bruožas jums labiausiai patinka?" },
-        { "question": "Kokį komplimentą norėtumėte pasakyti kiekvienam šeimos nariui?" },
-        { "question": "Kas padarė šią dieną ypatingą?" },
-        { "question": "Koks šeimos narys jus labiausiai palaiko?" }
-      ]
-    },
-    {
-      "name": "Linksmi klausimai",
-      "type": "safe",
-      "questions": [
-        { "question": "Jei šeima būtų grupė, kas kokį instrumentą grotų?" },
-        { "question": "Kokia superherojaus galia tiktų kiekvienam šeimos nariui?" },
-        { "question": "Jei galėtumėte apsikeisti vietomis su šeimos nariu vienai dienai, su kuo?" },
-        { "question": "Koks šeimos narys labiausiai mėgsta pasipuošti?" },
-        { "question": "Kas šeimoje geriausiai gamina? O kas blogiausiai?" },
-        { "question": "Jei šeima dalyvautų TV laidoje, kokioje?" },
-        { "question": "Koks šeimos narys pirmas užmigtų kelionėje?" },
-        { "question": "Jei rašytumėte knygą apie šeimą, kaip ją pavadintumėte?" },
-        { "question": "Kas šeimoje daugiausia juokauja?" },
-        { "question": "Koks šeimos narys labiausiai bijo vorų?" },
-        { "question": "Jei šeima turėtų savo himną, kokia tai būtų daina?" },
-        { "question": "Kas šeimoje pirmas pabusti ryte?" },
-        { "question": "Koks keisčiausias dalykas, kurį šeima darė kartu?" }
-      ]
-    },
-    {
-      "name": "Emocijos ir jausmai",
-      "type": "safe",
-      "questions": [
-        { "question": "Kaip jūsų šeima rodo meilę vieni kitiems?" },
-        { "question": "Koks buvo jautriausias šeimos momentas?" },
-        { "question": "Kaip palaikote vieni kitus sunkiais momentais?" },
-        { "question": "Koks buvo laimingiausias šeimos momentas?" },
-        { "question": "Kaip šeimoje sprendžiate nesutarimus?" },
-        { "question": "Koks šeimos narys geriausiai guodžia?" },
-        { "question": "Koks buvo drąsiausias šeimos sprendimas?" },
-        { "question": "Kaip šeimoje švenčiate sėkmes?" },
-        { "question": "Koks buvo didžiausias šeimos iššūkis?" },
-        { "question": "Kaip jaučiatės, kai visa šeima kartu?" },
-        { "question": "Koks buvo jūsų gražiausias atsiprašymas šeimoje?" },
-        { "question": "Ką darote, kai kuris nors šeimos narys liūdi?" },
-        { "question": "Koks šeimos momentas privertė jus verkti iš laimės?" }
-      ]
-    },
-    {
-      "name": "Kasdienybė",
-      "type": "safe",
-      "questions": [
-        { "question": "Kokia yra jūsų mėgstamiausia šeimos vakarienė?" },
-        { "question": "Koks yra geriausias būdas praleisti sekmadienį kartu?" },
-        { "question": "Kokį filmą galėtumėte žiūrėti visi kartu?" },
-        { "question": "Koks yra jūsų šeimos rytinis ritualas?" },
-        { "question": "Kokią veiklą galėtumėte daryti kartu valandų valandas?" },
-        { "question": "Koks šeimos narys pamiršta viską?" },
-        { "question": "Kokia mėgstamiausia šeimos stalo žaidimų naktis?" },
-        { "question": "Koks šeimos narys daugiausia kalba telefonu?" },
-        { "question": "Koks yra geriausias šeimos laisvalaikio būdas?" },
-        { "question": "Kokį namų darbą labiausiai nemėgstate?" },
-        { "question": "Koks šeimos narys visada vėluoja?" },
-        { "question": "Kokia yra jūsų šeimos miegojimo tvarka?" },
-        { "question": "Koks šeimos narys geriausiai pasakoja istorijas?" }
-      ]
-    },
-    {
-      "name": "Kartų ryšys",
-      "type": "safe",
-      "questions": [
-        { "question": "Ką norėtumėte paklausti savo senelių?" },
-        { "question": "Kokia yra seniausia šeimos istorija, kurią žinote?" },
-        { "question": "Kuo skiriasi jūsų vaikystė nuo tėvų vaikystės?" },
-        { "question": "Kokį dalyką norėtumėte perduoti ateities kartoms?" },
-        { "question": "Koks šeimos narys labiausiai primena senelį/senelę?" },
-        { "question": "Kokį senelių patiekalą labiausiai mėgstate?" },
-        { "question": "Ką svarbaus sužinojote iš vyresniųjų?" },
-        { "question": "Koks senelių pasakojimas jums labiausiai patinka?" },
-        { "question": "Ką norėtumėte, kad vaikai žinotų apie jūsų vaikystę?" },
-        { "question": "Kokiu šeimos nariu labiausiai didžiuojatės?" },
-        { "question": "Kokia šeimos relikvija yra jums brangiausia?" },
-        { "question": "Kokį šeimos paprotį norėtumėte atgaivinti?" },
-        { "question": "Kas sujungia visas šeimos kartas?" }
-      ]
-    }
-  ]
+	"sections": [
+		{
+			"name": "Šeimos prisiminimai",
+			"questions": [
+				{ "question": "Koks jūsų gražiausias bendras šeimos prisiminimas?" },
+				{ "question": "Kokią šeimos tradiciją labiausiai mėgstate?" },
+				{
+					"question": "Koks buvo linksmiausias dalykas, nutikęs per šeimos šventes?"
+				},
+				{ "question": "Kokią istoriją šeimoje pasakojate vis iš naujo?" },
+				{ "question": "Koks buvo geriausias šeimos atostogas?" },
+				{ "question": "Kokį šeimos receptą labiausiai mėgstate?" },
+				{ "question": "Koks buvo jūsų linksmiausias šeimos nuotykis?" },
+				{ "question": "Kokios dainos primena jums vaikystės namus?" },
+				{ "question": "Koks buvo geriausias gimtadienio prisiminimas?" },
+				{ "question": "Kokį šeimos narį norėtumėte geriau pažinti?" },
+				{ "question": "Koks senelių pasakojimas jums labiausiai įstrigo?" },
+				{ "question": "Kokią šeimos nuotrauką labiausiai mėgstate?" },
+				{ "question": "Koks buvo jūsų pirmasis bendras šeimos žaidimas?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Vertybės ir pamokos",
+			"questions": [
+				{ "question": "Ko svarbaus išmokote iš savo tėvų?" },
+				{ "question": "Kokią vertybę norėtumėte perduoti savo vaikams?" },
+				{
+					"question": "Koks buvo geriausias patarimas, kurį gavote iš šeimos nario?"
+				},
+				{ "question": "Kokia šeimos taisyklė jums atrodo svarbiausia?" },
+				{ "question": "Ko šeima jus išmokė apie draugystę?" },
+				{ "question": "Koks šeimos narys jums yra didžiausias pavyzdys?" },
+				{ "question": "Kokia pamoka, kurią išmokote sunkiu būdu?" },
+				{ "question": "Ką reiškia būti geru šeimos nariu?" },
+				{ "question": "Kokiu šeimos pasiekimu labiausiai didžiuojatės?" },
+				{ "question": "Ko norėtumėte, kad šeima žinotų apie jus?" },
+				{ "question": "Kaip šeima padėjo jums tapti tuo, kas esate?" },
+				{ "question": "Kokia šeimos vertybė padeda sunkiais momentais?" },
+				{
+					"question": "Koks buvo sunkiausias sprendimas, kurį priėmėte kaip šeima?"
+				}
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Svajonės ir ateitis",
+			"questions": [
+				{ "question": "Kur norėtumėte nuvykti visa šeima?" },
+				{ "question": "Kokią naują tradiciją norėtumėte pradėti?" },
+				{ "question": "Koks jūsų svajonių šeimos savaitgalis?" },
+				{ "question": "Kokį naują dalyką norėtumėte išmokti kartu?" },
+				{ "question": "Koks jūsų svajonių šeimos namas?" },
+				{ "question": "Kokį projektą norėtumėte įgyvendinti kartu?" },
+				{ "question": "Kokio šeimos augintinio svajojate?" },
+				{ "question": "Kur matote savo šeimą po 10 metų?" },
+				{ "question": "Kokią šeimos kelionę planuotumėte?" },
+				{ "question": "Kokį šeimos tikslą norėtumėte pasiekti šiemet?" },
+				{ "question": "Kokią šeimos veiklą norėtumėte daryti dažniau?" },
+				{ "question": "Ką norėtumėte pasakyti savo šeimai po 20 metų?" },
+				{ "question": "Kokį šeimos hobį norėtumėte turėti?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Dėkingumas",
+			"questions": [
+				{ "question": "Už ką labiausiai dėkingi savo šeimai?" },
+				{ "question": "Koks šeimos nario poelgis jus labiausiai sujaudino?" },
+				{ "question": "Už kokią smulkmeną dėkingi šiandien?" },
+				{ "question": "Koks šeimos narys visada pakelia nuotaiką?" },
+				{ "question": "Kokį šeimos nario talentą labiausiai vertinate?" },
+				{ "question": "Koks buvo malonusis šios savaitės momentas?" },
+				{ "question": "Už ką dėkingi savo broliui/sesei?" },
+				{ "question": "Koks geriausias dalykas, kurį šeima daro kartu?" },
+				{ "question": "Už kokią pagalbą dėkingi šiandien?" },
+				{ "question": "Koks šeimos nario bruožas jums labiausiai patinka?" },
+				{
+					"question": "Kokį komplimentą norėtumėte pasakyti kiekvienam šeimos nariui?"
+				},
+				{ "question": "Kas padarė šią dieną ypatingą?" },
+				{ "question": "Koks šeimos narys jus labiausiai palaiko?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Linksmi klausimai",
+			"questions": [
+				{ "question": "Jei šeima būtų grupė, kas kokį instrumentą grotų?" },
+				{
+					"question": "Kokia superherojaus galia tiktų kiekvienam šeimos nariui?"
+				},
+				{
+					"question": "Jei galėtumėte apsikeisti vietomis su šeimos nariu vienai dienai, su kuo?"
+				},
+				{ "question": "Koks šeimos narys labiausiai mėgsta pasipuošti?" },
+				{ "question": "Kas šeimoje geriausiai gamina? O kas blogiausiai?" },
+				{ "question": "Jei šeima dalyvautų TV laidoje, kokioje?" },
+				{ "question": "Koks šeimos narys pirmas užmigtų kelionėje?" },
+				{
+					"question": "Jei rašytumėte knygą apie šeimą, kaip ją pavadintumėte?"
+				},
+				{ "question": "Kas šeimoje daugiausia juokauja?" },
+				{ "question": "Koks šeimos narys labiausiai bijo vorų?" },
+				{ "question": "Jei šeima turėtų savo himną, kokia tai būtų daina?" },
+				{ "question": "Kas šeimoje pirmas pabusti ryte?" },
+				{ "question": "Koks keisčiausias dalykas, kurį šeima darė kartu?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Emocijos ir jausmai",
+			"questions": [
+				{ "question": "Kaip jūsų šeima rodo meilę vieni kitiems?" },
+				{ "question": "Koks buvo jautriausias šeimos momentas?" },
+				{ "question": "Kaip palaikote vieni kitus sunkiais momentais?" },
+				{ "question": "Koks buvo laimingiausias šeimos momentas?" },
+				{ "question": "Kaip šeimoje sprendžiate nesutarimus?" },
+				{ "question": "Koks šeimos narys geriausiai guodžia?" },
+				{ "question": "Koks buvo drąsiausias šeimos sprendimas?" },
+				{ "question": "Kaip šeimoje švenčiate sėkmes?" },
+				{ "question": "Koks buvo didžiausias šeimos iššūkis?" },
+				{ "question": "Kaip jaučiatės, kai visa šeima kartu?" },
+				{ "question": "Koks buvo jūsų gražiausias atsiprašymas šeimoje?" },
+				{ "question": "Ką darote, kai kuris nors šeimos narys liūdi?" },
+				{ "question": "Koks šeimos momentas privertė jus verkti iš laimės?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Kasdienybė",
+			"questions": [
+				{ "question": "Kokia yra jūsų mėgstamiausia šeimos vakarienė?" },
+				{ "question": "Koks yra geriausias būdas praleisti sekmadienį kartu?" },
+				{ "question": "Kokį filmą galėtumėte žiūrėti visi kartu?" },
+				{ "question": "Koks yra jūsų šeimos rytinis ritualas?" },
+				{
+					"question": "Kokią veiklą galėtumėte daryti kartu valandų valandas?"
+				},
+				{ "question": "Koks šeimos narys pamiršta viską?" },
+				{ "question": "Kokia mėgstamiausia šeimos stalo žaidimų naktis?" },
+				{ "question": "Koks šeimos narys daugiausia kalba telefonu?" },
+				{ "question": "Koks yra geriausias šeimos laisvalaikio būdas?" },
+				{ "question": "Kokį namų darbą labiausiai nemėgstate?" },
+				{ "question": "Koks šeimos narys visada vėluoja?" },
+				{ "question": "Kokia yra jūsų šeimos miegojimo tvarka?" },
+				{ "question": "Koks šeimos narys geriausiai pasakoja istorijas?" }
+			],
+			"type": "safe"
+		},
+		{
+			"name": "Kartų ryšys",
+			"questions": [
+				{ "question": "Ką norėtumėte paklausti savo senelių?" },
+				{ "question": "Kokia yra seniausia šeimos istorija, kurią žinote?" },
+				{ "question": "Kuo skiriasi jūsų vaikystė nuo tėvų vaikystės?" },
+				{ "question": "Kokį dalyką norėtumėte perduoti ateities kartoms?" },
+				{ "question": "Koks šeimos narys labiausiai primena senelį/senelę?" },
+				{ "question": "Kokį senelių patiekalą labiausiai mėgstate?" },
+				{ "question": "Ką svarbaus sužinojote iš vyresniųjų?" },
+				{ "question": "Koks senelių pasakojimas jums labiausiai patinka?" },
+				{ "question": "Ką norėtumėte, kad vaikai žinotų apie jūsų vaikystę?" },
+				{ "question": "Kokiu šeimos nariu labiausiai didžiuojatės?" },
+				{ "question": "Kokia šeimos relikvija yra jums brangiausia?" },
+				{ "question": "Kokį šeimos paprotį norėtumėte atgaivinti?" },
+				{ "question": "Kas sujungia visas šeimos kartas?" }
+			],
+			"type": "safe"
+		}
+	]
 }

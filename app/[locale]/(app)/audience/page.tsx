@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { AudienceSelector } from '@/components/AudienceSelector';
+import { AudienceSelector } from "@/components/AudienceSelector";
 
 export default function AudiencePage() {
-  return <AudienceSelector />;
+	return <AudienceSelector />;
 }

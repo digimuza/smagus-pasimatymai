@@ -1,46 +1,46 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig } from "payload";
 
 export const Categories: CollectionConfig = {
-  slug: 'categories',
-  admin: {
-    useAsTitle: 'name',
-  },
-  access: {
-    read: () => true,
-    create: ({ req }) => !!req.user,
-    update: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-  },
-  fields: [
-    {
-      name: 'name',
-      type: 'text',
-      required: true,
-      unique: true,
-    },
-    {
-      name: 'type',
-      type: 'select',
-      required: true,
-      options: [
-        { label: 'Safe', value: 'safe' },
-        { label: 'Intimate', value: 'intimate' },
-      ],
-    },
-    {
-      name: 'sortOrder',
-      type: 'number',
-      required: true,
-    },
-    {
-      name: 'locale',
-      type: 'select',
-      required: true,
-      defaultValue: 'lt',
-      options: [
-        { label: 'Lietuvių', value: 'lt' },
-        { label: 'English', value: 'en' },
-      ],
-    },
-  ],
+	access: {
+		create: ({ req }) => !!req.user,
+		delete: ({ req }) => !!req.user,
+		read: () => true,
+		update: ({ req }) => !!req.user,
+	},
+	admin: {
+		useAsTitle: "name",
+	},
+	fields: [
+		{
+			name: "name",
+			required: true,
+			type: "text",
+			unique: true,
+		},
+		{
+			name: "type",
+			options: [
+				{ label: "Safe", value: "safe" },
+				{ label: "Intimate", value: "intimate" },
+			],
+			required: true,
+			type: "select",
+		},
+		{
+			name: "sortOrder",
+			required: true,
+			type: "number",
+		},
+		{
+			defaultValue: "lt",
+			name: "locale",
+			options: [
+				{ label: "Lietuvių", value: "lt" },
+				{ label: "English", value: "en" },
+			],
+			required: true,
+			type: "select",
+		},
+	],
+	slug: "categories",
 };

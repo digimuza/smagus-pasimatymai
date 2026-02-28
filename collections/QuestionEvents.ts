@@ -1,51 +1,51 @@
-import type { CollectionConfig } from 'payload';
+import type { CollectionConfig } from "payload";
 
 export const QuestionEvents: CollectionConfig = {
-  slug: 'question-events',
-  admin: {
-    useAsTitle: 'eventType',
-  },
-  access: {
-    create: () => true,
-    read: ({ req }) => !!req.user,
-    update: ({ req }) => !!req.user,
-    delete: ({ req }) => !!req.user,
-  },
-  fields: [
-    {
-      name: 'sessionId',
-      type: 'text',
-      required: true,
-      index: true,
-    },
-    {
-      name: 'questionId',
-      type: 'number',
-      required: true,
-      index: true,
-    },
-    {
-      name: 'eventType',
-      type: 'select',
-      required: true,
-      index: true,
-      options: [
-        { label: 'Viewed', value: 'viewed' },
-        { label: 'Skipped', value: 'skipped' },
-        { label: 'Answered', value: 'answered' },
-        { label: 'Superliked', value: 'superliked' },
-        { label: 'Spicy Dismissed', value: 'spicy_dismissed' },
-      ],
-    },
-    {
-      name: 'timestamp',
-      type: 'date',
-      required: true,
-      index: true,
-    },
-    {
-      name: 'timeSpent',
-      type: 'number',
-    },
-  ],
+	access: {
+		create: () => true,
+		delete: ({ req }) => !!req.user,
+		read: ({ req }) => !!req.user,
+		update: ({ req }) => !!req.user,
+	},
+	admin: {
+		useAsTitle: "eventType",
+	},
+	fields: [
+		{
+			index: true,
+			name: "sessionId",
+			required: true,
+			type: "text",
+		},
+		{
+			index: true,
+			name: "questionId",
+			required: true,
+			type: "number",
+		},
+		{
+			index: true,
+			name: "eventType",
+			options: [
+				{ label: "Viewed", value: "viewed" },
+				{ label: "Skipped", value: "skipped" },
+				{ label: "Answered", value: "answered" },
+				{ label: "Superliked", value: "superliked" },
+				{ label: "Spicy Dismissed", value: "spicy_dismissed" },
+			],
+			required: true,
+			type: "select",
+		},
+		{
+			index: true,
+			name: "timestamp",
+			required: true,
+			type: "date",
+		},
+		{
+			name: "timeSpent",
+			type: "number",
+		},
+	],
+	slug: "question-events",
 };

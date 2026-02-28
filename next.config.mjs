@@ -1,32 +1,32 @@
-import withPayload from '@payloadcms/next/withPayload';
-import createNextIntlPlugin from 'next-intl/plugin';
-import withPWAInit from '@ducanh2912/next-pwa';
+import withPWAInit from "@ducanh2912/next-pwa";
+import withPayload from "@payloadcms/next/withPayload";
+import createNextIntlPlugin from "next-intl/plugin";
 
-const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const withPWA = withPWAInit({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
-  runtimeCaching: [
-    {
-      urlPattern: /\/api\/game-data/,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'game-data-cache',
-        expiration: {
-          maxEntries: 1,
-          maxAgeSeconds: 300,
-        },
-      },
-    },
-  ],
+	dest: "public",
+	disable: process.env.NODE_ENV === "development",
+	register: true,
+	runtimeCaching: [
+		{
+			handler: "NetworkFirst",
+			options: {
+				cacheName: "game-data-cache",
+				expiration: {
+					maxAgeSeconds: 300,
+					maxEntries: 1,
+				},
+			},
+			urlPattern: /\/api\/game-data/,
+		},
+	],
+	skipWaiting: true,
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+	reactStrictMode: true,
 };
 
 export default withPayload(withNextIntl(withPWA(nextConfig)));

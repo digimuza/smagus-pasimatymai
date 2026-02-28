@@ -1,36 +1,41 @@
 export type SpicyCardType =
-  | 'kiss'
-  | 'challenge'
-  | 'compliment'
-  | 'massage'
-  | 'slap'
-  | 'whisper'
-  | 'dare'
-  | 'truth'
-  | 'hug'
-  | 'dance';
+	| "kiss"
+	| "challenge"
+	| "compliment"
+	| "massage"
+	| "slap"
+	| "whisper"
+	| "dare"
+	| "truth"
+	| "hug"
+	| "dance";
 
-export type SpicyCardRarity = 'rare' | 'semi-rare' | 'medium' | 'frequent' | 'ultra';
+export type SpicyCardRarity =
+	| "rare"
+	| "semi-rare"
+	| "medium"
+	| "frequent"
+	| "ultra";
 
 export interface SpicyCard {
-  id: string;
-  type: SpicyCardType;
-  title: string;
-  description: string;
-  icon: string; // emoji
-  color: string; // hex color for card background
+	color: string; // hex color for card background
+	description: string;
+	icon: string; // emoji
+	id: string;
+	title: string;
+	type: SpicyCardType;
 }
 
 export interface SpicyCardSettings {
-  enabled: boolean;
-  rarity: SpicyCardRarity; // How often they appear (probability-based)
-  enabledTypes: SpicyCardType[];
+	enabled: boolean;
+	enabledTypes: SpicyCardType[];
+	rarity: SpicyCardRarity; // How often they appear (probability-based)
 }
 
 export const RARITY_PROBABILITIES: Record<SpicyCardRarity, number> = {
-  rare: 0.05, // 5% chance
-  'semi-rare': 0.15, // 15% chance
-  medium: 0.30, // 30% chance
-  frequent: 0.40, // 40% chance
-  ultra: 0.50, // 50% chance
+	frequent: 0.4, // 40% chance
+	medium: 0.3, // 30% chance
+	rare: 0.05, // 5% chance
+	"semi-rare": 0.15, // 15% chance
+	ultra: 0.5, // 50% chance
 };

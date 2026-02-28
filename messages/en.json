@@ -1,248 +1,260 @@
 {
-  "common": {
-    "appName": "Relationship Questions",
-    "loading": "Loading...",
-    "back": "Back",
-    "close": "Close",
-    "openMenu": "Open menu",
-    "next": "Next",
-    "previous": "Previous",
-    "confirm": "Are you sure you want to start over? All progress will be lost.",
-    "questions": "questions",
-    "languageSwitcher": {
-      "label": "Language"
-    }
-  },
-  "metadata": {
-    "title": "Relationship Questions — Conversation game for couples, family & friends",
-    "description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration."
-  },
-  "landing": {
-    "nav": {
-      "logo": "Relationship Questions"
-    },
-    "heroTitle1": "Rediscover the one",
-    "heroHighlight": "you love",
-    "heroTitle2": "all over again",
-    "heroDescription": "500+ questions that will make you laugh, blush, and fall in love all over again. Because \"how was your day\" isn't a real conversation. 😏",
-    "cta": "Start Playing 💜",
-    "noCta": "No registration needed. Just play.",
-    "swipeLeft": "← skip",
-    "swipeRight": "answer →",
-    "sampleQuestions": [
-      "What was your first impression when you saw me?",
-      "If we could travel anywhere in the world, where would you go with me?",
-      "What about me makes you laugh the most?",
-      "What was your most beautiful dream about us?",
-      "If our love were a song, what would it be?"
-    ],
-    "modes": {
-      "title": "Three ways to play",
-      "couples": {
-        "name": "Couples",
-        "description": "Deep questions that help you rediscover your partner. From sweet to spicy.",
-        "cta": "Play for couples"
-      },
-      "family": {
-        "name": "Family",
-        "description": "Questions that bring family members closer. Perfect for dinner or a road trip.",
-        "cta": "Play for family"
-      },
-      "friends": {
-        "name": "Friends",
-        "description": "Find out what you never asked. Perfect for parties and get-togethers.",
-        "cta": "Play with friends"
-      }
-    },
-    "howItWorks": {
-      "title": "How does it work?",
-      "step1": {
-        "title": "Choose a mode",
-        "description": "Couples, family, or friends — there's something for everyone."
-      },
-      "step2": {
-        "title": "Swipe cards",
-        "description": "Answer or skip — you set the pace."
-      },
-      "step3": {
-        "title": "Enjoy the conversation",
-        "description": "Real conversations that bring you closer. No phones, no excuses."
-      }
-    },
-    "features": {
-      "questions": { "count": "500+", "label": "questions" },
-      "spicy": { "count": "Spicy", "label": "challenges" },
-      "categories": { "count": "13", "label": "categories" }
-    },
-    "testimonial": "\"Better than Tinder — here you actually talk.\"",
-    "testimonialAuthor": "— Every couple that wasn't afraid to answer",
-    "bottomCta": {
-      "title": "Ready?",
-      "subtitle": "Start a conversation that actually matters.",
-      "cta": "Start Playing 💜",
-      "noCta": "No registration needed. Just play."
-    },
-    "footer": "Made with 💜 for those who want more than \"fine\"",
-    "faq": {
-      "title": "Frequently asked questions",
-      "items": [
-        {
-          "question": "Is it really free?",
-          "answer": "Yes! The entire core game experience is completely free and requires no registration. Just open and play."
-        },
-        {
-          "question": "Do I need an internet connection?",
-          "answer": "You need internet the first time to load the questions. After that, you can play offline — questions are cached in your browser."
-        },
-        {
-          "question": "How many questions are there?",
-          "answer": "Over 500 questions across different categories — from light and fun to deep and intimate. Each mode (couples, family, friends, kids) has unique questions."
-        },
-        {
-          "question": "Is it safe for kids?",
-          "answer": "The Kids mode has specially curated questions — no intimate or adult content. You can safely play with the little ones."
-        },
-        {
-          "question": "How do Spicy Cards work?",
-          "answer": "These are fun challenge cards that appear between questions. You can enable or disable them in settings, and adjust how often they show up."
-        }
-      ]
-    }
-  },
-  "audience": {
-    "title": "Choose your mode",
-    "subtitle": "Who are you playing with today?",
-    "romantic": { "name": "Couples", "description": "Questions to help you rediscover your partner" },
-    "family": { "name": "Family", "description": "Warm questions for the whole family — from grandparents to kids" },
-    "friends": { "name": "Friends", "description": "Questions for friend gatherings and parties" },
-    "kids": { "name": "Kids", "description": "Fun and safe questions for the little ones" }
-  },
-  "game": {
-    "skip": "Skip",
-    "super": "Super",
-    "answered": "Answered",
-    "remaining": "Questions left: {count}",
-    "swipeSkip": "SKIP",
-    "swipeAnswered": "ANSWERED",
-    "swipeSuper": "⭐ SUPER",
-    "swipeDone": "DONE ✓",
-    "swipeAny": "Swipe in any direction",
-    "spicyBadge": "🎲 Spicy Card",
-    "deepQuestions": "{count} deep questions"
-  },
-  "categories": {
-    "title": "Categories",
-    "selectedCount": "Categories selected",
-    "main": "Main categories",
-    "intimate": "Intimate categories",
-    "intimateNote": "These categories are off by default",
-    "minWarning": "At least one category must be selected",
-    "startGame": "Start the game"
-  },
-  "settings": {
-    "title": "Spicy Cards",
-    "spicyToggleLabel": "🎲 Spicy Cards",
-    "spicyToggleDescription": "Add challenge cards between questions",
-    "rarityLabel": "How often to show?",
-    "rarityNote": "Spicy cards appear randomly based on the selected probability",
-    "cardTypes": "Card types",
-    "minTypeWarning": "At least one card type must be selected",
-    "info": "<strong>Spicy Cards</strong> are fun tasks and challenges that appear between questions to make the game more exciting and dynamic!",
-    "backToGame": "Back to game"
-  },
-  "sidebar": {
-    "title": "Categories",
-    "remaining": "Questions left",
-    "activeCategories": "Active categories",
-    "viewCategories": "Categories",
-    "spicyCards": "Spicy Cards",
-    "changeMode": "Change mode",
-    "submitQuestion": "Suggest a question",
-    "reset": "Start over"
-  },
-  "awesome": {
-    "title": "⭐ Super Questions",
-    "empty": "All questions done!",
-    "emptyDescription": "You don't have any super questions. Go back and mark your favorites!",
-    "goBack": "Go back",
-    "reset": "Start over",
-    "search": "Search questions...",
-    "viewCards": "Cards",
-    "viewList": "List",
-    "share": "Share",
-    "unfavorite": "Remove"
-  },
-  "daily": {
-    "label": "Question of the day",
-    "share": "Share",
-    "shareTag": "Relationship Questions — Question of the day"
-  },
-  "submit": {
-    "title": "Suggest a question",
-    "subtitle": "Your question will be reviewed before publishing",
-    "placeholder": "Write a question...",
-    "minChars": "Min. 10 characters",
-    "submitButton": "Submit",
-    "submitting": "Submitting...",
-    "success": "Question submitted!",
-    "successNote": "We'll review and add it to the game"
-  },
-  "auth": {
-    "loginTitle": "Sign in",
-    "loginSubtitle": "Save your progress across all devices",
-    "registerTitle": "Create account",
-    "registerSubtitle": "Create an account and never lose your progress",
-    "continueWithGoogle": "Continue with Google",
-    "or": "or",
-    "namePlaceholder": "Name",
-    "emailPlaceholder": "Email",
-    "passwordPlaceholder": "Password",
-    "loginButton": "Sign in",
-    "registerButton": "Create account",
-    "submitting": "Please wait...",
-    "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?",
-    "registerLink": "Create account",
-    "loginLink": "Sign in",
-    "genericError": "Something went wrong. Please try again.",
-    "profile": "Profile",
-    "logout": "Sign out"
-  },
-  "payments": {
-    "title": "Unlock all questions",
-    "subtitle": "Get unlimited access to all modes and questions",
-    "monthly": "Monthly",
-    "monthlyPrice": "\u20ac4.99",
-    "perMonth": "per month",
-    "yearly": "Yearly",
-    "yearlyPrice": "\u20ac29.99",
-    "perYear": "per year",
-    "savePercent": "-50%",
-    "feature": {
-      "allQuestions": "All questions without limits",
-      "allAudiences": "All modes: couples, family, friends, kids",
-      "spicyCards": "Spicy Cards challenges",
-      "progressSync": "Progress sync across devices",
-      "noAds": "No ads ever"
-    },
-    "startTrial": "Try 7 days free",
-    "processing": "Processing...",
-    "trialNote": "7-day free trial. Cancel anytime.",
-    "premiumBadge": "Premium",
-    "freeBadge": "Free",
-    "manageSubscription": "Manage subscription"
-  },
-  "profile": {
-    "title": "Profile",
-    "emailProvider": "Email account",
-    "statsAnswered": "Answered",
-    "statsSuperliked": "Super",
-    "statsTotal": "Total",
-    "logout": "Sign out",
-    "dangerZone": "Danger zone",
-    "deleteWarning": "Deleting your account will permanently remove all data. Enter your email to confirm.",
-    "deleteConfirmPlaceholder": "Enter your email",
-    "deleteButton": "Delete account",
-    "deleting": "Deleting..."
-  }
+	"audience": {
+		"family": {
+			"description": "Warm questions for the whole family — from grandparents to kids",
+			"name": "Family"
+		},
+		"friends": {
+			"description": "Questions for friend gatherings and parties",
+			"name": "Friends"
+		},
+		"kids": {
+			"description": "Fun and safe questions for the little ones",
+			"name": "Kids"
+		},
+		"romantic": {
+			"description": "Questions to help you rediscover your partner",
+			"name": "Couples"
+		},
+		"subtitle": "Who are you playing with today?",
+		"title": "Choose your mode"
+	},
+	"auth": {
+		"continueWithGoogle": "Continue with Google",
+		"emailPlaceholder": "Email",
+		"genericError": "Something went wrong. Please try again.",
+		"hasAccount": "Already have an account?",
+		"loginButton": "Sign in",
+		"loginLink": "Sign in",
+		"loginSubtitle": "Save your progress across all devices",
+		"loginTitle": "Sign in",
+		"logout": "Sign out",
+		"namePlaceholder": "Name",
+		"noAccount": "Don't have an account?",
+		"or": "or",
+		"passwordPlaceholder": "Password",
+		"profile": "Profile",
+		"registerButton": "Create account",
+		"registerLink": "Create account",
+		"registerSubtitle": "Create an account and never lose your progress",
+		"registerTitle": "Create account",
+		"submitting": "Please wait..."
+	},
+	"awesome": {
+		"empty": "All questions done!",
+		"emptyDescription": "You don't have any super questions. Go back and mark your favorites!",
+		"goBack": "Go back",
+		"reset": "Start over",
+		"search": "Search questions...",
+		"share": "Share",
+		"title": "⭐ Super Questions",
+		"unfavorite": "Remove",
+		"viewCards": "Cards",
+		"viewList": "List"
+	},
+	"categories": {
+		"intimate": "Intimate categories",
+		"intimateNote": "These categories are off by default",
+		"main": "Main categories",
+		"minWarning": "At least one category must be selected",
+		"selectedCount": "Categories selected",
+		"startGame": "Start the game",
+		"title": "Categories"
+	},
+	"common": {
+		"appName": "Relationship Questions",
+		"back": "Back",
+		"close": "Close",
+		"confirm": "Are you sure you want to start over? All progress will be lost.",
+		"languageSwitcher": {
+			"label": "Language"
+		},
+		"loading": "Loading...",
+		"next": "Next",
+		"openMenu": "Open menu",
+		"previous": "Previous",
+		"questions": "questions"
+	},
+	"daily": {
+		"label": "Question of the day",
+		"share": "Share",
+		"shareTag": "Relationship Questions — Question of the day"
+	},
+	"game": {
+		"answered": "Answered",
+		"deepQuestions": "{count} deep questions",
+		"remaining": "Questions left: {count}",
+		"skip": "Skip",
+		"spicyBadge": "🎲 Spicy Card",
+		"super": "Super",
+		"swipeAnswered": "ANSWERED",
+		"swipeAny": "Swipe in any direction",
+		"swipeDone": "DONE ✓",
+		"swipeSkip": "SKIP",
+		"swipeSuper": "⭐ SUPER"
+	},
+	"landing": {
+		"bottomCta": {
+			"cta": "Start Playing 💜",
+			"noCta": "No registration needed. Just play.",
+			"subtitle": "Start a conversation that actually matters.",
+			"title": "Ready?"
+		},
+		"cta": "Start Playing 💜",
+		"faq": {
+			"items": [
+				{
+					"answer": "Yes! The entire core game experience is completely free and requires no registration. Just open and play.",
+					"question": "Is it really free?"
+				},
+				{
+					"answer": "You need internet the first time to load the questions. After that, you can play offline — questions are cached in your browser.",
+					"question": "Do I need an internet connection?"
+				},
+				{
+					"answer": "Over 500 questions across different categories — from light and fun to deep and intimate. Each mode (couples, family, friends, kids) has unique questions.",
+					"question": "How many questions are there?"
+				},
+				{
+					"answer": "The Kids mode has specially curated questions — no intimate or adult content. You can safely play with the little ones.",
+					"question": "Is it safe for kids?"
+				},
+				{
+					"answer": "These are fun challenge cards that appear between questions. You can enable or disable them in settings, and adjust how often they show up.",
+					"question": "How do Spicy Cards work?"
+				}
+			],
+			"title": "Frequently asked questions"
+		},
+		"features": {
+			"categories": { "count": "13", "label": "categories" },
+			"questions": { "count": "500+", "label": "questions" },
+			"spicy": { "count": "Spicy", "label": "challenges" }
+		},
+		"footer": "Made with 💜 for those who want more than \"fine\"",
+		"heroDescription": "500+ questions that will make you laugh, blush, and fall in love all over again. Because \"how was your day\" isn't a real conversation. 😏",
+		"heroHighlight": "you love",
+		"heroTitle1": "Rediscover the one",
+		"heroTitle2": "all over again",
+		"howItWorks": {
+			"step1": {
+				"description": "Couples, family, or friends — there's something for everyone.",
+				"title": "Choose a mode"
+			},
+			"step2": {
+				"description": "Answer or skip — you set the pace.",
+				"title": "Swipe cards"
+			},
+			"step3": {
+				"description": "Real conversations that bring you closer. No phones, no excuses.",
+				"title": "Enjoy the conversation"
+			},
+			"title": "How does it work?"
+		},
+		"modes": {
+			"couples": {
+				"cta": "Play for couples",
+				"description": "Deep questions that help you rediscover your partner. From sweet to spicy.",
+				"name": "Couples"
+			},
+			"family": {
+				"cta": "Play for family",
+				"description": "Questions that bring family members closer. Perfect for dinner or a road trip.",
+				"name": "Family"
+			},
+			"friends": {
+				"cta": "Play with friends",
+				"description": "Find out what you never asked. Perfect for parties and get-togethers.",
+				"name": "Friends"
+			},
+			"title": "Three ways to play"
+		},
+		"nav": {
+			"logo": "Relationship Questions"
+		},
+		"noCta": "No registration needed. Just play.",
+		"sampleQuestions": [
+			"What was your first impression when you saw me?",
+			"If we could travel anywhere in the world, where would you go with me?",
+			"What about me makes you laugh the most?",
+			"What was your most beautiful dream about us?",
+			"If our love were a song, what would it be?"
+		],
+		"swipeLeft": "← skip",
+		"swipeRight": "answer →",
+		"testimonial": "\"Better than Tinder — here you actually talk.\"",
+		"testimonialAuthor": "— Every couple that wasn't afraid to answer"
+	},
+	"metadata": {
+		"description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration.",
+		"title": "Relationship Questions — Conversation game for couples, family & friends"
+	},
+	"payments": {
+		"feature": {
+			"allAudiences": "All modes: couples, family, friends, kids",
+			"allQuestions": "All questions without limits",
+			"noAds": "No ads ever",
+			"progressSync": "Progress sync across devices",
+			"spicyCards": "Spicy Cards challenges"
+		},
+		"freeBadge": "Free",
+		"manageSubscription": "Manage subscription",
+		"monthly": "Monthly",
+		"monthlyPrice": "\u20ac4.99",
+		"perMonth": "per month",
+		"perYear": "per year",
+		"premiumBadge": "Premium",
+		"processing": "Processing...",
+		"savePercent": "-50%",
+		"startTrial": "Try 7 days free",
+		"subtitle": "Get unlimited access to all modes and questions",
+		"title": "Unlock all questions",
+		"trialNote": "7-day free trial. Cancel anytime.",
+		"yearly": "Yearly",
+		"yearlyPrice": "\u20ac29.99"
+	},
+	"profile": {
+		"dangerZone": "Danger zone",
+		"deleteButton": "Delete account",
+		"deleteConfirmPlaceholder": "Enter your email",
+		"deleteWarning": "Deleting your account will permanently remove all data. Enter your email to confirm.",
+		"deleting": "Deleting...",
+		"emailProvider": "Email account",
+		"logout": "Sign out",
+		"statsAnswered": "Answered",
+		"statsSuperliked": "Super",
+		"statsTotal": "Total",
+		"title": "Profile"
+	},
+	"settings": {
+		"backToGame": "Back to game",
+		"cardTypes": "Card types",
+		"info": "<strong>Spicy Cards</strong> are fun tasks and challenges that appear between questions to make the game more exciting and dynamic!",
+		"minTypeWarning": "At least one card type must be selected",
+		"rarityLabel": "How often to show?",
+		"rarityNote": "Spicy cards appear randomly based on the selected probability",
+		"spicyToggleDescription": "Add challenge cards between questions",
+		"spicyToggleLabel": "🎲 Spicy Cards",
+		"title": "Spicy Cards"
+	},
+	"sidebar": {
+		"activeCategories": "Active categories",
+		"changeMode": "Change mode",
+		"remaining": "Questions left",
+		"reset": "Start over",
+		"spicyCards": "Spicy Cards",
+		"submitQuestion": "Suggest a question",
+		"title": "Categories",
+		"viewCategories": "Categories"
+	},
+	"submit": {
+		"minChars": "Min. 10 characters",
+		"placeholder": "Write a question...",
+		"submitButton": "Submit",
+		"submitting": "Submitting...",
+		"subtitle": "Your question will be reviewed before publishing",
+		"success": "Question submitted!",
+		"successNote": "We'll review and add it to the game",
+		"title": "Suggest a question"
+	}
 }

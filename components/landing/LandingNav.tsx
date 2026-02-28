@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function LandingNav() {
-  const t = useTranslations('landing.nav');
+	const t = useTranslations("landing.nav");
 
-  return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="sticky top-0 z-50 backdrop-blur-md bg-background/80 border-b border-primary/5"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        <div className="flex items-center gap-3">
-          <span className="text-2xl">💜</span>
-          <span className="text-lg font-light text-text-muted tracking-wide hidden sm:inline">
-            {t('logo')}
-          </span>
-        </div>
-        <LanguageSwitcher />
-      </div>
-    </motion.header>
-  );
+	return (
+		<motion.header
+			animate={{ opacity: 1, y: 0 }}
+			className="sticky top-0 z-50 border-primary/5 border-b bg-background/80 backdrop-blur-md"
+			initial={{ opacity: 0, y: -30 }}
+			transition={{ delay: 0.2, duration: 0.6 }}
+		>
+			<div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+				<div className="flex items-center gap-3">
+					<span className="text-2xl">💜</span>
+					<span className="hidden font-light text-lg text-text-muted tracking-wide sm:inline">
+						{t("logo")}
+					</span>
+				</div>
+				<LanguageSwitcher />
+			</div>
+		</motion.header>
+	);
 }

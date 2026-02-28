@@ -3,59 +3,88 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-background text-text antialiased;
-  }
+	body {
+		@apply bg-background text-text antialiased;
+	}
 
-  * {
-    @apply touch-manipulation;
-  }
+	* {
+		@apply touch-manipulation;
+	}
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+	.text-balance {
+		text-wrap: balance;
+	}
 
-  .content-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 500px;
-  }
+	.content-auto {
+		content-visibility: auto;
+		contain-intrinsic-size: auto 500px;
+	}
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% center; }
-  100% { background-position: -200% center; }
+	0% {
+		background-position: 200% center;
+	}
+	100% {
+		background-position: -200% center;
+	}
 }
 
 @keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.02);
+	}
 }
 
 .animate-shimmer {
-  animation: shimmer 3s ease-in-out infinite;
+	animation: shimmer 3s ease-in-out infinite;
 }
 
 .animate-heartbeat {
-  animation: heartbeat 2s ease-in-out infinite;
+	animation: heartbeat 2s ease-in-out infinite;
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% center; }
-  100% { background-position: -200% center; }
+	0% {
+		background-position: 200% center;
+	}
+	100% {
+		background-position: -200% center;
+	}
 }
 
 @keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.03); }
+	0%,
+	100% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.03);
+	}
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-6px);
+	}
 }
 
-.animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
-.animate-heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
-.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-shimmer {
+	animation: shimmer 3s ease-in-out infinite;
+}
+.animate-heartbeat {
+	animation: heartbeat 1.5s ease-in-out infinite;
+}
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
