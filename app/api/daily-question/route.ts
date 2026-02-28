@@ -2,8 +2,14 @@ import config from "@payload-config";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 
+const VALID_AUDIENCES = ["romantic", "family", "kids", "friends"] as const;
+type Audience = (typeof VALID_AUDIENCES)[number];
+
 export async function GET(req: NextRequest) {
-	const audience = req.nextUrl.searchParams.get("audience") || "romantic";
+	const rawAudience = req.nextUrl.searchParams.get("audience") || "romantic";
+	const audience: Audience = VALID_AUDIENCES.includes(rawAudience as Audience)
+		? (rawAudience as Audience)
+		: "romantic";
 	const today = new Date().toISOString().slice(0, 10);
 	const payload = await getPayload({ config });
 

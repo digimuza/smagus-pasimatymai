@@ -11,8 +11,10 @@ const VALID_EVENT_TYPES = [
 const VALID_AUDIENCES = ["romantic", "family", "kids", "friends"];
 const VALID_LOCALES = ["lt", "en"];
 
+type ValidEventType = "answered" | "skipped" | "superliked" | "viewed" | "spicy_dismissed";
+
 interface IncomingEvent {
-	eventType: string;
+	eventType: ValidEventType;
 	questionId: number | string;
 	sessionId: string;
 	timeSpent?: number;

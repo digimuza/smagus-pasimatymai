@@ -12,13 +12,13 @@ export async function POST(req: NextRequest) {
 	}
 
 	const streakData = calculateStreak({
-		currentStreak: (user as Record<string, unknown>).currentStreak as
+		currentStreak: (user as unknown as Record<string, unknown>).currentStreak as
 			| number
 			| undefined,
-		lastPlayedDate: (user as Record<string, unknown>).lastPlayedDate as
+		lastPlayedDate: (user as unknown as Record<string, unknown>).lastPlayedDate as
 			| string
 			| undefined,
-		longestStreak: (user as Record<string, unknown>).longestStreak as
+		longestStreak: (user as unknown as Record<string, unknown>).longestStreak as
 			| number
 			| undefined,
 	});
@@ -41,8 +41,8 @@ export async function GET(req: NextRequest) {
 	}
 
 	return NextResponse.json({
-		currentStreak: (user as Record<string, unknown>).currentStreak || 0,
-		lastPlayedDate: (user as Record<string, unknown>).lastPlayedDate || null,
-		longestStreak: (user as Record<string, unknown>).longestStreak || 0,
+		currentStreak: (user as unknown as Record<string, unknown>).currentStreak || 0,
+		lastPlayedDate: (user as unknown as Record<string, unknown>).lastPlayedDate || null,
+		longestStreak: (user as unknown as Record<string, unknown>).longestStreak || 0,
 	});
 }
