@@ -123,10 +123,26 @@ export async function POST(request: Request) {
 					id: existing.docs[0].id,
 				});
 			} else {
-				await payload.create({
-					collection: "game-sessions",
-					data: sessionData,
-				});
+				try {
+					await payload.create({
+						collection: "game-sessions",
+						data: sessionData,
+					});
+				} catch {
+					// Unique constraint race condition — fall back to update
+					const retry = await payload.find({
+						collection: "game-sessions",
+						limit: 1,
+						where: { sessionId: { equals: session.sessionId } },
+					});
+					if (retry.docs.length > 0) {
+						await payload.update({
+							collection: "game-sessions",
+							data: sessionData,
+							id: retry.docs[0].id,
+						});
+					}
+				}
 			}
 		}
 
