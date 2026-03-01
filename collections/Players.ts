@@ -46,6 +46,7 @@ export const Players: CollectionConfig = {
 		},
 		{
 			defaultValue: "email",
+			index: true,
 			name: "provider",
 			options: [
 				{ label: "Email", value: "email" },

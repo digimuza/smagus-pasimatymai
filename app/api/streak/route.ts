@@ -1,6 +1,7 @@
 import config from "@payload-config";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
+import { rateLimit } from "@/lib/rateLimit";
 import { calculateStreak } from "@/lib/streaks";
 
 export async function POST(req: NextRequest) {
@@ -9,6 +10,17 @@ export async function POST(req: NextRequest) {
 	const { user } = await payload.auth({ headers: req.headers });
 	if (!user || user.collection !== "players") {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+
+	const { success } = rateLimit(`streak:${user.id}`, {
+		windowMs: 60_000,
+		maxRequests: 10,
+	});
+	if (!success) {
+		return NextResponse.json(
+			{ error: "Too many requests" },
+			{ status: 429 },
+		);
 	}
 
 	const streakData = calculateStreak({

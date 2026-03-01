@@ -22,6 +22,8 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+	serverURL: process.env.NEXT_PUBLIC_URL || "http://localhost:7743",
+	cors: [process.env.NEXT_PUBLIC_URL || "http://localhost:7743"],
 	admin: {
 		components: {
 			afterDashboard: ["./components/admin/StatisticsDashboard"],

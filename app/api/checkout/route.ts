@@ -1,6 +1,8 @@
 import config from "@payload-config";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
+import { rateLimit } from "@/lib/rateLimit";
+import { checkoutBodySchema } from "@/lib/schemas";
 import { PLANS, type PlanType, stripe } from "@/lib/stripe";
 import { isPremium } from "@/lib/subscription";
 
@@ -12,13 +14,28 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	const body = await req.json();
-	const plan = body.plan as PlanType;
-
-	if (!plan || !PLANS[plan]) {
-		return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
+	const { success } = rateLimit(`checkout:${user.id}`, {
+		windowMs: 60_000,
+		maxRequests: 5,
+	});
+	if (!success) {
+		return NextResponse.json(
+			{ error: "Too many requests" },
+			{ status: 429 },
+		);
 	}
 
+	const body = await req.json();
+	const parsed = checkoutBodySchema.safeParse(body);
+
+	if (!parsed.success) {
+		return NextResponse.json(
+			{ error: parsed.error.flatten() },
+			{ status: 400 },
+		);
+	}
+
+	const plan: PlanType = parsed.data.plan;
 	const priceId = PLANS[plan].priceId;
 	if (!priceId) {
 		return NextResponse.json(

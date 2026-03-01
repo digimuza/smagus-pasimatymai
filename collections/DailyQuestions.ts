@@ -28,6 +28,7 @@ export const DailyQuestions: CollectionConfig = {
 		},
 		{
 			defaultValue: "romantic",
+			index: true,
 			name: "audience",
 			options: [
 				{ label: "Romantic", value: "romantic" },

@@ -17,6 +17,7 @@ export const Questions: CollectionConfig = {
 			type: "text",
 		},
 		{
+			index: true,
 			name: "category",
 			relationTo: "categories",
 			required: true,
@@ -29,6 +30,7 @@ export const Questions: CollectionConfig = {
 		},
 		{
 			defaultValue: "lt",
+			index: true,
 			name: "locale",
 			options: [
 				{ label: "Lietuvių", value: "lt" },
@@ -39,6 +41,7 @@ export const Questions: CollectionConfig = {
 		},
 		{
 			defaultValue: "romantic",
+			index: true,
 			name: "audience",
 			options: [
 				{ label: "Romantic", value: "romantic" },
@@ -51,6 +54,7 @@ export const Questions: CollectionConfig = {
 		},
 		{
 			defaultValue: "published",
+			index: true,
 			name: "status",
 			options: [
 				{ label: "Draft", value: "draft" },
