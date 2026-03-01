@@ -1,0 +1,18 @@
+[   12582ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/icons/icon-192x192.png:0
+[   12672ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:7743/icons/icon-192x192.png (Download error or resource isn't a valid image) @ http://localhost:7743/admin:0
+[   14147ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/icons/icon-192x192.png:0
+[   14150ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:7743/icons/icon-192x192.png (Download error or resource isn't a valid image) @ http://localhost:7743/admin/login:0
+[   17151ms] [WARNING] The resource http://localhost:7743/_next/static/css/app/(payload)/admin/%5B%5B...segments%5D%5D/page.css?v=1772325300380 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:7743/admin/login:0
+[  260152ms] [ERROR] ./app/(payload)/admin/[[...segments]]/layout.tsx:9:1
+Module not found: Package path ./dist/prod/styles.css is not exported from package /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next (see exports field in /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next/package.json)
+   7 |
+   8 | import { importMap } from "../importMap";
+>  9 | import "@payloadcms/next/dist/prod/styles.css";
+     | ^
+  10 | import "@payloadcms/ui/scss/app.scss";
+  11 | import "../custom.scss";
+  12 |
+
+https://nextjs.org/docs/messages/module-not-found @ webpack-internal:///(app-pages-browser)/./node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/next-devtools/userspace/app/errors/intercept-console-error.js:56
+[  263181ms] [WARNING] The resource http://localhost:7743/_next/static/css/app/(payload)/admin/%5B%5B...segments%5D%5D/page.css?v=1772325300380 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:7743/admin/login:0
+[  264169ms] [ERROR] WebSocket connection to 'ws://localhost:7743/_next/webpack-hmr' failed:  @ webpack-internal:///(app-pages-browser)/./node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/client/dev/hot-reloader/app/use-websocket.js:41

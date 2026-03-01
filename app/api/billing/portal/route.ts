@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 		);
 	}
 
-	const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+	const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:7743";
 
 	const session = await stripe.billingPortal.sessions.create({
 		customer: sub.docs[0].stripeCustomerId,

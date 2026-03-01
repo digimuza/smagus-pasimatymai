@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 		stripeCustomerId = customer.id;
 	}
 
-	const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+	const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:7743";
 
 	const session = await stripe.checkout.sessions.create({
 		cancel_url: `${baseUrl}/profile?payment=canceled`,

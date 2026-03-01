@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_REDIRECT_URI =
 	process.env.GOOGLE_REDIRECT_URI ||
-	`${process.env.NEXT_PUBLIC_URL || "http://localhost:3000"}/api/auth/google/callback`;
+	`${process.env.NEXT_PUBLIC_URL || "http://localhost:7743"}/api/auth/google/callback`;
 
 export async function GET() {
 	if (!GOOGLE_CLIENT_ID) {
