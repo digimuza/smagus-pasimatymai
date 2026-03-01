@@ -3,12 +3,58 @@
 @tailwind utilities;
 
 @layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+		border-width: 0;
+		border-style: solid;
+	}
+
+	html {
+		line-height: 1.5;
+		-webkit-text-size-adjust: 100%;
+		tab-size: 4;
+	}
+
 	body {
+		margin: 0;
+		line-height: inherit;
 		@apply bg-background text-text antialiased;
 	}
 
 	* {
 		@apply touch-manipulation;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: inherit;
+	}
+
+	img,
+	svg,
+	video {
+		display: block;
+		max-width: 100%;
+	}
+
+	button,
+	input,
+	textarea,
+	select {
+		font: inherit;
+		color: inherit;
 	}
 }
 
@@ -21,33 +67,6 @@
 		content-visibility: auto;
 		contain-intrinsic-size: auto 500px;
 	}
-}
-
-@keyframes shimmer {
-	0% {
-		background-position: 200% center;
-	}
-	100% {
-		background-position: -200% center;
-	}
-}
-
-@keyframes heartbeat {
-	0%,
-	100% {
-		transform: scale(1);
-	}
-	50% {
-		transform: scale(1.02);
-	}
-}
-
-.animate-shimmer {
-	animation: shimmer 3s ease-in-out infinite;
-}
-
-.animate-heartbeat {
-	animation: heartbeat 2s ease-in-out infinite;
 }
 
 @keyframes shimmer {

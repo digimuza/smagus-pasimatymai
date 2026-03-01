@@ -1,0 +1,38 @@
+[    9584ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:7743/admin:0
+[    9886ms] Error: Module not found: Package path ./dist/prod/styles.css is not exported from package /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next (see exports field in /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next/package.json)
+   7 |
+   8 | import { importMap } from "../importMap";
+>  9 | import "@payloadcms/next/dist/prod/styles.css";
+     | ^
+  10 | import "@payloadcms/ui/scss/app.scss";
+  11 | import "../custom.scss";
+  12 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at getNotFoundError (file:///Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/build/webpack/plugins/wellknown-errors-plugin/parseNotFoundError.js:140:16)
+    at async getModuleBuildError (file:///Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/build/webpack/plugins/wellknown-errors-plugin/webpackModuleError.js:103:27)
+    at async (file:///Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/build/webpack/plugins/wellknown-errors-plugin/index.js:29:49)
+    at async (file:///Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/build/webpack/plugins/wellknown-errors-plugin/index.js:27:21)
+[    9887ms] [ERROR] ./app/(payload)/admin/[[...segments]]/layout.tsx:9:1
+Module not found: Package path ./dist/prod/styles.css is not exported from package /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next (see exports field in /Users/andrius.mozuraitis/jean/santykiuklausimai/opal-gazelle/node_modules/@payloadcms/next/package.json)
+   7 |
+   8 | import { importMap } from "../importMap";
+>  9 | import "@payloadcms/next/dist/prod/styles.css";
+     | ^
+  10 | import "@payloadcms/ui/scss/app.scss";
+  11 | import "../custom.scss";
+  12 |
+
+https://nextjs.org/docs/messages/module-not-found @ webpack-internal:///(pages-dir-browser)/./node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/next-devtools/userspace/pages/pages-dev-overlay-setup.js:76
+[    9915ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/favicon.ico:0
+[   19742ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/_next/static/webpack/2473b29b705dd647.webpack.hot-update.json:0
+[   19742ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///(pages-dir-browser)/./node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/client/dev/hot-reloader/pages/hot-reloader-pages.js:347
+[   21462ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/_next/static/webpack/2473b29b705dd647.webpack.hot-update.json:0
+[   21463ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///(pages-dir-browser)/./node_modules/.pnpm/next@15.5.12_@babel+core@7.29.0_react-dom@19.2.4_react@19.2.4__react@19.2.4_sass@1.77.4/node_modules/next/dist/client/dev/hot-reloader/pages/hot-reloader-pages.js:347
+[   27356ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/icons/icon-192x192.png:0
+[   27452ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:7743/icons/icon-192x192.png (Download error or resource isn't a valid image) @ http://localhost:7743/admin:0
+[   29317ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:7743/icons/icon-192x192.png:0
+[   29320ms] [WARNING] Error while trying to use the following icon from the Manifest: http://localhost:7743/icons/icon-192x192.png (Download error or resource isn't a valid image) @ http://localhost:7743/admin/login:0
+[   32321ms] [WARNING] The resource http://localhost:7743/_next/static/css/app/(payload)/admin/%5B%5B...segments%5D%5D/page.css?v=1772325600202 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:7743/admin/login:0
