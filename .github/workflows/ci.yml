@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Biome lint (check only)
+        run: pnpm lint:check
+
+      - name: TypeScript type check
+        run: pnpm typecheck
+
+  build-and-test:
+    name: Build & E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: payload
+          POSTGRES_PASSWORD: payload
+          POSTGRES_DB: santykiuklausimai
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://payload:payload@localhost:5433/santykiuklausimai
+      PAYLOAD_SECRET: ci-test-secret-at-least-32-characters-long
+      NEXT_PUBLIC_URL: http://localhost:7743
+      STRIPE_SECRET_KEY: sk_test_fake_key_for_ci
+      STRIPE_WEBHOOK_SECRET: whsec_fake_for_ci
+      STRIPE_MONTHLY_PRICE_ID: price_fake_monthly
+      STRIPE_YEARLY_PRICE_ID: price_fake_yearly
+      PLAYWRIGHT_BASE_URL: http://localhost:7743
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Next.js
+        run: pnpm build
+
+      - name: Seed database
+        run: pnpm seed
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start server and run E2E tests
+        run: |
+          pnpm start &
+          npx wait-on http://localhost:7743 --timeout 30000
+          pnpm test:e2e
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
