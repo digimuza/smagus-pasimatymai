@@ -2,6 +2,7 @@ import config from "@payload-config";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 import { PLANS, type PlanType, stripe } from "@/lib/stripe";
+import { isPremium } from "@/lib/subscription";
 
 export async function POST(req: NextRequest) {
 	const payload = await getPayload({ config });
@@ -26,23 +27,46 @@ export async function POST(req: NextRequest) {
 		);
 	}
 
-	// Find or create Stripe customer
-	let stripeCustomerId: string;
-
+	// Check existing subscription
 	const existingSub = await payload.find({
 		collection: "subscriptions",
 		limit: 1,
+		overrideAccess: true,
 		where: { player: { equals: user.id } },
 	});
+
+	// Block checkout if user already has an active premium subscription
+	if (existingSub.docs.length > 0) {
+		const sub = existingSub.docs[0];
+		if (isPremium(sub)) {
+			return NextResponse.json(
+				{ error: "Already subscribed" },
+				{ status: 409 },
+			);
+		}
+	}
+
+	// Find or create Stripe customer (deduplicate via local record first, then Stripe)
+	let stripeCustomerId: string;
 
 	if (existingSub.docs.length > 0 && existingSub.docs[0].stripeCustomerId) {
 		stripeCustomerId = existingSub.docs[0].stripeCustomerId;
 	} else {
-		const customer = await stripe.customers.create({
+		// Check Stripe for existing customer before creating new one
+		const existingCustomers = await stripe.customers.list({
 			email: user.email,
-			metadata: { playerId: String(user.id) },
+			limit: 1,
 		});
-		stripeCustomerId = customer.id;
+
+		if (existingCustomers.data.length > 0) {
+			stripeCustomerId = existingCustomers.data[0].id;
+		} else {
+			const customer = await stripe.customers.create({
+				email: user.email,
+				metadata: { playerId: String(user.id) },
+			});
+			stripeCustomerId = customer.id;
+		}
 	}
 
 	const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:7743";

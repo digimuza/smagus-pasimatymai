@@ -16,6 +16,7 @@
 		"@biomejs/biome": "2.4.4",
 		"@ducanh2912/next-pwa": "^10.2.9",
 		"@infisical/cli": "^0.43.40",
+		"@playwright/test": "^1.58.2",
 		"@types/node": "^20.11.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
@@ -37,9 +38,13 @@
 		"dev": "next dev -p 7743",
 		"generate:types": "npx payload generate:types",
 		"lint": "biome check --write .",
+		"lint:check": "biome check .",
 		"payload": "npx payload",
 		"seed": "npx tsx scripts/seed.ts",
-		"start": "next start -p 7743"
+		"start": "next start -p 7743",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"typecheck": "tsc --noEmit"
 	},
 	"type": "module",
 	"version": "0.1.0"

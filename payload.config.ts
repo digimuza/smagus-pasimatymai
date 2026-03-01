@@ -14,6 +14,7 @@ import { QuestionSubmissions } from "./collections/QuestionSubmissions";
 import { Questions } from "./collections/Questions";
 import { SpicyCards } from "./collections/SpicyCards";
 import { SpicyCardTypes } from "./collections/SpicyCardTypes";
+import { StripeEvents } from "./collections/StripeEvents";
 import { Subscriptions } from "./collections/Subscriptions";
 import { Users } from "./collections/Users";
 
@@ -39,6 +40,7 @@ export default buildConfig({
 		Questions,
 		SpicyCardTypes,
 		SpicyCards,
+		StripeEvents,
 		GameSessions,
 		QuestionEvents,
 		Audiences,
