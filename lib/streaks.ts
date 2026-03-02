@@ -14,6 +14,13 @@ export interface StreakData {
 	longestStreak: number;
 }
 
+/** Fields on the Players collection relevant to streak tracking. */
+export interface PlayerStreakFields {
+	currentStreak?: number;
+	lastPlayedDate?: string;
+	longestStreak?: number;
+}
+
 export function calculateStreak(current: {
 	currentStreak?: number;
 	longestStreak?: number;
