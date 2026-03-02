@@ -3,6 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
 import type Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
+import { recordError, withSpan } from "@/lib/telemetry";
 
 const HANDLED_EVENTS = new Set([
 	"checkout.session.completed",
@@ -64,6 +65,10 @@ export async function POST(req: NextRequest) {
 	}
 
 	try {
+		await withSpan(
+			"stripe.webhook.process",
+			{ "stripe.event_type": event.type, "stripe.event_id": event.id },
+			async () => {
 		switch (event.type) {
 			case "checkout.session.completed": {
 				const session = event.data.object as Stripe.Checkout.Session;
@@ -311,7 +316,9 @@ export async function POST(req: NextRequest) {
 			default:
 				break;
 		}
+		});
 	} catch (error) {
+		recordError(error);
 		console.error(
 			`[Stripe webhook] Error processing ${event.type} (${event.id}):`,
 			error,

@@ -9,6 +9,8 @@ const routes = [
 	"/categories",
 	"/settings",
 	"/awesome",
+	"/privacy",
+	"/terms",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

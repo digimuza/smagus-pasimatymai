@@ -40,6 +40,14 @@ export async function GET(req: NextRequest) {
 	const code = req.nextUrl.searchParams.get("code");
 	const error = req.nextUrl.searchParams.get("error");
 
+	// Validate OAuth state parameter (CSRF protection)
+	const state = req.nextUrl.searchParams.get("state");
+	const storedState = req.cookies.get("oauth_state")?.value;
+
+	if (!state || !storedState || state !== storedState) {
+		return NextResponse.redirect(new URL("/?auth=error", req.url));
+	}
+
 	if (error || !code) {
 		return NextResponse.redirect(new URL("/?auth=error", req.url));
 	}
@@ -122,6 +130,9 @@ export async function GET(req: NextRequest) {
 		// Build response with redirect
 		const response = NextResponse.redirect(new URL("/audience", req.url));
 
+		// Clear the OAuth state cookie
+		response.cookies.delete("oauth_state");
+
 		// Set the payload token cookie
 		if (loginResult.token) {
 			response.cookies.set("payload-token", loginResult.token, {
@@ -135,6 +146,8 @@ export async function GET(req: NextRequest) {
 
 		return response;
 	} catch (err) {
+		const { recordError } = await import("@/lib/telemetry");
+		recordError(err);
 		console.error("Google OAuth error:", err);
 		return NextResponse.redirect(new URL("/?auth=error", req.url));
 	}

@@ -37,6 +37,7 @@ export const PlayerProgress: CollectionConfig = {
 			type: "number",
 		},
 		{
+			index: true,
 			name: "audience",
 			options: [
 				{ label: "Romantic", value: "romantic" },

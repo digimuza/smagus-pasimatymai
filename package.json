@@ -42,8 +42,11 @@
 		"payload": "npx payload",
 		"seed": "npx tsx scripts/seed.ts",
 		"start": "next start -p 7743",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
+		"analyze": "ANALYZE=true next build",
 		"typecheck": "tsc --noEmit"
 	},
 	"type": "module",

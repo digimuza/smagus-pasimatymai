@@ -1,6 +1,8 @@
 import config from "@payload-config";
 import { type NextRequest, NextResponse } from "next/server";
 import { getPayload } from "payload";
+import { rateLimit } from "@/lib/rateLimit";
+import { submitQuestionSchema } from "@/lib/schemas";
 
 export async function POST(req: NextRequest) {
 	const payload = await getPayload({ config });
@@ -10,21 +12,28 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
+	const { success } = rateLimit(`submit:${user.id}`, {
+		windowMs: 300_000,
+		maxRequests: 5,
+	});
+	if (!success) {
+		return NextResponse.json(
+			{ error: "Too many requests" },
+			{ status: 429 },
+		);
+	}
+
 	const body = await req.json();
-	const { text, audience } = body;
+	const parsed = submitQuestionSchema.safeParse(body);
 
-	if (!text || typeof text !== "string" || text.trim().length < 10) {
-		return NextResponse.json({ error: "Question too short" }, { status: 400 });
+	if (!parsed.success) {
+		return NextResponse.json(
+			{ error: parsed.error.flatten() },
+			{ status: 400 },
+		);
 	}
 
-	if (text.length > 300) {
-		return NextResponse.json({ error: "Question too long" }, { status: 400 });
-	}
-
-	const validAudiences = ["romantic", "family", "kids", "friends"];
-	if (!validAudiences.includes(audience)) {
-		return NextResponse.json({ error: "Invalid audience" }, { status: 400 });
-	}
+	const { text, audience } = parsed.data;
 
 	const submission = await payload.create({
 		collection: "question-submissions",
@@ -32,7 +41,7 @@ export async function POST(req: NextRequest) {
 			audience,
 			status: "pending",
 			submittedBy: user.id,
-			text: text.trim(),
+			text,
 		},
 	});
 

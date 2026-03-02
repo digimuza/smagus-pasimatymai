@@ -1,3 +1,4 @@
+import { hasAnalyticsConsent } from "./cookieConsent";
 import { getSessionId } from "./sessionId";
 
 type EventType =
@@ -35,6 +36,7 @@ class AnalyticsBuffer {
 
 	init(meta: { audience?: string; locale?: string }) {
 		if (this.initialized) return;
+		if (!hasAnalyticsConsent()) return;
 		this.initialized = true;
 
 		const sessionId = getSessionId();

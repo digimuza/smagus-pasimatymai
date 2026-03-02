@@ -29,6 +29,7 @@ export const SpicyCards: CollectionConfig = {
 		},
 		{
 			defaultValue: "lt",
+			index: true,
 			name: "locale",
 			options: [
 				{ label: "Lietuvių", value: "lt" },
@@ -39,6 +40,7 @@ export const SpicyCards: CollectionConfig = {
 		},
 		{
 			defaultValue: "romantic",
+			index: true,
 			name: "audience",
 			options: [
 				{ label: "Romantic", value: "romantic" },
@@ -51,6 +53,7 @@ export const SpicyCards: CollectionConfig = {
 		},
 		{
 			defaultValue: "published",
+			index: true,
 			name: "status",
 			options: [
 				{ label: "Draft", value: "draft" },
