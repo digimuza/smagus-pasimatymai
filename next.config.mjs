@@ -30,6 +30,16 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	async redirects() {
+		return [
+			{
+				destination: "https://santykiuklausimai.lt/:path*",
+				has: [{ type: "host", value: "www.santykiuklausimai.lt" }],
+				permanent: true,
+				source: "/:path*",
+			},
+		];
+	},
 	async headers() {
 		return [
 			{
