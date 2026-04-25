@@ -1,6 +1,8 @@
-import config from "@payload-config";
+import { and, eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
+import { players } from "@/drizzle/schema";
+import { COOKIE_NAME, signToken } from "@/lib/auth";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -23,12 +25,6 @@ async function exchangeCodeForTokens(code: string) {
 	return res.json();
 }
 
-function oauthPassword(providerId: string): string {
-	// Deterministic password for OAuth users — not used for actual auth, just satisfies Payload's requirement
-	const secret = process.env.PAYLOAD_SECRET || "fallback";
-	return `oauth_${providerId}_${secret}`.slice(0, 72);
-}
-
 async function getGoogleUserInfo(accessToken: string) {
 	const res = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
 		headers: { Authorization: `Bearer ${accessToken}` },
@@ -40,7 +36,6 @@ export async function GET(req: NextRequest) {
 	const code = req.nextUrl.searchParams.get("code");
 	const error = req.nextUrl.searchParams.get("error");
 
-	// Validate OAuth state parameter (CSRF protection)
 	const state = req.nextUrl.searchParams.get("state");
 	const storedState = req.cookies.get("oauth_state")?.value;
 
@@ -67,82 +62,68 @@ export async function GET(req: NextRequest) {
 			return NextResponse.redirect(new URL("/?auth=error", req.url));
 		}
 
-		const payload = await getPayload({ config });
+		// Find by provider ID first
+		const [byProvider] = await db
+			.select()
+			.from(players)
+			.where(
+				and(
+					eq(players.provider, "google"),
+					eq(players.providerId, String(googleUser.id)),
+				),
+			)
+			.limit(1);
 
-		// Find existing player by provider ID or email
-		let player = null;
-		const byProvider = await payload.find({
-			collection: "players",
-			limit: 1,
-			where: {
-				provider: { equals: "google" },
-				providerId: { equals: googleUser.id },
-			},
-		});
+		let player = byProvider;
 
-		if (byProvider.docs.length > 0) {
-			player = byProvider.docs[0];
-		} else {
-			// Check if email exists
-			const byEmail = await payload.find({
-				collection: "players",
-				limit: 1,
-				where: { email: { equals: googleUser.email } },
-			});
+		if (!player) {
+			const [byEmail] = await db
+				.select()
+				.from(players)
+				.where(eq(players.email, googleUser.email))
+				.limit(1);
 
-			if (byEmail.docs.length > 0) {
+			if (byEmail) {
 				// Link Google to existing account
-				player = await payload.update({
-					collection: "players",
-					data: {
-						avatar: googleUser.picture || undefined,
-						name: byEmail.docs[0].name || googleUser.name,
+				const [updated] = await db
+					.update(players)
+					.set({
+						avatar: googleUser.picture ?? byEmail.avatar,
+						name: byEmail.name ?? googleUser.name,
 						provider: "google",
-						providerId: googleUser.id,
-					},
-					id: byEmail.docs[0].id,
-				});
+						providerId: String(googleUser.id),
+						updatedAt: new Date(),
+					})
+					.where(eq(players.id, byEmail.id))
+					.returning();
+				player = updated;
 			} else {
-				// Create new player — generate a random password for Payload auth
-				player = await payload.create({
-					collection: "players",
-					data: {
+				// Create new player
+				const [created] = await db
+					.insert(players)
+					.values({
 						avatar: googleUser.picture,
 						email: googleUser.email,
 						name: googleUser.name,
-						password: oauthPassword(googleUser.id),
 						provider: "google",
-						providerId: googleUser.id,
-					},
-				});
+						providerId: String(googleUser.id),
+					})
+					.returning();
+				player = created;
 			}
 		}
 
-		// Login the player to get a Payload session token
-		const loginResult = await payload.login({
-			collection: "players",
-			data: {
-				email: player.email,
-				password: oauthPassword(googleUser.id),
-			},
-		});
-
-		// Build response with redirect
+		const token = await signToken(player.id, player.email);
 		const response = NextResponse.redirect(new URL("/audience", req.url));
 
-		// Clear the OAuth state cookie
 		response.cookies.delete("oauth_state");
-
-		// Set the payload token cookie
-		if (loginResult.token) {
-			response.cookies.set("payload-token", loginResult.token, {
-				httpOnly: true,
-				maxAge: 60 * 60 * 24 * 30, // 30 days
-				path: "/",
-				sameSite: "lax",
-				secure: process.env.NODE_ENV === "production",
-			});
-		}
+		response.cookies.set(COOKIE_NAME, token, {
+			httpOnly: true,
+			maxAge: 60 * 60 * 24 * 30,
+			path: "/",
+			sameSite: "lax",
+			secure: process.env.NODE_ENV === "production",
+		});
 
 		return response;
 	} catch (err) {

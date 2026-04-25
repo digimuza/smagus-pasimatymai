@@ -35,7 +35,7 @@ setup("authenticate", async ({ page, request, baseURL }) => {
 			{
 				domain,
 				httpOnly: true,
-				name: "payload-token",
+				name: "auth-token",
 				path: "/",
 				sameSite: "Lax",
 				secure: false,

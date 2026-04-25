@@ -1,6 +1,5 @@
-import bundleAnalyzer from "@next/bundle-analyzer";
 import withPWAInit from "@ducanh2912/next-pwa";
-import withPayload from "@payloadcms/next/withPayload";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -31,11 +30,9 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
 	async headers() {
 		return [
 			{
-				source: "/(.*)",
 				headers: [
 					{ key: "X-Frame-Options", value: "DENY" },
 					{ key: "X-Content-Type-Options", value: "nosniff" },
@@ -67,9 +64,12 @@ const nextConfig = {
 						].join("; "),
 					},
 				],
+				source: "/(.*)",
 			},
 		];
 	},
+	output: "standalone",
+	reactStrictMode: true,
 };
 
-export default withBundleAnalyzer(withPayload(withNextIntl(withPWA(nextConfig))));
+export default withBundleAnalyzer(withNextIntl(withPWA(nextConfig)));

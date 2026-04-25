@@ -1,81 +1,85 @@
-import { getPayloadClient } from "./payload";
+import { and, eq } from "drizzle-orm";
+import { db } from "@/drizzle/db";
+import {
+	categories,
+	questions,
+	spicyCards,
+	spicyCardTypes,
+} from "@/drizzle/schema";
 
 export async function getAllCategoriesWithQuestions(
 	locale = "lt",
 	audience = "romantic",
 ) {
-	const payload = await getPayloadClient();
-
-	const categories = await payload.find({
-		collection: "categories",
-		limit: 100,
-		sort: "sortOrder",
-		where: { locale: { equals: locale } },
-	});
+	const cats = await db
+		.select()
+		.from(categories)
+		.where(eq(categories.locale, locale as "lt" | "en"))
+		.orderBy(categories.sortOrder);
 
 	const allSections = await Promise.all(
-		categories.docs.map(async (cat) => {
-			const questions = await payload.find({
-				collection: "questions",
-				limit: 1000,
-				sort: "legacyId",
-				where: {
-					audience: { equals: audience },
-					category: { equals: cat.id },
-					locale: { equals: locale },
-					status: { equals: "published" },
-				},
-			});
+		cats.map(async (cat) => {
+			const qs = await db
+				.select({ id: questions.id, question: questions.question })
+				.from(questions)
+				.where(
+					and(
+						eq(questions.categoryId, cat.id),
+						eq(
+							questions.audience,
+							audience as "romantic" | "family" | "kids" | "friends",
+						),
+						eq(questions.locale, locale as "lt" | "en"),
+						eq(questions.status, "published"),
+					),
+				)
+				.orderBy(questions.legacyId);
 
 			return {
 				name: cat.name,
-				questions: questions.docs.map((q) => ({
-					id: q.id,
-					question: q.question,
-				})),
-				range: `${questions.docs.length} klausimų`,
+				questions: qs,
+				range: `${qs.length} klausimų`,
 				type: cat.type as "safe" | "intimate",
 			};
 		}),
 	);
 
-	// Filter out empty sections and intimate sections for kids
-	const sections = allSections.filter((s) => {
+	return allSections.filter((s) => {
 		if (s.questions.length === 0) return false;
 		if (audience === "kids" && s.type === "intimate") return false;
 		return true;
 	});
-
-	return sections;
 }
 
 export async function getAllSpicyCards(locale = "lt", audience = "romantic") {
-	const payload = await getPayloadClient();
+	const cards = await db
+		.select({
+			color: spicyCardTypes.color,
+			description: spicyCards.description,
+			icon: spicyCardTypes.icon,
+			id: spicyCards.id,
+			slug: spicyCardTypes.slug,
+			title: spicyCards.title,
+		})
+		.from(spicyCards)
+		.innerJoin(spicyCardTypes, eq(spicyCards.cardTypeId, spicyCardTypes.id))
+		.where(
+			and(
+				eq(
+					spicyCards.audience,
+					audience as "romantic" | "family" | "kids" | "friends",
+				),
+				eq(spicyCards.locale, locale as "lt" | "en"),
+				eq(spicyCards.status, "published"),
+			),
+		);
 
-	const cards = await payload.find({
-		collection: "spicy-cards",
-		depth: 1,
-		limit: 1000,
-		where: {
-			audience: { equals: audience },
-			locale: { equals: locale },
-			status: { equals: "published" },
-		},
-	});
-
-	return cards.docs.map((card) => {
-		const cardType = card.cardType as
-			| { slug: string; icon: string; color: string }
-			| number;
-		const isPopulated = typeof cardType !== "number";
-
-		return {
-			color: isPopulated ? cardType.color : "",
-			description: card.description,
-			icon: isPopulated ? cardType.icon : "",
-			id: String(card.id),
-			title: card.title,
-			type: isPopulated ? cardType.slug : "",
-		};
-	});
+	return cards.map((card) => ({
+		color: card.color,
+		description: card.description,
+		icon: card.icon,
+		id: String(card.id),
+		title: card.title,
+		type: card.slug,
+	}));
 }

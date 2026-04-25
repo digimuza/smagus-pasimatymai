@@ -7,6 +7,7 @@ import {
 	pgTable,
 	text,
 	timestamp,
+	uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 // Enums
@@ -211,18 +212,28 @@ export const questionSubmissions = pgTable("question_submissions", {
 // ANALYTICS
 // =====================
 
-export const playerProgress = pgTable("player_progress", {
-	audience: audienceEnum("audience").notNull(),
-	createdAt: timestamp("created_at").defaultNow().notNull(),
-	id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-	playerId: integer("player_id")
-		.references(() => players.id, { onDelete: "cascade" })
-		.notNull(),
-	questionId: integer("question_id").notNull(),
-	status: progressStatusEnum("status").notNull(),
-	updatedAt: timestamp("updated_at").defaultNow().notNull(),
-	viewedAt: timestamp("viewed_at").defaultNow().notNull(),
-});
+export const playerProgress = pgTable(
+	"player_progress",
+	{
+		audience: audienceEnum("audience").notNull(),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+		playerId: integer("player_id")
+			.references(() => players.id, { onDelete: "cascade" })
+			.notNull(),
+		questionId: integer("question_id").notNull(),
+		status: progressStatusEnum("status").notNull(),
+		updatedAt: timestamp("updated_at").defaultNow().notNull(),
+		viewedAt: timestamp("viewed_at").defaultNow().notNull(),
+	},
+	(t) => [
+		uniqueIndex("pp_player_question_audience_unique").on(
+			t.playerId,
+			t.questionId,
+			t.audience,
+		),
+	],
+);
 
 export const gameSessions = pgTable("game_sessions", {
 	audience: audienceEnum("audience"),

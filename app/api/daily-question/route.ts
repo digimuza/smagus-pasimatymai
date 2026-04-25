@@ -1,6 +1,7 @@
-import config from "@payload-config";
+import { and, eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
+import { dailyQuestions, questions } from "@/drizzle/schema";
 
 const VALID_AUDIENCES = ["romantic", "family", "kids", "friends"] as const;
 type Audience = (typeof VALID_AUDIENCES)[number];
@@ -11,67 +12,61 @@ export async function GET(req: NextRequest) {
 		? (rawAudience as Audience)
 		: "romantic";
 	const today = new Date().toISOString().slice(0, 10);
-	const payload = await getPayload({ config });
 
-	// Try to find today's daily question for this audience
-	const existing = await payload.find({
-		collection: "daily-questions",
-		depth: 1,
-		limit: 1,
-		where: {
-			and: [{ date: { equals: today } }, { audience: { equals: audience } }],
-		},
-	});
+	// Try to find today's daily question
+	const [existing] = await db
+		.select({
+			date: dailyQuestions.date,
+			questionId: dailyQuestions.questionId,
+		})
+		.from(dailyQuestions)
+		.where(
+			and(
+				eq(dailyQuestions.date, today),
+				eq(dailyQuestions.audience, audience),
+			),
+		)
+		.limit(1);
 
-	if (existing.docs.length > 0) {
-		const doc = existing.docs[0];
-		const q = doc.question as { id: number; question: string } | number;
-		if (typeof q === "object" && q !== null) {
-			return NextResponse.json({
-				date: doc.date,
-				id: q.id,
-				question: q.question,
-			});
+	if (existing) {
+		const [q] = await db
+			.select({ id: questions.id, question: questions.question })
+			.from(questions)
+			.where(eq(questions.id, existing.questionId))
+			.limit(1);
+
+		if (q) {
+			return NextResponse.json({ date: today, id: q.id, question: q.question });
 		}
 	}
 
-	// Auto-generate: pick a random question for this audience
-	const questions = await payload.find({
-		collection: "questions",
-		depth: 0,
-		limit: 500,
-		where: {
-			and: [
-				{ audience: { equals: audience } },
-				{ status: { equals: "published" } },
-			],
-		},
-	});
+	// Auto-generate: pick a deterministic random question
+	const allQuestions = await db
+		.select({ id: questions.id, question: questions.question })
+		.from(questions)
+		.where(
+			and(eq(questions.audience, audience), eq(questions.status, "published")),
+		)
+		.limit(500);
 
-	if (questions.docs.length === 0) {
+	if (allQuestions.length === 0) {
 		return NextResponse.json(
 			{ error: "No questions available" },
 			{ status: 404 },
 		);
 	}
 
-	// Use date as seed for deterministic daily pick
 	const seed = today.split("-").reduce((acc, n) => acc + parseInt(n, 10), 0);
-	const index = seed % questions.docs.length;
-	const picked = questions.docs[index];
+	const picked = allQuestions[seed % allQuestions.length];
 
-	// Save for today
 	try {
-		await payload.create({
-			collection: "daily-questions",
-			data: {
-				audience,
-				date: today,
-				question: picked.id,
-			},
+		await db.insert(dailyQuestions).values({
+			audience,
+			date: today,
+			questionId: picked.id,
 		});
 	} catch {
-		// Might already exist from concurrent request
+		// Unique constraint — concurrent request already inserted
 	}
 
 	return NextResponse.json({

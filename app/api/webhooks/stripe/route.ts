@@ -1,7 +1,8 @@
-import config from "@payload-config";
+import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { getPayload } from "payload";
 import type Stripe from "stripe";
+import { db } from "@/drizzle/db";
+import { stripeEvents, subscriptions } from "@/drizzle/schema";
 import { stripe } from "@/lib/stripe";
 import { recordError, withSpan } from "@/lib/telemetry";
 
@@ -46,296 +47,217 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
 	}
 
-	// Early return for unhandled event types
 	if (!HANDLED_EVENTS.has(event.type)) {
 		return NextResponse.json({ received: true });
 	}
 
-	const payload = await getPayload({ config });
+	// Idempotency check
+	const [alreadyProcessed] = await db
+		.select({ id: stripeEvents.id })
+		.from(stripeEvents)
+		.where(eq(stripeEvents.eventId, event.id))
+		.limit(1);
 
-	// Idempotency: skip already-processed events
-	const alreadyProcessed = await payload.find({
-		collection: "stripe-events",
-		limit: 1,
-		overrideAccess: true,
-		where: { eventId: { equals: event.id } },
-	});
-	if (alreadyProcessed.docs.length > 0) {
+	if (alreadyProcessed) {
 		return NextResponse.json({ duplicate: true, received: true });
 	}
 
 	try {
 		await withSpan(
 			"stripe.webhook.process",
-			{ "stripe.event_type": event.type, "stripe.event_id": event.id },
+			{ "stripe.event_id": event.id, "stripe.event_type": event.type },
 			async () => {
-		switch (event.type) {
-			case "checkout.session.completed": {
-				const session = event.data.object as Stripe.Checkout.Session;
-				const playerId = session.metadata?.playerId;
-				const plan = session.metadata?.plan || "monthly";
+				switch (event.type) {
+					case "checkout.session.completed": {
+						const session = event.data.object as Stripe.Checkout.Session;
+						const playerId = session.metadata?.playerId;
+						const plan = session.metadata?.plan || "monthly";
 
-				if (!playerId || !session.customer || !session.subscription) {
-					console.warn(
-						"[Stripe webhook] checkout.session.completed missing required data",
-						{
-							customer: !!session.customer,
-							playerId,
-							subscription: !!session.subscription,
-						},
-					);
-					break;
-				}
+						if (!playerId || !session.customer || !session.subscription) {
+							console.warn(
+								"[Stripe webhook] checkout.session.completed missing required data",
+							);
+							break;
+						}
 
-				const customerId =
-					typeof session.customer === "string"
-						? session.customer
-						: session.customer.id;
-				const subscriptionId =
-					typeof session.subscription === "string"
-						? session.subscription
-						: session.subscription.id;
+						const customerId =
+							typeof session.customer === "string"
+								? session.customer
+								: session.customer.id;
+						const subscriptionId =
+							typeof session.subscription === "string"
+								? session.subscription
+								: session.subscription.id;
 
-				const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
-				const item = stripeSub.items.data[0];
+						const stripeSub =
+							await stripe.subscriptions.retrieve(subscriptionId);
+						const item = stripeSub.items.data[0];
+						if (!item) break;
 
-				if (!item) {
-					console.error(
-						`[Stripe webhook] No items on subscription ${subscriptionId}`,
-					);
-					break;
-				}
+						const subData = {
+							cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
+							currentPeriodEnd: new Date(item.current_period_end * 1000),
+							currentPeriodStart: new Date(item.current_period_start * 1000),
+							plan: plan as "monthly" | "yearly",
+							status:
+								stripeSub.status === "trialing"
+									? ("trialing" as const)
+									: ("active" as const),
+							stripeCustomerId: customerId,
+							stripeSubscriptionId: subscriptionId,
+							trialEnd: stripeSub.trial_end
+								? new Date(stripeSub.trial_end * 1000)
+								: null,
+							updatedAt: new Date(),
+						};
 
-				const subData = {
-					cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
-					currentPeriodEnd: new Date(
-						item.current_period_end * 1000,
-					).toISOString(),
-					currentPeriodStart: new Date(
-						item.current_period_start * 1000,
-					).toISOString(),
-					plan: plan as "monthly" | "yearly",
-					player: Number(playerId),
-					status:
-						stripeSub.status === "trialing"
-							? ("trialing" as const)
-							: ("active" as const),
-					stripeCustomerId: customerId,
-					stripeSubscriptionId: subscriptionId,
-					trialEnd: stripeSub.trial_end
-						? new Date(stripeSub.trial_end * 1000).toISOString()
-						: undefined,
-				};
+						const [existing] = await db
+							.select({ id: subscriptions.id })
+							.from(subscriptions)
+							.where(eq(subscriptions.playerId, Number(playerId)))
+							.limit(1);
 
-				const existing = await payload.find({
-					collection: "subscriptions",
-					limit: 1,
-					overrideAccess: true,
-					where: { player: { equals: Number(playerId) } },
-				});
-
-				if (existing.docs.length > 0) {
-					await payload.update({
-						collection: "subscriptions",
-						data: subData,
-						id: existing.docs[0].id,
-						overrideAccess: true,
-					});
-				} else {
-					await payload.create({
-						collection: "subscriptions",
-						data: subData,
-						overrideAccess: true,
-					});
-				}
-				break;
-			}
-
-			case "invoice.paid": {
-				const invoice = event.data.object as Stripe.Invoice;
-				const subRef = invoice.parent?.subscription_details?.subscription;
-				const subscriptionId = typeof subRef === "string" ? subRef : subRef?.id;
-
-				if (!subscriptionId) {
-					console.warn("[Stripe webhook] invoice.paid missing subscription ID");
-					break;
-				}
-
-				const stripeSub = await stripe.subscriptions.retrieve(subscriptionId);
-				const paidItem = stripeSub.items.data[0];
-
-				if (!paidItem) {
-					console.error(
-						`[Stripe webhook] No items on subscription ${subscriptionId}`,
-					);
-					break;
-				}
-
-				const sub = await payload.find({
-					collection: "subscriptions",
-					limit: 1,
-					overrideAccess: true,
-					where: { stripeSubscriptionId: { equals: subscriptionId } },
-				});
-
-				if (sub.docs.length > 0) {
-					await payload.update({
-						collection: "subscriptions",
-						data: {
-							currentPeriodEnd: new Date(
-								paidItem.current_period_end * 1000,
-							).toISOString(),
-							currentPeriodStart: new Date(
-								paidItem.current_period_start * 1000,
-							).toISOString(),
-							status: "active",
-						},
-						id: sub.docs[0].id,
-						overrideAccess: true,
-					});
-				} else {
-					console.warn(
-						`[Stripe webhook] invoice.paid: no local subscription for ${subscriptionId}`,
-					);
-				}
-				break;
-			}
-
-			case "invoice.payment_failed": {
-				const invoice = event.data.object as Stripe.Invoice;
-				const failedSubRef = invoice.parent?.subscription_details?.subscription;
-				const subscriptionId =
-					typeof failedSubRef === "string" ? failedSubRef : failedSubRef?.id;
-
-				if (!subscriptionId) {
-					console.warn(
-						"[Stripe webhook] invoice.payment_failed missing subscription ID",
-					);
-					break;
-				}
-
-				const sub = await payload.find({
-					collection: "subscriptions",
-					limit: 1,
-					overrideAccess: true,
-					where: { stripeSubscriptionId: { equals: subscriptionId } },
-				});
-
-				if (sub.docs.length > 0) {
-					await payload.update({
-						collection: "subscriptions",
-						data: { status: "past_due" },
-						id: sub.docs[0].id,
-						overrideAccess: true,
-					});
-				} else {
-					console.warn(
-						`[Stripe webhook] invoice.payment_failed: no local subscription for ${subscriptionId}`,
-					);
-				}
-				break;
-			}
-
-			case "customer.subscription.updated": {
-				const stripeSub = event.data.object as Stripe.Subscription;
-				const updatedItem = stripeSub.items.data[0];
-
-				if (!updatedItem) {
-					console.error(
-						`[Stripe webhook] No items on subscription ${stripeSub.id}`,
-					);
-					break;
-				}
-
-				const sub = await payload.find({
-					collection: "subscriptions",
-					limit: 1,
-					overrideAccess: true,
-					where: {
-						stripeSubscriptionId: { equals: stripeSub.id },
-					},
-				});
-
-				if (sub.docs.length > 0) {
-					const mappedStatus = STATUS_MAP[stripeSub.status];
-					if (!mappedStatus) {
-						console.warn(
-							`[Stripe webhook] Unknown subscription status: ${stripeSub.status}`,
-						);
+						if (existing) {
+							await db
+								.update(subscriptions)
+								.set(subData)
+								.where(eq(subscriptions.id, existing.id));
+						} else {
+							await db.insert(subscriptions).values({
+								...subData,
+								playerId: Number(playerId),
+							});
+						}
+						break;
 					}
 
-					await payload.update({
-						collection: "subscriptions",
-						data: {
-							cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
-							currentPeriodEnd: new Date(
-								updatedItem.current_period_end * 1000,
-							).toISOString(),
-							currentPeriodStart: new Date(
-								updatedItem.current_period_start * 1000,
-							).toISOString(),
-							status: mappedStatus || "past_due",
-						},
-						id: sub.docs[0].id,
-						overrideAccess: true,
-					});
-				} else {
-					console.warn(
-						`[Stripe webhook] subscription.updated: no local subscription for ${stripeSub.id}`,
-					);
+					case "invoice.paid": {
+						const invoice = event.data.object as Stripe.Invoice;
+						const subRef = invoice.parent?.subscription_details?.subscription;
+						const subscriptionId =
+							typeof subRef === "string" ? subRef : subRef?.id;
+						if (!subscriptionId) break;
+
+						const stripeSub =
+							await stripe.subscriptions.retrieve(subscriptionId);
+						const paidItem = stripeSub.items.data[0];
+						if (!paidItem) break;
+
+						const [sub] = await db
+							.select({ id: subscriptions.id })
+							.from(subscriptions)
+							.where(eq(subscriptions.stripeSubscriptionId, subscriptionId))
+							.limit(1);
+
+						if (sub) {
+							await db
+								.update(subscriptions)
+								.set({
+									currentPeriodEnd: new Date(
+										paidItem.current_period_end * 1000,
+									),
+									currentPeriodStart: new Date(
+										paidItem.current_period_start * 1000,
+									),
+									status: "active",
+									updatedAt: new Date(),
+								})
+								.where(eq(subscriptions.id, sub.id));
+						}
+						break;
+					}
+
+					case "invoice.payment_failed": {
+						const invoice = event.data.object as Stripe.Invoice;
+						const failedSubRef =
+							invoice.parent?.subscription_details?.subscription;
+						const subscriptionId =
+							typeof failedSubRef === "string"
+								? failedSubRef
+								: failedSubRef?.id;
+						if (!subscriptionId) break;
+
+						const [sub] = await db
+							.select({ id: subscriptions.id })
+							.from(subscriptions)
+							.where(eq(subscriptions.stripeSubscriptionId, subscriptionId))
+							.limit(1);
+
+						if (sub) {
+							await db
+								.update(subscriptions)
+								.set({ status: "past_due", updatedAt: new Date() })
+								.where(eq(subscriptions.id, sub.id));
+						}
+						break;
+					}
+
+					case "customer.subscription.updated": {
+						const stripeSub = event.data.object as Stripe.Subscription;
+						const updatedItem = stripeSub.items.data[0];
+						if (!updatedItem) break;
+
+						const [sub] = await db
+							.select({ id: subscriptions.id })
+							.from(subscriptions)
+							.where(eq(subscriptions.stripeSubscriptionId, stripeSub.id))
+							.limit(1);
+
+						if (sub) {
+							const mappedStatus = STATUS_MAP[stripeSub.status] ?? "past_due";
+							await db
+								.update(subscriptions)
+								.set({
+									cancelAtPeriodEnd: stripeSub.cancel_at_period_end,
+									currentPeriodEnd: new Date(
+										updatedItem.current_period_end * 1000,
+									),
+									currentPeriodStart: new Date(
+										updatedItem.current_period_start * 1000,
+									),
+									status: mappedStatus,
+									updatedAt: new Date(),
+								})
+								.where(eq(subscriptions.id, sub.id));
+						}
+						break;
+					}
+
+					case "customer.subscription.deleted": {
+						const stripeSub = event.data.object as Stripe.Subscription;
+
+						const [sub] = await db
+							.select({ id: subscriptions.id })
+							.from(subscriptions)
+							.where(eq(subscriptions.stripeSubscriptionId, stripeSub.id))
+							.limit(1);
+
+						if (sub) {
+							await db
+								.update(subscriptions)
+								.set({ plan: "free", status: "expired", updatedAt: new Date() })
+								.where(eq(subscriptions.id, sub.id));
+						}
+						break;
+					}
 				}
-				break;
-			}
-
-			case "customer.subscription.deleted": {
-				const stripeSub = event.data.object as Stripe.Subscription;
-
-				const sub = await payload.find({
-					collection: "subscriptions",
-					limit: 1,
-					overrideAccess: true,
-					where: {
-						stripeSubscriptionId: { equals: stripeSub.id },
-					},
-				});
-
-				if (sub.docs.length > 0) {
-					await payload.update({
-						collection: "subscriptions",
-						data: { plan: "free", status: "expired" },
-						id: sub.docs[0].id,
-						overrideAccess: true,
-					});
-				} else {
-					console.warn(
-						`[Stripe webhook] subscription.deleted: no local subscription for ${stripeSub.id}`,
-					);
-				}
-				break;
-			}
-			default:
-				break;
-		}
-		});
+			},
+		);
 	} catch (error) {
 		recordError(error);
 		console.error(
 			`[Stripe webhook] Error processing ${event.type} (${event.id}):`,
 			error,
 		);
-		// Return 500 so Stripe retries — don't record as processed
 		return NextResponse.json(
 			{ error: "Webhook processing failed" },
 			{ status: 500 },
 		);
 	}
 
-	// Record successfully processed event for idempotency
-	await payload.create({
-		collection: "stripe-events",
-		data: { eventId: event.id, eventType: event.type },
-		overrideAccess: true,
-	});
+	await db
+		.insert(stripeEvents)
+		.values({ eventId: event.id, eventType: event.type });
 
 	return NextResponse.json({ received: true });
 }

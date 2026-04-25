@@ -1,10 +1,36 @@
-// Load env vars before any payload imports (workaround for @next/env + tsx incompatibility)
-import "./load-env";
-
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { getPayload } from "payload";
-import config from "../payload.config";
+import { fileURLToPath } from "node:url";
+import { and, eq } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
+import * as schema from "../drizzle/schema";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Load .env.local
+const envPath = path.resolve(__dirname, "../.env.local");
+if (fs.existsSync(envPath)) {
+	const content = fs.readFileSync(envPath, "utf-8");
+	for (const line of content.split("\n")) {
+		const trimmed = line.trim();
+		if (!trimmed || trimmed.startsWith("#")) continue;
+		const eqIdx = trimmed.indexOf("=");
+		if (eqIdx === -1) continue;
+		const key = trimmed.slice(0, eqIdx);
+		const value = trimmed.slice(eqIdx + 1);
+		if (!process.env[key]) process.env[key] = value;
+	}
+}
+
+const connectionString =
+	process.env.DATABASE_URL ||
+	"postgresql://payload:payload@localhost:5433/santykiuklausimai";
+
+const migrationClient = postgres(connectionString, { max: 1 });
+const queryClient = postgres(connectionString, { prepare: false });
+const db = drizzle(queryClient, { schema });
 
 const INTIMATE_CATEGORY_NAMES = [
 	"Intymūs klausimai",
@@ -30,385 +56,339 @@ const SPICY_CARD_TYPE_DEFS = [
 	{ color: "#DA70D6", icon: "💃", label: "Šokis 💃", slug: "dance" },
 ];
 
+const AUDIENCE_DEFS = [
+	{
+		color: "#9B59B6",
+		description: "Klausimai, kurie padės geriau pažinti savo antrąją pusę",
+		icon: "💜",
+		isActive: true,
+		name: "Poroms",
+		slug: "romantic",
+		sortOrder: 1,
+	},
+	{
+		color: "#3498DB",
+		description: "Šilti klausimai visai šeimai — nuo senelių iki vaikų",
+		icon: "🏠",
+		isActive: true,
+		name: "Šeimai",
+		slug: "family",
+		sortOrder: 2,
+	},
+	{
+		color: "#E67E22",
+		description: "Klausimai draugų vakarams ir kompanijoms",
+		icon: "🎉",
+		isActive: true,
+		name: "Draugams",
+		slug: "friends",
+		sortOrder: 3,
+	},
+	{
+		color: "#2ECC71",
+		description: "Linksmi ir saugūs klausimai mažiesiems",
+		icon: "🌈",
+		isActive: true,
+		name: "Vaikams",
+		slug: "kids",
+		sortOrder: 4,
+	},
+];
+
 async function seed() {
-	const payload = await getPayload({ config });
-
-	console.log("Starting seed...");
-
-	// 1. Create admin user
-	const existingUsers = await payload.find({
-		collection: "users",
-		limit: 1,
-		where: { email: { equals: "admin@santykiuklausimai.lt" } },
+	console.log("Running migrations...");
+	await migrate(drizzle(migrationClient), {
+		migrationsFolder: path.resolve(__dirname, "../drizzle/migrations"),
 	});
+	console.log("Migrations complete.");
 
-	if (existingUsers.docs.length > 0) {
-		console.log("Admin user already exists, skipping");
-	} else {
-		try {
-			await payload.create({
-				collection: "users",
-				data: {
-					email: "admin@santykiuklausimai.lt",
-					password: "changeme123",
-				},
-			});
-			console.log("Admin user created");
-		} catch (e: any) {
-			console.error("Error creating admin user:", e.message);
+	// 1. Seed audiences
+	console.log("\n--- Seeding audiences ---");
+	for (const aud of AUDIENCE_DEFS) {
+		const [existing] = await db
+			.select({ id: schema.audiences.id })
+			.from(schema.audiences)
+			.where(
+				eq(
+					schema.audiences.slug,
+					aud.slug as "romantic" | "family" | "kids" | "friends",
+				),
+			)
+			.limit(1);
+
+		if (existing) {
+			console.log(`  Audience already exists: ${aud.slug}`);
+		} else {
+			await db.insert(schema.audiences).values(aud);
+			console.log(`  Audience created: ${aud.slug}`);
 		}
 	}
 
-	// 2. Read data.json and create categories + questions
+	// 2. Seed romantic questions from data.json
+	console.log("\n--- Seeding romantic questions ---");
 	const dataPath = path.resolve(__dirname, "../public/data.json");
-	const rawData = fs.readFileSync(dataPath, "utf-8");
-	const data = JSON.parse(rawData);
+	const rawData = JSON.parse(fs.readFileSync(dataPath, "utf-8")) as {
+		sections: { name: string; questions: { id: number; question: string }[] }[];
+	};
 
 	const categoryIdMap = new Map<string, number>();
+	let sortOrder = 1;
 
-	for (let i = 0; i < data.sections.length; i++) {
-		const section = data.sections[i];
+	for (const section of rawData.sections) {
 		const type = INTIMATE_CATEGORY_NAMES.includes(section.name)
 			? "intimate"
 			: "safe";
 
-		const existingCat = await payload.find({
-			collection: "categories",
-			limit: 1,
-			where: { name: { equals: section.name } },
-		});
+		const [existing] = await db
+			.select({ id: schema.categories.id })
+			.from(schema.categories)
+			.where(eq(schema.categories.name, section.name))
+			.limit(1);
 
-		if (existingCat.docs.length > 0) {
-			categoryIdMap.set(section.name, existingCat.docs[0].id);
-			console.log(`Category already exists: ${section.name}`);
+		let catId: number;
+		if (existing) {
+			catId = existing.id;
+			console.log(`  Category exists: ${section.name}`);
 		} else {
-			const cat = await payload.create({
-				collection: "categories",
-				data: {
+			const [cat] = await db
+				.insert(schema.categories)
+				.values({
 					locale: "lt",
 					name: section.name,
-					sortOrder: i + 1,
+					sortOrder: sortOrder++,
 					type,
-				},
-			});
-			categoryIdMap.set(section.name, cat.id);
-			console.log(`Category created: ${section.name} (${type})`);
+				})
+				.returning({ id: schema.categories.id });
+			catId = cat.id;
+			console.log(`  Category created: ${section.name} (${type})`);
 		}
+		categoryIdMap.set(section.name, catId);
 
-		// Create questions for this category (idempotent by legacyId)
-		const catId = categoryIdMap.get(section.name) as number;
-		let createdCount = 0;
-		let skippedCount = 0;
-
+		let created = 0;
+		let skipped = 0;
 		for (const q of section.questions) {
-			const existing = await payload.find({
-				collection: "questions",
-				limit: 1,
-				where: { legacyId: { equals: q.id } },
-			});
+			const [existingQ] = await db
+				.select({ id: schema.questions.id })
+				.from(schema.questions)
+				.where(eq(schema.questions.legacyId, q.id))
+				.limit(1);
 
-			if (existing.docs.length > 0) {
-				skippedCount++;
+			if (existingQ) {
+				skipped++;
 				continue;
 			}
-
-			try {
-				await payload.create({
-					collection: "questions",
-					data: {
-						audience: "romantic",
-						category: catId,
-						legacyId: q.id,
-						locale: "lt",
-						question: q.question,
-						status: "published",
-					},
-				});
-				createdCount++;
-			} catch (e: any) {
-				console.error(`Error creating question ${q.id}: ${e.message}`);
-			}
+			await db.insert(schema.questions).values({
+				audience: "romantic",
+				categoryId: catId,
+				legacyId: q.id,
+				locale: "lt",
+				question: q.question,
+				status: "published",
+			});
+			created++;
 		}
-		console.log(
-			`  Questions: ${createdCount} created, ${skippedCount} skipped (already exist)`,
-		);
+		console.log(`    Questions: ${created} created, ${skipped} skipped`);
 	}
 
-	// 3. Create spicy card types (idempotent by slug unique constraint)
+	// 3. Seed spicy card types
+	console.log("\n--- Seeding spicy card types ---");
 	const typeIdMap = new Map<string, number>();
 
 	for (const typeDef of SPICY_CARD_TYPE_DEFS) {
-		const existingType = await payload.find({
-			collection: "spicy-card-types",
-			limit: 1,
-			where: { slug: { equals: typeDef.slug } },
-		});
+		const [existing] = await db
+			.select({ id: schema.spicyCardTypes.id })
+			.from(schema.spicyCardTypes)
+			.where(eq(schema.spicyCardTypes.slug, typeDef.slug))
+			.limit(1);
 
-		if (existingType.docs.length > 0) {
-			typeIdMap.set(typeDef.slug, existingType.docs[0].id);
-			console.log(`Spicy card type already exists: ${typeDef.slug}`);
+		if (existing) {
+			typeIdMap.set(typeDef.slug, existing.id);
+			console.log(`  Type exists: ${typeDef.slug}`);
 		} else {
-			const created = await payload.create({
-				collection: "spicy-card-types",
-				data: {
-					...typeDef,
-					locale: "lt",
-				},
-			});
+			const [created] = await db
+				.insert(schema.spicyCardTypes)
+				.values({ ...typeDef, locale: "lt" })
+				.returning({ id: schema.spicyCardTypes.id });
 			typeIdMap.set(typeDef.slug, created.id);
-			console.log(`Spicy card type created: ${typeDef.slug}`);
+			console.log(`  Type created: ${typeDef.slug}`);
 		}
 	}
 
-	// 4. Import spicy cards (idempotent by title + cardType)
+	// 4. Seed romantic spicy cards
+	console.log("\n--- Seeding romantic spicy cards ---");
 	const { SPICY_CARDS } = await import("../lib/spicyCardsData");
-
 	let spicyCreated = 0;
 	let spicySkipped = 0;
 
 	for (const card of SPICY_CARDS) {
 		const typeId = typeIdMap.get(card.type);
-		if (!typeId) {
-			console.error(`Unknown card type: ${card.type}`);
-			continue;
-		}
+		if (!typeId) continue;
 
-		const existing = await payload.find({
-			collection: "spicy-cards",
-			limit: 1,
-			where: {
-				cardType: { equals: typeId },
-				title: { equals: card.title },
-			},
-		});
+		const [existing] = await db
+			.select({ id: schema.spicyCards.id })
+			.from(schema.spicyCards)
+			.where(
+				and(
+					eq(schema.spicyCards.cardTypeId, typeId),
+					eq(schema.spicyCards.title, card.title),
+				),
+			)
+			.limit(1);
 
-		if (existing.docs.length > 0) {
+		if (existing) {
 			spicySkipped++;
 			continue;
 		}
-
-		try {
-			await payload.create({
-				collection: "spicy-cards",
-				data: {
-					audience: "romantic",
-					cardType: typeId,
-					description: card.description,
-					locale: "lt",
-					status: "published",
-					title: card.title,
-				},
-			});
-			spicyCreated++;
-		} catch (e: any) {
-			console.error(`Error creating spicy card ${card.id}: ${e.message}`);
-		}
+		await db.insert(schema.spicyCards).values({
+			audience: "romantic",
+			cardTypeId: typeId,
+			description: card.description,
+			locale: "lt",
+			status: "published",
+			title: card.title,
+		});
+		spicyCreated++;
 	}
 	console.log(
-		`Spicy cards: ${spicyCreated} created, ${spicySkipped} skipped (already exist)`,
+		`  Spicy cards: ${spicyCreated} created, ${spicySkipped} skipped`,
 	);
 
-	// 5. Seed Audiences collection
-	const AUDIENCE_DEFS = [
-		{
-			color: "#9B59B6",
-			description: "Klausimai, kurie padės geriau pažinti savo antrąją pusę",
-			icon: "💜",
-			name: "Poroms",
-			slug: "romantic",
-			sortOrder: 1,
-		},
-		{
-			color: "#3498DB",
-			description: "Šilti klausimai visai šeimai — nuo senelių iki vaikų",
-			icon: "🏠",
-			name: "Šeimai",
-			slug: "family",
-			sortOrder: 2,
-		},
-		{
-			color: "#E67E22",
-			description: "Klausimai draugų vakarams ir kompanijoms",
-			icon: "🎉",
-			name: "Draugams",
-			slug: "friends",
-			sortOrder: 3,
-		},
-		{
-			color: "#2ECC71",
-			description: "Linksmi ir saugūs klausimai mažiesiems",
-			icon: "🌈",
-			name: "Vaikams",
-			slug: "kids",
-			sortOrder: 4,
-		},
-	];
-
-	console.log("\n--- Seeding Audiences ---");
-	for (const aud of AUDIENCE_DEFS) {
-		const existing = await payload.find({
-			collection: "audiences",
-			limit: 1,
-			where: { slug: { equals: aud.slug } },
-		});
-
-		if (existing.docs.length > 0) {
-			console.log(`Audience already exists: ${aud.slug}`);
-		} else {
-			await payload.create({
-				collection: "audiences",
-				data: { ...aud, isActive: true },
-			});
-			console.log(`Audience created: ${aud.slug}`);
-		}
-	}
-
-	// 6. Seed new audience questions from JSON files
-	const AUDIENCE_DATA_FILES: { audience: string; file: string }[] = [
-		{ audience: "family", file: "family-questions.json" },
-		{ audience: "kids", file: "kids-questions.json" },
-		{ audience: "friends", file: "friends-questions.json" },
+	// 5. Seed additional audience questions
+	const AUDIENCE_DATA_FILES = [
+		{ audience: "family" as const, file: "family-questions.json" },
+		{ audience: "kids" as const, file: "kids-questions.json" },
+		{ audience: "friends" as const, file: "friends-questions.json" },
 	];
 
 	for (const { audience, file } of AUDIENCE_DATA_FILES) {
 		console.log(`\n--- Seeding ${audience} questions ---`);
 		const filePath = path.resolve(__dirname, "data", file);
-		const rawJson = fs.readFileSync(filePath, "utf-8");
-		const audienceData = JSON.parse(rawJson);
+		const audienceData = JSON.parse(fs.readFileSync(filePath, "utf-8")) as {
+			sections: {
+				name: string;
+				type?: string;
+				questions: { question: string }[];
+			}[];
+		};
 
-		// Track max sortOrder for new categories
-		const existingCats = await payload.find({
-			collection: "categories",
-			limit: 1,
-			sort: "-sortOrder",
-		});
-		let nextSortOrder = (existingCats.docs[0]?.sortOrder || 0) + 1;
+		const [lastCat] = await db
+			.select({ sortOrder: schema.categories.sortOrder })
+			.from(schema.categories)
+			.orderBy(schema.categories.sortOrder)
+			.limit(1);
+		let nextSort = (lastCat?.sortOrder ?? 0) + 1;
 
 		for (const section of audienceData.sections) {
-			// Find or create category
-			const existingCat = await payload.find({
-				collection: "categories",
-				limit: 1,
-				where: { name: { equals: section.name } },
-			});
+			const [existingCat] = await db
+				.select({ id: schema.categories.id })
+				.from(schema.categories)
+				.where(eq(schema.categories.name, section.name))
+				.limit(1);
 
 			let catId: number;
-			if (existingCat.docs.length > 0) {
-				catId = existingCat.docs[0].id;
-				console.log(`  Category already exists: ${section.name}`);
+			if (existingCat) {
+				catId = existingCat.id;
+				console.log(`  Category exists: ${section.name}`);
 			} else {
-				const cat = await payload.create({
-					collection: "categories",
-					data: {
+				const [cat] = await db
+					.insert(schema.categories)
+					.values({
 						locale: "lt",
 						name: section.name,
-						sortOrder: nextSortOrder++,
-						type: section.type || "safe",
-					},
-				});
+						sortOrder: nextSort++,
+						type: (section.type ?? "safe") as "safe" | "intimate",
+					})
+					.returning({ id: schema.categories.id });
 				catId = cat.id;
 				console.log(`  Category created: ${section.name}`);
 			}
 
-			// Create questions (idempotent by question text + audience + category)
-			let createdQ = 0;
-			let skippedQ = 0;
-
+			let created = 0;
+			let skipped = 0;
 			for (const q of section.questions) {
-				const existing = await payload.find({
-					collection: "questions",
-					limit: 1,
-					where: {
-						audience: { equals: audience },
-						category: { equals: catId },
-						question: { equals: q.question },
-					},
-				});
+				const [existingQ] = await db
+					.select({ id: schema.questions.id })
+					.from(schema.questions)
+					.where(
+						and(
+							eq(schema.questions.categoryId, catId),
+							eq(schema.questions.audience, audience),
+							eq(schema.questions.question, q.question),
+						),
+					)
+					.limit(1);
 
-				if (existing.docs.length > 0) {
-					skippedQ++;
+				if (existingQ) {
+					skipped++;
 					continue;
 				}
-
-				try {
-					await payload.create({
-						collection: "questions",
-						data: {
-							audience: audience as "romantic" | "family" | "kids" | "friends",
-							category: catId,
-							locale: "lt",
-							question: q.question,
-							status: "published",
-						},
-					});
-					createdQ++;
-				} catch (e: any) {
-					console.error(`  Error creating ${audience} question: ${e.message}`);
-				}
+				await db.insert(schema.questions).values({
+					audience,
+					categoryId: catId,
+					locale: "lt",
+					question: q.question,
+					status: "published",
+				});
+				created++;
 			}
-			console.log(`    Questions: ${createdQ} created, ${skippedQ} skipped`);
+			console.log(`    Questions: ${created} created, ${skipped} skipped`);
 		}
 	}
 
-	// 7. Seed new audience spicy cards from JSON files
-	const SPICY_DATA_FILES: { audience: string; file: string }[] = [
-		{ audience: "family", file: "family-spicy-cards.json" },
-		{ audience: "kids", file: "kids-spicy-cards.json" },
-		{ audience: "friends", file: "friends-spicy-cards.json" },
+	// 6. Seed additional audience spicy cards
+	const SPICY_DATA_FILES = [
+		{ audience: "family" as const, file: "family-spicy-cards.json" },
+		{ audience: "kids" as const, file: "kids-spicy-cards.json" },
+		{ audience: "friends" as const, file: "friends-spicy-cards.json" },
 	];
 
 	for (const { audience, file } of SPICY_DATA_FILES) {
 		console.log(`\n--- Seeding ${audience} spicy cards ---`);
 		const filePath = path.resolve(__dirname, "data", file);
-		const rawJson = fs.readFileSync(filePath, "utf-8");
-		const cards: { type: string; title: string; description: string }[] =
-			JSON.parse(rawJson);
+		const cards = JSON.parse(fs.readFileSync(filePath, "utf-8")) as {
+			type: string;
+			title: string;
+			description: string;
+		}[];
 
-		let createdSC = 0;
-		let skippedSC = 0;
+		let created = 0;
+		let skipped = 0;
 
 		for (const card of cards) {
 			const typeId = typeIdMap.get(card.type);
-			if (!typeId) {
-				console.error(`  Unknown card type: ${card.type}`);
+			if (!typeId) continue;
+
+			const [existing] = await db
+				.select({ id: schema.spicyCards.id })
+				.from(schema.spicyCards)
+				.where(
+					and(
+						eq(schema.spicyCards.audience, audience),
+						eq(schema.spicyCards.title, card.title),
+					),
+				)
+				.limit(1);
+
+			if (existing) {
+				skipped++;
 				continue;
 			}
-
-			const existing = await payload.find({
-				collection: "spicy-cards",
-				limit: 1,
-				where: {
-					audience: { equals: audience },
-					title: { equals: card.title },
-				},
+			await db.insert(schema.spicyCards).values({
+				audience,
+				cardTypeId: typeId,
+				description: card.description,
+				locale: "lt",
+				status: "published",
+				title: card.title,
 			});
-
-			if (existing.docs.length > 0) {
-				skippedSC++;
-				continue;
-			}
-
-			try {
-				await payload.create({
-					collection: "spicy-cards",
-					data: {
-						audience: audience as "romantic" | "family" | "kids" | "friends",
-						cardType: typeId,
-						description: card.description,
-						locale: "lt",
-						status: "published",
-						title: card.title,
-					},
-				});
-				createdSC++;
-			} catch (e: any) {
-				console.error(`  Error creating ${audience} spicy card: ${e.message}`);
-			}
+			created++;
 		}
-		console.log(`  Spicy cards: ${createdSC} created, ${skippedSC} skipped`);
+		console.log(`  Spicy cards: ${created} created, ${skipped} skipped`);
 	}
 
 	console.log("\nSeed complete!");
+	await migrationClient.end();
+	await queryClient.end();
 	process.exit(0);
 }
 
