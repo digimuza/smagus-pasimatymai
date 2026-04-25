@@ -1,16 +1,10 @@
 "use client";
 
-import {
-	motion,
-	type PanInfo,
-	useMotionValue,
-	useTransform,
-} from "framer-motion";
+import { motion, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Badge } from "@/components/ui";
+import { useSwipeGesture } from "@/hooks/useSwipeGesture";
 import { fadeInUp, spicyCardFlip } from "@/lib/animations";
-import { SWIPE_THRESHOLD } from "@/lib/constants";
 import type { SpicyCard } from "@/types/spicyCards";
 
 interface SpicyCardDisplayProps {
@@ -20,53 +14,30 @@ interface SpicyCardDisplayProps {
 
 export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 	const t = useTranslations("game");
-	const x = useMotionValue(0);
-	const y = useMotionValue(0);
-	const [exitX, setExitX] = useState(0);
-	const [exitY, setExitY] = useState(0);
+	const { dragHandlers, exitAnimate, isDismissed, x, y, rotateZ, cardOpacity } =
+		useSwipeGesture({
+			enabledDirections: ["left", "right", "up", "down"],
+			onSwipeDown: onDismiss,
+			onSwipeLeft: onDismiss,
+			onSwipeRight: onDismiss,
+			onSwipeUp: onDismiss,
+		});
 
-	const rotateZ = useTransform(x, [-200, 200], [-15, 15]);
-	const opacity = useTransform(
+	const dismissLabelOpacity = useTransform(
 		x,
-		[-200, -100, 0, 100, 200],
-		[0.5, 1, 1, 1, 0.5],
+		[-150, -50, 0, 50, 150],
+		[1, 0, 0, 0, 1],
 	);
-
-	const handleDragEnd = (
-		_event: MouseEvent | TouchEvent | PointerEvent,
-		info: PanInfo,
-	) => {
-		const { offset, velocity } = info;
-
-		if (Math.abs(offset.y) > SWIPE_THRESHOLD || Math.abs(velocity.y) > 500) {
-			setExitY(offset.y < 0 ? -500 : 500);
-			return;
-		}
-
-		if (Math.abs(offset.x) > SWIPE_THRESHOLD || Math.abs(velocity.x) > 500) {
-			setExitX(offset.x < 0 ? -500 : 500);
-		}
-	};
 
 	return (
 		<motion.div
-			animate={
-				exitX !== 0 || exitY !== 0
-					? { opacity: 0, transition: { duration: 0.3 }, x: exitX, y: exitY }
-					: spicyCardFlip.animate
-			}
+			{...dragHandlers}
+			animate={isDismissed ? (exitAnimate ?? undefined) : spicyCardFlip.animate}
 			className="absolute relative flex h-96 w-full max-w-md cursor-grab flex-col items-center justify-center overflow-hidden rounded-2xl p-8 shadow-lg active:cursor-grabbing"
-			drag
-			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
-			dragElastic={0.7}
 			initial={spicyCardFlip.initial}
-			onAnimationComplete={() => {
-				if (exitX !== 0 || exitY !== 0) onDismiss();
-			}}
-			onDragEnd={handleDragEnd}
 			style={{
 				background: `linear-gradient(135deg, ${card.color}dd, ${card.color}aa)`,
-				opacity,
+				opacity: cardOpacity,
 				rotateZ,
 				x,
 				y,
@@ -134,9 +105,7 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 
 			<motion.div
 				className="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 font-bold text-white text-xl opacity-0"
-				style={{
-					opacity: useTransform(x, [-150, -50, 0, 50, 150], [1, 0, 0, 0, 1]),
-				}}
+				style={{ opacity: dismissLabelOpacity }}
 			>
 				{t("swipeDone")}
 			</motion.div>
