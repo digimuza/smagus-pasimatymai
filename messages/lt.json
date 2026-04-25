@@ -40,7 +40,9 @@
 		"registerTitle": "Registruotis",
 		"privacyNotice": "Kurdami paskyrą sutinkate su mūsų",
 		"privacyLink": "Privatumo politika",
-		"submitting": "Palaukite..."
+		"submitting": "Palaukite...",
+		"tosConsentNotice": "Tęsdami sutinkate su mūsų",
+		"tosConsentAnd": "ir"
 	},
 	"awesome": {
 		"empty": "Pasibaigė visi klausimai!",
@@ -95,6 +97,8 @@
 		"skip": "Praleisti",
 		"spicyBadge": "🎲 Spicy Card",
 		"super": "Super",
+		"difficultySafe": "Saugus",
+		"difficultyIntimate": "Intimas",
 		"swipeAnswered": "ATSAKYTA",
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
