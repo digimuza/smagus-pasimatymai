@@ -30,6 +30,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 		availableQuestionsCount,
 		spicyCardsEnabled,
 		audience,
+		superlikedQuestions,
 	} = useQuestions();
 
 	const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
@@ -130,6 +131,23 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 							</svg>
 						)}
 					</Button>
+
+					{superlikedQuestions.length > 0 && (
+						<Button
+							fullWidth
+							icon={<span className="text-lg">⭐</span>}
+							onClick={() => {
+								router.push("/awesome");
+								onClose();
+							}}
+							variant="secondary"
+						>
+							<span className="flex-1 text-left">{t("viewFavorites")}</span>
+							<span className="text-text-dimmed text-sm">
+								{superlikedQuestions.length}
+							</span>
+						</Button>
+					)}
 
 					<Button
 						fullWidth

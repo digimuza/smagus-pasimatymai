@@ -101,6 +101,14 @@ export function useSwipeGesture({
 
 	const isDismissed = exitX !== 0 || exitY !== 0;
 
+	const triggerSwipe = useCallback((direction: SwipeDirection) => {
+		if (!enabledDirections.includes(direction)) return;
+		if (direction === "up") setExitY(-EXIT_DISTANCE);
+		else if (direction === "down") setExitY(EXIT_DISTANCE);
+		else if (direction === "left") setExitX(-EXIT_DISTANCE);
+		else setExitX(EXIT_DISTANCE);
+	}, [enabledDirections]);
+
 	return {
 		cardOpacity,
 		dragHandlers: {
@@ -115,6 +123,7 @@ export function useSwipeGesture({
 			: null,
 		isDismissed,
 		rotateZ,
+		triggerSwipe,
 		x,
 		y,
 	};

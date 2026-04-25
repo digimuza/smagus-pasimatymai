@@ -308,7 +308,8 @@
 		"spicyCards": "Spicy Cards",
 		"submitQuestion": "Suggest a question",
 		"title": "Categories",
-		"viewCategories": "Categories"
+		"viewCategories": "Categories",
+		"viewFavorites": "Super Questions"
 	},
 	"submit": {
 		"minChars": "Min. 10 characters",

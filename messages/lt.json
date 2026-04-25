@@ -308,7 +308,8 @@
 		"spicyCards": "Pikantiškos kortelės",
 		"submitQuestion": "Pasiūlyti klausimą",
 		"title": "Kategorijos",
-		"viewCategories": "Kategorijos"
+		"viewCategories": "Kategorijos",
+		"viewFavorites": "Super Klausimai"
 	},
 	"submit": {
 		"minChars": "Min. 10 simbolių",

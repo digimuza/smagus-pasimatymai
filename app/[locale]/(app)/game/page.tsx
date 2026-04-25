@@ -2,17 +2,21 @@
 
 import { AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { CardDeck } from "@/components/CardDeck";
 import { Paywall } from "@/components/payments/Paywall";
 import { Sidebar } from "@/components/Sidebar";
 import { SpicyCardDisplay } from "@/components/SpicyCardDisplay";
 import { StreakBadge } from "@/components/StreakBadge";
-import { SwipeCard } from "@/components/SwipeCard";
 import { Header, PageLayout } from "@/components/ui";
 import { useAuth } from "@/context/AuthContext";
 import { useQuestions } from "@/context/QuestionContext";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useRouter } from "@/i18n/navigation";
+import {
+	getPreviewQuestions,
+	getQuestionSection,
+} from "@/lib/questionEngine";
 import { AUDIENCE_DEFAULTS } from "@/types/audience";
 
 export default function GamePage() {
@@ -29,6 +33,10 @@ export default function GamePage() {
 		isContentLimited,
 		showPaywall,
 		setShowPaywall,
+		sections,
+		activeCategories,
+		questionStates,
+		superlikedQuestions,
 	} = useQuestions();
 	const { vibrate } = useHaptic();
 	const { isAuthenticated, updateStreak } = useAuth();
@@ -65,6 +73,24 @@ export default function GamePage() {
 		setShowPaywall,
 		router,
 	]);
+
+	// Derive section info for the current question
+	const currentSection = useMemo(() => {
+		if (!currentQuestion) return null;
+		return getQuestionSection(sections, currentQuestion.id);
+	}, [currentQuestion, sections]);
+
+	// Collect the next few questions for the deck stack visual
+	const previewQuestions = useMemo(() => {
+		if (!currentQuestion) return [];
+		return getPreviewQuestions(
+			sections,
+			activeCategories,
+			questionStates,
+			currentQuestion.id,
+			3,
+		);
+	}, [currentQuestion, sections, activeCategories, questionStates]);
 
 	const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
@@ -110,6 +136,25 @@ export default function GamePage() {
 				}
 				rightAction={
 					<div className="flex items-center gap-2">
+						{superlikedQuestions.length > 0 && (
+							<button
+								aria-label={t("awesome.title")}
+								className="relative text-text-muted transition-colors hover:text-warning"
+								onClick={() => router.push("/awesome")}
+								type="button"
+							>
+								<svg
+									className="h-6 w-6"
+									fill="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+								</svg>
+								<span className="absolute -top-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-warning font-bold text-background text-xs leading-none">
+									{superlikedQuestions.length > 9 ? "9+" : superlikedQuestions.length}
+								</span>
+							</button>
+						)}
 						<StreakBadge />
 						<span className="text-xl">{currentAudience?.icon}</span>
 					</div>
@@ -118,7 +163,7 @@ export default function GamePage() {
 			/>
 
 			<main className="relative flex flex-1 flex-col items-center justify-center p-6">
-				<div className="relative mb-12 h-96 w-full max-w-md">
+				<div className="mb-12 w-full max-w-md">
 					<AnimatePresence mode="wait">
 						{currentSpicyCard ? (
 							<SpicyCardDisplay
@@ -126,15 +171,18 @@ export default function GamePage() {
 								key={currentSpicyCard.id}
 								onDismiss={dismissSpicyCard}
 							/>
-						) : currentQuestion ? (
-							<SwipeCard
-								key={currentQuestion.id}
+						) : (
+							<CardDeck
+								key="deck"
+								category={currentSection?.name}
+								difficulty={currentSection?.type}
 								onSwipeLeft={handleSwipeLeft}
 								onSwipeRight={handleSwipeRight}
 								onSwipeUp={handleSwipeUp}
+								previewQuestions={previewQuestions}
 								question={currentQuestion}
 							/>
-						) : null}
+						)}
 					</AnimatePresence>
 				</div>
 
@@ -153,7 +201,10 @@ export default function GamePage() {
 					</div>
 				</div>
 
-				<div className="mt-8 text-sm text-text-dimmed">
+				<div
+					className="mt-8 text-sm text-text-dimmed"
+					data-testid="question-count"
+				>
 					{t("game.remaining", { count: availableQuestionsCount })}
 				</div>
 			</main>
