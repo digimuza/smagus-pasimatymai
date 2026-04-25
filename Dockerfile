@@ -24,8 +24,12 @@ RUN addgroup --system --gid 1001 nodejs \
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --chown=nextjs:nodejs drizzle/migrations ./drizzle/migrations
+COPY --chown=nextjs:nodejs scripts/migrate.mjs ./scripts/migrate.mjs
+COPY docker-entrypoint.sh ./docker-entrypoint.sh
+RUN chmod +x ./docker-entrypoint.sh
 USER nextjs
 EXPOSE 7743
 ENV PORT=7743
 ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+CMD ["./docker-entrypoint.sh"]
