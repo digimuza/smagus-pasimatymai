@@ -67,29 +67,92 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	// Initialize session tracking
 	useSessionTracking({ audience: state.audience || "romantic", locale });
 
-	// Sync progress to server when authenticated
+	// Two-way sync with server on first login: download server progress (cross-device),
+	// then upload any local-only records so both sides converge.
 	const syncedRef = useRef(false);
 	useEffect(() => {
 		if (!isAuthenticated || !state.audience || syncedRef.current) return;
 		syncedRef.current = true;
 
-		// Upload existing localStorage progress to server (merge on first login)
+		const audience = state.audience;
 		const localProgress = state.questionStates;
-		if (localProgress.length > 0) {
-			const items = localProgress.map((qs) => ({
-				audience: state.audience as string,
-				questionId: qs.id,
-				status: qs.status === "new" ? "answered" : qs.status,
-				viewedAt: qs.answeredAt,
-			}));
-			fetch("/api/progress", {
-				body: JSON.stringify({ items }),
-				credentials: "include",
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			}).catch(() => {});
-		}
-	}, [isAuthenticated, state.audience, state.questionStates]);
+
+		fetch(
+			`/api/sessions/swipe?audience=${encodeURIComponent(audience)}`,
+			{ credentials: "include" },
+		)
+			.then((res) => res.json())
+			.then(
+				(data: {
+					responses: Array<{
+						action: string;
+						audience: string;
+						questionId: number;
+						timestamp: string;
+					}>;
+				}) => {
+					const serverResponses = data.responses ?? [];
+					const serverIds = new Set(serverResponses.map((r) => r.questionId));
+
+					// Merge server-only records into local state
+					if (serverResponses.length > 0) {
+						setState((prev) => {
+							const localIds = new Set(prev.questionStates.map((qs) => qs.id));
+							const toAdd = serverResponses
+								.filter((r) => !localIds.has(r.questionId))
+								.map((r) => ({
+									answeredAt: r.timestamp,
+									id: r.questionId,
+									status: r.action as QuestionState["status"],
+								}));
+							if (toAdd.length === 0) return prev;
+							return {
+								...prev,
+								questionStates: [...prev.questionStates, ...toAdd],
+							};
+						});
+					}
+
+					// Upload local-only records to server
+					const localOnlyItems = localProgress
+						.filter((qs) => !serverIds.has(qs.id) && qs.status !== "new")
+						.map((qs) => ({
+							audience,
+							questionId: qs.id,
+							status: qs.status === "new" ? "answered" : qs.status,
+							viewedAt: qs.answeredAt,
+						}));
+					if (localOnlyItems.length > 0) {
+						fetch("/api/progress", {
+							body: JSON.stringify({ items: localOnlyItems }),
+							credentials: "include",
+							headers: { "Content-Type": "application/json" },
+							method: "POST",
+						}).catch(() => {});
+					}
+				},
+			)
+			.catch(() => {
+				// Fallback: push local progress to server even if download failed
+				if (localProgress.length === 0) return;
+				const items = localProgress
+					.filter((qs) => qs.status !== "new")
+					.map((qs) => ({
+						audience,
+						questionId: qs.id,
+						status: qs.status === "new" ? "answered" : qs.status,
+						viewedAt: qs.answeredAt,
+					}));
+				if (items.length > 0) {
+					fetch("/api/progress", {
+						body: JSON.stringify({ items }),
+						credentials: "include",
+						headers: { "Content-Type": "application/json" },
+						method: "POST",
+					}).catch(() => {});
+				}
+			});
+	}, [isAuthenticated, state.audience, setState]);
 
 	// Load question data from API (gated on audience selection)
 	useEffect(() => {
