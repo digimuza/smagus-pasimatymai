@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button, Sheet } from "@/components/ui";
+import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 interface LoginSheetProps {
@@ -154,6 +155,14 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						{mode === "login" ? t("registerLink") : t("loginLink")}
 					</button>
 				</p>
+				{mode === "register" && (
+					<p className="mt-3 text-center text-xs text-text-dimmed/60">
+						{t("privacyNotice")}{" "}
+						<Link className="underline underline-offset-2 hover:text-text-dimmed" href="/privacy">
+							{t("privacyLink")}
+						</Link>
+					</p>
+				)}
 			</div>
 		</Sheet>
 	);

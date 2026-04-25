@@ -38,6 +38,8 @@
 		"registerLink": "Create account",
 		"registerSubtitle": "Create an account and never lose your progress",
 		"registerTitle": "Create account",
+		"privacyNotice": "By creating an account, you agree to our",
+		"privacyLink": "Privacy Policy",
 		"submitting": "Please wait..."
 	},
 	"awesome": {
@@ -74,6 +76,12 @@
 		"openMenu": "Open menu",
 		"previous": "Previous",
 		"questions": "questions"
+	},
+	"cookieConsent": {
+		"accept": "Accept",
+		"learnMore": "Learn more",
+		"message": "We use cookies and local storage to improve your experience and collect anonymous usage analytics.",
+		"reject": "Reject"
 	},
 	"daily": {
 		"label": "Question of the day",
@@ -185,6 +193,10 @@
 		"testimonial": "\"Better than Tinder — here you actually talk.\"",
 		"testimonialAuthor": "— Every couple that wasn't afraid to answer"
 	},
+	"legal": {
+		"privacy": "Privacy Policy",
+		"terms": "Terms of Service"
+	},
 	"metadata": {
 		"description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration.",
 		"title": "Relationship Questions — Conversation game for couples, family & friends"
@@ -212,6 +224,53 @@
 		"trialNote": "7-day free trial. Cancel anytime.",
 		"yearly": "Yearly",
 		"yearlyPrice": "\u20ac29.99"
+	},
+	"privacy": {
+		"intro": "Santykių Klausimai (\"we\", \"us\", or \"our\") operates the website santykiuklausimai.lt. This Privacy Policy explains how we collect, use, and protect your personal data in accordance with the General Data Protection Regulation (GDPR).",
+		"lastUpdated": "Last updated: March 1, 2026",
+		"sections": {
+			"changes": {
+				"content": "We may update this Privacy Policy from time to time. Material changes will be communicated via email or a prominent notice on the website at least 30 days before they take effect. Continued use of the service after changes constitutes acceptance of the updated policy.",
+				"title": "9. Changes to This Policy"
+			},
+			"children": {
+				"content": "Our service is not directed at children under 16. We do not knowingly collect personal data from children under 16 without parental consent. The \"Kids\" game mode is designed to be played with parental supervision and does not require a personal account.\n\nIf you believe a child under 16 has provided us with personal data, please contact us and we will promptly delete it.",
+				"title": "8. Children's Privacy"
+			},
+			"contact": {
+				"content": "For questions about this Privacy Policy or your personal data, contact us at:\n\nEmail: info@santykiuklausimai.lt\n\nWe aim to respond within 5 business days.",
+				"title": "10. Contact"
+			},
+			"cookies": {
+				"content": "Essential cookies: The \"payload-token\" cookie authenticates your session. This is required for the service to function.\n\nAnalytics: We collect anonymous usage data (questions viewed, session duration) only if you accept analytics in the cookie consent banner.\n\nLocal storage: We store your game preferences (selected audience, category filters, spicy card settings) and cookie consent choice in your browser's local storage. This data never leaves your device.",
+				"title": "5. Cookies and Local Storage"
+			},
+			"dataCollected": {
+				"content": "Account data: When you sign in with Google, we receive your email address, name, and profile picture.\n\nGame data: Questions you view, skip, answer, or mark as favorites. Time spent on each question. Your selected audience and categories.\n\nSession data: Device type, browser language, session duration, and anonymous session identifiers.\n\nPayment data: Your subscription plan and Stripe customer ID. We do not store your credit card details — these are handled entirely by Stripe.\n\nUser-submitted content: Questions you submit for review, along with the selected audience.\n\nStreak data: Your current streak, longest streak, and last played date.",
+				"title": "1. Data We Collect"
+			},
+			"legalBasis": {
+				"content": "We process your data based on the following legal grounds under GDPR Article 6(1):\n\n• Contract (Art. 6(1)(b)): To provide the game service, manage your account, and process payments.\n• Consent (Art. 6(1)(a)): For analytics cookies and optional data collection. You can withdraw consent at any time.\n• Legitimate interest (Art. 6(1)(f)): For security monitoring and service improvement.",
+				"title": "3. Legal Basis for Processing"
+			},
+			"purpose": {
+				"content": "We use your data to:\n\n• Provide and personalize the game experience\n• Save your progress across devices\n• Process subscription payments\n• Calculate and display your play streaks\n• Generate anonymous usage statistics to improve the game\n• Moderate user-submitted questions\n• Communicate important service updates",
+				"title": "2. How We Use Your Data"
+			},
+			"retention": {
+				"content": "Account and game data: Retained while your account is active. Deleted within 30 days of account deletion.\n\nPayment records: Retained for 10 years as required by Lithuanian accounting legislation.\n\nAnonymous analytics: Session data is retained for 2 years, then automatically deleted.\n\nUser-submitted questions: Retained indefinitely if approved and published. Rejected submissions are deleted within 90 days.",
+				"title": "6. Data Retention"
+			},
+			"rights": {
+				"content": "Under GDPR, you have the right to:\n\n• Access: Request a copy of your personal data.\n• Rectification: Correct inaccurate data.\n• Erasure: Delete your account and all associated data.\n• Restriction: Limit how we process your data.\n• Portability: Receive your data in a machine-readable format.\n• Objection: Object to processing based on legitimate interest.\n• Withdraw consent: Revoke analytics consent at any time.\n\nTo exercise these rights, contact us at info@santykiuklausimai.lt. You also have the right to lodge a complaint with the State Data Protection Inspectorate of Lithuania (VDAI) at vdai.lrv.lt.",
+				"title": "7. Your Rights"
+			},
+			"thirdParties": {
+				"content": "We share data with the following processors, each operating under their own privacy policies:\n\n• Google (authentication): Processes your sign-in data. Privacy policy: policies.google.com/privacy\n• Stripe (payments): Processes payment information. Privacy policy: stripe.com/privacy\n• Vercel (hosting and analytics): Hosts the application and provides speed insights. Privacy policy: vercel.com/legal/privacy-policy",
+				"title": "4. Third-Party Processors"
+			}
+		},
+		"title": "Privacy Policy"
 	},
 	"profile": {
 		"dangerZone": "Danger zone",
@@ -257,116 +316,59 @@
 		"successNote": "We'll review and add it to the game",
 		"title": "Suggest a question"
 	},
-	"cookieConsent": {
-		"accept": "Accept",
-		"learnMore": "Learn more",
-		"message": "We use cookies and local storage to improve your experience and collect anonymous usage analytics.",
-		"reject": "Reject"
-	},
-	"privacy": {
-		"title": "Privacy Policy",
-		"lastUpdated": "Last updated: March 1, 2026",
-		"intro": "Santykių Klausimai (\"we\", \"us\", or \"our\") operates the website santykiuklausimai.lt. This Privacy Policy explains how we collect, use, and protect your personal data in accordance with the General Data Protection Regulation (GDPR).",
-		"sections": {
-			"dataCollected": {
-				"title": "1. Data We Collect",
-				"content": "Account data: When you sign in with Google, we receive your email address, name, and profile picture.\n\nGame data: Questions you view, skip, answer, or mark as favorites. Time spent on each question. Your selected audience and categories.\n\nSession data: Device type, browser language, session duration, and anonymous session identifiers.\n\nPayment data: Your subscription plan and Stripe customer ID. We do not store your credit card details — these are handled entirely by Stripe.\n\nUser-submitted content: Questions you submit for review, along with the selected audience.\n\nStreak data: Your current streak, longest streak, and last played date."
-			},
-			"purpose": {
-				"title": "2. How We Use Your Data",
-				"content": "We use your data to:\n\n• Provide and personalize the game experience\n• Save your progress across devices\n• Process subscription payments\n• Calculate and display your play streaks\n• Generate anonymous usage statistics to improve the game\n• Moderate user-submitted questions\n• Communicate important service updates"
-			},
-			"legalBasis": {
-				"title": "3. Legal Basis for Processing",
-				"content": "We process your data based on the following legal grounds under GDPR Article 6(1):\n\n• Contract (Art. 6(1)(b)): To provide the game service, manage your account, and process payments.\n• Consent (Art. 6(1)(a)): For analytics cookies and optional data collection. You can withdraw consent at any time.\n• Legitimate interest (Art. 6(1)(f)): For security monitoring and service improvement."
-			},
-			"thirdParties": {
-				"title": "4. Third-Party Processors",
-				"content": "We share data with the following processors, each operating under their own privacy policies:\n\n• Google (authentication): Processes your sign-in data. Privacy policy: policies.google.com/privacy\n• Stripe (payments): Processes payment information. Privacy policy: stripe.com/privacy\n• Vercel (hosting and analytics): Hosts the application and provides speed insights. Privacy policy: vercel.com/legal/privacy-policy"
-			},
-			"cookies": {
-				"title": "5. Cookies and Local Storage",
-				"content": "Essential cookies: The \"payload-token\" cookie authenticates your session. This is required for the service to function.\n\nAnalytics: We collect anonymous usage data (questions viewed, session duration) only if you accept analytics in the cookie consent banner.\n\nLocal storage: We store your game preferences (selected audience, category filters, spicy card settings) and cookie consent choice in your browser's local storage. This data never leaves your device."
-			},
-			"retention": {
-				"title": "6. Data Retention",
-				"content": "Account and game data: Retained while your account is active. Deleted within 30 days of account deletion.\n\nPayment records: Retained for 10 years as required by Lithuanian accounting legislation.\n\nAnonymous analytics: Session data is retained for 2 years, then automatically deleted.\n\nUser-submitted questions: Retained indefinitely if approved and published. Rejected submissions are deleted within 90 days."
-			},
-			"rights": {
-				"title": "7. Your Rights",
-				"content": "Under GDPR, you have the right to:\n\n• Access: Request a copy of your personal data.\n• Rectification: Correct inaccurate data.\n• Erasure: Delete your account and all associated data.\n• Restriction: Limit how we process your data.\n• Portability: Receive your data in a machine-readable format.\n• Objection: Object to processing based on legitimate interest.\n• Withdraw consent: Revoke analytics consent at any time.\n\nTo exercise these rights, contact us at info@santykiuklausimai.lt. You also have the right to lodge a complaint with the State Data Protection Inspectorate of Lithuania (VDAI) at vdai.lrv.lt."
-			},
-			"children": {
-				"title": "8. Children's Privacy",
-				"content": "Our service is not directed at children under 16. We do not knowingly collect personal data from children under 16 without parental consent. The \"Kids\" game mode is designed to be played with parental supervision and does not require a personal account.\n\nIf you believe a child under 16 has provided us with personal data, please contact us and we will promptly delete it."
-			},
-			"changes": {
-				"title": "9. Changes to This Policy",
-				"content": "We may update this Privacy Policy from time to time. Material changes will be communicated via email or a prominent notice on the website at least 30 days before they take effect. Continued use of the service after changes constitutes acceptance of the updated policy."
-			},
-			"contact": {
-				"title": "10. Contact",
-				"content": "For questions about this Privacy Policy or your personal data, contact us at:\n\nEmail: info@santykiuklausimai.lt\n\nWe aim to respond within 5 business days."
-			}
-		}
-	},
 	"terms": {
-		"title": "Terms of Service",
-		"lastUpdated": "Last updated: March 1, 2026",
 		"intro": "These Terms of Service govern your use of Santykių Klausimai (\"the Service\"), operated at santykiuklausimai.lt. By using the Service, you agree to these terms.",
+		"lastUpdated": "Last updated: March 1, 2026",
 		"sections": {
-			"service": {
-				"title": "1. Service Description",
-				"content": "Santykių Klausimai is a conversation card game available as a Progressive Web App. The Service offers:\n\n• Free tier: Access to up to 50 questions in the Couples mode.\n• Premium tier: Unlimited access to all questions across all modes (Couples, Family, Friends, Kids), plus Spicy Card challenges and additional features."
+			"acceptableUse": {
+				"content": "You agree not to:\n\n• Use automated tools, bots, or scrapers to access the Service\n• Attempt to circumvent subscription restrictions or content gating\n• Resell, redistribute, or commercially exploit the Service's content\n• Submit content that is offensive, discriminatory, illegal, or violates third-party rights\n• Interfere with the Service's operation or security\n\nViolation of these terms may result in immediate account termination.",
+				"title": "6. Acceptable Use"
 			},
 			"accounts": {
-				"title": "2. Accounts",
-				"content": "You can play the free tier without an account. To save progress, access premium features, or submit questions, you must create an account via Google sign-in or email registration.\n\nYou are responsible for maintaining the security of your account. You must not share your login credentials or allow unauthorized access."
-			},
-			"subscriptions": {
-				"title": "3. Subscriptions and Pricing",
-				"content": "Premium access is available through paid subscriptions:\n\n• Monthly plan: €4.99 per month\n• Yearly plan: €29.99 per year\n\nAll payments are processed securely through Stripe. Subscriptions automatically renew at the end of each billing period. Prices may change with at least 30 days' notice."
-			},
-			"freeTrialAndCancellation": {
-				"title": "4. Free Trial and Cancellation",
-				"content": "New subscribers receive a 7-day free trial. You will not be charged during the trial period.\n\nYou may cancel your subscription at any time through the Stripe Customer Portal accessible from your profile. Cancellation takes effect at the end of the current billing period — you retain access until then.\n\nAs an EU consumer, you have the right to withdraw from a digital service purchase within 14 days, provided you have not accessed premium content. If you have accessed premium content during the trial, the withdrawal right is waived upon your express consent."
-			},
-			"userContent": {
-				"title": "5. User-Submitted Content",
-				"content": "You may submit questions for consideration. All submissions are reviewed by our moderation team before publication.\n\nBy submitting a question, you grant us a non-exclusive, royalty-free, worldwide license to use, modify, and display the question within the Service.\n\nYou retain ownership of your submitted content. We reserve the right to reject or remove any submission without notice."
-			},
-			"acceptableUse": {
-				"title": "6. Acceptable Use",
-				"content": "You agree not to:\n\n• Use automated tools, bots, or scrapers to access the Service\n• Attempt to circumvent subscription restrictions or content gating\n• Resell, redistribute, or commercially exploit the Service's content\n• Submit content that is offensive, discriminatory, illegal, or violates third-party rights\n• Interfere with the Service's operation or security\n\nViolation of these terms may result in immediate account termination."
-			},
-			"intellectualProperty": {
-				"title": "7. Intellectual Property",
-				"content": "All content, design, code, and trademarks of the Service are owned by us or our licensors. You may not copy, modify, distribute, or create derivative works from any part of the Service without written permission.\n\nUser-submitted questions that are approved become part of the Service's content library under the license described in Section 5."
-			},
-			"liability": {
-				"title": "8. Limitation of Liability",
-				"content": "The Service is provided \"as is\" without warranties of any kind. We do not guarantee uninterrupted access or that the Service will be error-free.\n\nTo the maximum extent permitted by law, our total liability for any claims arising from your use of the Service is limited to the amount you paid us in the 12 months preceding the claim.\n\nThis limitation does not affect your statutory consumer rights under EU or Lithuanian law."
-			},
-			"termination": {
-				"title": "9. Termination",
-				"content": "You may delete your account at any time from your profile page. Your personal data will be removed within 30 days, except where retention is required by law.\n\nWe may suspend or terminate your account if you violate these terms. In the case of termination for cause, no refund is provided. In the case of termination without cause, you will receive a pro-rata refund for the unused portion of your subscription."
+				"content": "You can play the free tier without an account. To save progress, access premium features, or submit questions, you must create an account via Google sign-in or email registration.\n\nYou are responsible for maintaining the security of your account. You must not share your login credentials or allow unauthorized access.",
+				"title": "2. Accounts"
 			},
 			"changes": {
-				"title": "10. Changes to These Terms",
-				"content": "We may update these Terms of Service from time to time. Material changes will be communicated at least 30 days in advance via email or a notice on the website. Minor changes take effect immediately upon posting.\n\nContinued use of the Service after changes take effect constitutes acceptance."
-			},
-			"governingLaw": {
-				"title": "11. Governing Law and Disputes",
-				"content": "These terms are governed by the laws of the Republic of Lithuania.\n\nFor disputes, you may contact the State Consumer Rights Protection Authority (VVTAT) at vvtat.lrv.lt or use the European Online Dispute Resolution platform at ec.europa.eu/consumers/odr.\n\nIf a dispute cannot be resolved amicably, it shall be settled by the courts of the Republic of Lithuania."
+				"content": "We may update these Terms of Service from time to time. Material changes will be communicated at least 30 days in advance via email or a notice on the website. Minor changes take effect immediately upon posting.\n\nContinued use of the Service after changes take effect constitutes acceptance.",
+				"title": "10. Changes to These Terms"
 			},
 			"contact": {
-				"title": "12. Contact",
-				"content": "For questions about these Terms of Service, contact us at:\n\nEmail: info@santykiuklausimai.lt\n\nWe aim to respond within 5 business days. For security-related issues, we respond within 24 hours."
+				"content": "For questions about these Terms of Service, contact us at:\n\nEmail: info@santykiuklausimai.lt\n\nWe aim to respond within 5 business days. For security-related issues, we respond within 24 hours.",
+				"title": "12. Contact"
+			},
+			"freeTrialAndCancellation": {
+				"content": "New subscribers receive a 7-day free trial. You will not be charged during the trial period.\n\nYou may cancel your subscription at any time through the Stripe Customer Portal accessible from your profile. Cancellation takes effect at the end of the current billing period — you retain access until then.\n\nAs an EU consumer, you have the right to withdraw from a digital service purchase within 14 days, provided you have not accessed premium content. If you have accessed premium content during the trial, the withdrawal right is waived upon your express consent.",
+				"title": "4. Free Trial and Cancellation"
+			},
+			"governingLaw": {
+				"content": "These terms are governed by the laws of the Republic of Lithuania.\n\nFor disputes, you may contact the State Consumer Rights Protection Authority (VVTAT) at vvtat.lrv.lt or use the European Online Dispute Resolution platform at ec.europa.eu/consumers/odr.\n\nIf a dispute cannot be resolved amicably, it shall be settled by the courts of the Republic of Lithuania.",
+				"title": "11. Governing Law and Disputes"
+			},
+			"intellectualProperty": {
+				"content": "All content, design, code, and trademarks of the Service are owned by us or our licensors. You may not copy, modify, distribute, or create derivative works from any part of the Service without written permission.\n\nUser-submitted questions that are approved become part of the Service's content library under the license described in Section 5.",
+				"title": "7. Intellectual Property"
+			},
+			"liability": {
+				"content": "The Service is provided \"as is\" without warranties of any kind. We do not guarantee uninterrupted access or that the Service will be error-free.\n\nTo the maximum extent permitted by law, our total liability for any claims arising from your use of the Service is limited to the amount you paid us in the 12 months preceding the claim.\n\nThis limitation does not affect your statutory consumer rights under EU or Lithuanian law.",
+				"title": "8. Limitation of Liability"
+			},
+			"service": {
+				"content": "Santykių Klausimai is a conversation card game available as a Progressive Web App. The Service offers:\n\n• Free tier: Access to up to 50 questions in the Couples mode.\n• Premium tier: Unlimited access to all questions across all modes (Couples, Family, Friends, Kids), plus Spicy Card challenges and additional features.",
+				"title": "1. Service Description"
+			},
+			"subscriptions": {
+				"content": "Premium access is available through paid subscriptions:\n\n• Monthly plan: €4.99 per month\n• Yearly plan: €29.99 per year\n\nAll payments are processed securely through Stripe. Subscriptions automatically renew at the end of each billing period. Prices may change with at least 30 days' notice.",
+				"title": "3. Subscriptions and Pricing"
+			},
+			"termination": {
+				"content": "You may delete your account at any time from your profile page. Your personal data will be removed within 30 days, except where retention is required by law.\n\nWe may suspend or terminate your account if you violate these terms. In the case of termination for cause, no refund is provided. In the case of termination without cause, you will receive a pro-rata refund for the unused portion of your subscription.",
+				"title": "9. Termination"
+			},
+			"userContent": {
+				"content": "You may submit questions for consideration. All submissions are reviewed by our moderation team before publication.\n\nBy submitting a question, you grant us a non-exclusive, royalty-free, worldwide license to use, modify, and display the question within the Service.\n\nYou retain ownership of your submitted content. We reserve the right to reject or remove any submission without notice.",
+				"title": "5. User-Submitted Content"
 			}
-		}
-	},
-	"legal": {
-		"privacy": "Privacy Policy",
-		"terms": "Terms of Service"
+		},
+		"title": "Terms of Service"
 	}
 }
