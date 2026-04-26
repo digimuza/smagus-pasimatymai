@@ -67,6 +67,20 @@ export const swipeActionSchema = z.object({
 	timestamp: z.string().optional(),
 });
 
+const VALID_FREQUENCIES = ["daily", "weekly", "off"] as const;
+
+export const pushSubscribeSchema = z.object({
+	auth: z.string().min(1),
+	endpoint: z.string().url(),
+	frequency: z.enum(VALID_FREQUENCIES),
+	locale: z.enum(VALID_LOCALES).optional(),
+	p256dh: z.string().min(1),
+});
+
+export const pushFrequencyUpdateSchema = z.object({
+	frequency: z.enum(VALID_FREQUENCIES),
+});
+
 export const ACTION_TO_STATUS = {
 	answer: "answered",
 	skip: "skipped",

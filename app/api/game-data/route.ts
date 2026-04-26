@@ -4,6 +4,7 @@ import { db } from "@/drizzle/db";
 import { subscriptions } from "@/drizzle/schema";
 import { getAllCategoriesWithQuestions, getAllSpicyCards } from "@/lib/api";
 import { getAuthPlayer } from "@/lib/auth";
+import { PAGE_SIZE } from "@/lib/pagination";
 import {
 	canAccessAudience,
 	canAccessSpicyCards,
@@ -59,8 +60,21 @@ export async function GET(request: Request) {
 			0,
 		);
 
+		// Paginate initial response: distribute PAGE_SIZE questions across sections
+		const numSections = gatedSections.length;
+		const perSectionLimit =
+			numSections > 0
+				? Math.max(3, Math.ceil(PAGE_SIZE / numSections))
+				: PAGE_SIZE;
+		const hasMore = totalQuestions > PAGE_SIZE;
+		const pagedSections = gatedSections.map((s) => ({
+			...s,
+			questions: s.questions.slice(0, perSectionLimit),
+		}));
+
 		return NextResponse.json({
-			sections: gatedSections,
+			hasMore,
+			sections: pagedSections,
 			spicyCards: gatedSpicyCards,
 			title: `${totalQuestions} gilių klausimų`,
 			total_questions: totalQuestions,

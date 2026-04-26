@@ -2,10 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+	PUSH_PROMPT_DISMISSED_KEY,
+	PushNotificationPrompt,
+} from "@/components/PushNotificationPrompt";
 import { Button, PageContent, PageLayout } from "@/components/ui";
 import { useRouter } from "@/i18n/navigation";
-import { fadeInUp, staggerContainer, staggerItem } from "@/lib/animations";
+import { staggerContainer, staggerItem } from "@/lib/animations";
 import { shareSession } from "@/lib/share";
 
 interface SessionResultsClientProps {
@@ -26,6 +30,17 @@ export function SessionResultsClient({
 	const t = useTranslations("sessionResults");
 	const router = useRouter();
 	const [shareStatus, setShareStatus] = useState<"idle" | "copied">("idle");
+	const [showPushPrompt, setShowPushPrompt] = useState(false);
+
+	useEffect(() => {
+		// Show push prompt once per install, after first session completion
+		if (
+			typeof window !== "undefined" &&
+			!localStorage.getItem(PUSH_PROMPT_DISMISSED_KEY)
+		) {
+			setShowPushPrompt(true);
+		}
+	}, []);
 
 	const total = answered + superliked;
 
@@ -58,6 +73,10 @@ export function SessionResultsClient({
 
 	return (
 		<PageLayout>
+			<PushNotificationPrompt
+				onDismiss={() => setShowPushPrompt(false)}
+				visible={showPushPrompt}
+			/>
 			<PageContent centered>
 				<motion.div
 					animate="show"

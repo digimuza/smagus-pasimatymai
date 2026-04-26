@@ -28,6 +28,20 @@
 			"tag": "0003_session_tracking",
 			"version": "7",
 			"when": 1777153283604
+		},
+		{
+			"breakpoints": true,
+			"idx": 4,
+			"tag": "0004_paired_sessions",
+			"version": "7",
+			"when": 1777190676857
+		},
+		{
+			"breakpoints": true,
+			"idx": 5,
+			"tag": "0005_push_subscriptions",
+			"version": "7",
+			"when": 1745659200000
 		}
 	],
 	"version": "7"
