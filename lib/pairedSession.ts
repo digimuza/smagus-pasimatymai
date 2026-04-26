@@ -1,7 +1,7 @@
-import { randomBytes } from "crypto";
+import { randomBytes } from "node:crypto";
 
 export function generateInviteToken(): string {
-	return randomBytes(8).toString("base64url");
+	return randomBytes(8).toString("base64url").slice(0, 10);
 }
 
 export function buildInviteUrl(token: string): string {

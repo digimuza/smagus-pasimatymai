@@ -57,11 +57,17 @@ export async function GET(
 
 	const [myProgress, partnerProgress] = await Promise.all([
 		db
-			.select({ questionId: playerProgress.questionId, status: playerProgress.status })
+			.select({
+				questionId: playerProgress.questionId,
+				status: playerProgress.status,
+			})
 			.from(playerProgress)
 			.where(eq(playerProgress.playerId, myPlayerId)),
 		db
-			.select({ questionId: playerProgress.questionId, status: playerProgress.status })
+			.select({
+				questionId: playerProgress.questionId,
+				status: playerProgress.status,
+			})
 			.from(playerProgress)
 			.where(eq(playerProgress.playerId, partnerPlayerId)),
 	]);
