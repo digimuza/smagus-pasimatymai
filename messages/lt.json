@@ -276,6 +276,13 @@
 		},
 		"title": "Privatumo politika"
 	},
+	"pwaInstall": {
+		"dismiss": "Ne dabar",
+		"install": "Įdiegti",
+		"iosMessage": "Norėdami pridėti programą prie pagrindinio ekrano: paspauskite „Dalintis” mygtuką, tada „Pridėti prie pagrindinio ekrano”.",
+		"message": "Įdiekite programą ir žaiskite be interneto, bet kuriuo metu.",
+		"title": "Įdiegti Santykių Klausimai"
+	},
 	"profile": {
 		"dangerZone": "Pavojinga zona",
 		"deleteButton": "Ištrinti paskyrą",
@@ -355,11 +362,11 @@
 			},
 			"liability": {
 				"title": "8. Atsakomybės apribojimas",
-				"content": "Paslauga teikiama „tokia, kokia yra", be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę."
+				"content": "Paslauga teikiama „tokia, kokia yra”, be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę."
 			},
 			"service": {
 				"title": "1. Paslaugos aprašymas",
-				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms".\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos."
+				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms”.\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos."
 			},
 			"subscriptions": {
 				"content": "Premium prieiga galima per mokamas prenumeratas:\n\n• Mėnesinis planas: 4,99 € per mėnesį\n• Metinis planas: 29,99 € per metus\n\nVisi mokėjimai saugiai apdorojami per Stripe. Prenumeratos automatiškai atsinaujina kiekvieno atsiskaitymo laikotarpio pabaigoje. Kainos gali keistis pranešus ne mažiau kaip prieš 30 dienų.",
