@@ -79,7 +79,7 @@ public/                # Static assets
 ### Unit tests (Vitest)
 
 - Location: `lib/__tests__/**/*.test.ts`
-- Coverage thresholds (enforced in CI): **60% lines / functions / branches / statements**
+- Coverage thresholds (enforced in CI): **80% lines / functions / branches / statements**
 - Focus on pure functions in `lib/` — data transforms, validation, business rules
 - Do not mock the database in tests that exercise DB query logic — use a real test DB
 

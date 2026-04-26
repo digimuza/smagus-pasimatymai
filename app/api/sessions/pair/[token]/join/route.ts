@@ -35,10 +35,7 @@ export async function POST(
 	}
 
 	if (session.initiatorPlayerId === player.id) {
-		return NextResponse.json(
-			{ error: "Cannot join your own invite" },
-			{ status: 409 },
-		);
+		return NextResponse.json({ error: "own_link" }, { status: 409 });
 	}
 
 	if (

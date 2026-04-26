@@ -24,7 +24,7 @@ const mockHasConsent = hasAnalyticsConsent as MockedFunction<
 const mockGetSessionId = getSessionId as MockedFunction<typeof getSessionId>;
 
 // Imported after mocks are set up so the singleton picks up mocked dependencies.
-const { analytics } = await import("../analytics");
+const { analytics, trackEvent } = await import("../analytics");
 
 function parseFetchPayload(mockFetch: MockedFunction<typeof fetch>) {
 	const body = (mockFetch.mock.calls[0][1] as RequestInit).body as string;
@@ -332,6 +332,124 @@ describe("AnalyticsBuffer", () => {
 
 			const { session } = parseFetchPayload(mockFetch);
 			expect(session?.audience).toBe("family");
+		});
+	});
+
+	describe("event listeners", () => {
+		it("flushes via sendBeacon when document becomes hidden", () => {
+			let capturedHandler: (() => void) | undefined;
+			vi.stubGlobal("document", {
+				addEventListener: vi.fn((event: string, handler: () => void) => {
+					if (event === "visibilitychange") capturedHandler = handler;
+				}),
+				visibilityState: "hidden",
+			});
+
+			analytics.init({});
+			analytics.track("viewed", 1);
+
+			expect(capturedHandler).toBeDefined();
+			capturedHandler!();
+
+			expect(mockSendBeacon).toHaveBeenCalledWith(
+				"/api/analytics",
+				expect.any(Blob),
+			);
+		});
+
+		it("does not flush via sendBeacon when visibility stays visible", () => {
+			let capturedHandler: (() => void) | undefined;
+			vi.stubGlobal("document", {
+				addEventListener: vi.fn((event: string, handler: () => void) => {
+					if (event === "visibilitychange") capturedHandler = handler;
+				}),
+				visibilityState: "visible",
+			});
+
+			analytics.init({});
+			analytics.track("viewed", 1);
+			capturedHandler!();
+
+			expect(mockSendBeacon).not.toHaveBeenCalled();
+		});
+
+		it("flushes via sendBeacon on beforeunload", () => {
+			let capturedHandler: (() => void) | undefined;
+			vi.stubGlobal("window", {
+				addEventListener: vi.fn((event: string, handler: () => void) => {
+					if (event === "beforeunload") capturedHandler = handler;
+				}),
+			});
+
+			analytics.init({});
+			analytics.track("viewed", 1);
+
+			expect(capturedHandler).toBeDefined();
+			capturedHandler!();
+
+			expect(mockSendBeacon).toHaveBeenCalledWith(
+				"/api/analytics",
+				expect.any(Blob),
+			);
+		});
+
+		it("silently swallows fetch network errors", async () => {
+			mockFetch.mockRejectedValueOnce(new Error("network error"));
+
+			analytics.init({});
+			analytics.track("viewed", 1);
+			analytics.flush();
+
+			// Allow the rejected promise microtask to settle; fake timers do not
+			// block microtask resolution, so this is safe.
+			await Promise.resolve();
+
+			// Test passes if no unhandled rejection propagated
+			expect(mockFetch).toHaveBeenCalledTimes(1);
+		});
+	});
+});
+
+describe("trackEvent()", () => {
+	let mockFetch: MockedFunction<typeof fetch>;
+
+	beforeEach(() => {
+		vi.useFakeTimers();
+		mockFetch = vi.fn(() =>
+			Promise.resolve(new Response("{}", { status: 200 })),
+		);
+		vi.stubGlobal("fetch", mockFetch);
+		vi.stubGlobal("navigator", {
+			sendBeacon: vi.fn(),
+			userAgent: "test-agent/1.0",
+		});
+		vi.stubGlobal("document", {
+			addEventListener: vi.fn(),
+			visibilityState: "visible",
+		});
+		vi.stubGlobal("window", { addEventListener: vi.fn() });
+		mockHasConsent.mockReturnValue(true);
+		mockGetSessionId.mockReturnValue("test-session-id");
+	});
+
+	afterEach(() => {
+		analytics.destroy();
+		vi.unstubAllGlobals();
+		vi.useRealTimers();
+		vi.clearAllMocks();
+	});
+
+	it("delegates to analytics.track()", () => {
+		analytics.init({});
+		trackEvent("viewed", 99, 10);
+		analytics.flush();
+
+		const payload = parseFetchPayload(mockFetch);
+		expect(payload.events).toHaveLength(1);
+		expect(payload.events[0]).toMatchObject({
+			eventType: "viewed",
+			questionId: 99,
+			timeSpent: 10,
 		});
 	});
 });
