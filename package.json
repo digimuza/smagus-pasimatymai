@@ -24,16 +24,24 @@
 		"@types/pg": "^8.20.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
+		"@vitest/coverage-v8": "^4.1.5",
 		"autoprefixer": "^10.4.17",
 		"drizzle-kit": "^0.31.10",
 		"eslint": "^8.56.0",
 		"eslint-config-next": "^15.5.12",
+		"husky": "^9.1.7",
+		"lint-staged": "^16.4.0",
 		"postcss": "^8.4.35",
 		"sass": "^1.77.0",
 		"tailwindcss": "^3.4.1",
 		"tsx": "^4.21.0",
 		"typescript": "^5.3.0",
 		"vitest": "^4.1.5"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js,jsx,json,css}": [
+			"biome check --write --no-errors-on-unmatched"
+		]
 	},
 	"name": "santykiu-klausimai",
 	"packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34",
@@ -47,9 +55,12 @@
 		"dev": "next dev -p 7743",
 		"lint": "biome check --write .",
 		"lint:check": "biome check .",
+		"prepare": "husky",
 		"seed": "npx tsx scripts/seed.ts",
+		"smoke": "CI=1 playwright test --project=smoke",
 		"start": "next start -p 7743",
 		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
 		"test:e2e": "playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"test:watch": "vitest",
