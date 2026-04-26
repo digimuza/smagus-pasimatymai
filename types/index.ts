@@ -11,6 +11,7 @@ export interface Section {
 }
 
 export interface QuestionData {
+	hasMore: boolean;
 	sections: Section[];
 	title: string;
 	total_questions: number;

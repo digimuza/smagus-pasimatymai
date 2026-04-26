@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, count, eq, ne, notInArray } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import {
 	categories,
@@ -6,6 +6,7 @@ import {
 	spicyCards,
 	spicyCardTypes,
 } from "@/drizzle/schema";
+import type { PagedQuestion, QuestionPageResult } from "./pagination";
 
 export async function getAllCategoriesWithQuestions(
 	locale = "lt",
@@ -49,6 +50,63 @@ export async function getAllCategoriesWithQuestions(
 		if (audience === "kids" && s.type === "intimate") return false;
 		return true;
 	});
+}
+
+export async function getQuestionsPage(
+	locale: string,
+	audience: string,
+	excludeIds: number[],
+	limit: number,
+): Promise<QuestionPageResult> {
+	const audienceVal = audience as "romantic" | "family" | "kids" | "friends";
+	const localeVal = locale as "lt" | "en";
+	const kidsFilter =
+		audience === "kids" ? ne(categories.type, "intimate") : undefined;
+
+	const [countResult] = await db
+		.select({ total: count() })
+		.from(questions)
+		.innerJoin(categories, eq(questions.categoryId, categories.id))
+		.where(
+			and(
+				eq(questions.audience, audienceVal),
+				eq(questions.locale, localeVal),
+				eq(questions.status, "published"),
+				kidsFilter,
+			),
+		);
+
+	const totalCount = Number(countResult?.total ?? 0);
+
+	const rows = await db
+		.select({
+			categoryName: categories.name,
+			id: questions.id,
+			question: questions.question,
+		})
+		.from(questions)
+		.innerJoin(categories, eq(questions.categoryId, categories.id))
+		.where(
+			and(
+				eq(questions.audience, audienceVal),
+				eq(questions.locale, localeVal),
+				eq(questions.status, "published"),
+				excludeIds.length > 0
+					? notInArray(questions.id, excludeIds)
+					: undefined,
+				kidsFilter,
+			),
+		)
+		.orderBy(questions.id)
+		.limit(limit + 1);
+
+	const hasMore = rows.length > limit;
+
+	return {
+		hasMore,
+		questions: rows.slice(0, limit) as PagedQuestion[],
+		totalCount,
+	};
 }
 
 export async function getAllSpicyCards(locale = "lt", audience = "romantic") {

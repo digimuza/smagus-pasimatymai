@@ -17,12 +17,22 @@ import { useSessionTracking } from "@/hooks/useSessionTracking";
 import { trackEvent } from "@/lib/analytics";
 import { STORAGE_KEY } from "@/lib/constants";
 import {
+	mergeQuestionsIntoSections,
+	PAGE_SIZE,
+	type QuestionPageResult,
+	shouldFetchNextPage,
+} from "@/lib/pagination";
+import {
 	getAvailableQuestionsCount,
 	getNextQuestion,
 	getSuperlikedQuestions,
 } from "@/lib/questionEngine";
 import { DEFAULT_SPICY_SETTINGS } from "@/lib/spicyCardsData";
-import { canAccessSpicyCards, getQuestionLimit } from "@/lib/subscription";
+import {
+	canAccessSpicyCards,
+	getQuestionLimit,
+	isPremium,
+} from "@/lib/subscription";
 import type {
 	QuestionContextType,
 	QuestionData,
@@ -48,6 +58,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showPaywall, setShowPaywall] = useState(false);
+	const [hasMoreQuestions, setHasMoreQuestions] = useState(false);
+	const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
 
 	const [state, setState, isStateLoaded] = useLocalStorage(STORAGE_KEY, {
 		activeCategories: [] as string[],
@@ -169,11 +181,13 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			.then((res) => res.json())
 			.then((data) => {
 				const qData: QuestionData = {
+					hasMore: data.hasMore ?? false,
 					sections: data.sections,
 					title: data.title,
 					total_questions: data.total_questions,
 				};
 				setQuestionData(qData);
+				setHasMoreQuestions(data.hasMore ?? false);
 
 				// Set spicy cards from API
 				if (data.spicyCards) {
@@ -238,12 +252,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	}, [questionData, questionLimit]);
 
 	// Whether the user is seeing a limited set of content
+	// Uses server-reported total to stay accurate with paginated sections
 	const isContentLimited = useMemo(() => {
 		if (!questionData) return false;
-		const totalAvailable = questionData.sections.flatMap(
-			(s) => s.questions,
-		).length;
-		return totalAvailable > questionLimit;
+		return questionData.total_questions > questionLimit;
 	}, [questionData, questionLimit]);
 
 	// Get current question
@@ -266,6 +278,79 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			state.questionStates,
 		);
 	}, [questionData, state.activeCategories, state.questionStates]);
+
+	// Fetch next page of questions from server (premium users only)
+	const fetchNextPage = useCallback(async () => {
+		if (
+			!questionData ||
+			!state.audience ||
+			isFetchingNextPage ||
+			!hasMoreQuestions
+		)
+			return;
+
+		setIsFetchingNextPage(true);
+		const excludeIds = questionData.sections.flatMap((s) =>
+			s.questions.map((q) => q.id),
+		);
+
+		try {
+			const res = await fetch("/api/questions/page", {
+				body: JSON.stringify({
+					audience: state.audience,
+					excludeIds,
+					limit: PAGE_SIZE,
+					locale,
+				}),
+				credentials: "include",
+				headers: { "Content-Type": "application/json" },
+				method: "POST",
+			});
+
+			if (!res.ok) return;
+
+			const data: QuestionPageResult = await res.json();
+
+			setHasMoreQuestions(data.hasMore);
+			setQuestionData((prev) => {
+				if (!prev) return prev;
+				return {
+					...prev,
+					sections: mergeQuestionsIntoSections(prev.sections, data.questions),
+				};
+			});
+		} catch {
+			// silent fail — user continues with current in-memory questions
+		} finally {
+			setIsFetchingNextPage(false);
+		}
+	}, [
+		questionData,
+		state.audience,
+		locale,
+		isFetchingNextPage,
+		hasMoreQuestions,
+	]);
+
+	// Prefetch next page when running low on questions (premium users only)
+	useEffect(() => {
+		if (
+			!isPremium(subscription) ||
+			!shouldFetchNextPage(
+				availableQuestionsCount,
+				hasMoreQuestions,
+				isFetchingNextPage,
+			)
+		)
+			return;
+		fetchNextPage();
+	}, [
+		availableQuestionsCount,
+		fetchNextPage,
+		hasMoreQuestions,
+		isFetchingNextPage,
+		subscription,
+	]);
 
 	// Get random spicy card
 	const getRandomSpicyCard = useCallback((): SpicyCard | null => {
@@ -524,6 +609,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			setSpicyCards([]);
 			setSafeCategoryNames([]);
 			setCurrentSpicyCard(null);
+			setHasMoreQuestions(false);
+			setIsFetchingNextPage(false);
 		},
 		[setState],
 	);
