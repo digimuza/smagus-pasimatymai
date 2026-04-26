@@ -19,11 +19,30 @@ vi.mock("framer-motion", () => {
 
 	// Strip framer-motion-specific props so they don't land on real DOM elements
 	// biome-ignore lint/suspicious/noExplicitAny: framer-motion mock needs spread props
-	const stripMotionProps = ({ children, drag, dragConstraints, dragElastic, onDragEnd, onAnimationComplete, initial, animate, exit, transition, style, ...rest }: any) => ({ children, rest });
+	const stripMotionProps = ({
+		children,
+		drag,
+		dragConstraints,
+		dragElastic,
+		onDragEnd,
+		onAnimationComplete,
+		initial,
+		animate,
+		exit,
+		transition,
+		style,
+		...rest
+	}: any) => ({ children, rest });
 	// biome-ignore lint/suspicious/noExplicitAny: framer-motion mock needs spread props
-	const MotionDiv = (props: any) => { const { children, rest } = stripMotionProps(props); return <div {...rest}>{children}</div>; };
+	const MotionDiv = (props: any) => {
+		const { children, rest } = stripMotionProps(props);
+		return <div {...rest}>{children}</div>;
+	};
 	// biome-ignore lint/suspicious/noExplicitAny: framer-motion mock needs spread props
-	const MotionButton = (props: any) => { const { children, rest } = stripMotionProps(props); return <button {...rest}>{children}</button>; };
+	const MotionButton = (props: any) => {
+		const { children, rest } = stripMotionProps(props);
+		return <button {...rest}>{children}</button>;
+	};
 
 	return {
 		AnimatePresence: ({ children }: { children: React.ReactNode }) => (
