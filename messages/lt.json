@@ -33,12 +33,16 @@
 		"noAccount": "Neturite paskyros?",
 		"or": "arba",
 		"passwordPlaceholder": "Slaptažodis",
+		"privacyLink": "Privatumo politika",
+		"privacyNotice": "Kurdami paskyrą sutinkate su mūsų",
 		"profile": "Profilis",
 		"registerButton": "Registruotis",
 		"registerLink": "Registruotis",
 		"registerSubtitle": "Sukurkite paskyrą ir niekada nepraraskite progreso",
 		"registerTitle": "Registruotis",
-		"submitting": "Palaukite..."
+		"submitting": "Palaukite...",
+		"tosConsentAnd": "ir",
+		"tosConsentNotice": "Tęsdami sutinkate su mūsų"
 	},
 	"awesome": {
 		"empty": "Pasibaigė visi klausimai!",
@@ -75,6 +79,13 @@
 		"previous": "Ankstesnis",
 		"questions": "klausimų"
 	},
+	"cookieConsent": {
+		"accept": "Sutinku",
+		"learnMore": "Sužinoti daugiau",
+		"message": "Naudojame slapukus ir vietos saugyklą, kad pagerintume jūsų patirtį ir rinktume anoniminę naudojimo statistiką.",
+		"reject": "Nesutinku",
+		"title": "Slapukų sutikimas"
+	},
 	"daily": {
 		"label": "Dienos klausimas",
 		"share": "Dalintis",
@@ -82,7 +93,15 @@
 	},
 	"game": {
 		"answered": "Atsakyta",
+		"cardRoleDescription": "Klausimo kortelė. Naudokite rodyklių klavišus: kairyn — praleisti, dešinėn — atsakyta, aukštyn — super.",
 		"deepQuestions": "{count} gilių klausimų",
+		"difficultyIntimate": "Intimas",
+		"difficultySafe": "Saugus",
+		"invitePartner": "Pakviesti partnerį",
+		"keyboardHint": "Rodyklių klavišai: ← Praleisti · → Atsakyta · ↑ Super",
+		"partnerConnected": "Partneris prisijungė",
+		"partnerFinished": "Partneris baigė",
+		"partnerOnline": "Partneris prisijungęs",
 		"remaining": "Liko klausimų: {count}",
 		"skip": "Praleisti",
 		"spicyBadge": "🎲 Spicy Card",
@@ -91,7 +110,17 @@
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
 		"swipeSkip": "PRALEISTI",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"waitingForPartner": "Laukiama partnerio…"
+	},
+	"joinSession": {
+		"expired": "Šis pakvietimo nuoroda nebegalioja.",
+		"join": "Prisijungti prie sesijos",
+		"loading": "Kraunama…",
+		"networkError": "Įvyko klaida. Bandykite dar kartą.",
+		"ownLink": "Negalite prisijungti prie savo pačių sesijos.",
+		"pageTitle": "Prisijungti prie sesijos",
+		"title": "{name} pakvietė jus žaisti"
 	},
 	"landing": {
 		"bottomCta": {
@@ -185,9 +214,33 @@
 		"testimonial": "\u201EGeresnis už Tinder \u2014 čia tikrai kalbatės.\u201C",
 		"testimonialAuthor": "— Kiekviena pora, kuri nebijojo atsakyti"
 	},
+	"legal": {
+		"privacy": "Privatumo politika",
+		"terms": "Naudojimo sąlygos"
+	},
 	"metadata": {
 		"description": "500+ gilių klausimų, kurie privers juoktis, raudonuoti ir pamilti iš naujo. Žaiskite poroms, šeimai ar draugams. Nemokama, be registracijos.",
 		"title": "Santykių Klausimai — Pokalbių žaidimas poroms, šeimai ir draugams"
+	},
+	"notifications": {
+		"daily": "Kasdien",
+		"enable": "Įjungti priminimus",
+		"frequency": "Priminimų dažnumas",
+		"frequencyDescription": "Gaukite dienos ar savaitės priminimą žaisti kartu",
+		"later": "Gal vėliau",
+		"off": "Išjungta",
+		"permissionDenied": "Pranešimai užblokuoti naršyklės nustatymuose",
+		"promptBody": "Gaukite dienos ar savaitės priminimą kartu pradėti naują klausimų sesiją.",
+		"promptTitle": "Palaikykite ryšį 💜",
+		"weekly": "Kas savaitę"
+	},
+	"pairingResults": {
+		"agreed": "Sutarėte",
+		"bothSkipped": "Abu praleido",
+		"disagreed": "Nesutarėte",
+		"playMore": "Žaisti daugiau",
+		"share": "Dalintis rezultatais",
+		"title": "Jūsų rezultatai"
 	},
 	"payments": {
 		"feature": {
@@ -213,7 +266,56 @@
 		"yearly": "Metinis",
 		"yearlyPrice": "29,99 \u20ac"
 	},
+	"privacy": {
+		"intro": "Santykių Klausimai (\"mes\") valdo svetainę santykiuklausimai.lt. Ši privatumo politika paaiškina, kaip renkame, naudojame ir saugome jūsų asmens duomenis pagal Bendrąjį duomenų apsaugos reglamentą (BDAR).",
+		"lastUpdated": "Paskutinį kartą atnaujinta: 2026 m. kovo 1 d.",
+		"sections": {
+			"changes": {
+				"content": "Šią privatumo politiką galime atnaujinti. Apie esminius pakeitimus informuosime el. paštu arba ryškiu pranešimu svetainėje ne mažiau kaip 30 dienų prieš jiems įsigaliojant. Tolimesnis paslaugos naudojimas po pakeitimų reiškia sutikimą su atnaujinta politika.",
+				"title": "9. Politikos pakeitimai"
+			},
+			"children": {
+				"content": "Mūsų paslauga nėra skirta vaikams iki 16 metų. Mes sąmoningai nerenkame asmens duomenų iš vaikų iki 16 metų be tėvų sutikimo. Žaidimo režimas \"Vaikams\" skirtas žaisti su tėvų priežiūra ir nereikalauja asmeninės paskyros.\n\nJei manote, kad vaikas iki 16 metų pateikė mums asmens duomenis, praneškite mums ir mes juos nedelsdami ištrinsime.",
+				"title": "8. Vaikų privatumas"
+			},
+			"contact": {
+				"content": "Dėl klausimų apie šią privatumo politiką ar jūsų asmens duomenis kreipkitės:\n\nEl. paštas: info@santykiuklausimai.lt\n\nStengiamės atsakyti per 5 darbo dienas.",
+				"title": "10. Kontaktai"
+			},
+			"cookies": {
+				"content": "Būtinieji slapukai: Slapukas \"payload-token\" autentifikuoja jūsų sesiją. Tai būtina paslaugos veikimui.\n\nAnalitika: Anoniminius naudojimo duomenis (peržiūrėti klausimai, sesijos trukmė) renkame tik jei sutinkate su analitika slapukų sutikimo juostoje.\n\nVietos saugykla: Jūsų žaidimo nustatymus (pasirinkta auditorija, kategorijų filtrai, pikantiškų kortelių nustatymai) ir slapukų sutikimo pasirinkimą saugome naršyklės vietos saugykloje. Šie duomenys niekada nepalieka jūsų įrenginio.",
+				"title": "5. Slapukai ir vietos saugykla"
+			},
+			"dataCollected": {
+				"content": "Paskyros duomenys: Kai prisijungiate per Google, gauname jūsų el. pašto adresą, vardą ir profilio nuotrauką.\n\nŽaidimo duomenys: Klausimai, kuriuos peržiūrite, praleidžiate, atsakote arba pažymite kaip mėgstamiausius. Laikas, praleistas prie kiekvieno klausimo. Jūsų pasirinkta auditorija ir kategorijos.\n\nSesijos duomenys: Įrenginio tipas, naršyklės kalba, sesijos trukmė ir anoniminiai sesijos identifikatoriai.\n\nMokėjimo duomenys: Jūsų prenumeratos planas ir Stripe kliento ID. Mes nesaugome jūsų kredito kortelės duomenų — juos tvarko tik Stripe.\n\nVartotojų pateiktas turinys: Jūsų pasiūlyti klausimai ir pasirinkta auditorija.\n\nAktyvumo duomenys: Dabartinė žaidimo serija, ilgiausia serija ir paskutinė žaidimo data.",
+				"title": "1. Kokius duomenis renkame"
+			},
+			"legalBasis": {
+				"content": "Jūsų duomenis tvarkome remiantis šiais BDAR 6 straipsnio 1 dalies pagrindais:\n\n• Sutartis (6(1)(b) str.): Žaidimo paslaugos teikimui, paskyros valdymui ir mokėjimų apdorojimui.\n• Sutikimas (6(1)(a) str.): Analitikos slapukams ir papildomam duomenų rinkimui. Sutikimą galite atšaukti bet kada.\n• Teisėtas interesas (6(1)(f) str.): Saugumo stebėjimui ir paslaugos tobulinimui.",
+				"title": "3. Teisinis duomenų tvarkymo pagrindas"
+			},
+			"purpose": {
+				"content": "Jūsų duomenis naudojame:\n\n• Žaidimo patirties teikimui ir individualizavimui\n• Progreso išsaugojimui visuose įrenginiuose\n• Prenumeratos mokėjimų apdorojimui\n• Žaidimo serijų skaičiavimui ir rodymui\n• Anoniminės naudojimo statistikos generavimui žaidimui tobulinti\n• Vartotojų pasiūlytų klausimų moderavimui\n• Svarbių paslaugos pranešimų komunikavimui",
+				"title": "2. Kaip naudojame jūsų duomenis"
+			},
+			"retention": {
+				"content": "Paskyros ir žaidimo duomenys: Saugomi, kol paskyra aktyvi. Ištrinami per 30 dienų po paskyros ištrynimo.\n\nMokėjimų įrašai: Saugomi 10 metų pagal Lietuvos buhalterinės apskaitos teisės aktų reikalavimus.\n\nAnoniminė analitika: Sesijų duomenys saugomi 2 metus, po to automatiškai ištrinami.\n\nVartotojų pasiūlyti klausimai: Patvirtinti ir publikuoti klausimai saugomi neribotą laiką. Atmesti pasiūlymai ištrinami per 90 dienų.",
+				"title": "6. Duomenų saugojimo terminai"
+			},
+			"rights": {
+				"content": "Pagal BDAR turite teisę:\n\n• Prieigos: Gauti savo asmens duomenų kopiją.\n• Ištaisymo: Pataisyti netikslius duomenis.\n• Ištrynimo: Ištrinti paskyrą ir visus susijusius duomenis.\n• Apribojimo: Apriboti duomenų tvarkymą.\n• Perkeliamumo: Gauti duomenis kompiuterio skaitomu formatu.\n• Nesutikimo: Prieštarauti duomenų tvarkymui teisėto intereso pagrindu.\n• Sutikimo atšaukimo: Atšaukti analitikos sutikimą bet kada.\n\nNorėdami pasinaudoti šiomis teisėmis, kreipkitės el. paštu info@santykiuklausimai.lt. Taip pat turite teisę pateikti skundą Valstybinei duomenų apsaugos inspekcijai (VDAI) adresu vdai.lrv.lt.",
+				"title": "7. Jūsų teisės"
+			},
+			"thirdParties": {
+				"content": "Duomenis dalinamės su šiais tvarkytojais, kurie veikia pagal savo privatumo politikas:\n\n• Google (autentifikacija): Tvarko jūsų prisijungimo duomenis. Privatumo politika: policies.google.com/privacy\n• Stripe (mokėjimai): Tvarko mokėjimo informaciją. Privatumo politika: stripe.com/privacy\n• Vercel (talpinimas ir analitika): Talpina programą ir teikia greičio analizę. Privatumo politika: vercel.com/legal/privacy-policy",
+				"title": "4. Trečiųjų šalių duomenų tvarkytojai"
+			}
+		},
+		"title": "Privatumo politika"
+	},
 	"profile": {
+		"categoryBadgeLabel": "Baigta",
+		"completedCategories": "Baigtos kategorijos",
 		"dangerZone": "Pavojinga zona",
 		"deleteButton": "Ištrinti paskyrą",
 		"deleteConfirmPlaceholder": "Įveskite el. paštą",
@@ -221,10 +323,42 @@
 		"deleting": "Trinama...",
 		"emailProvider": "El. pašto paskyra",
 		"logout": "Atsijungti",
+		"milestones": {
+			"achieved": "Pasiekimas!",
+			"questions10": "Atsakėte 10 klausimų!",
+			"questions50": "Atsakėte 50 klausimų!",
+			"questions100": "Atsakėte 100 klausimų!",
+			"streak7": "7 dienų serija! Tęskite!",
+			"streak30": "30 dienų serija! Nuostabiai!"
+		},
 		"statsAnswered": "Atsakyta",
+		"statsBestStreak": "Rekordas",
+		"statsCurrentStreak": "Serija",
+		"statsSessions": "Seansai",
 		"statsSuperliked": "Super",
 		"statsTotal": "Iš viso",
 		"title": "Profilis"
+	},
+	"pwaInstall": {
+		"dismiss": "Ne dabar",
+		"install": "Įdiegti",
+		"iosMessage": "Norėdami pridėti programą prie pagrindinio ekrano: paspauskite „Dalintis” mygtuką, tada „Pridėti prie pagrindinio ekrano”.",
+		"message": "Įdiekite programą ir žaiskite be interneto, bet kuriuo metu.",
+		"title": "Įdiegti Santykių Klausimai"
+	},
+	"sessionResults": {
+		"answered": "Atsakyta",
+		"copied": "Nuoroda nukopijuota!",
+		"copy": "Kopijuoti nuorodą",
+		"playAgain": "Žaisti vėl",
+		"shareButton": "Dalintis",
+		"shareMessage": "Mes ką tik atsakėme {count} klausimų kartu! 💜",
+		"shareTitle": "Santykių Klausimai — Sesija baigta!",
+		"skipped": "Praleista",
+		"subtitle": "Puikus pokalbis!",
+		"superliked": "Super klausimai",
+		"title": "Sesija baigta! 🎉",
+		"viewFavorites": "Super klausimai"
 	},
 	"settings": {
 		"backToGame": "Grįžti į žaidimą",
@@ -245,7 +379,8 @@
 		"spicyCards": "Pikantiškos kortelės",
 		"submitQuestion": "Pasiūlyti klausimą",
 		"title": "Kategorijos",
-		"viewCategories": "Kategorijos"
+		"viewCategories": "Kategorijos",
+		"viewFavorites": "Super Klausimai"
 	},
 	"submit": {
 		"minChars": "Min. 10 simbolių",
@@ -257,116 +392,59 @@
 		"successNote": "Peržiūrėsime ir pridėsime jį prie žaidimo",
 		"title": "Pasiūlyti klausimą"
 	},
-	"cookieConsent": {
-		"accept": "Sutinku",
-		"learnMore": "Sužinoti daugiau",
-		"message": "Naudojame slapukus ir vietos saugyklą, kad pagerintume jūsų patirtį ir rinktume anoniminę naudojimo statistiką.",
-		"reject": "Nesutinku"
-	},
-	"privacy": {
-		"title": "Privatumo politika",
-		"lastUpdated": "Paskutinį kartą atnaujinta: 2026 m. kovo 1 d.",
-		"intro": "Santykių Klausimai (\"mes\") valdo svetainę santykiuklausimai.lt. Ši privatumo politika paaiškina, kaip renkame, naudojame ir saugome jūsų asmens duomenis pagal Bendrąjį duomenų apsaugos reglamentą (BDAR).",
-		"sections": {
-			"dataCollected": {
-				"title": "1. Kokius duomenis renkame",
-				"content": "Paskyros duomenys: Kai prisijungiate per Google, gauname jūsų el. pašto adresą, vardą ir profilio nuotrauką.\n\nŽaidimo duomenys: Klausimai, kuriuos peržiūrite, praleidžiate, atsakote arba pažymite kaip mėgstamiausius. Laikas, praleistas prie kiekvieno klausimo. Jūsų pasirinkta auditorija ir kategorijos.\n\nSesijos duomenys: Įrenginio tipas, naršyklės kalba, sesijos trukmė ir anoniminiai sesijos identifikatoriai.\n\nMokėjimo duomenys: Jūsų prenumeratos planas ir Stripe kliento ID. Mes nesaugome jūsų kredito kortelės duomenų — juos tvarko tik Stripe.\n\nVartotojų pateiktas turinys: Jūsų pasiūlyti klausimai ir pasirinkta auditorija.\n\nAktyvumo duomenys: Dabartinė žaidimo serija, ilgiausia serija ir paskutinė žaidimo data."
-			},
-			"purpose": {
-				"title": "2. Kaip naudojame jūsų duomenis",
-				"content": "Jūsų duomenis naudojame:\n\n• Žaidimo patirties teikimui ir individualizavimui\n• Progreso išsaugojimui visuose įrenginiuose\n• Prenumeratos mokėjimų apdorojimui\n• Žaidimo serijų skaičiavimui ir rodymui\n• Anoniminės naudojimo statistikos generavimui žaidimui tobulinti\n• Vartotojų pasiūlytų klausimų moderavimui\n• Svarbių paslaugos pranešimų komunikavimui"
-			},
-			"legalBasis": {
-				"title": "3. Teisinis duomenų tvarkymo pagrindas",
-				"content": "Jūsų duomenis tvarkome remiantis šiais BDAR 6 straipsnio 1 dalies pagrindais:\n\n• Sutartis (6(1)(b) str.): Žaidimo paslaugos teikimui, paskyros valdymui ir mokėjimų apdorojimui.\n• Sutikimas (6(1)(a) str.): Analitikos slapukams ir papildomam duomenų rinkimui. Sutikimą galite atšaukti bet kada.\n• Teisėtas interesas (6(1)(f) str.): Saugumo stebėjimui ir paslaugos tobulinimui."
-			},
-			"thirdParties": {
-				"title": "4. Trečiųjų šalių duomenų tvarkytojai",
-				"content": "Duomenis dalinamės su šiais tvarkytojais, kurie veikia pagal savo privatumo politikas:\n\n• Google (autentifikacija): Tvarko jūsų prisijungimo duomenis. Privatumo politika: policies.google.com/privacy\n• Stripe (mokėjimai): Tvarko mokėjimo informaciją. Privatumo politika: stripe.com/privacy\n• Vercel (talpinimas ir analitika): Talpina programą ir teikia greičio analizę. Privatumo politika: vercel.com/legal/privacy-policy"
-			},
-			"cookies": {
-				"title": "5. Slapukai ir vietos saugykla",
-				"content": "Būtinieji slapukai: Slapukas \"payload-token\" autentifikuoja jūsų sesiją. Tai būtina paslaugos veikimui.\n\nAnalitika: Anoniminius naudojimo duomenis (peržiūrėti klausimai, sesijos trukmė) renkame tik jei sutinkate su analitika slapukų sutikimo juostoje.\n\nVietos saugykla: Jūsų žaidimo nustatymus (pasirinkta auditorija, kategorijų filtrai, pikantiškų kortelių nustatymai) ir slapukų sutikimo pasirinkimą saugome naršyklės vietos saugykloje. Šie duomenys niekada nepalieka jūsų įrenginio."
-			},
-			"retention": {
-				"title": "6. Duomenų saugojimo terminai",
-				"content": "Paskyros ir žaidimo duomenys: Saugomi, kol paskyra aktyvi. Ištrinami per 30 dienų po paskyros ištrynimo.\n\nMokėjimų įrašai: Saugomi 10 metų pagal Lietuvos buhalterinės apskaitos teisės aktų reikalavimus.\n\nAnoniminė analitika: Sesijų duomenys saugomi 2 metus, po to automatiškai ištrinami.\n\nVartotojų pasiūlyti klausimai: Patvirtinti ir publikuoti klausimai saugomi neribotą laiką. Atmesti pasiūlymai ištrinami per 90 dienų."
-			},
-			"rights": {
-				"title": "7. Jūsų teisės",
-				"content": "Pagal BDAR turite teisę:\n\n• Prieigos: Gauti savo asmens duomenų kopiją.\n• Ištaisymo: Pataisyti netikslius duomenis.\n• Ištrynimo: Ištrinti paskyrą ir visus susijusius duomenis.\n• Apribojimo: Apriboti duomenų tvarkymą.\n• Perkeliamumo: Gauti duomenis kompiuterio skaitomu formatu.\n• Nesutikimo: Prieštarauti duomenų tvarkymui teisėto intereso pagrindu.\n• Sutikimo atšaukimo: Atšaukti analitikos sutikimą bet kada.\n\nNorėdami pasinaudoti šiomis teisėmis, kreipkitės el. paštu info@santykiuklausimai.lt. Taip pat turite teisę pateikti skundą Valstybinei duomenų apsaugos inspekcijai (VDAI) adresu vdai.lrv.lt."
-			},
-			"children": {
-				"title": "8. Vaikų privatumas",
-				"content": "Mūsų paslauga nėra skirta vaikams iki 16 metų. Mes sąmoningai nerenkame asmens duomenų iš vaikų iki 16 metų be tėvų sutikimo. Žaidimo režimas \"Vaikams\" skirtas žaisti su tėvų priežiūra ir nereikalauja asmeninės paskyros.\n\nJei manote, kad vaikas iki 16 metų pateikė mums asmens duomenis, praneškite mums ir mes juos nedelsdami ištrinsime."
-			},
-			"changes": {
-				"title": "9. Politikos pakeitimai",
-				"content": "Šią privatumo politiką galime atnaujinti. Apie esminius pakeitimus informuosime el. paštu arba ryškiu pranešimu svetainėje ne mažiau kaip 30 dienų prieš jiems įsigaliojant. Tolimesnis paslaugos naudojimas po pakeitimų reiškia sutikimą su atnaujinta politika."
-			},
-			"contact": {
-				"title": "10. Kontaktai",
-				"content": "Dėl klausimų apie šią privatumo politiką ar jūsų asmens duomenis kreipkitės:\n\nEl. paštas: info@santykiuklausimai.lt\n\nStengiamės atsakyti per 5 darbo dienas."
-			}
-		}
-	},
 	"terms": {
-		"title": "Naudojimo sąlygos",
-		"lastUpdated": "Paskutinį kartą atnaujinta: 2026 m. kovo 1 d.",
 		"intro": "Šios naudojimo sąlygos reglamentuoja Santykių Klausimai (\"Paslauga\") naudojimą svetainėje santykiuklausimai.lt. Naudodamiesi Paslauga, sutinkate su šiomis sąlygomis.",
+		"lastUpdated": "Paskutinį kartą atnaujinta: 2026 m. kovo 1 d.",
 		"sections": {
-			"service": {
-				"title": "1. Paslaugos aprašymas",
-				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms".\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos."
+			"acceptableUse": {
+				"content": "Sutinkate:\n\n• Nenaudoti automatizuotų įrankių, botų ar duomenų rinkiklių Paslaugai pasiekti\n• Nebandyti apeiti prenumeratos apribojimų ar turinio blokavimo\n• Neperparduoti, neplatinti ir komerciškai neeksploatuoti Paslaugos turinio\n• Nepateikti turinio, kuris yra įžeidžiantis, diskriminuojantis, neteisėtas ar pažeidžia trečiųjų šalių teises\n• Netrukdyti Paslaugos veikimui ar saugumui\n\nŠių sąlygų pažeidimas gali lemti neatidėliotiną paskyros užblokavimą.",
+				"title": "6. Priimtinas naudojimas"
 			},
 			"accounts": {
-				"title": "2. Paskyros",
-				"content": "Nemokama versija pasiekiama be paskyros. Norint išsaugoti progresą, naudotis premium funkcijomis ar siūlyti klausimus, reikia sukurti paskyrą per Google prisijungimą arba el. pašto registraciją.\n\nJūs esate atsakingi už savo paskyros saugumą. Draudžiama dalintis prisijungimo duomenimis ar leisti neautorizuotą prieigą."
-			},
-			"subscriptions": {
-				"title": "3. Prenumeratos ir kainos",
-				"content": "Premium prieiga galima per mokamas prenumeratas:\n\n• Mėnesinis planas: 4,99 € per mėnesį\n• Metinis planas: 29,99 € per metus\n\nVisi mokėjimai saugiai apdorojami per Stripe. Prenumeratos automatiškai atsinaujina kiekvieno atsiskaitymo laikotarpio pabaigoje. Kainos gali keistis pranešus ne mažiau kaip prieš 30 dienų."
-			},
-			"freeTrialAndCancellation": {
-				"title": "4. Nemokamas bandomasis laikotarpis ir atšaukimas",
-				"content": "Nauji prenumeratoriai gauna 7 dienų nemokamą bandomąjį laikotarpį. Per bandomąjį laikotarpį mokestis nebus nurašytas.\n\nPrenumeratą galite atšaukti bet kada per Stripe klientų portalą, pasiekiamą iš jūsų profilio. Atšaukimas įsigalioja dabartinio atsiskaitymo laikotarpio pabaigoje — prieiga išlieka iki tol.\n\nKaip ES vartotojas, turite teisę atsisakyti skaitmeninės paslaugos pirkimo per 14 dienų, jei nenaudojote premium turinio. Jei per bandomąjį laikotarpį naudojotės premium turiniu, atsisakymo teisė panaikinama gavus jūsų aiškų sutikimą."
-			},
-			"userContent": {
-				"title": "5. Vartotojų pateiktas turinys",
-				"content": "Galite siūlyti klausimus peržiūrai. Visi pasiūlymai peržiūrimi mūsų moderavimo komandos prieš publikavimą.\n\nPateikdami klausimą, suteikiate mums neišskirtinę, nemokamą, pasaulinę licenciją naudoti, keisti ir rodyti klausimą Paslaugoje.\n\nJūs išlaikote savo pateikto turinio nuosavybę. Pasiliekame teisę atmesti arba pašalinti bet kokį pasiūlymą be išankstinio pranešimo."
-			},
-			"acceptableUse": {
-				"title": "6. Priimtinas naudojimas",
-				"content": "Sutinkate:\n\n• Nenaudoti automatizuotų įrankių, botų ar duomenų rinkiklių Paslaugai pasiekti\n• Nebandyti apeiti prenumeratos apribojimų ar turinio blokavimo\n• Neperparduoti, neplatinti ir komerciškai neeksploatuoti Paslaugos turinio\n• Nepateikti turinio, kuris yra įžeidžiantis, diskriminuojantis, neteisėtas ar pažeidžia trečiųjų šalių teises\n• Netrukdyti Paslaugos veikimui ar saugumui\n\nŠių sąlygų pažeidimas gali lemti neatidėliotiną paskyros užblokavimą."
-			},
-			"intellectualProperty": {
-				"title": "7. Intelektinė nuosavybė",
-				"content": "Visas Paslaugos turinys, dizainas, kodas ir prekių ženklai priklauso mums arba mūsų licencijos davėjams. Draudžiama kopijuoti, keisti, platinti ar kurti išvestinius kūrinius iš bet kurios Paslaugos dalies be raštiško leidimo.\n\nPatvirtinti vartotojų pasiūlyti klausimai tampa Paslaugos turinio bibliotekos dalimi pagal 5 skyriuje aprašytą licenciją."
-			},
-			"liability": {
-				"title": "8. Atsakomybės apribojimas",
-				"content": "Paslauga teikiama „tokia, kokia yra", be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę."
-			},
-			"termination": {
-				"title": "9. Nutraukimas",
-				"content": "Paskyrą galite ištrinti bet kada iš savo profilio puslapio. Jūsų asmens duomenys bus pašalinti per 30 dienų, išskyrus atvejus, kai saugojimas reikalingas pagal teisės aktus.\n\nGalime sustabdyti ar panaikinti jūsų paskyrą, jei pažeidžiate šias sąlygas. Nutraukimo dėl pažeidimo atveju pinigai negrąžinami. Nutraukimo be priežasties atveju gausite proporcingą grąžinimą už nepanaudotą prenumeratos dalį."
+				"content": "Nemokama versija pasiekiama be paskyros. Norint išsaugoti progresą, naudotis premium funkcijomis ar siūlyti klausimus, reikia sukurti paskyrą per Google prisijungimą arba el. pašto registraciją.\n\nJūs esate atsakingi už savo paskyros saugumą. Draudžiama dalintis prisijungimo duomenimis ar leisti neautorizuotą prieigą.",
+				"title": "2. Paskyros"
 			},
 			"changes": {
-				"title": "10. Sąlygų pakeitimai",
-				"content": "Šias naudojimo sąlygas galime atnaujinti. Apie esminius pakeitimus informuosime ne mažiau kaip prieš 30 dienų el. paštu arba pranešimu svetainėje. Neesminiai pakeitimai įsigalioja iš karto po paskelbimo.\n\nTolimesnis Paslaugos naudojimas po pakeitimų įsigaliojimo reiškia sutikimą."
-			},
-			"governingLaw": {
-				"title": "11. Taikoma teisė ir ginčai",
-				"content": "Šios sąlygos reglamentuojamos Lietuvos Respublikos teise.\n\nDėl ginčų galite kreiptis į Valstybinę vartotojų teisių apsaugos tarnybą (VVTAT) adresu vvtat.lrv.lt arba naudoti Europos internetinę ginčų sprendimo platformą adresu ec.europa.eu/consumers/odr.\n\nJei ginčo nepavyksta išspręsti taikiai, jis sprendžiamas Lietuvos Respublikos teismuose."
+				"content": "Šias naudojimo sąlygas galime atnaujinti. Apie esminius pakeitimus informuosime ne mažiau kaip prieš 30 dienų el. paštu arba pranešimu svetainėje. Neesminiai pakeitimai įsigalioja iš karto po paskelbimo.\n\nTolimesnis Paslaugos naudojimas po pakeitimų įsigaliojimo reiškia sutikimą.",
+				"title": "10. Sąlygų pakeitimai"
 			},
 			"contact": {
-				"title": "12. Kontaktai",
-				"content": "Dėl klausimų apie šias naudojimo sąlygas kreipkitės:\n\nEl. paštas: info@santykiuklausimai.lt\n\nStengiamės atsakyti per 5 darbo dienas. Dėl saugumo klausimų atsakome per 24 valandas."
+				"content": "Dėl klausimų apie šias naudojimo sąlygas kreipkitės:\n\nEl. paštas: info@santykiuklausimai.lt\n\nStengiamės atsakyti per 5 darbo dienas. Dėl saugumo klausimų atsakome per 24 valandas.",
+				"title": "12. Kontaktai"
+			},
+			"freeTrialAndCancellation": {
+				"content": "Nauji prenumeratoriai gauna 7 dienų nemokamą bandomąjį laikotarpį. Per bandomąjį laikotarpį mokestis nebus nurašytas.\n\nPrenumeratą galite atšaukti bet kada per Stripe klientų portalą, pasiekiamą iš jūsų profilio. Atšaukimas įsigalioja dabartinio atsiskaitymo laikotarpio pabaigoje — prieiga išlieka iki tol.\n\nKaip ES vartotojas, turite teisę atsisakyti skaitmeninės paslaugos pirkimo per 14 dienų, jei nenaudojote premium turinio. Jei per bandomąjį laikotarpį naudojotės premium turiniu, atsisakymo teisė panaikinama gavus jūsų aiškų sutikimą.",
+				"title": "4. Nemokamas bandomasis laikotarpis ir atšaukimas"
+			},
+			"governingLaw": {
+				"content": "Šios sąlygos reglamentuojamos Lietuvos Respublikos teise.\n\nDėl ginčų galite kreiptis į Valstybinę vartotojų teisių apsaugos tarnybą (VVTAT) adresu vvtat.lrv.lt arba naudoti Europos internetinę ginčų sprendimo platformą adresu ec.europa.eu/consumers/odr.\n\nJei ginčo nepavyksta išspręsti taikiai, jis sprendžiamas Lietuvos Respublikos teismuose.",
+				"title": "11. Taikoma teisė ir ginčai"
+			},
+			"intellectualProperty": {
+				"content": "Visas Paslaugos turinys, dizainas, kodas ir prekių ženklai priklauso mums arba mūsų licencijos davėjams. Draudžiama kopijuoti, keisti, platinti ar kurti išvestinius kūrinius iš bet kurios Paslaugos dalies be raštiško leidimo.\n\nPatvirtinti vartotojų pasiūlyti klausimai tampa Paslaugos turinio bibliotekos dalimi pagal 5 skyriuje aprašytą licenciją.",
+				"title": "7. Intelektinė nuosavybė"
+			},
+			"liability": {
+				"content": "Paslauga teikiama „tokia, kokia yra”, be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę.",
+				"title": "8. Atsakomybės apribojimas"
+			},
+			"service": {
+				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms”.\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos.",
+				"title": "1. Paslaugos aprašymas"
+			},
+			"subscriptions": {
+				"content": "Premium prieiga galima per mokamas prenumeratas:\n\n• Mėnesinis planas: 4,99 € per mėnesį\n• Metinis planas: 29,99 € per metus\n\nVisi mokėjimai saugiai apdorojami per Stripe. Prenumeratos automatiškai atsinaujina kiekvieno atsiskaitymo laikotarpio pabaigoje. Kainos gali keistis pranešus ne mažiau kaip prieš 30 dienų.",
+				"title": "3. Prenumeratos ir kainos"
+			},
+			"termination": {
+				"content": "Paskyrą galite ištrinti bet kada iš savo profilio puslapio. Jūsų asmens duomenys bus pašalinti per 30 dienų, išskyrus atvejus, kai saugojimas reikalingas pagal teisės aktus.\n\nGalime sustabdyti ar panaikinti jūsų paskyrą, jei pažeidžiate šias sąlygas. Nutraukimo dėl pažeidimo atveju pinigai negrąžinami. Nutraukimo be priežasties atveju gausite proporcingą grąžinimą už nepanaudotą prenumeratos dalį.",
+				"title": "9. Nutraukimas"
+			},
+			"userContent": {
+				"content": "Galite siūlyti klausimus peržiūrai. Visi pasiūlymai peržiūrimi mūsų moderavimo komandos prieš publikavimą.\n\nPateikdami klausimą, suteikiate mums neišskirtinę, nemokamą, pasaulinę licenciją naudoti, keisti ir rodyti klausimą Paslaugoje.\n\nJūs išlaikote savo pateikto turinio nuosavybę. Pasiliekame teisę atmesti arba pašalinti bet kokį pasiūlymą be išankstinio pranešimo.",
+				"title": "5. Vartotojų pateiktas turinys"
 			}
-		}
-	},
-	"legal": {
-		"privacy": "Privatumo politika",
-		"terms": "Naudojimo sąlygos"
+		},
+		"title": "Naudojimo sąlygos"
 	}
 }

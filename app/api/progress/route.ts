@@ -1,68 +1,60 @@
-import config from "@payload-config";
+import { and, eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
+import { playerProgress } from "@/drizzle/schema";
+import { getAuthPlayer } from "@/lib/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import { progressBodySchema } from "@/lib/schemas";
 
-// GET /api/progress — return all progress for authenticated player
 export async function GET(req: NextRequest) {
-	const payload = await getPayload({ config });
-
-	// Get player from Payload auth
-	const { user } = await payload.auth({ headers: req.headers });
-	if (!user || user.collection !== "players") {
+	const player = await getAuthPlayer(req.headers);
+	if (!player) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
 	const audience = req.nextUrl.searchParams.get("audience");
 
-	const progress = await payload.find({
-		collection: "player-progress",
-		limit: 10000,
-		sort: "-viewedAt",
-		where: audience
-			? {
-					and: [
-						{ player: { equals: user.id } },
-						{ audience: { equals: audience } },
-					],
-				}
-			: { player: { equals: user.id } },
-	});
+	const conditions = audience
+		? and(
+				eq(playerProgress.playerId, player.id),
+				eq(
+					playerProgress.audience,
+					audience as "romantic" | "family" | "kids" | "friends",
+				),
+			)
+		: eq(playerProgress.playerId, player.id);
 
-	return NextResponse.json({
-		docs: progress.docs.map((doc) => ({
-			audience: doc.audience,
-			questionId: doc.questionId,
-			status: doc.status,
-			viewedAt: doc.viewedAt,
-		})),
-	});
+	const docs = await db
+		.select({
+			audience: playerProgress.audience,
+			questionId: playerProgress.questionId,
+			status: playerProgress.status,
+			viewedAt: playerProgress.viewedAt,
+		})
+		.from(playerProgress)
+		.where(conditions)
+		.orderBy(playerProgress.viewedAt)
+		.limit(10000);
+
+	return NextResponse.json({ docs });
 }
 
-// POST /api/progress — batch upsert progress records
 export async function POST(req: NextRequest) {
-	const payload = await getPayload({ config });
-
-	const { user } = await payload.auth({ headers: req.headers });
-	if (!user || user.collection !== "players") {
+	const player = await getAuthPlayer(req.headers);
+	if (!player) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	const { success } = rateLimit(`progress:${user.id}`, {
-		windowMs: 60_000,
+	const { success } = await rateLimit(`progress:${player.id}`, {
 		maxRequests: 20,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const body = await req.json();
 	const parsed = progressBodySchema.safeParse(body);
-
 	if (!parsed.success) {
 		return NextResponse.json(
 			{ error: parsed.error.flatten() },
@@ -75,37 +67,38 @@ export async function POST(req: NextRequest) {
 	let updated = 0;
 
 	for (const item of items) {
-		// Check if record exists
-		const existing = await payload.find({
-			collection: "player-progress",
-			limit: 1,
-			where: {
-				audience: { equals: item.audience },
-				player: { equals: user.id },
-				questionId: { equals: item.questionId },
-			},
-		});
+		const [existing] = await db
+			.select({ id: playerProgress.id })
+			.from(playerProgress)
+			.where(
+				and(
+					eq(playerProgress.playerId, player.id),
+					eq(playerProgress.questionId, item.questionId),
+					eq(
+						playerProgress.audience,
+						item.audience as "romantic" | "family" | "kids" | "friends",
+					),
+				),
+			)
+			.limit(1);
 
-		if (existing.docs.length > 0) {
-			await payload.update({
-				collection: "player-progress",
-				data: {
-					status: item.status,
-					viewedAt: item.viewedAt || new Date().toISOString(),
-				},
-				id: existing.docs[0].id,
-			});
+		if (existing) {
+			await db
+				.update(playerProgress)
+				.set({
+					status: item.status as "answered" | "skipped" | "superliked",
+					updatedAt: new Date(),
+					viewedAt: item.viewedAt ? new Date(item.viewedAt) : new Date(),
+				})
+				.where(eq(playerProgress.id, existing.id));
 			updated++;
 		} else {
-			await payload.create({
-				collection: "player-progress",
-				data: {
-					audience: item.audience,
-					player: user.id,
-					questionId: item.questionId,
-					status: item.status,
-					viewedAt: item.viewedAt || new Date().toISOString(),
-				},
+			await db.insert(playerProgress).values({
+				audience: item.audience as "romantic" | "family" | "kids" | "friends",
+				playerId: player.id,
+				questionId: item.questionId,
+				status: item.status as "answered" | "skipped" | "superliked",
+				viewedAt: item.viewedAt ? new Date(item.viewedAt) : new Date(),
 			});
 			created++;
 		}
@@ -114,19 +107,13 @@ export async function POST(req: NextRequest) {
 	return NextResponse.json({ created, updated });
 }
 
-// DELETE /api/progress — delete all progress for authenticated player
 export async function DELETE(req: NextRequest) {
-	const payload = await getPayload({ config });
-
-	const { user } = await payload.auth({ headers: req.headers });
-	if (!user || user.collection !== "players") {
+	const player = await getAuthPlayer(req.headers);
+	if (!player) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	await payload.delete({
-		collection: "player-progress",
-		where: { player: { equals: user.id } },
-	});
+	await db.delete(playerProgress).where(eq(playerProgress.playerId, player.id));
 
 	return NextResponse.json({ success: true });
 }

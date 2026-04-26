@@ -7,22 +7,22 @@ export function LandingFooter() {
 
 	return (
 		<footer className="border-primary/5 border-t py-8 text-center">
-			<p className="text-text-dimmed/40 text-xs">{t("footer")}</p>
+			<p className="text-text-dimmed text-xs">{t("footer")}</p>
 			<div className="mt-3 flex justify-center gap-4">
 				<Link
+					className="text-text-dimmed text-xs underline-offset-2 hover:underline"
 					href="/privacy"
-					className="text-text-dimmed/40 text-xs underline-offset-2 hover:underline"
 				>
 					{tLegal("privacy")}
 				</Link>
 				<Link
+					className="text-text-dimmed text-xs underline-offset-2 hover:underline"
 					href="/terms"
-					className="text-text-dimmed/40 text-xs underline-offset-2 hover:underline"
 				>
 					{tLegal("terms")}
 				</Link>
 			</div>
-			<p className="mt-2 text-text-dimmed/30 text-xs">
+			<p className="mt-2 text-text-dimmed text-xs">
 				© {new Date().getFullYear()}
 			</p>
 		</footer>

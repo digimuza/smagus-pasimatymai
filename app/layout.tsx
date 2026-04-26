@@ -6,6 +6,13 @@ export const metadata: Metadata = {
 		statusBarStyle: "black-translucent",
 		title: "Santykių Klausimai",
 	},
+	icons: {
+		apple: "/apple-touch-icon.png",
+		icon: [
+			{ sizes: "192x192", url: "/icons/icon-192x192.png" },
+			{ sizes: "512x512", url: "/icons/icon-512x512.png" },
+		],
+	},
 	manifest: "/manifest.json",
 };
 

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button, Sheet } from "@/components/ui";
 import { useAuth } from "@/context/AuthContext";
+import { Link } from "@/i18n/navigation";
 
 interface LoginSheetProps {
 	isOpen: boolean;
@@ -13,6 +14,7 @@ interface LoginSheetProps {
 
 export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 	const t = useTranslations("auth");
+	const tLegal = useTranslations("legal");
 	const { login, register, loginWithGoogle } = useAuth();
 	const [mode, setMode] = useState<"login" | "register">("login");
 	const [email, setEmail] = useState("");
@@ -83,6 +85,22 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 				>
 					{t("continueWithGoogle")}
 				</Button>
+				<p className="mt-2 text-center text-text-dimmed/60 text-xs">
+					{t("tosConsentNotice")}{" "}
+					<Link
+						className="underline underline-offset-2 hover:text-text-dimmed"
+						href="/terms"
+					>
+						{tLegal("terms")}
+					</Link>{" "}
+					{t("tosConsentAnd")}{" "}
+					<Link
+						className="underline underline-offset-2 hover:text-text-dimmed"
+						href="/privacy"
+					>
+						{tLegal("privacy")}
+					</Link>
+				</p>
 
 				<div className="my-5 flex items-center gap-3">
 					<div className="h-px flex-1 bg-primary/10" />
@@ -154,6 +172,24 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						{mode === "login" ? t("registerLink") : t("loginLink")}
 					</button>
 				</p>
+				{mode === "register" && (
+					<p className="mt-3 text-center text-text-dimmed/60 text-xs">
+						{t("privacyNotice")}{" "}
+						<Link
+							className="underline underline-offset-2 hover:text-text-dimmed"
+							href="/terms"
+						>
+							{tLegal("terms")}
+						</Link>{" "}
+						{t("tosConsentAnd")}{" "}
+						<Link
+							className="underline underline-offset-2 hover:text-text-dimmed"
+							href="/privacy"
+						>
+							{tLegal("privacy")}
+						</Link>
+					</p>
+				)}
 			</div>
 		</Sheet>
 	);

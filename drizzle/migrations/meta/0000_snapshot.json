@@ -1,0 +1,1372 @@
+{
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	},
+	"dialect": "postgresql",
+	"enums": {
+		"public.audience": {
+			"name": "audience",
+			"schema": "public",
+			"values": ["romantic", "family", "kids", "friends"]
+		},
+		"public.card_status": {
+			"name": "card_status",
+			"schema": "public",
+			"values": ["draft", "published"]
+		},
+		"public.category_type": {
+			"name": "category_type",
+			"schema": "public",
+			"values": ["safe", "intimate"]
+		},
+		"public.event_type": {
+			"name": "event_type",
+			"schema": "public",
+			"values": [
+				"viewed",
+				"skipped",
+				"answered",
+				"superliked",
+				"spicy_dismissed"
+			]
+		},
+		"public.locale": {
+			"name": "locale",
+			"schema": "public",
+			"values": ["lt", "en"]
+		},
+		"public.plan": {
+			"name": "plan",
+			"schema": "public",
+			"values": ["free", "monthly", "yearly"]
+		},
+		"public.progress_status": {
+			"name": "progress_status",
+			"schema": "public",
+			"values": ["answered", "skipped", "superliked"]
+		},
+		"public.provider": {
+			"name": "provider",
+			"schema": "public",
+			"values": ["email", "google", "apple"]
+		},
+		"public.question_status": {
+			"name": "question_status",
+			"schema": "public",
+			"values": ["draft", "published"]
+		},
+		"public.rarity": {
+			"name": "rarity",
+			"schema": "public",
+			"values": ["rare", "medium", "frequent", "ultra"]
+		},
+		"public.submission_status": {
+			"name": "submission_status",
+			"schema": "public",
+			"values": ["pending", "approved", "rejected"]
+		},
+		"public.subscription_status": {
+			"name": "subscription_status",
+			"schema": "public",
+			"values": ["active", "canceled", "past_due", "trialing", "expired"]
+		}
+	},
+	"id": "633f8c5f-7cae-4b49-89d8-b1826f7942af",
+	"policies": {},
+	"prevId": "00000000-0000-0000-0000-000000000000",
+	"roles": {},
+	"schemas": {},
+	"sequences": {},
+	"tables": {
+		"public.audiences": {
+			"checkConstraints": {},
+			"columns": {
+				"color": {
+					"name": "color",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"description": {
+					"name": "description",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"icon": {
+					"name": "icon",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "audiences_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"is_active": {
+					"default": true,
+					"name": "is_active",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "boolean"
+				},
+				"name": {
+					"name": "name",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"slug": {
+					"name": "slug",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"sort_order": {
+					"default": 0,
+					"name": "sort_order",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "audiences",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"audiences_slug_unique": {
+					"columns": ["slug"],
+					"name": "audiences_slug_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.categories": {
+			"checkConstraints": {},
+			"columns": {
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "categories_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"locale": {
+					"default": "'lt'",
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"name": {
+					"name": "name",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"sort_order": {
+					"name": "sort_order",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"type": {
+					"name": "type",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "category_type",
+					"typeSchema": "public"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "categories",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"categories_name_unique": {
+					"columns": ["name"],
+					"name": "categories_name_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.daily_questions": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"default": "'romantic'",
+					"name": "audience",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"date": {
+					"name": "date",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "daily_questions_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"question_id": {
+					"name": "question_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"daily_questions_question_id_questions_id_fk": {
+					"columnsFrom": ["question_id"],
+					"columnsTo": ["id"],
+					"name": "daily_questions_question_id_questions_id_fk",
+					"onDelete": "cascade",
+					"onUpdate": "no action",
+					"tableFrom": "daily_questions",
+					"tableTo": "questions"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "daily_questions",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"daily_questions_date_unique": {
+					"columns": ["date"],
+					"name": "daily_questions_date_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.game_sessions": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"name": "audience",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"device": {
+					"name": "device",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"duration": {
+					"name": "duration",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"ended_at": {
+					"name": "ended_at",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "game_sessions_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"locale": {
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"player_id": {
+					"name": "player_id",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"questions_skipped": {
+					"default": 0,
+					"name": "questions_skipped",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"questions_viewed": {
+					"default": 0,
+					"name": "questions_viewed",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"session_id": {
+					"name": "session_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"spicy_cards_viewed": {
+					"default": 0,
+					"name": "spicy_cards_viewed",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"started_at": {
+					"name": "started_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"game_sessions_player_id_players_id_fk": {
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"name": "game_sessions_player_id_players_id_fk",
+					"onDelete": "set null",
+					"onUpdate": "no action",
+					"tableFrom": "game_sessions",
+					"tableTo": "players"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "game_sessions",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"game_sessions_session_id_unique": {
+					"columns": ["session_id"],
+					"name": "game_sessions_session_id_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.player_progress": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"name": "audience",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "player_progress_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"player_id": {
+					"name": "player_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"question_id": {
+					"name": "question_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"status": {
+					"name": "status",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "progress_status",
+					"typeSchema": "public"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"viewed_at": {
+					"default": "now()",
+					"name": "viewed_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"player_progress_player_id_players_id_fk": {
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"name": "player_progress_player_id_players_id_fk",
+					"onDelete": "cascade",
+					"onUpdate": "no action",
+					"tableFrom": "player_progress",
+					"tableTo": "players"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "player_progress",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		},
+		"public.players": {
+			"checkConstraints": {},
+			"columns": {
+				"active_categories": {
+					"name": "active_categories",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "jsonb"
+				},
+				"avatar": {
+					"name": "avatar",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"current_streak": {
+					"default": 0,
+					"name": "current_streak",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"email": {
+					"name": "email",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "players_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"last_played_date": {
+					"name": "last_played_date",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"locale": {
+					"default": "'lt'",
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"longest_streak": {
+					"default": 0,
+					"name": "longest_streak",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"name": {
+					"name": "name",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"preferred_audience": {
+					"name": "preferred_audience",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"provider": {
+					"default": "'email'",
+					"name": "provider",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "provider",
+					"typeSchema": "public"
+				},
+				"provider_id": {
+					"name": "provider_id",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"spicy_settings_enabled": {
+					"default": true,
+					"name": "spicy_settings_enabled",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "boolean"
+				},
+				"spicy_settings_enabled_types": {
+					"name": "spicy_settings_enabled_types",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "jsonb"
+				},
+				"spicy_settings_rarity": {
+					"default": "'medium'",
+					"name": "spicy_settings_rarity",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "rarity",
+					"typeSchema": "public"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "players",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"players_email_unique": {
+					"columns": ["email"],
+					"name": "players_email_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.question_events": {
+			"checkConstraints": {},
+			"columns": {
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"event_type": {
+					"name": "event_type",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "event_type",
+					"typeSchema": "public"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "question_events_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"question_id": {
+					"name": "question_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"session_id": {
+					"name": "session_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"time_spent": {
+					"name": "time_spent",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"timestamp": {
+					"name": "timestamp",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "question_events",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		},
+		"public.question_submissions": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"default": "'romantic'",
+					"name": "audience",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "question_submissions_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"moderator_note": {
+					"name": "moderator_note",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"status": {
+					"default": "'pending'",
+					"name": "status",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "submission_status",
+					"typeSchema": "public"
+				},
+				"submitted_by": {
+					"name": "submitted_by",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"text": {
+					"name": "text",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"question_submissions_submitted_by_players_id_fk": {
+					"columnsFrom": ["submitted_by"],
+					"columnsTo": ["id"],
+					"name": "question_submissions_submitted_by_players_id_fk",
+					"onDelete": "set null",
+					"onUpdate": "no action",
+					"tableFrom": "question_submissions",
+					"tableTo": "players"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "question_submissions",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		},
+		"public.questions": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"default": "'romantic'",
+					"name": "audience",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"category_id": {
+					"name": "category_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "questions_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"legacy_id": {
+					"name": "legacy_id",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"locale": {
+					"default": "'lt'",
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"question": {
+					"name": "question",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"status": {
+					"default": "'published'",
+					"name": "status",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "question_status",
+					"typeSchema": "public"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"questions_category_id_categories_id_fk": {
+					"columnsFrom": ["category_id"],
+					"columnsTo": ["id"],
+					"name": "questions_category_id_categories_id_fk",
+					"onDelete": "cascade",
+					"onUpdate": "no action",
+					"tableFrom": "questions",
+					"tableTo": "categories"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "questions",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		},
+		"public.spicy_card_types": {
+			"checkConstraints": {},
+			"columns": {
+				"color": {
+					"name": "color",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"icon": {
+					"name": "icon",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "spicy_card_types_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"label": {
+					"name": "label",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"locale": {
+					"default": "'lt'",
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"slug": {
+					"name": "slug",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "spicy_card_types",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"spicy_card_types_slug_unique": {
+					"columns": ["slug"],
+					"name": "spicy_card_types_slug_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.spicy_cards": {
+			"checkConstraints": {},
+			"columns": {
+				"audience": {
+					"default": "'romantic'",
+					"name": "audience",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "audience",
+					"typeSchema": "public"
+				},
+				"card_type_id": {
+					"name": "card_type_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"description": {
+					"name": "description",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "spicy_cards_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"locale": {
+					"default": "'lt'",
+					"name": "locale",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "locale",
+					"typeSchema": "public"
+				},
+				"status": {
+					"default": "'published'",
+					"name": "status",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "card_status",
+					"typeSchema": "public"
+				},
+				"title": {
+					"name": "title",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"spicy_cards_card_type_id_spicy_card_types_id_fk": {
+					"columnsFrom": ["card_type_id"],
+					"columnsTo": ["id"],
+					"name": "spicy_cards_card_type_id_spicy_card_types_id_fk",
+					"onDelete": "cascade",
+					"onUpdate": "no action",
+					"tableFrom": "spicy_cards",
+					"tableTo": "spicy_card_types"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "spicy_cards",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {}
+		},
+		"public.stripe_events": {
+			"checkConstraints": {},
+			"columns": {
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"event_id": {
+					"name": "event_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"event_type": {
+					"name": "event_type",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "stripe_events_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "stripe_events",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"stripe_events_event_id_unique": {
+					"columns": ["event_id"],
+					"name": "stripe_events_event_id_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.subscriptions": {
+			"checkConstraints": {},
+			"columns": {
+				"cancel_at_period_end": {
+					"default": false,
+					"name": "cancel_at_period_end",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "boolean"
+				},
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"current_period_end": {
+					"name": "current_period_end",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"current_period_start": {
+					"name": "current_period_start",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "subscriptions_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"plan": {
+					"default": "'free'",
+					"name": "plan",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "plan",
+					"typeSchema": "public"
+				},
+				"player_id": {
+					"name": "player_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "integer"
+				},
+				"status": {
+					"default": "'active'",
+					"name": "status",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "subscription_status",
+					"typeSchema": "public"
+				},
+				"stripe_customer_id": {
+					"name": "stripe_customer_id",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"stripe_subscription_id": {
+					"name": "stripe_subscription_id",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"trial_end": {
+					"name": "trial_end",
+					"notNull": false,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {
+				"subscriptions_player_id_players_id_fk": {
+					"columnsFrom": ["player_id"],
+					"columnsTo": ["id"],
+					"name": "subscriptions_player_id_players_id_fk",
+					"onDelete": "cascade",
+					"onUpdate": "no action",
+					"tableFrom": "subscriptions",
+					"tableTo": "players"
+				}
+			},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "subscriptions",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"subscriptions_player_id_unique": {
+					"columns": ["player_id"],
+					"name": "subscriptions_player_id_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		},
+		"public.users": {
+			"checkConstraints": {},
+			"columns": {
+				"created_at": {
+					"default": "now()",
+					"name": "created_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				},
+				"email": {
+					"name": "email",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"id": {
+					"identity": {
+						"cache": "1",
+						"cycle": false,
+						"increment": "1",
+						"maxValue": "2147483647",
+						"minValue": "1",
+						"name": "users_id_seq",
+						"schema": "public",
+						"startWith": "1",
+						"type": "always"
+					},
+					"name": "id",
+					"notNull": true,
+					"primaryKey": true,
+					"type": "integer"
+				},
+				"password_hash": {
+					"name": "password_hash",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "text"
+				},
+				"updated_at": {
+					"default": "now()",
+					"name": "updated_at",
+					"notNull": true,
+					"primaryKey": false,
+					"type": "timestamp"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"foreignKeys": {},
+			"indexes": {},
+			"isRLSEnabled": false,
+			"name": "users",
+			"policies": {},
+			"schema": "",
+			"uniqueConstraints": {
+				"users_email_unique": {
+					"columns": ["email"],
+					"name": "users_email_unique",
+					"nullsNotDistinct": false
+				}
+			}
+		}
+	},
+	"version": "7",
+	"views": {}
+}

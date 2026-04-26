@@ -91,9 +91,9 @@ describe("canAccessSpicyCards", () => {
 	});
 
 	it("returns true for premium users", () => {
-		expect(
-			canAccessSpicyCards({ plan: "monthly", status: "active" }),
-		).toBe(true);
+		expect(canAccessSpicyCards({ plan: "monthly", status: "active" })).toBe(
+			true,
+		);
 	});
 });
 
@@ -103,9 +103,9 @@ describe("getQuestionLimit", () => {
 	});
 
 	it("returns Infinity for premium users", () => {
-		expect(
-			getQuestionLimit({ plan: "monthly", status: "active" }),
-		).toBe(Infinity);
+		expect(getQuestionLimit({ plan: "monthly", status: "active" })).toBe(
+			Infinity,
+		);
 	});
 });
 

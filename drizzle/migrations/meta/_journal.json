@@ -1,0 +1,48 @@
+{
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"breakpoints": true,
+			"idx": 0,
+			"tag": "0000_bizarre_living_tribunal",
+			"version": "7",
+			"when": 1777149697976
+		},
+		{
+			"breakpoints": true,
+			"idx": 1,
+			"tag": "0001_mixed_the_enforcers",
+			"version": "7",
+			"when": 1777152908005
+		},
+		{
+			"breakpoints": true,
+			"idx": 2,
+			"tag": "0002_fair_jigsaw",
+			"version": "7",
+			"when": 1777153134951
+		},
+		{
+			"breakpoints": true,
+			"idx": 3,
+			"tag": "0003_session_tracking",
+			"version": "7",
+			"when": 1777153283604
+		},
+		{
+			"breakpoints": true,
+			"idx": 4,
+			"tag": "0004_paired_sessions",
+			"version": "7",
+			"when": 1777190676857
+		},
+		{
+			"breakpoints": true,
+			"idx": 5,
+			"tag": "0005_push_subscriptions",
+			"version": "7",
+			"when": 1745659200000
+		}
+	],
+	"version": "7"
+}

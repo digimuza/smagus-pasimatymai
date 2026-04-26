@@ -27,9 +27,11 @@ export async function generateMetadata({
 	const { locale } = await params;
 	const t = await getTranslations({ locale, namespace: "metadata" });
 
+	const url = locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`;
+
 	return {
 		alternates: {
-			canonical: locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`,
+			canonical: url,
 			languages: {
 				en: `${BASE_URL}/en`,
 				lt: BASE_URL,
@@ -38,12 +40,19 @@ export async function generateMetadata({
 		description: t("description"),
 		openGraph: {
 			description: t("description"),
+			images: [{ height: 630, url: "/api/og", width: 1200 }],
 			locale: locale === "lt" ? "lt_LT" : "en_US",
 			title: t("title"),
 			type: "website",
-			url: locale === "lt" ? BASE_URL : `${BASE_URL}/${locale}`,
+			url,
 		},
 		title: t("title"),
+		twitter: {
+			card: "summary_large_image",
+			description: t("description"),
+			images: ["/api/og"],
+			title: t("title"),
+		},
 	};
 }
 

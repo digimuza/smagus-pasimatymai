@@ -1,6 +1,5 @@
-import bundleAnalyzer from "@next/bundle-analyzer";
 import withPWAInit from "@ducanh2912/next-pwa";
-import withPayload from "@payloadcms/next/withPayload";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -10,6 +9,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const withPWA = withPWAInit({
+	customWorkerSrc: "worker",
 	dest: "public",
 	disable: process.env.NODE_ENV === "development",
 	register: true,
@@ -25,17 +25,38 @@ const withPWA = withPWAInit({
 			},
 			urlPattern: /\/api\/game-data/,
 		},
+		{
+			handler: "StaleWhileRevalidate",
+			options: {
+				cacheName: "static-assets",
+				expiration: {
+					maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+					maxEntries: 64,
+				},
+			},
+			urlPattern: /\.(png|jpg|jpeg|svg|gif|webp|ico|woff2?|ttf|otf)$/,
+		},
+		{
+			handler: "NetworkFirst",
+			options: {
+				cacheName: "pages-cache",
+				expiration: {
+					maxAgeSeconds: 60 * 60 * 24, // 24 hours
+					maxEntries: 32,
+				},
+				networkTimeoutSeconds: 10,
+			},
+			urlPattern: /^\/(lt|en)?\//,
+		},
 	],
 	skipWaiting: true,
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
 	async headers() {
 		return [
 			{
-				source: "/(.*)",
 				headers: [
 					{ key: "X-Frame-Options", value: "DENY" },
 					{ key: "X-Content-Type-Options", value: "nosniff" },
@@ -67,9 +88,22 @@ const nextConfig = {
 						].join("; "),
 					},
 				],
+				source: "/(.*)",
+			},
+		];
+	},
+	output: "standalone",
+	reactStrictMode: true,
+	async redirects() {
+		return [
+			{
+				destination: "https://santykiuklausimai.lt/:path*",
+				has: [{ type: "host", value: "www.santykiuklausimai.lt" }],
+				permanent: true,
+				source: "/:path*",
 			},
 		];
 	},
 };
 
-export default withBundleAnalyzer(withPayload(withNextIntl(withPWA(nextConfig))));
+export default withBundleAnalyzer(withNextIntl(withPWA(nextConfig)));

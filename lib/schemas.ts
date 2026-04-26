@@ -56,3 +56,36 @@ export const submitQuestionSchema = z.object({
 	audience: z.enum(VALID_AUDIENCES),
 	text: z.string().trim().min(10).max(300),
 });
+
+// left=skip, right=answer, up=superlike
+const VALID_SWIPE_ACTIONS = ["skip", "answer", "superlike"] as const;
+
+export const swipeActionSchema = z.object({
+	action: z.enum(VALID_SWIPE_ACTIONS),
+	audience: z.enum(VALID_AUDIENCES),
+	questionId: z.number().int().positive(),
+	timestamp: z.string().optional(),
+});
+
+const VALID_FREQUENCIES = ["daily", "weekly", "off"] as const;
+
+export const pushSubscribeSchema = z.object({
+	auth: z.string().min(1),
+	endpoint: z.string().url(),
+	frequency: z.enum(VALID_FREQUENCIES),
+	locale: z.enum(VALID_LOCALES).optional(),
+	p256dh: z.string().min(1),
+});
+
+export const pushFrequencyUpdateSchema = z.object({
+	frequency: z.enum(VALID_FREQUENCIES),
+});
+
+export const ACTION_TO_STATUS = {
+	answer: "answered",
+	skip: "skipped",
+	superlike: "superliked",
+} as const satisfies Record<
+	(typeof VALID_SWIPE_ACTIONS)[number],
+	(typeof VALID_STATUSES)[number]
+>;

@@ -103,3 +103,36 @@ export function getCategoryQuestionCount(
 	const section = sections.find((s) => s.name === categoryName);
 	return section ? section.questions.length : 0;
 }
+
+/**
+ * Find which section a question belongs to
+ */
+export function getQuestionSection(
+	sections: Section[],
+	questionId: number,
+): Section | null {
+	return (
+		sections.find((s) => s.questions.some((q) => q.id === questionId)) ?? null
+	);
+}
+
+/**
+ * Get the next N available questions for deck preview, excluding a given id
+ */
+export function getPreviewQuestions(
+	sections: Section[],
+	activeCategories: string[],
+	questionStates: QuestionState[],
+	excludeId: number,
+	count: number,
+): Question[] {
+	const categoryQuestions = getQuestionsByCategories(
+		sections,
+		activeCategories,
+	);
+	const available = getAvailableQuestions(
+		categoryQuestions,
+		questionStates,
+	).filter((q) => q.id !== excludeId);
+	return available.slice(0, count);
+}

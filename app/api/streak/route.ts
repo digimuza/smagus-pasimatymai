@@ -1,62 +1,48 @@
-import config from "@payload-config";
+import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
+import { players } from "@/drizzle/schema";
+import { getAuthPlayer } from "@/lib/auth";
 import { rateLimit } from "@/lib/rateLimit";
 import { calculateStreak } from "@/lib/streaks";
 
 export async function POST(req: NextRequest) {
-	const payload = await getPayload({ config });
-
-	const { user } = await payload.auth({ headers: req.headers });
-	if (!user || user.collection !== "players") {
+	const player = await getAuthPlayer(req.headers);
+	if (!player) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	const { success } = rateLimit(`streak:${user.id}`, {
-		windowMs: 60_000,
+	const { success } = await rateLimit(`streak:${player.id}`, {
 		maxRequests: 10,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const streakData = calculateStreak({
-		currentStreak: (user as unknown as Record<string, unknown>).currentStreak as
-			| number
-			| undefined,
-		lastPlayedDate: (user as unknown as Record<string, unknown>)
-			.lastPlayedDate as string | undefined,
-		longestStreak: (user as unknown as Record<string, unknown>).longestStreak as
-			| number
-			| undefined,
+		currentStreak: player.currentStreak ?? undefined,
+		lastPlayedDate: player.lastPlayedDate ?? undefined,
+		longestStreak: player.longestStreak ?? undefined,
 	});
 
-	await payload.update({
-		collection: "players",
-		data: streakData,
-		id: user.id,
-	});
+	await db
+		.update(players)
+		.set({ ...streakData, updatedAt: new Date() })
+		.where(eq(players.id, player.id));
 
 	return NextResponse.json(streakData);
 }
 
 export async function GET(req: NextRequest) {
-	const payload = await getPayload({ config });
-
-	const { user } = await payload.auth({ headers: req.headers });
-	if (!user || user.collection !== "players") {
+	const player = await getAuthPlayer(req.headers);
+	if (!player) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
 	return NextResponse.json({
-		currentStreak:
-			(user as unknown as Record<string, unknown>).currentStreak || 0,
-		lastPlayedDate:
-			(user as unknown as Record<string, unknown>).lastPlayedDate || null,
-		longestStreak:
-			(user as unknown as Record<string, unknown>).longestStreak || 0,
+		currentStreak: player.currentStreak ?? 0,
+		lastPlayedDate: player.lastPlayedDate ?? null,
+		longestStreak: player.longestStreak ?? 0,
 	});
 }

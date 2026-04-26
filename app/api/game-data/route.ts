@@ -1,7 +1,10 @@
-import config from "@payload-config";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
+import { subscriptions } from "@/drizzle/schema";
 import { getAllCategoriesWithQuestions, getAllSpicyCards } from "@/lib/api";
+import { getAuthPlayer } from "@/lib/auth";
+import { PAGE_SIZE } from "@/lib/pagination";
 import {
 	canAccessAudience,
 	canAccessSpicyCards,
@@ -12,32 +15,27 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
 	try {
-		const payload = await getPayload({ config });
-		const { user } = await payload.auth({ headers: request.headers });
+		const player = await getAuthPlayer(new Headers(request.headers));
 
-		// Build subscription info for gating checks
 		let subscription: { plan: string; status: string } | null = null;
 
-		if (user && user.collection === "players") {
-			const sub = await payload.find({
-				collection: "subscriptions",
-				limit: 1,
-				overrideAccess: true,
-				where: { player: { equals: user.id } },
-			});
-			if (sub.docs.length > 0) {
+		if (player) {
+			const [sub] = await db
+				.select({ plan: subscriptions.plan, status: subscriptions.status })
+				.from(subscriptions)
+				.where(eq(subscriptions.playerId, player.id))
+				.limit(1);
+			if (sub)
 				subscription = {
-					plan: sub.docs[0].plan,
-					status: sub.docs[0].status,
+					plan: sub.plan ?? "free",
+					status: sub.status ?? "active",
 				};
-			}
 		}
 
 		const { searchParams } = new URL(request.url);
 		const locale = searchParams.get("locale") || "lt";
 		const audience = searchParams.get("audience") || "romantic";
 
-		// Block premium audiences for non-premium users
 		if (!canAccessAudience(audience, subscription)) {
 			return NextResponse.json(
 				{ error: "Premium subscription required" },
@@ -50,13 +48,11 @@ export async function GET(request: Request) {
 			getAllSpicyCards(locale, audience),
 		]);
 
-		// Limit questions for free users
 		const gatedSections = sections.map((section) => ({
 			...section,
 			questions: limitQuestions(section.questions, subscription),
 		}));
 
-		// Strip spicy cards for non-premium users
 		const gatedSpicyCards = canAccessSpicyCards(subscription) ? spicyCards : [];
 
 		const totalQuestions = gatedSections.reduce(
@@ -64,8 +60,21 @@ export async function GET(request: Request) {
 			0,
 		);
 
+		// Paginate initial response: distribute PAGE_SIZE questions across sections
+		const numSections = gatedSections.length;
+		const perSectionLimit =
+			numSections > 0
+				? Math.max(3, Math.ceil(PAGE_SIZE / numSections))
+				: PAGE_SIZE;
+		const hasMore = totalQuestions > PAGE_SIZE;
+		const pagedSections = gatedSections.map((s) => ({
+			...s,
+			questions: s.questions.slice(0, perSectionLimit),
+		}));
+
 		return NextResponse.json({
-			sections: gatedSections,
+			hasMore,
+			sections: pagedSections,
 			spicyCards: gatedSpicyCards,
 			title: `${totalQuestions} gilių klausimų`,
 			total_questions: totalQuestions,

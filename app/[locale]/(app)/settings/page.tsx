@@ -12,6 +12,10 @@ import {
 	Toggle,
 } from "@/components/ui";
 import { useQuestions } from "@/context/QuestionContext";
+import {
+	type ReminderFrequency,
+	usePushNotifications,
+} from "@/hooks/usePushNotifications";
 import { useRouter } from "@/i18n/navigation";
 import { fadeInUp } from "@/lib/animations";
 import { RARITY_LABELS, SPICY_CARD_TYPE_LABELS } from "@/lib/spicyCardsData";
@@ -19,6 +23,7 @@ import { RARITY_LABELS, SPICY_CARD_TYPE_LABELS } from "@/lib/spicyCardsData";
 export default function SettingsPage() {
 	const router = useRouter();
 	const t = useTranslations("settings");
+	const tn = useTranslations("notifications");
 	const {
 		spicyCardsEnabled,
 		spicyCardsRarity,
@@ -27,11 +32,26 @@ export default function SettingsPage() {
 		updateSpicyCardsRarity,
 		toggleSpicyCardType,
 	} = useQuestions();
+	const {
+		state: pushState,
+		updateFrequency,
+		isLoading: pushLoading,
+	} = usePushNotifications();
 
 	const rarityOptions = Object.entries(RARITY_LABELS).map(([value, label]) => ({
 		label: label as string,
 		value,
 	}));
+
+	const frequencyOptions: { label: string; value: ReminderFrequency }[] = [
+		{ label: tn("daily"), value: "daily" },
+		{ label: tn("weekly"), value: "weekly" },
+		{ label: tn("off"), value: "off" },
+	];
+
+	const handleFrequencyChange = async (value: string) => {
+		await updateFrequency(value as ReminderFrequency);
+	};
 
 	return (
 		<PageLayout>
@@ -98,6 +118,29 @@ export default function SettingsPage() {
 						)}
 					</div>
 				</Card>
+
+				{pushState.isSupported && !pushLoading && (
+					<Card {...fadeInUp}>
+						<div className="space-y-4">
+							<div>
+								<p className="font-normal text-text">{tn("frequency")}</p>
+								<p className="text-sm text-text-muted">
+									{tn("frequencyDescription")}
+								</p>
+							</div>
+							{pushState.permissionState === "denied" ? (
+								<p className="text-accent text-sm">{tn("permissionDenied")}</p>
+							) : (
+								<Select
+									label=""
+									onChange={handleFrequencyChange}
+									options={frequencyOptions}
+									value={pushState.frequency ?? "off"}
+								/>
+							)}
+						</div>
+					</Card>
+				)}
 
 				<motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
 					<Card className="border-primary/30 bg-primary/10" variant="outlined">

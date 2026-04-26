@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "pp_player_question_audience_unique" ON "player_progress" USING btree ("player_id","question_id","audience");

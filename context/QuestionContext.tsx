@@ -17,12 +17,22 @@ import { useSessionTracking } from "@/hooks/useSessionTracking";
 import { trackEvent } from "@/lib/analytics";
 import { STORAGE_KEY } from "@/lib/constants";
 import {
+	mergeQuestionsIntoSections,
+	PAGE_SIZE,
+	type QuestionPageResult,
+	shouldFetchNextPage,
+} from "@/lib/pagination";
+import {
 	getAvailableQuestionsCount,
 	getNextQuestion,
 	getSuperlikedQuestions,
 } from "@/lib/questionEngine";
 import { DEFAULT_SPICY_SETTINGS } from "@/lib/spicyCardsData";
-import { canAccessSpicyCards, getQuestionLimit } from "@/lib/subscription";
+import {
+	canAccessSpicyCards,
+	getQuestionLimit,
+	isPremium,
+} from "@/lib/subscription";
 import type {
 	QuestionContextType,
 	QuestionData,
@@ -48,11 +58,15 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [showPaywall, setShowPaywall] = useState(false);
+	const [hasMoreQuestions, setHasMoreQuestions] = useState(false);
+	const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
 
 	const [state, setState, isStateLoaded] = useLocalStorage(STORAGE_KEY, {
 		activeCategories: [] as string[],
 		audience: null as string | null,
 		currentQuestionId: null as number | null,
+		inviteToken: null as string | null,
+		pairedSessionId: null as string | null,
 		questionStates: [] as QuestionState[],
 		spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
 		spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity as SpicyCardRarity,
@@ -67,29 +81,91 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	// Initialize session tracking
 	useSessionTracking({ audience: state.audience || "romantic", locale });
 
-	// Sync progress to server when authenticated
+	// Two-way sync with server on first login: download server progress (cross-device),
+	// then upload any local-only records so both sides converge.
 	const syncedRef = useRef(false);
 	useEffect(() => {
 		if (!isAuthenticated || !state.audience || syncedRef.current) return;
 		syncedRef.current = true;
 
-		// Upload existing localStorage progress to server (merge on first login)
+		const audience = state.audience;
 		const localProgress = state.questionStates;
-		if (localProgress.length > 0) {
-			const items = localProgress.map((qs) => ({
-				audience: state.audience as string,
-				questionId: qs.id,
-				status: qs.status === "new" ? "answered" : qs.status,
-				viewedAt: qs.answeredAt,
-			}));
-			fetch("/api/progress", {
-				body: JSON.stringify({ items }),
-				credentials: "include",
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			}).catch(() => {});
-		}
-	}, [isAuthenticated, state.audience, state.questionStates]);
+
+		fetch(`/api/sessions/swipe?audience=${encodeURIComponent(audience)}`, {
+			credentials: "include",
+		})
+			.then((res) => res.json())
+			.then(
+				(data: {
+					responses: Array<{
+						action: string;
+						audience: string;
+						questionId: number;
+						timestamp: string;
+					}>;
+				}) => {
+					const serverResponses = data.responses ?? [];
+					const serverIds = new Set(serverResponses.map((r) => r.questionId));
+
+					// Merge server-only records into local state
+					if (serverResponses.length > 0) {
+						setState((prev) => {
+							const localIds = new Set(prev.questionStates.map((qs) => qs.id));
+							const toAdd = serverResponses
+								.filter((r) => !localIds.has(r.questionId))
+								.map((r) => ({
+									answeredAt: r.timestamp,
+									id: r.questionId,
+									status: r.action as QuestionState["status"],
+								}));
+							if (toAdd.length === 0) return prev;
+							return {
+								...prev,
+								questionStates: [...prev.questionStates, ...toAdd],
+							};
+						});
+					}
+
+					// Upload local-only records to server
+					const localOnlyItems = localProgress
+						.filter((qs) => !serverIds.has(qs.id) && qs.status !== "new")
+						.map((qs) => ({
+							audience,
+							questionId: qs.id,
+							status: qs.status === "new" ? "answered" : qs.status,
+							viewedAt: qs.answeredAt,
+						}));
+					if (localOnlyItems.length > 0) {
+						fetch("/api/progress", {
+							body: JSON.stringify({ items: localOnlyItems }),
+							credentials: "include",
+							headers: { "Content-Type": "application/json" },
+							method: "POST",
+						}).catch(() => {});
+					}
+				},
+			)
+			.catch(() => {
+				// Fallback: push local progress to server even if download failed
+				if (localProgress.length === 0) return;
+				const items = localProgress
+					.filter((qs) => qs.status !== "new")
+					.map((qs) => ({
+						audience,
+						questionId: qs.id,
+						status: qs.status === "new" ? "answered" : qs.status,
+						viewedAt: qs.answeredAt,
+					}));
+				if (items.length > 0) {
+					fetch("/api/progress", {
+						body: JSON.stringify({ items }),
+						credentials: "include",
+						headers: { "Content-Type": "application/json" },
+						method: "POST",
+					}).catch(() => {});
+				}
+			});
+	}, [isAuthenticated, state.audience, state.questionStates, setState]);
 
 	// Load question data from API (gated on audience selection)
 	useEffect(() => {
@@ -105,11 +181,13 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			.then((res) => res.json())
 			.then((data) => {
 				const qData: QuestionData = {
+					hasMore: data.hasMore ?? false,
 					sections: data.sections,
 					title: data.title,
 					total_questions: data.total_questions,
 				};
 				setQuestionData(qData);
+				setHasMoreQuestions(data.hasMore ?? false);
 
 				// Set spicy cards from API
 				if (data.spicyCards) {
@@ -174,12 +252,10 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	}, [questionData, questionLimit]);
 
 	// Whether the user is seeing a limited set of content
+	// Uses server-reported total to stay accurate with paginated sections
 	const isContentLimited = useMemo(() => {
 		if (!questionData) return false;
-		const totalAvailable = questionData.sections.flatMap(
-			(s) => s.questions,
-		).length;
-		return totalAvailable > questionLimit;
+		return questionData.total_questions > questionLimit;
 	}, [questionData, questionLimit]);
 
 	// Get current question
@@ -202,6 +278,79 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			state.questionStates,
 		);
 	}, [questionData, state.activeCategories, state.questionStates]);
+
+	// Fetch next page of questions from server (premium users only)
+	const fetchNextPage = useCallback(async () => {
+		if (
+			!questionData ||
+			!state.audience ||
+			isFetchingNextPage ||
+			!hasMoreQuestions
+		)
+			return;
+
+		setIsFetchingNextPage(true);
+		const excludeIds = questionData.sections.flatMap((s) =>
+			s.questions.map((q) => q.id),
+		);
+
+		try {
+			const res = await fetch("/api/questions/page", {
+				body: JSON.stringify({
+					audience: state.audience,
+					excludeIds,
+					limit: PAGE_SIZE,
+					locale,
+				}),
+				credentials: "include",
+				headers: { "Content-Type": "application/json" },
+				method: "POST",
+			});
+
+			if (!res.ok) return;
+
+			const data: QuestionPageResult = await res.json();
+
+			setHasMoreQuestions(data.hasMore);
+			setQuestionData((prev) => {
+				if (!prev) return prev;
+				return {
+					...prev,
+					sections: mergeQuestionsIntoSections(prev.sections, data.questions),
+				};
+			});
+		} catch {
+			// silent fail — user continues with current in-memory questions
+		} finally {
+			setIsFetchingNextPage(false);
+		}
+	}, [
+		questionData,
+		state.audience,
+		locale,
+		isFetchingNextPage,
+		hasMoreQuestions,
+	]);
+
+	// Prefetch next page when running low on questions (premium users only)
+	useEffect(() => {
+		if (
+			!isPremium(subscription) ||
+			!shouldFetchNextPage(
+				availableQuestionsCount,
+				hasMoreQuestions,
+				isFetchingNextPage,
+			)
+		)
+			return;
+		fetchNextPage();
+	}, [
+		availableQuestionsCount,
+		fetchNextPage,
+		hasMoreQuestions,
+		isFetchingNextPage,
+		subscription,
+	]);
 
 	// Get random spicy card
 	const getRandomSpicyCard = useCallback((): SpicyCard | null => {
@@ -460,9 +609,30 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			setSpicyCards([]);
 			setSafeCategoryNames([]);
 			setCurrentSpicyCard(null);
+			setHasMoreQuestions(false);
+			setIsFetchingNextPage(false);
 		},
 		[setState],
 	);
+
+	const setPairedSession = useCallback(
+		(sessionId: string, token: string) => {
+			setState((prev) => ({
+				...prev,
+				inviteToken: token,
+				pairedSessionId: sessionId,
+			}));
+		},
+		[setState],
+	);
+
+	const clearPairedSession = useCallback(() => {
+		setState((prev) => ({
+			...prev,
+			inviteToken: null,
+			pairedSessionId: null,
+		}));
+	}, [setState]);
 
 	const resetProgress = useCallback(() => {
 		setState((prev) => ({
@@ -483,18 +653,22 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		answerQuestion,
 		audience: state.audience || null,
 		availableQuestionsCount,
+		clearPairedSession,
 		currentQuestion,
 		currentSpicyCard,
 		dismissSpicyCard,
 		enabledSpicyCardTypes: (state.spicyCardTypes ||
 			DEFAULT_SPICY_SETTINGS.enabledTypes) as string[],
+		inviteToken: state.inviteToken ?? null,
 		isCategoryActive,
 		isContentLimited,
+		pairedSessionId: state.pairedSessionId ?? null,
 		questionStates: state.questionStates,
 		questions: allQuestions,
 		resetProgress,
 		sections: questionData?.sections || [],
 		setAudience,
+		setPairedSession,
 		setShowPaywall,
 		showPaywall,
 		skipQuestion,

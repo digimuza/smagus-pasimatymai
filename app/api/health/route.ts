@@ -1,6 +1,6 @@
-import config from "@payload-config";
+import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { getPayload } from "payload";
+import { db } from "@/drizzle/db";
 
 export const dynamic = "force-dynamic";
 
@@ -8,29 +8,22 @@ export async function GET() {
 	const checks: Record<string, { status: string; latencyMs?: number }> = {};
 	let healthy = true;
 
-	// Database check via Payload
 	const dbStart = Date.now();
 	try {
-		const payload = await getPayload({ config });
-		await payload.find({ collection: "audiences", limit: 1 });
-		checks.database = { status: "ok", latencyMs: Date.now() - dbStart };
+		await db.execute(sql`SELECT 1`);
+		checks.database = { latencyMs: Date.now() - dbStart, status: "ok" };
 	} catch {
-		checks.database = { status: "error", latencyMs: Date.now() - dbStart };
+		checks.database = { latencyMs: Date.now() - dbStart, status: "error" };
 		healthy = false;
 	}
 
-	// Stripe API check
 	const stripeStart = Date.now();
 	try {
 		const { stripe } = await import("@/lib/stripe");
 		await stripe.balance.retrieve();
-		checks.stripe = { status: "ok", latencyMs: Date.now() - stripeStart };
+		checks.stripe = { latencyMs: Date.now() - stripeStart, status: "ok" };
 	} catch {
-		checks.stripe = {
-			status: "error",
-			latencyMs: Date.now() - stripeStart,
-		};
-		// Stripe down doesn't make the app unhealthy — game still works
+		checks.stripe = { latencyMs: Date.now() - stripeStart, status: "error" };
 	}
 
 	return NextResponse.json(
@@ -38,7 +31,7 @@ export async function GET() {
 			checks,
 			status: healthy ? "healthy" : "degraded",
 			timestamp: new Date().toISOString(),
-			version: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || "dev",
+			version: process.env.COMMIT_SHA?.slice(0, 7) || "dev",
 		},
 		{ status: healthy ? 200 : 503 },
 	);

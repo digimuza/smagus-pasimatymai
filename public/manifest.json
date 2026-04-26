@@ -4,13 +4,25 @@
 	"display": "standalone",
 	"icons": [
 		{
-			"purpose": "any maskable",
+			"purpose": "any",
 			"sizes": "192x192",
 			"src": "/icons/icon-192x192.png",
 			"type": "image/png"
 		},
 		{
-			"purpose": "any maskable",
+			"purpose": "maskable",
+			"sizes": "192x192",
+			"src": "/icons/icon-192x192.png",
+			"type": "image/png"
+		},
+		{
+			"purpose": "any",
+			"sizes": "512x512",
+			"src": "/icons/icon-512x512.png",
+			"type": "image/png"
+		},
+		{
+			"purpose": "maskable",
 			"sizes": "512x512",
 			"src": "/icons/icon-512x512.png",
 			"type": "image/png"
@@ -19,6 +31,6 @@
 	"name": "Santykių Klausimai",
 	"orientation": "portrait",
 	"short_name": "Santykiai",
-	"start_url": "/",
+	"start_url": "/?source=pwa",
 	"theme_color": "#c084fc"
 }

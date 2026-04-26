@@ -1,27 +1,23 @@
 import { NextResponse } from "next/server";
-import { getPayloadClient } from "@/lib/payload";
+import { db } from "@/drizzle/db";
+import { gameSessions, questionEvents } from "@/drizzle/schema";
 import { rateLimit } from "@/lib/rateLimit";
 import { analyticsBodySchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
 	const ip =
-		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-		"unknown";
-	const { success } = rateLimit(`analytics:${ip}`, {
-		windowMs: 60_000,
+		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+	const { success } = await rateLimit(`analytics:${ip}`, {
 		maxRequests: 30,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	try {
 		const body = await request.json();
 		const parsed = analyticsBodySchema.safeParse(body);
-
 		if (!parsed.success) {
 			return NextResponse.json(
 				{ error: parsed.error.flatten() },
@@ -30,79 +26,55 @@ export async function POST(request: Request) {
 		}
 
 		const { events, session } = parsed.data;
-		const payload = await getPayloadClient();
 
-		// Insert validated events
-		for (const event of events) {
-			await payload.create({
-				collection: "question-events",
-				data: {
+		if (events.length > 0) {
+			await db.insert(questionEvents).values(
+				events.map((event) => ({
 					eventType: event.eventType,
 					questionId:
 						typeof event.questionId === "number"
 							? event.questionId
-							: 0,
+							: parseInt(String(event.questionId), 10),
 					sessionId: event.sessionId,
-					timeSpent: event.timeSpent,
-					timestamp: event.timestamp,
-				},
-			});
+					timeSpent: event.timeSpent ?? null,
+					timestamp: new Date(event.timestamp),
+				})),
+			);
 		}
 
-		// Upsert session
 		if (session) {
-			const existing = await payload.find({
-				collection: "game-sessions",
-				limit: 1,
-				where: { sessionId: { equals: session.sessionId } },
-			});
-
-			const sessionData = {
-				audience: session.audience,
-				device: session.device,
-				endedAt: session.endedAt,
-				locale: session.locale,
-				questionsSkipped: session.questionsSkipped,
-				questionsViewed: session.questionsViewed,
-				sessionId: session.sessionId,
-				spicyCardsViewed: session.spicyCardsViewed,
-				startedAt: session.startedAt,
-			};
-
-			if (existing.docs.length > 0) {
-				await payload.update({
-					collection: "game-sessions",
-					data: sessionData,
-					id: existing.docs[0].id,
+			await db
+				.insert(gameSessions)
+				.values({
+					audience: (session.audience ?? null) as
+						| "romantic"
+						| "family"
+						| "kids"
+						| "friends"
+						| null,
+					device: session.device ?? null,
+					endedAt: session.endedAt ? new Date(session.endedAt) : null,
+					locale: (session.locale ?? null) as "lt" | "en" | null,
+					questionsSkipped: session.questionsSkipped,
+					questionsViewed: session.questionsViewed,
+					sessionId: session.sessionId,
+					spicyCardsViewed: session.spicyCardsViewed,
+					startedAt: new Date(session.startedAt),
+				})
+				.onConflictDoUpdate({
+					set: {
+						device: session.device ?? null,
+						endedAt: session.endedAt ? new Date(session.endedAt) : null,
+						questionsSkipped: session.questionsSkipped,
+						questionsViewed: session.questionsViewed,
+						spicyCardsViewed: session.spicyCardsViewed,
+						updatedAt: new Date(),
+					},
+					target: gameSessions.sessionId,
 				});
-			} else {
-				try {
-					await payload.create({
-						collection: "game-sessions",
-						data: sessionData,
-					});
-				} catch {
-					// Unique constraint race condition — fall back to update
-					const retry = await payload.find({
-						collection: "game-sessions",
-						limit: 1,
-						where: { sessionId: { equals: session.sessionId } },
-					});
-					if (retry.docs.length > 0) {
-						await payload.update({
-							collection: "game-sessions",
-							data: sessionData,
-							id: retry.docs[0].id,
-						});
-					}
-				}
-			}
 		}
 
-		return NextResponse.json({
-			eventsProcessed: events.length,
-			ok: true,
-		});
+		return NextResponse.json({ eventsProcessed: events.length, ok: true });
 	} catch (error) {
 		console.error("Analytics error:", error);
 		return NextResponse.json(

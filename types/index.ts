@@ -11,6 +11,7 @@ export interface Section {
 }
 
 export interface QuestionData {
+	hasMore: boolean;
 	sections: Section[];
 	title: string;
 	total_questions: number;
@@ -28,7 +29,9 @@ export interface AppState {
 	activeCategories: string[];
 	audience?: string | null;
 	currentQuestionId: number | null;
+	inviteToken?: string | null;
 	lastPlayed?: string;
+	pairedSessionId?: string | null;
 	questionStates: QuestionState[];
 	spicyCardsEnabled?: boolean;
 	spicyCardsRarity?: string;
@@ -40,17 +43,21 @@ export interface QuestionContextType {
 	answerQuestion: () => void;
 	audience: string | null;
 	availableQuestionsCount: number;
+	clearPairedSession: () => void;
 	currentQuestion: Question | null;
 	currentSpicyCard: import("./spicyCards").SpicyCard | null;
 	dismissSpicyCard: () => void;
 	enabledSpicyCardTypes: string[];
+	inviteToken: string | null;
 	isCategoryActive: (categoryName: string) => boolean;
 	isContentLimited: boolean;
+	pairedSessionId: string | null;
 	questionStates: QuestionState[];
 	questions: Question[];
 	resetProgress: () => void;
 	sections: Section[];
 	setAudience: (slug: string) => void;
+	setPairedSession: (sessionId: string, token: string) => void;
 	setShowPaywall: (show: boolean) => void;
 	showPaywall: boolean;
 	skipQuestion: () => void;
