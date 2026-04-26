@@ -176,7 +176,10 @@ test.describe("Swipe card gestures", () => {
 			.locator('[data-testid="question-count"]')
 			.textContent();
 		// "Questions left: N" — extract the trailing integer
-		const initialCount = parseInt((countText ?? "").match(/\d+/)?.[0] ?? "0");
+		const initialCount = parseInt(
+			(countText ?? "").match(/\d+/)?.[0] ?? "0",
+			10,
+		);
 		expect(initialCount).toBeGreaterThan(0);
 
 		await dragCard(page, "right");
@@ -187,7 +190,10 @@ test.describe("Swipe card gestures", () => {
 		const updatedText = await page
 			.locator('[data-testid="question-count"]')
 			.textContent();
-		const updatedCount = parseInt((updatedText ?? "").match(/\d+/)?.[0] ?? "0");
+		const updatedCount = parseInt(
+			(updatedText ?? "").match(/\d+/)?.[0] ?? "0",
+			10,
+		);
 
 		expect(updatedCount).toBe(initialCount - 1);
 	});
@@ -198,7 +204,10 @@ test.describe("Swipe card gestures", () => {
 		const countText = await page
 			.locator('[data-testid="question-count"]')
 			.textContent();
-		const initialCount = parseInt((countText ?? "").match(/\d+/)?.[0] ?? "0");
+		const initialCount = parseInt(
+			(countText ?? "").match(/\d+/)?.[0] ?? "0",
+			10,
+		);
 
 		await dragCard(page, "left");
 		await page
@@ -208,7 +217,10 @@ test.describe("Swipe card gestures", () => {
 		const updatedText = await page
 			.locator('[data-testid="question-count"]')
 			.textContent();
-		const updatedCount = parseInt((updatedText ?? "").match(/\d+/)?.[0] ?? "0");
+		const updatedCount = parseInt(
+			(updatedText ?? "").match(/\d+/)?.[0] ?? "0",
+			10,
+		);
 
 		// Skipped questions stay in the pool
 		expect(updatedCount).toBe(initialCount);
@@ -273,7 +285,7 @@ test.describe("Session tracking", () => {
 
 		const state = await getLocalState(page);
 		const entry = state?.questionStates?.find(
-			(q) => q.id === parseInt(questionId ?? "0"),
+			(q) => q.id === parseInt(questionId ?? "0", 10),
 		);
 		expect(entry?.status).toBe("answered");
 
@@ -282,7 +294,7 @@ test.describe("Session tracking", () => {
 		await page.waitForLoadState("networkidle");
 		const stateAfterReload = await getLocalState(page);
 		const entryAfterReload = stateAfterReload?.questionStates?.find(
-			(q) => q.id === parseInt(questionId ?? "0"),
+			(q) => q.id === parseInt(questionId ?? "0", 10),
 		);
 		expect(entryAfterReload?.status).toBe("answered");
 	});
@@ -301,7 +313,9 @@ test.describe("Session tracking", () => {
 		await page.goto("/en/awesome");
 		await page.waitForLoadState("networkidle");
 
-		await expect(page.getByText(questionText!, { exact: false })).toBeVisible();
+		await expect(
+			page.getByText(questionText ?? "", { exact: false }),
+		).toBeVisible();
 	});
 
 	test("superliked question does not reappear as the active swipe card", async ({
@@ -327,7 +341,7 @@ test.describe("Session tracking", () => {
 		// And the superliked ID must be in localStorage as excluded
 		const state = await getLocalState(page);
 		const superliked = state?.questionStates?.find(
-			(q) => q.id === parseInt(firstCardId ?? "0"),
+			(q) => q.id === parseInt(firstCardId ?? "0", 10),
 		);
 		expect(superliked?.status).toBe("superliked");
 	});
@@ -386,6 +400,7 @@ test.describe("Category filtering", () => {
 				(await page.locator('[data-testid="question-count"]').textContent()) ??
 				""
 			).match(/\d+/)?.[0] ?? "0",
+			10,
 		);
 		expect(countBefore).toBeGreaterThan(0);
 
@@ -413,6 +428,7 @@ test.describe("Category filtering", () => {
 				(await page.locator('[data-testid="question-count"]').textContent()) ??
 				""
 			).match(/\d+/)?.[0] ?? "0",
+			10,
 		);
 
 		expect(countAfter).toBeLessThan(countBefore);

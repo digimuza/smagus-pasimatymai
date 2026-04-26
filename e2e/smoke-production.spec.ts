@@ -95,6 +95,6 @@ test.describe("Production smoke tests", () => {
 			maxRedirects: 0,
 		});
 		expect([302, 307]).toContain(res.status());
-		expect(res.headers()["location"]).toContain("accounts.google.com");
+		expect(res.headers().location).toContain("accounts.google.com");
 	});
 });

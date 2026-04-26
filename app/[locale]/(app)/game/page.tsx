@@ -112,11 +112,12 @@ export default function GamePage() {
 				leftAction={
 					<button
 						aria-label={t("common.openMenu")}
-						className="text-text-muted transition-colors hover:text-text"
+						className="rounded text-text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 						onClick={() => setIsSidebarOpen(true)}
 						type="button"
 					>
 						<svg
+							aria-hidden="true"
 							className="h-8 w-8"
 							fill="none"
 							stroke="currentColor"
@@ -136,11 +137,12 @@ export default function GamePage() {
 						{superlikedQuestions.length > 0 && (
 							<button
 								aria-label={t("awesome.title")}
-								className="relative text-text-muted transition-colors hover:text-warning"
+								className="relative rounded text-text-muted transition-colors hover:text-warning focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warning"
 								onClick={() => router.push("/awesome")}
 								type="button"
 							>
 								<svg
+									aria-hidden="true"
 									className="h-6 w-6"
 									fill="currentColor"
 									viewBox="0 0 24 24"
@@ -185,22 +187,34 @@ export default function GamePage() {
 					</AnimatePresence>
 				</div>
 
-				<div className="grid w-full max-w-md grid-cols-3 gap-4 text-center text-sm">
+				<div
+					aria-label={t("game.keyboardHint")}
+					className="grid w-full max-w-md grid-cols-3 gap-4 text-center text-sm"
+					role="region"
+				>
 					<div className="space-y-1">
-						<div className="text-2xl text-accent">&larr;</div>
+						<div aria-hidden="true" className="text-2xl text-accent">
+							&larr;
+						</div>
 						<p className="text-text-muted">{t("game.skip")}</p>
 					</div>
 					<div className="space-y-1">
-						<div className="text-2xl text-primary-light">&uarr;</div>
+						<div aria-hidden="true" className="text-2xl text-primary-light">
+							&uarr;
+						</div>
 						<p className="text-text-muted">{t("game.super")}</p>
 					</div>
 					<div className="space-y-1">
-						<div className="text-2xl text-primary">&rarr;</div>
+						<div aria-hidden="true" className="text-2xl text-primary">
+							&rarr;
+						</div>
 						<p className="text-text-muted">{t("game.answered")}</p>
 					</div>
 				</div>
 
 				<div
+					aria-atomic="true"
+					aria-live="polite"
 					className="mt-8 text-sm text-text-dimmed"
 					data-testid="question-count"
 				>

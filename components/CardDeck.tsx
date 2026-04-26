@@ -104,7 +104,10 @@ function DeckSkeleton() {
 			style={{ zIndex: 20 }}
 		>
 			<div className="flex h-full items-center justify-center p-8">
-				<div aria-hidden="true" className="h-4 w-3/4 animate-pulse rounded-full bg-text/10" />
+				<div
+					aria-hidden="true"
+					className="h-4 w-3/4 animate-pulse rounded-full bg-text/10"
+				/>
 			</div>
 		</motion.div>
 	);

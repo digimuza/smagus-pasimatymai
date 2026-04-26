@@ -83,7 +83,8 @@
 		"accept": "Accept",
 		"learnMore": "Learn more",
 		"message": "We use cookies and local storage to improve your experience and collect anonymous usage analytics.",
-		"reject": "Reject"
+		"reject": "Reject",
+		"title": "Cookie consent"
 	},
 	"daily": {
 		"label": "Question of the day",
@@ -92,9 +93,11 @@
 	},
 	"game": {
 		"answered": "Answered",
+		"cardRoleDescription": "Question card. Use arrow keys to swipe: left to skip, right to answer, up for super.",
 		"deepQuestions": "{count} deep questions",
 		"difficultyIntimate": "Intimate",
 		"difficultySafe": "Safe",
+		"keyboardHint": "Arrow keys: ← Skip · → Answered · ↑ Super",
 		"remaining": "Questions left: {count}",
 		"skip": "Skip",
 		"spicyBadge": "🎲 Spicy Card",
@@ -103,9 +106,7 @@
 		"swipeAny": "Swipe in any direction",
 		"swipeDone": "DONE ✓",
 		"swipeSkip": "SKIP",
-		"swipeSuper": "⭐ SUPER",
-		"cardRoleDescription": "Question card. Use arrow keys to swipe: left to skip, right to answer, up for super.",
-		"keyboardHint": "Arrow keys: ← Skip · → Answered · ↑ Super"
+		"swipeSuper": "⭐ SUPER"
 	},
 	"landing": {
 		"bottomCta": {

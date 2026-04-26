@@ -43,11 +43,12 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 					<h2 className="font-light text-2xl text-primary">{t("title")}</h2>
 					<button
 						aria-label={tc("close")}
-						className="text-text-muted transition-colors hover:text-text"
+						className="rounded text-text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
 						onClick={onClose}
 						type="button"
 					>
 						<svg
+							aria-hidden="true"
 							className="h-6 w-6"
 							fill="none"
 							stroke="currentColor"
@@ -117,6 +118,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 						<span className="flex-1 text-left">{t("spicyCards")}</span>
 						{spicyCardsEnabled && (
 							<svg
+								aria-hidden="true"
 								className="h-5 w-5 text-green-500"
 								fill="none"
 								stroke="currentColor"

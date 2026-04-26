@@ -83,7 +83,8 @@
 		"accept": "Sutinku",
 		"learnMore": "Sužinoti daugiau",
 		"message": "Naudojame slapukus ir vietos saugyklą, kad pagerintume jūsų patirtį ir rinktume anoniminę naudojimo statistiką.",
-		"reject": "Nesutinku"
+		"reject": "Nesutinku",
+		"title": "Slapukų sutikimas"
 	},
 	"daily": {
 		"label": "Dienos klausimas",
@@ -92,9 +93,11 @@
 	},
 	"game": {
 		"answered": "Atsakyta",
+		"cardRoleDescription": "Klausimo kortelė. Naudokite rodyklių klavišus: kairyn — praleisti, dešinėn — atsakyta, aukštyn — super.",
 		"deepQuestions": "{count} gilių klausimų",
 		"difficultyIntimate": "Intimas",
 		"difficultySafe": "Saugus",
+		"keyboardHint": "Rodyklių klavišai: ← Praleisti · → Atsakyta · ↑ Super",
 		"remaining": "Liko klausimų: {count}",
 		"skip": "Praleisti",
 		"spicyBadge": "🎲 Spicy Card",
@@ -103,9 +106,7 @@
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
 		"swipeSkip": "PRALEISTI",
-		"swipeSuper": "⭐ SUPER",
-		"cardRoleDescription": "Klausimo kortelė. Naudokite rodyklių klavišus: kairyn — praleisti, dešinėn — atsakyta, aukštyn — super.",
-		"keyboardHint": "Rodyklių klavišai: ← Praleisti · → Atsakyta · ↑ Super"
+		"swipeSuper": "⭐ SUPER"
 	},
 	"landing": {
 		"bottomCta": {

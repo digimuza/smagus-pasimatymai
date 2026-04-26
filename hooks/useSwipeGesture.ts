@@ -2,9 +2,9 @@
 
 import { type PanInfo, useMotionValue, useTransform } from "framer-motion";
 import { useCallback, useState } from "react";
-import { classifySwipe } from "@/lib/gestureEngine";
-import type { SwipeDirection } from "@/lib/gestureEngine";
 import { SWIPE_THRESHOLD, SWIPE_VELOCITY_THRESHOLD } from "@/lib/constants";
+import type { SwipeDirection } from "@/lib/gestureEngine";
+import { classifySwipe } from "@/lib/gestureEngine";
 
 export type { SwipeDirection };
 
