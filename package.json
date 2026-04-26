@@ -5,6 +5,7 @@
 		"bcryptjs": "^3.0.3",
 		"drizzle-orm": "^0.45.2",
 		"framer-motion": "^12.34.3",
+		"ioredis": "^5.10.1",
 		"jose": "^6.2.2",
 		"next": "^15.5.12",
 		"next-intl": "^4.8.3",

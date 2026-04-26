@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	const { success } = rateLimit(`swipe:${player.id}`, {
+	const { success } = await rateLimit(`swipe:${player.id}`, {
 		maxRequests: 60,
 		windowMs: 60_000,
 	});

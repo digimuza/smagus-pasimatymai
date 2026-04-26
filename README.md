@@ -1,143 +1,166 @@
 # Santykių Klausimai
 
-Gilių klausimų žaidimas poroms - mobiliai pritaikyta web aplikacija su 546 klausimais.
+Relationship question card game for couples, families, and friends — a mobile-first web app in Lithuanian and English.
 
-## Technologijos
+## Tech Stack
 
-- **Next.js 14** - React framework su App Router
-- **TypeScript** - Tipų saugumas
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animacijos ir gestai
-- **PWA** - Progressive Web App palaikymas
+- **Next.js 15** (App Router) + **React 19**
+- **TypeScript** (strict)
+- **Tailwind CSS** + **Framer Motion**
+- **PostgreSQL** + **Drizzle ORM**
+- **Google OAuth** + **JWT** auth
+- **Stripe** payments
+- **next-intl** (Lithuanian + English)
+- **Vitest** (unit) + **Playwright** (E2E)
 
-## Pradėti darbą
+---
 
-1. Įdiekite priklausomybes:
-```bash
-npm install
-```
+## Local Development Setup
 
-2. Paleiskite development serverį:
-```bash
-npm run dev
-```
+### Prerequisites
 
-3. Atidarykite naršyklėje: [http://localhost:3000](http://localhost:3000)
+- **Node.js 20+** and **pnpm**
+- **Docker** (for local PostgreSQL)
 
-## Build production versija
+### 1. Install dependencies
 
 ```bash
-npm run build
-npm start
+pnpm install
 ```
 
-## Funkcijos
+### 2. Start the database
 
-### Pagrindinis žaidimas (/)
-- Tinder stiliaus kortelės su klausimais
-- Trys gestai:
-  - **← Kairėn:** Praleisti klausimą
-  - **→ Dešinėn:** Atsakyta į klausimą
-  - **↑ Aukštyn:** Super like - išsaugoti į mėgstamiausius
-- Haptinė grįžtamoji reakcija
-- 546 klausimai iš 14 kategorijų
-- **Spicy Cards** - užduočių kortelės, kurios pasirodo tarp klausimų
-
-### Kategorijų filtravimas
-- Atskiras puslapis visoms kategorijoms (/categories)
-- Šoninis meniu su visomis kategorijomis
-- Multi-select pasirinkimas
-- Minimaliai 1 kategorija turi būti pasirinkta
-- Real-time klausimų skaičiavimas
-- Vizualus kategorijų grupavimas (pagrindinės / intymios)
-
-### Super klausimai (/awesome)
-- Peržiūrėti išsaugotus mėgstamiausius klausimus
-- Navigacija tarp kortelių
-- Automatinis nukreipimas, kai baigiasi visi klausimai
-
-### Spicy Cards
-- **Užduočių kortelės** - įdomios užduotys ir iššūkiai tarp klausimų
-- **10 tipų kortelių:**
-  - 💋 Bučinys - romantiškos užduotys
-  - 🎯 Iššūkis - įdomūs iššūkiai porai
-  - 💝 Komplimentas - gražūs žodžiai
-  - 💆 Masažas - atsipalaidavimo užduotys
-  - 👋 Žaismingas - linksmos užduotys
-  - 🤫 Šnibždesys - intymūs šnabždesiai
-  - 🔥 Išdrįsk - drąsios užduotys
-  - 💭 Tiesa - atvirumo klausimai
-  - 🤗 Apkabinimas - šiltos užduotys
-  - 💃 Šokis - judesio užduotys
-- **Nustatymai:**
-  - Įjungti/išjungti spicy cards
-  - Nustatyti dažnumą (kas kiek klausimų)
-  - Pasirinkti norimus kortelių tipus
-- **30+ įvairių užduočių** visų tipų
-
-### Duomenų išsaugojimas
-- LocalStorage persistence
-- Įsimena atsakytus klausimus
-- Įsimena pasirinktas kategorijas
-- "Iš naujo pradėti" funkcionalumas
-
-## Kategorijos
-
-**Įjungtos pagal nutylėjimą (12):**
-- Apie vaikystę ir praeitį
-- Apie svajones ir ateitį
-- Apie baimes ir pažeidžiamumą
-- Apie meilę ir santykius
-- Apie vertybes ir tikėjimą
-- Apie asmenybę ir savęs pažinimą
-- Apie mus
-- Egzistenciniai klausimai
-- Hipotetiniai klausimai
-- Apie ryšį ir žmones
-- Apie prasmę ir gyvenimo klausimus
-- Apie jausmus ir vidinį pasaulį
-
-**Išjungtos pagal nutylėjimą (3):**
-- Intymūs klausimai
-- Gilūs intymūs klausimai
-- Atviri klausimai apie seksą
-
-## Projekto struktūra
-
-```
-santykiuklausimai/
-├── app/              # Next.js App Router puslapiai
-├── components/       # React komponentai
-├── context/          # React Context (būsenos valdymas)
-├── hooks/            # Custom React hooks
-├── lib/              # Utility funkcijos
-├── types/            # TypeScript tipai
-└── public/           # Statiniai failai (data.json, manifest.json)
+```bash
+docker compose up -d
 ```
 
-## PWA
+This starts PostgreSQL 16 on port **5433** with credentials `payload:payload` and database `santykiuklausimai`.
 
-Aplikacija veikia kaip Progressive Web App:
-- Offline palaikymas
-- Instaliuojama į namų ekraną
-- Optimizuota mobiliam
-- Tamsus režimas
+### 3. Configure environment variables
 
-### iPhone / iOS Vartotojams
+```bash
+cp .env.example .env.local
+```
 
-Fullscreen funkcija neveikia iOS Safari naršyklėje dėl Apple apribojimų.
+Edit `.env.local` and fill in:
 
-**Kaip gauti fullscreen patirtį iPhone:**
-1. Atidarykite svetainę Safari naršyklėje
-2. Paspauskite „Dalintis" mygtuką (kvadratas su rodykle)
-3. Pasirinkite „Pridėti prie pradinio ekrano"
-4. Atidarykite programėlę iš pradinio ekrano - ji veiks fullscreen režimu!
+| Variable | Where to get it |
+|---|---|
+| `DATABASE_URL` | Already set to local Docker URL — no change needed |
+| `STRIPE_SECRET_KEY` | [Stripe dashboard](https://dashboard.stripe.com/test/apikeys) — use **test** keys |
+| `STRIPE_PUBLISHABLE_KEY` | Same Stripe dashboard |
+| `STRIPE_WEBHOOK_SECRET` | Run `stripe listen --forward-to localhost:7743/api/stripe/webhook` |
+| `STRIPE_MONTHLY_PRICE_ID` | Create test prices in Stripe or copy from test environment |
+| `STRIPE_YEARLY_PRICE_ID` | Same as above |
+| `GOOGLE_CLIENT_ID` | [Google Cloud Console](https://console.cloud.google.com/) — OAuth 2.0 credentials |
+| `GOOGLE_CLIENT_SECRET` | Same Google Cloud Console project |
+| `GOOGLE_REDIRECT_URI` | Use `http://localhost:7743/api/auth/google/callback` for local dev |
+| `NEXT_PUBLIC_URL` | Already set to `http://localhost:7743` — no change needed |
 
-Fullscreen mygtukas veikia Android ir kompiuteryje.
+### 4. Run migrations
 
-## Dizainas
+```bash
+pnpm db:migrate
+```
 
-- **Tema:** Tamsus režimas su šiltomis/romantiškoms spalvomis
-- **Spalvos:** Violetiniai, rožiniai, šilti pilki tonai
-- **Mobile-first:** Optimizuota telefono ekranams
-- **Minimalus:** Dėmesys klausimams, be triukšmo
+Applies all pending Drizzle migrations from `drizzle/migrations/`.
+
+### 5. Seed the database (optional)
+
+```bash
+pnpm seed
+```
+
+Loads all question content (840+ questions, spicy cards, audiences).
+
+### 6. Start the dev server
+
+```bash
+pnpm dev
+```
+
+App runs at **http://localhost:7743**.
+
+---
+
+## Development Commands
+
+```bash
+pnpm dev            # Start dev server on :7743
+pnpm build          # Production build
+pnpm typecheck      # TypeScript check (no emit)
+pnpm lint           # Biome check + auto-fix
+pnpm lint:check     # Biome check only (CI mode)
+
+# Database
+pnpm db:migrate     # Run Drizzle migrations
+pnpm db:push        # Push schema without migration files (dev only)
+pnpm db:studio      # Open Drizzle Studio GUI
+pnpm seed           # Seed all question content
+
+# Testing
+pnpm test           # Vitest unit tests
+pnpm test:coverage  # Vitest with coverage report
+pnpm test:e2e       # Playwright E2E (all browsers)
+pnpm test:watch     # Vitest watch mode
+pnpm smoke          # Playwright smoke tests only (CI-ready)
+```
+
+---
+
+## Running E2E Tests Locally
+
+E2E tests use Playwright against a live dev server. Playwright auto-starts the dev server if it isn't already running.
+
+```bash
+# Full E2E suite (chromium + webkit)
+pnpm test:e2e
+
+# With interactive UI
+pnpm test:e2e:ui
+
+# Specific project
+pnpm test:e2e --project=chromium
+pnpm test:e2e --project=unauthenticated
+```
+
+**Auth setup:** E2E tests use stored auth state. The `setup` and `admin-setup` projects run first and write cookie state to `e2e/.auth/`. Make sure your local database is seeded with at least one user account matching the test credentials.
+
+**Note:** CI runs chromium only. Run the full suite locally before shipping a UI change.
+
+---
+
+## Project Structure
+
+```
+app/[locale]/          # Next.js App Router pages (i18n via next-intl)
+app/api/               # API route handlers
+components/            # Shared React components
+lib/                   # Pure business logic, utilities, DB queries
+  __tests__/           # Unit tests (Vitest)
+messages/              # i18n translation files (en.json, lt.json)
+scripts/               # One-off CLI scripts
+drizzle/
+  migrations/          # SQL migration files
+  schema/              # Drizzle schema definitions
+e2e/                   # Playwright E2E tests
+public/                # Static assets
+```
+
+---
+
+## CI Quality Gates
+
+All of the following must pass before merging to `main`:
+
+1. `pnpm lint:check` — zero Biome errors
+2. `pnpm typecheck` — zero TypeScript errors
+3. `pnpm build` — production build succeeds
+4. `pnpm test:coverage` — unit tests pass + coverage ≥ 60%
+5. `pnpm test:e2e` — all Playwright tests pass (chromium)
+
+---
+
+## i18n
+
+User-facing strings live in `messages/en.json` and `messages/lt.json`. Both files must be updated together — never leave a key missing in one locale.

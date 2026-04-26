@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 	}
 
-	const { success } = rateLimit(`checkout:${player.id}`, {
+	const { success } = await rateLimit(`checkout:${player.id}`, {
 		maxRequests: 5,
 		windowMs: 60_000,
 	});

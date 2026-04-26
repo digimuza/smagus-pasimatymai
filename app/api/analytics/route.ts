@@ -7,7 +7,7 @@ import { analyticsBodySchema } from "@/lib/schemas";
 export async function POST(request: Request) {
 	const ip =
 		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-	const { success } = rateLimit(`analytics:${ip}`, {
+	const { success } = await rateLimit(`analytics:${ip}`, {
 		maxRequests: 30,
 		windowMs: 60_000,
 	});

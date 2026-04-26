@@ -10,7 +10,7 @@ const GOOGLE_REDIRECT_URI =
 export async function GET(request: Request) {
 	const ip =
 		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-	const { success } = rateLimit(`oauth:${ip}`, {
+	const { success } = await rateLimit(`oauth:${ip}`, {
 		maxRequests: 10,
 		windowMs: 60_000,
 	});

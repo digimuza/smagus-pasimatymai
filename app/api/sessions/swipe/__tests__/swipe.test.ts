@@ -99,7 +99,10 @@ describe("POST /api/sessions/swipe", () => {
 		dbMocks.state.existingRecord = null;
 		dbMocks.state.selectResponses = [];
 		authMocks.getAuthPlayer.mockResolvedValue(PLAYER);
-		rateLimitMocks.rateLimit.mockReturnValue({ remaining: 59, success: true });
+		rateLimitMocks.rateLimit.mockResolvedValue({
+			remaining: 59,
+			success: true,
+		});
 	});
 
 	it("returns 401 when player is not authenticated", async () => {
@@ -116,7 +119,10 @@ describe("POST /api/sessions/swipe", () => {
 	});
 
 	it("returns 429 when the rate limit is exceeded", async () => {
-		rateLimitMocks.rateLimit.mockReturnValue({ remaining: 0, success: false });
+		rateLimitMocks.rateLimit.mockResolvedValue({
+			remaining: 0,
+			success: false,
+		});
 		const req = makePostRequest({
 			action: "skip",
 			audience: "romantic",
