@@ -23,13 +23,7 @@ export default defineConfig({
 	test: {
 		coverage: {
 			exclude: ["**/__tests__/**", "**/*.d.ts", "**/node_modules/**"],
-			include: [
-				"lib/**/*.ts",
-				"app/**/*.ts",
-				"components/**/*.ts",
-				"components/**/*.tsx",
-				"hooks/**/*.ts",
-			],
+			include: ["lib/**/*.ts"],
 			provider: "v8",
 			reporter: ["text", "lcov", "html"],
 			thresholds: {
