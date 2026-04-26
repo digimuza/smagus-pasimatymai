@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+	buildInviteUrl,
 	computeResults,
 	generateInviteToken,
 	isTokenExpired,
 } from "../pairedSession";
 
 describe("generateInviteToken", () => {
-	it("returns a non-empty string", () => {
-		expect(generateInviteToken().length).toBeGreaterThan(0);
+	it("produces a 10-character token", () => {
+		expect(generateInviteToken()).toHaveLength(10);
 	});
 
 	it("produces URL-safe characters only", () => {
@@ -19,6 +20,38 @@ describe("generateInviteToken", () => {
 	it("produces unique tokens each call", () => {
 		const tokens = new Set(Array.from({ length: 100 }, generateInviteToken));
 		expect(tokens.size).toBe(100);
+	});
+});
+
+describe("buildInviteUrl", () => {
+	it("uses NEXT_PUBLIC_APP_URL when set", () => {
+		const original = process.env.NEXT_PUBLIC_APP_URL;
+		process.env.NEXT_PUBLIC_APP_URL = "https://example.com";
+		try {
+			expect(buildInviteUrl("abc123")).toBe("https://example.com/join/abc123");
+		} finally {
+			process.env.NEXT_PUBLIC_APP_URL = original;
+		}
+	});
+
+	it("falls back to localhost when NEXT_PUBLIC_APP_URL is unset", () => {
+		const original = process.env.NEXT_PUBLIC_APP_URL;
+		delete process.env.NEXT_PUBLIC_APP_URL;
+		try {
+			expect(buildInviteUrl("tok")).toBe("http://localhost:7743/join/tok");
+		} finally {
+			process.env.NEXT_PUBLIC_APP_URL = original;
+		}
+	});
+
+	it("includes the token verbatim in the path", () => {
+		process.env.NEXT_PUBLIC_APP_URL = "https://app.test";
+		try {
+			const token = "aB3_x-Yz9";
+			expect(buildInviteUrl(token)).toContain(`/join/${token}`);
+		} finally {
+			delete process.env.NEXT_PUBLIC_APP_URL;
+		}
 	});
 });
 
@@ -61,6 +94,19 @@ describe("computeResults", () => {
 		expect(agreed).toHaveLength(1);
 	});
 
+	it("classifies superliked+superliked as agreed", () => {
+		const my = [{ questionId: 1, status: "superliked" as const }];
+		const partner = [{ questionId: 1, status: "superliked" as const }];
+		const { agreed, bothSkipped, disagreed } = computeResults(
+			my,
+			partner,
+			questions,
+		);
+		expect(agreed).toHaveLength(1);
+		expect(bothSkipped).toHaveLength(0);
+		expect(disagreed).toHaveLength(0);
+	});
+
 	it("classifies both skipped as bothSkipped", () => {
 		const my = [{ questionId: 3, status: "skipped" as const }];
 		const partner = [{ questionId: 3, status: "skipped" as const }];
@@ -78,6 +124,52 @@ describe("computeResults", () => {
 		expect(disagreed[0].partnerStatus).toBe("skipped");
 	});
 
+	it("classifies skipped+answered as disagreed", () => {
+		const my = [{ questionId: 1, status: "skipped" as const }];
+		const partner = [{ questionId: 1, status: "answered" as const }];
+		const { disagreed } = computeResults(my, partner, questions);
+		expect(disagreed).toHaveLength(1);
+		expect(disagreed[0].myStatus).toBe("skipped");
+		expect(disagreed[0].partnerStatus).toBe("answered");
+	});
+
+	it("classifies superliked+skipped as disagreed", () => {
+		const my = [{ questionId: 2, status: "superliked" as const }];
+		const partner = [{ questionId: 2, status: "skipped" as const }];
+		const { disagreed, agreed, bothSkipped } = computeResults(
+			my,
+			partner,
+			questions,
+		);
+		expect(disagreed).toHaveLength(1);
+		expect(agreed).toHaveLength(0);
+		expect(bothSkipped).toHaveLength(0);
+	});
+
+	it("correctly distributes multiple questions into all three buckets", () => {
+		const my = [
+			{ questionId: 1, status: "answered" as const },
+			{ questionId: 2, status: "skipped" as const },
+			{ questionId: 3, status: "answered" as const },
+		];
+		const partner = [
+			{ questionId: 1, status: "superliked" as const },
+			{ questionId: 2, status: "skipped" as const },
+			{ questionId: 3, status: "skipped" as const },
+		];
+		const { agreed, bothSkipped, disagreed } = computeResults(
+			my,
+			partner,
+			questions,
+		);
+		expect(agreed).toHaveLength(1);
+		expect(agreed[0].questionId).toBe(1);
+		expect(bothSkipped).toHaveLength(1);
+		expect(bothSkipped[0].questionId).toBe(2);
+		expect(disagreed).toHaveLength(1);
+		expect(disagreed[0].questionId).toBe(3);
+	});
+
 	it("skips questions the partner has not interacted with", () => {
 		const my = [
 			{ questionId: 1, status: "answered" as const },
@@ -86,6 +178,18 @@ describe("computeResults", () => {
 		const partner = [{ questionId: 1, status: "answered" as const }];
 		const { agreed } = computeResults(my, partner, questions);
 		expect(agreed).toHaveLength(1);
+	});
+
+	it("returns empty results when my progress is empty", () => {
+		const partner = [{ questionId: 1, status: "answered" as const }];
+		const { agreed, bothSkipped, disagreed } = computeResults(
+			[],
+			partner,
+			questions,
+		);
+		expect(agreed).toHaveLength(0);
+		expect(bothSkipped).toHaveLength(0);
+		expect(disagreed).toHaveLength(0);
 	});
 
 	it("attaches question text when available", () => {
@@ -103,7 +207,11 @@ describe("computeResults", () => {
 	});
 
 	it("returns empty results when both progress arrays are empty", () => {
-		const { agreed, bothSkipped, disagreed } = computeResults([], [], questions);
+		const { agreed, bothSkipped, disagreed } = computeResults(
+			[],
+			[],
+			questions,
+		);
 		expect(agreed).toHaveLength(0);
 		expect(bothSkipped).toHaveLength(0);
 		expect(disagreed).toHaveLength(0);
