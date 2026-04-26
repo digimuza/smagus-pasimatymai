@@ -53,6 +53,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		activeCategories: [] as string[],
 		audience: null as string | null,
 		currentQuestionId: null as number | null,
+		inviteToken: null as string | null,
+		pairedSessionId: null as string | null,
 		questionStates: [] as QuestionState[],
 		spicyCardsEnabled: DEFAULT_SPICY_SETTINGS.enabled,
 		spicyCardsRarity: DEFAULT_SPICY_SETTINGS.rarity as SpicyCardRarity,
@@ -526,6 +528,25 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		[setState],
 	);
 
+	const setPairedSession = useCallback(
+		(sessionId: string, token: string) => {
+			setState((prev) => ({
+				...prev,
+				inviteToken: token,
+				pairedSessionId: sessionId,
+			}));
+		},
+		[setState],
+	);
+
+	const clearPairedSession = useCallback(() => {
+		setState((prev) => ({
+			...prev,
+			inviteToken: null,
+			pairedSessionId: null,
+		}));
+	}, [setState]);
+
 	const resetProgress = useCallback(() => {
 		setState((prev) => ({
 			...prev,
@@ -545,18 +566,22 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		answerQuestion,
 		audience: state.audience || null,
 		availableQuestionsCount,
+		clearPairedSession,
 		currentQuestion,
 		currentSpicyCard,
 		dismissSpicyCard,
 		enabledSpicyCardTypes: (state.spicyCardTypes ||
 			DEFAULT_SPICY_SETTINGS.enabledTypes) as string[],
+		inviteToken: state.inviteToken ?? null,
 		isCategoryActive,
 		isContentLimited,
+		pairedSessionId: state.pairedSessionId ?? null,
 		questionStates: state.questionStates,
 		questions: allQuestions,
 		resetProgress,
 		sections: questionData?.sections || [],
 		setAudience,
+		setPairedSession,
 		setShowPaywall,
 		showPaywall,
 		skipQuestion,

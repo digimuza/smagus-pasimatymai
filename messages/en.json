@@ -97,7 +97,11 @@
 		"deepQuestions": "{count} deep questions",
 		"difficultyIntimate": "Intimate",
 		"difficultySafe": "Safe",
+		"invitePartner": "Invite partner",
 		"keyboardHint": "Arrow keys: ← Skip · → Answered · ↑ Super",
+		"partnerConnected": "Partner connected",
+		"partnerFinished": "Partner finished",
+		"partnerOnline": "Partner online",
 		"remaining": "Questions left: {count}",
 		"skip": "Skip",
 		"spicyBadge": "🎲 Spicy Card",
@@ -106,7 +110,17 @@
 		"swipeAny": "Swipe in any direction",
 		"swipeDone": "DONE ✓",
 		"swipeSkip": "SKIP",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"waitingForPartner": "Waiting for partner…"
+	},
+	"joinSession": {
+		"expired": "This invite link has expired.",
+		"join": "Join session",
+		"loading": "Loading…",
+		"networkError": "Something went wrong. Please try again.",
+		"ownLink": "You can't join your own session.",
+		"pageTitle": "Join session",
+		"title": "{name} has invited you to play"
 	},
 	"landing": {
 		"bottomCta": {
@@ -207,6 +221,26 @@
 	"metadata": {
 		"description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration.",
 		"title": "Relationship Questions — Conversation game for couples, family & friends"
+	},
+	"notifications": {
+		"daily": "Daily",
+		"enable": "Enable reminders",
+		"frequency": "Reminder frequency",
+		"frequencyDescription": "Get a daily or weekly nudge to play together",
+		"later": "Maybe later",
+		"off": "Off",
+		"permissionDenied": "Notifications are blocked in your browser settings",
+		"promptBody": "Get a daily or weekly reminder to start a new question session together.",
+		"promptTitle": "Stay connected 💜",
+		"weekly": "Weekly"
+	},
+	"pairingResults": {
+		"agreed": "Agreed",
+		"bothSkipped": "Both skipped",
+		"disagreed": "Disagreed",
+		"playMore": "Play more",
+		"share": "Share results",
+		"title": "Your results"
 	},
 	"payments": {
 		"feature": {

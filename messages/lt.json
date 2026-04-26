@@ -97,7 +97,11 @@
 		"deepQuestions": "{count} gilių klausimų",
 		"difficultyIntimate": "Intimas",
 		"difficultySafe": "Saugus",
+		"invitePartner": "Pakviesti partnerį",
 		"keyboardHint": "Rodyklių klavišai: ← Praleisti · → Atsakyta · ↑ Super",
+		"partnerConnected": "Partneris prisijungė",
+		"partnerFinished": "Partneris baigė",
+		"partnerOnline": "Partneris prisijungęs",
 		"remaining": "Liko klausimų: {count}",
 		"skip": "Praleisti",
 		"spicyBadge": "🎲 Spicy Card",
@@ -106,7 +110,17 @@
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
 		"swipeSkip": "PRALEISTI",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"waitingForPartner": "Laukiama partnerio…"
+	},
+	"joinSession": {
+		"expired": "Šis pakvietimo nuoroda nebegalioja.",
+		"join": "Prisijungti prie sesijos",
+		"loading": "Kraunama…",
+		"networkError": "Įvyko klaida. Bandykite dar kartą.",
+		"ownLink": "Negalite prisijungti prie savo pačių sesijos.",
+		"pageTitle": "Prisijungti prie sesijos",
+		"title": "{name} pakvietė jus žaisti"
 	},
 	"landing": {
 		"bottomCta": {
@@ -207,6 +221,26 @@
 	"metadata": {
 		"description": "500+ gilių klausimų, kurie privers juoktis, raudonuoti ir pamilti iš naujo. Žaiskite poroms, šeimai ar draugams. Nemokama, be registracijos.",
 		"title": "Santykių Klausimai — Pokalbių žaidimas poroms, šeimai ir draugams"
+	},
+	"notifications": {
+		"daily": "Kasdien",
+		"enable": "Įjungti priminimus",
+		"frequency": "Priminimų dažnumas",
+		"frequencyDescription": "Gaukite dienos ar savaitės priminimą žaisti kartu",
+		"later": "Gal vėliau",
+		"off": "Išjungta",
+		"permissionDenied": "Pranešimai užblokuoti naršyklės nustatymuose",
+		"promptBody": "Gaukite dienos ar savaitės priminimą kartu pradėti naują klausimų sesiją.",
+		"promptTitle": "Palaikykite ryšį 💜",
+		"weekly": "Kas savaitę"
+	},
+	"pairingResults": {
+		"agreed": "Sutarėte",
+		"bothSkipped": "Abu praleido",
+		"disagreed": "Nesutarėte",
+		"playMore": "Žaisti daugiau",
+		"share": "Dalintis rezultatais",
+		"title": "Jūsų rezultatai"
 	},
 	"payments": {
 		"feature": {
