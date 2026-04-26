@@ -280,6 +280,8 @@
 		"title": "Privatumo politika"
 	},
 	"profile": {
+		"categoryBadgeLabel": "Baigta",
+		"completedCategories": "Baigtos kategorijos",
 		"dangerZone": "Pavojinga zona",
 		"deleteButton": "Ištrinti paskyrą",
 		"deleteConfirmPlaceholder": "Įveskite el. paštą",
@@ -287,6 +289,17 @@
 		"deleting": "Trinama...",
 		"emailProvider": "El. pašto paskyra",
 		"logout": "Atsijungti",
+		"milestones": {
+			"achieved": "Pasiekimas!",
+			"questions10": "Atsakėte 10 klausimų!",
+			"questions100": "Atsakėte 100 klausimų!",
+			"questions50": "Atsakėte 50 klausimų!",
+			"streak30": "30 dienų serija! Nuostabiai!",
+			"streak7": "7 dienų serija! Tęskite!"
+		},
+		"statsBestStreak": "Rekordas",
+		"statsCurrentStreak": "Serija",
+		"statsSessions": "Seansai",
 		"statsAnswered": "Atsakyta",
 		"statsSuperliked": "Super",
 		"statsTotal": "Iš viso",
@@ -298,6 +311,20 @@
 		"iosMessage": "Norėdami pridėti programą prie pagrindinio ekrano: paspauskite „Dalintis” mygtuką, tada „Pridėti prie pagrindinio ekrano”.",
 		"message": "Įdiekite programą ir žaiskite be interneto, bet kuriuo metu.",
 		"title": "Įdiegti Santykių Klausimai"
+	},
+	"sessionResults": {
+		"answered": "Atsakyta",
+		"copied": "Nuoroda nukopijuota!",
+		"copy": "Kopijuoti nuorodą",
+		"playAgain": "Žaisti vėl",
+		"shareButton": "Dalintis",
+		"shareMessage": "Mes ką tik atsakėme {count} klausimų kartu! 💜",
+		"shareTitle": "Santykių Klausimai — Sesija baigta!",
+		"skipped": "Praleista",
+		"subtitle": "Puikus pokalbis!",
+		"superliked": "Super klausimai",
+		"title": "Sesija baigta! 🎉",
+		"viewFavorites": "Super klausimai"
 	},
 	"settings": {
 		"backToGame": "Grįžti į žaidimą",

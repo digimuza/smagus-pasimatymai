@@ -19,20 +19,20 @@ import { AUDIENCE_DEFAULTS } from "@/types/audience";
 export default function GamePage() {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	const {
+		activeCategories,
+		answerQuestion,
+		audience,
+		availableQuestionsCount,
 		currentQuestion,
 		currentSpicyCard,
-		skipQuestion,
-		answerQuestion,
-		superlikeQuestion,
 		dismissSpicyCard,
-		availableQuestionsCount,
-		audience,
 		isContentLimited,
-		showPaywall,
-		setShowPaywall,
-		sections,
-		activeCategories,
 		questionStates,
+		sections,
+		setShowPaywall,
+		showPaywall,
+		skipQuestion,
+		superlikeQuestion,
 		superlikedQuestions,
 	} = useQuestions();
 	const { vibrate } = useHaptic();
@@ -60,13 +60,29 @@ export default function GamePage() {
 			if (isContentLimited) {
 				setShowPaywall(true);
 			} else {
-				router.push("/awesome");
+				const answeredCount = questionStates.filter(
+					(qs) => qs.status === "answered",
+				).length;
+				const superlikedCount = questionStates.filter(
+					(qs) => qs.status === "superliked",
+				).length;
+				const skippedCount = questionStates.filter(
+					(qs) => qs.status === "skipped",
+				).length;
+				const params = new URLSearchParams({
+					answered: String(answeredCount),
+					audience,
+					skipped: String(skippedCount),
+					superliked: String(superlikedCount),
+				});
+				router.push(`/session-results?${params.toString()}`);
 			}
 		}
 	}, [
 		audience,
 		availableQuestionsCount,
 		isContentLimited,
+		questionStates,
 		setShowPaywall,
 		router,
 	]);

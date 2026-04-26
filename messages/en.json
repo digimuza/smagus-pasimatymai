@@ -280,6 +280,8 @@
 		"title": "Privacy Policy"
 	},
 	"profile": {
+		"categoryBadgeLabel": "Complete",
+		"completedCategories": "Completed categories",
 		"dangerZone": "Danger zone",
 		"deleteButton": "Delete account",
 		"deleteConfirmPlaceholder": "Enter your email",
@@ -287,6 +289,17 @@
 		"deleting": "Deleting...",
 		"emailProvider": "Email account",
 		"logout": "Sign out",
+		"milestones": {
+			"achieved": "Milestone reached!",
+			"questions10": "You answered 10 questions!",
+			"questions100": "You answered 100 questions!",
+			"questions50": "You answered 50 questions!",
+			"streak30": "30-day streak! Incredible!",
+			"streak7": "7-day streak! Keep it up!"
+		},
+		"statsBestStreak": "Best",
+		"statsCurrentStreak": "Streak",
+		"statsSessions": "Sessions",
 		"statsAnswered": "Answered",
 		"statsSuperliked": "Super",
 		"statsTotal": "Total",
@@ -298,6 +311,20 @@
 		"iosMessage": "To add this app to your home screen: tap the Share button, then tap \"Add to Home Screen\".",
 		"message": "Install the app and play offline, anytime.",
 		"title": "Install Santykių Klausimai"
+	},
+	"sessionResults": {
+		"answered": "Answered",
+		"copied": "Link copied!",
+		"copy": "Copy link",
+		"playAgain": "Play Again",
+		"shareButton": "Share",
+		"shareMessage": "We just answered {count} questions together! 💜",
+		"shareTitle": "Relationship Questions — Session Complete!",
+		"skipped": "Skipped",
+		"subtitle": "Great conversation!",
+		"superliked": "Super Questions",
+		"title": "Session Complete! 🎉",
+		"viewFavorites": "View Super Questions"
 	},
 	"settings": {
 		"backToGame": "Back to game",
