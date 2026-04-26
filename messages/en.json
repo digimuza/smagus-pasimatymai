@@ -292,15 +292,15 @@
 		"milestones": {
 			"achieved": "Milestone reached!",
 			"questions10": "You answered 10 questions!",
-			"questions100": "You answered 100 questions!",
 			"questions50": "You answered 50 questions!",
-			"streak30": "30-day streak! Incredible!",
-			"streak7": "7-day streak! Keep it up!"
+			"questions100": "You answered 100 questions!",
+			"streak7": "7-day streak! Keep it up!",
+			"streak30": "30-day streak! Incredible!"
 		},
+		"statsAnswered": "Answered",
 		"statsBestStreak": "Best",
 		"statsCurrentStreak": "Streak",
 		"statsSessions": "Sessions",
-		"statsAnswered": "Answered",
 		"statsSuperliked": "Super",
 		"statsTotal": "Total",
 		"title": "Profile"

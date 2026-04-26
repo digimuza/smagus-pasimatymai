@@ -1,13 +1,36 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import type { PlayerStats } from "@/app/api/stats/me/route";
 import { SubscriptionBadge } from "@/components/payments/SubscriptionBadge";
-import { Button, Header } from "@/components/ui";
+import type { ToastMessage } from "@/components/ui";
+import { Button, Header, Toaster } from "@/components/ui";
 import { useAuth } from "@/context/AuthContext";
-import { useQuestions } from "@/context/QuestionContext";
 import { useRouter } from "@/i18n/navigation";
+import { detectNewMilestones } from "@/lib/milestones";
 import { isPremium } from "@/lib/subscription";
+
+const SEEN_MILESTONES_KEY = "seen_milestones_v1";
+
+function getSeenMilestones(): Set<string> {
+	try {
+		const raw = localStorage.getItem(SEEN_MILESTONES_KEY);
+		return new Set(raw ? (JSON.parse(raw) as string[]) : []);
+	} catch {
+		return new Set();
+	}
+}
+
+function markMilestonesAsSeen(ids: string[]): void {
+	try {
+		const seen = getSeenMilestones();
+		for (const id of ids) seen.add(id);
+		localStorage.setItem(SEEN_MILESTONES_KEY, JSON.stringify([...seen]));
+	} catch {
+		// ignore storage errors
+	}
+}
 
 export default function ProfilePage() {
 	const t = useTranslations("profile");
@@ -15,10 +38,50 @@ export default function ProfilePage() {
 	const { player, subscription, logout, isAuthenticated, isLoading } =
 		useAuth();
 	const tp = useTranslations("payments");
-	const { questionStates } = useQuestions();
 	const router = useRouter();
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [deleteConfirm, setDeleteConfirm] = useState("");
+	const [stats, setStats] = useState<PlayerStats | null>(null);
+	const [toasts, setToasts] = useState<ToastMessage[]>([]);
+
+	const dismissToast = useCallback((id: string) => {
+		setToasts((prev) => prev.filter((item) => item.id !== id));
+	}, []);
+
+	const playerId = player?.id;
+
+	useEffect(() => {
+		if (!playerId) return;
+
+		fetch("/api/stats/me", { credentials: "include" })
+			.then((r) => (r.ok ? r.json() : null))
+			.then((data: PlayerStats | null) => {
+				if (!data) return;
+				setStats(data);
+
+				const seen = getSeenMilestones();
+				const hits = detectNewMilestones(data, seen);
+				if (hits.length === 0) return;
+
+				const milestoneMessages: Record<string, string> = {
+					q10: t("milestones.questions10"),
+					q50: t("milestones.questions50"),
+					q100: t("milestones.questions100"),
+					s7: t("milestones.streak7"),
+					s30: t("milestones.streak30"),
+				};
+
+				const newToasts: ToastMessage[] = hits.map((hit) => ({
+					description: milestoneMessages[hit.id] ?? "",
+					id: hit.id,
+					title: t("milestones.achieved"),
+				}));
+
+				markMilestonesAsSeen(hits.map((h) => h.id));
+				setToasts(newToasts);
+			})
+			.catch(() => {});
+	}, [playerId, t]);
 
 	if (isLoading) {
 		return (
@@ -33,25 +96,16 @@ export default function ProfilePage() {
 		return null;
 	}
 
-	const stats = {
-		answered: questionStates.filter((q) => q.status === "answered").length,
-		skipped: questionStates.filter((q) => q.status === "skipped").length,
-		superliked: questionStates.filter((q) => q.status === "superliked").length,
-		total: questionStates.length,
-	};
-
 	const handleDelete = async () => {
 		if (deleteConfirm !== player.email) return;
 		setIsDeleting(true);
 
 		try {
-			// Delete all progress
 			await fetch("/api/progress", {
 				credentials: "include",
 				method: "DELETE",
 			});
 
-			// Delete player account
 			await fetch(`/api/players/${player.id}`, {
 				credentials: "include",
 				method: "DELETE",
@@ -104,11 +158,11 @@ export default function ProfilePage() {
 					</div>
 				</div>
 
-				{/* Stats */}
+				{/* Stats — questions */}
 				<div className="grid grid-cols-3 gap-3">
 					<div className="rounded-xl bg-background-lighter p-4 text-center">
 						<p className="font-semibold text-2xl text-primary">
-							{stats.answered}
+							{stats?.totalAnswered ?? "—"}
 						</p>
 						<p className="mt-1 text-text-dimmed text-xs">
 							{t("statsAnswered")}
@@ -116,7 +170,7 @@ export default function ProfilePage() {
 					</div>
 					<div className="rounded-xl bg-background-lighter p-4 text-center">
 						<p className="font-semibold text-2xl text-accent">
-							{stats.superliked}
+							{stats?.totalSuperliked ?? "—"}
 						</p>
 						<p className="mt-1 text-text-dimmed text-xs">
 							{t("statsSuperliked")}
@@ -124,11 +178,52 @@ export default function ProfilePage() {
 					</div>
 					<div className="rounded-xl bg-background-lighter p-4 text-center">
 						<p className="font-semibold text-2xl text-text-muted">
-							{stats.total}
+							{stats?.totalSessions ?? "—"}
 						</p>
-						<p className="mt-1 text-text-dimmed text-xs">{t("statsTotal")}</p>
+						<p className="mt-1 text-text-dimmed text-xs">
+							{t("statsSessions")}
+						</p>
 					</div>
 				</div>
+
+				{/* Stats — streaks */}
+				<div className="grid grid-cols-2 gap-3">
+					<div className="rounded-xl bg-background-lighter p-4 text-center">
+						<p className="font-semibold text-2xl text-primary">
+							{stats?.currentStreak ?? "—"} 🔥
+						</p>
+						<p className="mt-1 text-text-dimmed text-xs">
+							{t("statsCurrentStreak")}
+						</p>
+					</div>
+					<div className="rounded-xl bg-background-lighter p-4 text-center">
+						<p className="font-semibold text-2xl text-accent">
+							{stats?.bestStreak ?? "—"} ⭐
+						</p>
+						<p className="mt-1 text-text-dimmed text-xs">
+							{t("statsBestStreak")}
+						</p>
+					</div>
+				</div>
+
+				{/* Completed category badges */}
+				{stats && stats.completedCategories.length > 0 && (
+					<div className="rounded-2xl bg-background-lighter p-4">
+						<h3 className="mb-3 font-semibold text-sm text-text">
+							{t("completedCategories")}
+						</h3>
+						<div className="flex flex-wrap gap-2">
+							{stats.completedCategories.map((cat) => (
+								<span
+									className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 font-medium text-primary text-xs"
+									key={cat.id}
+								>
+									✓ {cat.name}
+								</span>
+							))}
+						</div>
+					</div>
+				)}
 
 				{/* Actions */}
 				<div className="space-y-3">
@@ -185,6 +280,8 @@ export default function ProfilePage() {
 					</Button>
 				</div>
 			</div>
+
+			<Toaster onDismiss={dismissToast} toasts={toasts} />
 		</div>
 	);
 }

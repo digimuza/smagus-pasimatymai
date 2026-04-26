@@ -292,15 +292,15 @@
 		"milestones": {
 			"achieved": "Pasiekimas!",
 			"questions10": "Atsakėte 10 klausimų!",
-			"questions100": "Atsakėte 100 klausimų!",
 			"questions50": "Atsakėte 50 klausimų!",
-			"streak30": "30 dienų serija! Nuostabiai!",
-			"streak7": "7 dienų serija! Tęskite!"
+			"questions100": "Atsakėte 100 klausimų!",
+			"streak7": "7 dienų serija! Tęskite!",
+			"streak30": "30 dienų serija! Nuostabiai!"
 		},
+		"statsAnswered": "Atsakyta",
 		"statsBestStreak": "Rekordas",
 		"statsCurrentStreak": "Serija",
 		"statsSessions": "Seansai",
-		"statsAnswered": "Atsakyta",
 		"statsSuperliked": "Super",
 		"statsTotal": "Iš viso",
 		"title": "Profilis"

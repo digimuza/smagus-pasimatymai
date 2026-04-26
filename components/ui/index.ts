@@ -7,4 +7,6 @@ export { Header } from "./Header";
 export { PageContent, PageLayout } from "./PageLayout";
 export { Select } from "./Select";
 export { Sheet } from "./Sheet";
+export type { ToastMessage } from "./Toast";
+export { Toaster } from "./Toast";
 export { Toggle } from "./Toggle";

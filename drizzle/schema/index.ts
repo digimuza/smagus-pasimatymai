@@ -8,6 +8,7 @@ import {
 	text,
 	timestamp,
 	uniqueIndex,
+	uuid,
 } from "drizzle-orm/pg-core";
 
 // Enums
@@ -55,6 +56,11 @@ export const rarityEnum = pgEnum("rarity", [
 	"medium",
 	"frequent",
 	"ultra",
+]);
+export const reminderFrequencyEnum = pgEnum("reminder_frequency", [
+	"daily",
+	"weekly",
+	"off",
 ]);
 
 // =====================
@@ -243,9 +249,14 @@ export const gameSessions = pgTable("game_sessions", {
 	endedAt: timestamp("ended_at"),
 	id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
 	locale: localeEnum("locale"),
+	pairedSessionId: integer("paired_session_id").references(
+		() => pairedSessions.id,
+		{ onDelete: "set null" },
+	),
 	playerId: integer("player_id").references(() => players.id, {
 		onDelete: "set null",
 	}),
+	playerRole: text("player_role", { enum: ["initiator", "partner"] }),
 	questionsSkipped: integer("questions_skipped").default(0),
 	questionsViewed: integer("questions_viewed").default(0),
 	sessionId: text("session_id").notNull().unique(),
@@ -270,6 +281,59 @@ export const questionEvents = pgTable(
 		index("qe_event_type_idx").on(t.eventType),
 		index("qe_session_id_idx").on(t.sessionId),
 		index("qe_question_event_idx").on(t.questionId, t.eventType),
+	],
+);
+
+// =====================
+// PAIRED SESSIONS
+// =====================
+
+export const pairedSessions = pgTable(
+	"paired_sessions",
+	{
+		audience: audienceEnum("audience").notNull(),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		expiresAt: timestamp("expires_at").notNull(),
+		id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+		initiatorPlayerId: integer("initiator_player_id")
+			.notNull()
+			.references(() => players.id, { onDelete: "cascade" }),
+		inviteToken: text("invite_token").notNull().unique(),
+		locale: localeEnum("locale").notNull(),
+		partnerPlayerId: integer("partner_player_id").references(() => players.id, {
+			onDelete: "set null",
+		}),
+		status: text("status", {
+			enum: ["pending", "active", "completed"],
+		})
+			.notNull()
+			.default("pending"),
+		updatedAt: timestamp("updated_at").defaultNow().notNull(),
+	},
+	(t) => [index("ps_initiator_idx").on(t.initiatorPlayerId)],
+);
+
+// =====================
+// PUSH SUBSCRIPTIONS
+// =====================
+
+export const pushSubscriptions = pgTable(
+	"push_subscriptions",
+	{
+		auth: text("auth").notNull(),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		endpoint: text("endpoint").notNull(),
+		frequency: reminderFrequencyEnum("frequency").default("daily").notNull(),
+		id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+		locale: localeEnum("locale").default("lt").notNull(),
+		p256dh: text("p256dh").notNull(),
+		playerId: integer("player_id")
+			.notNull()
+			.references(() => players.id, { onDelete: "cascade" }),
+		updatedAt: timestamp("updated_at").defaultNow().notNull(),
+	},
+	(t) => [
+		uniqueIndex("push_subs_player_endpoint_unique").on(t.playerId, t.endpoint),
 	],
 );
 
@@ -300,3 +364,5 @@ export type PlayerProgressRecord = typeof playerProgress.$inferSelect;
 export type GameSession = typeof gameSessions.$inferSelect;
 export type QuestionEvent = typeof questionEvents.$inferSelect;
 export type StripeEvent = typeof stripeEvents.$inferSelect;
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type PairedSession = typeof pairedSessions.$inferSelect;
