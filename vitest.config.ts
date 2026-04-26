@@ -23,7 +23,12 @@ export default defineConfig({
 	test: {
 		coverage: {
 			exclude: ["**/__tests__/**", "**/*.d.ts", "**/node_modules/**"],
-			include: ["lib/**/*.ts"],
+			include: [
+				"lib/**/*.ts",
+				"hooks/useSwipeGesture.ts",
+				"components/SwipeCard.tsx",
+				"components/CardDeck.tsx",
+			],
 			provider: "v8",
 			reporter: ["text", "lcov", "html"],
 			thresholds: {
