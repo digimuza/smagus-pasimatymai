@@ -7,6 +7,9 @@ export default defineConfig({
 	resolve: {
 		alias: [
 			{
+				// WHY: next-intl imports next/navigation at module evaluation time,
+				// which doesn't resolve in jsdom. Redirect to a stub so component
+				// tests can load without the Next.js runtime.
 				find: /^next\/navigation$/,
 				replacement: resolve(__dirname, "__mocks__/next-navigation.ts"),
 			},
@@ -40,11 +43,10 @@ export default defineConfig({
 		include: ["**/__tests__/**/*.test.{ts,tsx}"],
 		server: {
 			deps: {
-				// Keep next-intl and next external so Vite doesn't try to bundle
-				// them; component tests mock these at the vi.mock() level.
-				// WHY: next-intl imports next/navigation at module evaluation time
-				// which fails in jsdom — mocking before bundling avoids the error.
-				external: [/node_modules\/next/, /node_modules\/next-intl/],
+				// WHY: next-intl imports next/navigation at evaluation time. Inlining
+				// it through Vite lets the alias above redirect next/navigation to our
+				// stub before Node.js resolution runs (which would fail in jsdom).
+				inline: [/next-intl/],
 			},
 		},
 		setupFiles: ["./vitest.setup.ts"],
