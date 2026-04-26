@@ -17,7 +17,7 @@ interface CardDeckProps {
 // Visual offsets for each ghost layer (index 0 = directly behind current)
 const GHOST_LAYERS = [
 	{ opacity: 0.65, scale: 0.95, translateY: 8, zIndex: 10 },
-	{ opacity: 0.45, scale: 0.90, translateY: 16, zIndex: 5 },
+	{ opacity: 0.45, scale: 0.9, translateY: 16, zIndex: 5 },
 	{ opacity: 0.28, scale: 0.85, translateY: 24, zIndex: 0 },
 ];
 
@@ -30,9 +30,18 @@ function GhostCard({ question, depth }: GhostCardProps) {
 	const layer = GHOST_LAYERS[depth] ?? GHOST_LAYERS[GHOST_LAYERS.length - 1];
 	return (
 		<motion.div
-			animate={{ opacity: layer.opacity, scale: layer.scale, y: layer.translateY }}
+			animate={{
+				opacity: layer.opacity,
+				scale: layer.scale,
+				y: layer.translateY,
+			}}
+			aria-hidden="true"
 			className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-background-light to-background-lighter px-8 py-12 shadow-md"
-			initial={{ opacity: layer.opacity, scale: layer.scale, y: layer.translateY }}
+			initial={{
+				opacity: layer.opacity,
+				scale: layer.scale,
+				y: layer.translateY,
+			}}
 			style={{ zIndex: layer.zIndex }}
 		>
 			<p className="line-clamp-3 text-balance text-center font-light text-lg text-text/40 leading-relaxed">
@@ -59,16 +68,16 @@ export function CardDeck({
 			{/* Stacked ghost cards (rendered back to front) */}
 			{[...ghosts].reverse().map((q, reverseIdx) => {
 				const depth = ghosts.length - 1 - reverseIdx;
-				return <GhostCard key={q.id} depth={depth} question={q} />;
+				return <GhostCard depth={depth} key={q.id} question={q} />;
 			})}
 
 			{/* Active question card */}
 			<AnimatePresence mode="wait">
 				{question ? (
 					<SwipeCard
-						key={question.id}
 						category={category}
 						difficulty={difficulty}
+						key={question.id}
 						onSwipeLeft={onSwipeLeft}
 						onSwipeRight={onSwipeRight}
 						onSwipeUp={onSwipeUp}
@@ -86,13 +95,16 @@ function DeckSkeleton() {
 	return (
 		<motion.div
 			animate={{ opacity: 1 }}
+			aria-busy="true"
+			aria-label="Loading question"
 			className="absolute inset-0 rounded-2xl bg-gradient-to-br from-background-light to-background-lighter"
 			exit={{ opacity: 0 }}
 			initial={{ opacity: 0 }}
+			role="status"
 			style={{ zIndex: 20 }}
 		>
 			<div className="flex h-full items-center justify-center p-8">
-				<div className="h-4 w-3/4 animate-pulse rounded-full bg-text/10" />
+				<div aria-hidden="true" className="h-4 w-3/4 animate-pulse rounded-full bg-text/10" />
 			</div>
 		</motion.div>
 	);

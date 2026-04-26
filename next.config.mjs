@@ -24,22 +24,35 @@ const withPWA = withPWAInit({
 			},
 			urlPattern: /\/api\/game-data/,
 		},
+		{
+			handler: "StaleWhileRevalidate",
+			options: {
+				cacheName: "static-assets",
+				expiration: {
+					maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
+					maxEntries: 64,
+				},
+			},
+			urlPattern: /\.(png|jpg|jpeg|svg|gif|webp|ico|woff2?|ttf|otf)$/,
+		},
+		{
+			handler: "NetworkFirst",
+			options: {
+				cacheName: "pages-cache",
+				expiration: {
+					maxAgeSeconds: 60 * 60 * 24, // 24 hours
+					maxEntries: 32,
+				},
+				networkTimeoutSeconds: 10,
+			},
+			urlPattern: /^\/(lt|en)?\//,
+		},
 	],
 	skipWaiting: true,
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	async redirects() {
-		return [
-			{
-				destination: "https://santykiuklausimai.lt/:path*",
-				has: [{ type: "host", value: "www.santykiuklausimai.lt" }],
-				permanent: true,
-				source: "/:path*",
-			},
-		];
-	},
 	async headers() {
 		return [
 			{
@@ -80,6 +93,16 @@ const nextConfig = {
 	},
 	output: "standalone",
 	reactStrictMode: true,
+	async redirects() {
+		return [
+			{
+				destination: "https://santykiuklausimai.lt/:path*",
+				has: [{ type: "host", value: "www.santykiuklausimai.lt" }],
+				permanent: true,
+				source: "/:path*",
+			},
+		];
+	},
 };
 
 export default withBundleAnalyzer(withNextIntl(withPWA(nextConfig)));

@@ -77,10 +77,9 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		const audience = state.audience;
 		const localProgress = state.questionStates;
 
-		fetch(
-			`/api/sessions/swipe?audience=${encodeURIComponent(audience)}`,
-			{ credentials: "include" },
-		)
+		fetch(`/api/sessions/swipe?audience=${encodeURIComponent(audience)}`, {
+			credentials: "include",
+		})
 			.then((res) => res.json())
 			.then(
 				(data: {
@@ -152,7 +151,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 					}).catch(() => {});
 				}
 			});
-	}, [isAuthenticated, state.audience, setState]);
+	}, [isAuthenticated, state.audience, state.questionStates, setState]);
 
 	// Load question data from API (gated on audience selection)
 	useEffect(() => {

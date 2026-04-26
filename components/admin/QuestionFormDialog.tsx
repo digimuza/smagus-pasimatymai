@@ -16,17 +16,22 @@ type QuestionData = {
 
 interface Props {
 	categories: Category[];
-	/** When provided the dialog opens in edit mode. */
-	question?: QuestionData;
+	onClose: () => void;
 	/** Controlled open state. */
 	open: boolean;
-	onClose: () => void;
+	/** When provided the dialog opens in edit mode. */
+	question?: QuestionData;
 }
 
 const AUDIENCES = ["romantic", "family", "kids", "friends"] as const;
 const LOCALES = ["lt", "en"] as const;
 
-export function QuestionFormDialog({ categories, question, open, onClose }: Props) {
+export function QuestionFormDialog({
+	categories,
+	question,
+	open,
+	onClose,
+}: Props) {
 	const router = useRouter();
 	const [error, setError] = useState<string | null>(null);
 	const [saving, setSaving] = useState(false);
@@ -43,21 +48,21 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 
 		const fd = new FormData(e.currentTarget);
 		const body = {
-			question: (fd.get("question") as string).trim(),
-			categoryId: Number(fd.get("categoryId")),
 			audience: fd.get("audience") as string,
-			status: fd.get("status") as string,
+			categoryId: Number(fd.get("categoryId")),
 			locale: fd.get("locale") as string,
+			question: (fd.get("question") as string).trim(),
+			status: fd.get("status") as string,
 		};
 
 		try {
 			const url = isEdit
-				? `/api/admin/questions/${question!.id}`
+				? `/api/admin/questions/${question?.id}`
 				: "/api/admin/questions";
 			const res = await fetch(url, {
-				method: isEdit ? "PATCH" : "POST",
-				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(body),
+				headers: { "Content-Type": "application/json" },
+				method: isEdit ? "PATCH" : "POST",
 			});
 
 			if (!res.ok) {
@@ -77,41 +82,56 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 
 	return (
 		<div
+			aria-modal="true"
 			className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-			onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+			onClick={(e) => {
+				if (e.target === e.currentTarget) onClose();
+			}}
+			onKeyDown={(e) => {
+				if (e.key === "Escape") onClose();
+			}}
+			role="dialog"
 		>
 			<div className="w-full max-w-lg rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-2xl">
-				<h2 className="mb-5 text-base font-semibold text-gray-100">
+				<h2 className="mb-5 font-semibold text-base text-gray-100">
 					{isEdit ? "Edit question" : "New question"}
 				</h2>
 
-				<form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+				<form className="space-y-4" onSubmit={handleSubmit} ref={formRef}>
 					<div>
-						<label className="mb-1.5 block text-xs font-medium text-gray-400 uppercase tracking-wider">
+						<label
+							className="mb-1.5 block font-medium text-gray-400 text-xs uppercase tracking-wider"
+							htmlFor="qfd-question"
+						>
 							Question text
 						</label>
 						<textarea
-							name="question"
-							required
+							className="w-full resize-none rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-gray-100 text-sm placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
 							defaultValue={question?.question ?? ""}
-							rows={3}
-							className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 placeholder-gray-500 focus:border-indigo-500 focus:outline-none resize-none"
+							id="qfd-question"
+							name="question"
 							placeholder="Enter question text…"
+							required
+							rows={3}
 						/>
 					</div>
 
 					<div className="grid grid-cols-2 gap-3">
 						<div>
-							<label className="mb-1.5 block text-xs font-medium text-gray-400 uppercase tracking-wider">
+							<label
+								className="mb-1.5 block font-medium text-gray-400 text-xs uppercase tracking-wider"
+								htmlFor="qfd-category"
+							>
 								Category
 							</label>
 							<select
+								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-gray-100 text-sm focus:border-indigo-500 focus:outline-none"
+								defaultValue={question?.categoryId ?? ""}
+								id="qfd-category"
 								name="categoryId"
 								required
-								defaultValue={question?.categoryId ?? ""}
-								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
 							>
-								<option value="" disabled>
+								<option disabled value="">
 									Select…
 								</option>
 								{categories.map((c) => (
@@ -123,13 +143,17 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 						</div>
 
 						<div>
-							<label className="mb-1.5 block text-xs font-medium text-gray-400 uppercase tracking-wider">
+							<label
+								className="mb-1.5 block font-medium text-gray-400 text-xs uppercase tracking-wider"
+								htmlFor="qfd-audience"
+							>
 								Audience
 							</label>
 							<select
-								name="audience"
+								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-gray-100 text-sm focus:border-indigo-500 focus:outline-none"
 								defaultValue={question?.audience ?? "romantic"}
-								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+								id="qfd-audience"
+								name="audience"
 							>
 								{AUDIENCES.map((a) => (
 									<option key={a} value={a}>
@@ -140,13 +164,17 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 						</div>
 
 						<div>
-							<label className="mb-1.5 block text-xs font-medium text-gray-400 uppercase tracking-wider">
+							<label
+								className="mb-1.5 block font-medium text-gray-400 text-xs uppercase tracking-wider"
+								htmlFor="qfd-status"
+							>
 								Status
 							</label>
 							<select
-								name="status"
+								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-gray-100 text-sm focus:border-indigo-500 focus:outline-none"
 								defaultValue={question?.status ?? "published"}
-								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+								id="qfd-status"
+								name="status"
 							>
 								<option value="published">Published</option>
 								<option value="draft">Draft</option>
@@ -154,13 +182,17 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 						</div>
 
 						<div>
-							<label className="mb-1.5 block text-xs font-medium text-gray-400 uppercase tracking-wider">
+							<label
+								className="mb-1.5 block font-medium text-gray-400 text-xs uppercase tracking-wider"
+								htmlFor="qfd-locale"
+							>
 								Locale
 							</label>
 							<select
-								name="locale"
+								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-gray-100 text-sm focus:border-indigo-500 focus:outline-none"
 								defaultValue={question?.locale ?? "lt"}
-								className="w-full rounded-md border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-gray-100 focus:border-indigo-500 focus:outline-none"
+								id="qfd-locale"
+								name="locale"
 							>
 								{LOCALES.map((l) => (
 									<option key={l} value={l}>
@@ -172,23 +204,23 @@ export function QuestionFormDialog({ categories, question, open, onClose }: Prop
 					</div>
 
 					{error && (
-						<p className="rounded-md bg-red-900/40 border border-red-700 px-3 py-2 text-sm text-red-300">
+						<p className="rounded-md border border-red-700 bg-red-900/40 px-3 py-2 text-red-300 text-sm">
 							{error}
 						</p>
 					)}
 
 					<div className="flex justify-end gap-3 pt-1">
 						<button
-							type="button"
+							className="rounded-md border border-gray-700 px-4 py-2 text-gray-400 text-sm transition-colors hover:text-white"
 							onClick={onClose}
-							className="rounded-md border border-gray-700 px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+							type="button"
 						>
 							Cancel
 						</button>
 						<button
-							type="submit"
+							className="rounded-md bg-indigo-600 px-4 py-2 font-medium text-sm transition-colors hover:bg-indigo-500 disabled:opacity-50"
 							disabled={saving}
-							className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium hover:bg-indigo-500 disabled:opacity-50 transition-colors"
+							type="submit"
 						>
 							{saving ? "Saving…" : isEdit ? "Save changes" : "Create question"}
 						</button>

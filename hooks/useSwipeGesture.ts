@@ -2,9 +2,11 @@
 
 import { type PanInfo, useMotionValue, useTransform } from "framer-motion";
 import { useCallback, useState } from "react";
+import { classifySwipe } from "@/lib/gestureEngine";
+import type { SwipeDirection } from "@/lib/gestureEngine";
 import { SWIPE_THRESHOLD, SWIPE_VELOCITY_THRESHOLD } from "@/lib/constants";
 
-export type SwipeDirection = "left" | "right" | "up" | "down";
+export type { SwipeDirection };
 
 export interface SwipeGestureOptions {
 	enabledDirections?: SwipeDirection[];
@@ -17,40 +19,6 @@ export interface SwipeGestureOptions {
 }
 
 const EXIT_DISTANCE = 500;
-
-function classifySwipe(
-	offset: { x: number; y: number },
-	velocity: { x: number; y: number },
-	threshold: number,
-	velocityThreshold: number,
-	enabledDirections: SwipeDirection[],
-): SwipeDirection | null {
-	if (
-		enabledDirections.includes("up") &&
-		(offset.y < -threshold || velocity.y < -velocityThreshold)
-	) {
-		return "up";
-	}
-	if (
-		enabledDirections.includes("down") &&
-		(offset.y > threshold || velocity.y > velocityThreshold)
-	) {
-		return "down";
-	}
-	if (
-		enabledDirections.includes("left") &&
-		(offset.x < -threshold || velocity.x < -velocityThreshold)
-	) {
-		return "left";
-	}
-	if (
-		enabledDirections.includes("right") &&
-		(offset.x > threshold || velocity.x > velocityThreshold)
-	) {
-		return "right";
-	}
-	return null;
-}
 
 export function useSwipeGesture({
 	onSwipeLeft,
@@ -101,13 +69,16 @@ export function useSwipeGesture({
 
 	const isDismissed = exitX !== 0 || exitY !== 0;
 
-	const triggerSwipe = useCallback((direction: SwipeDirection) => {
-		if (!enabledDirections.includes(direction)) return;
-		if (direction === "up") setExitY(-EXIT_DISTANCE);
-		else if (direction === "down") setExitY(EXIT_DISTANCE);
-		else if (direction === "left") setExitX(-EXIT_DISTANCE);
-		else setExitX(EXIT_DISTANCE);
-	}, [enabledDirections]);
+	const triggerSwipe = useCallback(
+		(direction: SwipeDirection) => {
+			if (!enabledDirections.includes(direction)) return;
+			if (direction === "up") setExitY(-EXIT_DISTANCE);
+			else if (direction === "down") setExitY(EXIT_DISTANCE);
+			else if (direction === "left") setExitX(-EXIT_DISTANCE);
+			else setExitX(EXIT_DISTANCE);
+		},
+		[enabledDirections],
+	);
 
 	return {
 		cardOpacity,

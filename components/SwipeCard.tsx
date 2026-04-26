@@ -25,13 +25,21 @@ export function SwipeCard({
 	onSwipeUp,
 }: SwipeCardProps) {
 	const t = useTranslations("game");
-	const { dragHandlers, exitAnimate, isDismissed, x, y, rotateZ, cardOpacity, triggerSwipe } =
-		useSwipeGesture({
-			enabledDirections: ["left", "right", "up"],
-			onSwipeLeft,
-			onSwipeRight,
-			onSwipeUp,
-		});
+	const {
+		dragHandlers,
+		exitAnimate,
+		isDismissed,
+		x,
+		y,
+		rotateZ,
+		cardOpacity,
+		triggerSwipe,
+	} = useSwipeGesture({
+		enabledDirections: ["left", "right", "up"],
+		onSwipeLeft,
+		onSwipeRight,
+		onSwipeUp,
+	});
 
 	// Colour overlays: red=skip, green=answer, yellow=super
 	const skipOverlayOpacity = useTransform(x, [-150, -50], [0.45, 0]);
@@ -49,31 +57,43 @@ export function SwipeCard({
 		<motion.div
 			{...dragHandlers}
 			animate={isDismissed ? (exitAnimate ?? undefined) : cardSwipe.animate}
-			className="absolute inset-0 cursor-grab overflow-hidden rounded-2xl bg-gradient-to-br from-background-light to-background-lighter shadow-lg active:cursor-grabbing"
+			aria-label={question.question}
+			aria-roledescription={t("cardRoleDescription")}
+			className="absolute inset-0 cursor-grab overflow-hidden rounded-2xl bg-gradient-to-br from-background-light to-background-lighter shadow-lg active:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
 			data-question-id={question.id}
 			data-testid="swipe-card"
 			initial={cardSwipe.initial}
 			key={question.id}
+			onKeyDown={(e) => {
+				if (e.key === "ArrowLeft") triggerSwipe("left");
+				else if (e.key === "ArrowRight") triggerSwipe("right");
+				else if (e.key === "ArrowUp") triggerSwipe("up");
+			}}
+			role="article"
 			style={{ opacity: cardOpacity, rotateZ, x, y, zIndex: 20 }}
+			tabIndex={0}
 			transition={cardSwipe.transition}
 		>
-			{/* Directional colour overlays */}
+			{/* Directional colour overlays — decorative, hidden from assistive tech */}
 			<motion.div
+				aria-hidden="true"
 				className="pointer-events-none absolute inset-0 rounded-2xl"
 				style={{ backgroundColor: "#fb7185", opacity: skipOverlayOpacity }}
 			/>
 			<motion.div
+				aria-hidden="true"
 				className="pointer-events-none absolute inset-0 rounded-2xl"
 				style={{ backgroundColor: "#34d399", opacity: answerOverlayOpacity }}
 			/>
 			<motion.div
+				aria-hidden="true"
 				className="pointer-events-none absolute inset-0 rounded-2xl"
 				style={{ backgroundColor: "#fbbf24", opacity: superOverlayOpacity }}
 			/>
 
 			{/* Category and difficulty badges */}
 			{hasBadges && (
-				<div className="absolute top-4 left-4 right-4 flex items-center justify-between">
+				<div className="absolute top-4 right-4 left-4 flex items-center justify-between">
 					{category ? (
 						<Badge size="sm" variant="default">
 							{category}
@@ -105,8 +125,9 @@ export function SwipeCard({
 				</p>
 			</div>
 
-			{/* Swipe direction labels */}
+			{/* Swipe direction labels — decorative, hidden from assistive tech */}
 			<motion.div
+				aria-hidden="true"
 				className="absolute top-8 left-8 rotate-[-15deg] font-bold text-accent text-xl"
 				style={{ opacity: leftLabelOpacity }}
 			>
@@ -114,6 +135,7 @@ export function SwipeCard({
 			</motion.div>
 
 			<motion.div
+				aria-hidden="true"
 				className="absolute top-8 right-8 rotate-[15deg] font-bold text-success text-xl"
 				style={{ opacity: rightLabelOpacity }}
 			>
@@ -121,6 +143,7 @@ export function SwipeCard({
 			</motion.div>
 
 			<motion.div
+				aria-hidden="true"
 				className="absolute bottom-8 left-1/2 -translate-x-1/2 font-bold text-warning text-xl"
 				style={{ opacity: upLabelOpacity }}
 			>
@@ -130,12 +153,12 @@ export function SwipeCard({
 			{/* Star tap button — alternative to swipe up */}
 			<motion.button
 				aria-label={t("swipeSuper")}
-				className="absolute bottom-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-background/40 text-warning/60 backdrop-blur-sm transition-colors hover:bg-background/60 hover:text-warning active:scale-95"
+				className="absolute right-4 bottom-4 flex h-9 w-9 items-center justify-center rounded-full bg-background/40 text-warning/60 backdrop-blur-sm transition-colors hover:bg-background/60 hover:text-warning active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warning"
 				onClick={() => triggerSwipe("up")}
 				onPointerDown={(e) => e.stopPropagation()}
 				type="button"
 			>
-				<svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+				<svg aria-hidden="true" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
 					<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 				</svg>
 			</motion.button>

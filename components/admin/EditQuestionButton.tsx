@@ -14,8 +14,8 @@ type QuestionData = {
 };
 
 interface Props {
-	question: QuestionData;
 	categories: Category[];
+	question: QuestionData;
 }
 
 export function EditQuestionButton({ question, categories }: Props) {
@@ -24,16 +24,17 @@ export function EditQuestionButton({ question, categories }: Props) {
 	return (
 		<>
 			<button
+				className="rounded-md border border-gray-700 px-3 py-1.5 text-gray-300 text-sm transition-colors hover:border-gray-500 hover:text-white"
 				onClick={() => setOpen(true)}
-				className="rounded-md border border-gray-700 px-3 py-1.5 text-sm text-gray-300 hover:border-gray-500 hover:text-white transition-colors"
+				type="button"
 			>
 				Edit
 			</button>
 			<QuestionFormDialog
 				categories={categories}
-				question={question}
-				open={open}
 				onClose={() => setOpen(false)}
+				open={open}
+				question={question}
 			/>
 		</>
 	);

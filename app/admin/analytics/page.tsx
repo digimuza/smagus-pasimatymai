@@ -1,9 +1,9 @@
 import { sql } from "drizzle-orm";
-import { db } from "@/drizzle/db";
 import AnalyticsDashboard, {
 	type DateRange,
 	type QuestionStat,
 } from "@/components/admin/AnalyticsDashboard";
+import { db } from "@/drizzle/db";
 
 interface SearchParams {
 	range?: string;
@@ -26,12 +26,12 @@ async function getQuestionStats(range: DateRange): Promise<QuestionStat[]> {
 	const dateFilter = since ? sql`AND e.timestamp >= ${since}` : sql``;
 
 	interface Row {
+		answers: unknown;
 		id: unknown;
 		question: unknown;
-		views: unknown;
 		skips: unknown;
-		answers: unknown;
 		superlikes: unknown;
+		views: unknown;
 	}
 
 	const rows = await db.execute(sql`
@@ -55,8 +55,8 @@ async function getQuestionStats(range: DateRange): Promise<QuestionStat[]> {
 		const answers = Number(r.answers) || 0;
 		const superlikes = Number(r.superlikes) || 0;
 		return {
-			answers,
 			answerRate: views > 0 ? Math.round((answers / views) * 100) : 0,
+			answers,
 			id: Number(r.id),
 			question: String(r.question),
 			skipRate: views > 0 ? Math.round((skips / views) * 100) : 0,
@@ -76,5 +76,5 @@ export default async function AnalyticsPage({
 	const range = parseRange(params.range);
 	const data = await getQuestionStats(range);
 
-	return <AnalyticsDashboard data={data} currentRange={range} />;
+	return <AnalyticsDashboard currentRange={range} data={data} />;
 }

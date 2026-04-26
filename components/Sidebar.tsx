@@ -143,7 +143,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 							variant="secondary"
 						>
 							<span className="flex-1 text-left">{t("viewFavorites")}</span>
-							<span className="text-text-dimmed text-sm">
+							<span className="text-sm text-text-dimmed">
 								{superlikedQuestions.length}
 							</span>
 						</Button>

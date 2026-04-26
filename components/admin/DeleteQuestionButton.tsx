@@ -44,21 +44,23 @@ export function DeleteQuestionButton({ questionId, redirectAfter }: Props) {
 	if (confirming) {
 		return (
 			<div className="flex items-center gap-2">
-				<span className="text-sm text-gray-400">Delete this question?</span>
+				<span className="text-gray-400 text-sm">Delete this question?</span>
 				<button
-					onClick={handleDelete}
+					className="rounded-md bg-red-700 px-3 py-1.5 font-medium text-sm text-white transition-colors hover:bg-red-600 disabled:opacity-50"
 					disabled={deleting}
-					className="rounded-md bg-red-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50 transition-colors"
+					onClick={handleDelete}
+					type="button"
 				>
 					{deleting ? "Deleting…" : "Yes, delete"}
 				</button>
 				<button
+					className="rounded-md border border-gray-700 px-3 py-1.5 text-gray-400 text-sm transition-colors hover:text-white"
 					onClick={() => setConfirming(false)}
-					className="rounded-md border border-gray-700 px-3 py-1.5 text-sm text-gray-400 hover:text-white transition-colors"
+					type="button"
 				>
 					Cancel
 				</button>
-				{error && <span className="text-sm text-red-400">{error}</span>}
+				{error && <span className="text-red-400 text-sm">{error}</span>}
 			</div>
 		);
 	}
@@ -66,12 +68,13 @@ export function DeleteQuestionButton({ questionId, redirectAfter }: Props) {
 	return (
 		<>
 			<button
+				className="rounded-md border border-red-800 px-3 py-1.5 text-red-400 text-sm transition-colors hover:bg-red-900/30 hover:text-red-300"
 				onClick={() => setConfirming(true)}
-				className="rounded-md border border-red-800 px-3 py-1.5 text-sm text-red-400 hover:bg-red-900/30 hover:text-red-300 transition-colors"
+				type="button"
 			>
 				Delete
 			</button>
-			{error && <span className="ml-2 text-sm text-red-400">{error}</span>}
+			{error && <span className="ml-2 text-red-400 text-sm">{error}</span>}
 		</>
 	);
 }

@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from "next/server";
 import { and, eq } from "drizzle-orm";
+import { type NextRequest, NextResponse } from "next/server";
 import { db } from "@/drizzle/db";
 import { playerProgress } from "@/drizzle/schema";
 import { getAuthPlayer } from "@/lib/auth";
@@ -23,7 +23,10 @@ export async function POST(req: NextRequest) {
 	const body = await req.json();
 	const parsed = swipeActionSchema.safeParse(body);
 	if (!parsed.success) {
-		return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+		return NextResponse.json(
+			{ error: parsed.error.flatten() },
+			{ status: 400 },
+		);
 	}
 
 	const { questionId, action, audience, timestamp } = parsed.data;

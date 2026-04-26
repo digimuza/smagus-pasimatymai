@@ -33,16 +33,16 @@
 		"noAccount": "Don't have an account?",
 		"or": "or",
 		"passwordPlaceholder": "Password",
+		"privacyLink": "Privacy Policy",
+		"privacyNotice": "By creating an account, you agree to our",
 		"profile": "Profile",
 		"registerButton": "Create account",
 		"registerLink": "Create account",
 		"registerSubtitle": "Create an account and never lose your progress",
 		"registerTitle": "Create account",
-		"privacyNotice": "By creating an account, you agree to our",
-		"privacyLink": "Privacy Policy",
 		"submitting": "Please wait...",
-		"tosConsentNotice": "By continuing, you agree to our",
-		"tosConsentAnd": "and"
+		"tosConsentAnd": "and",
+		"tosConsentNotice": "By continuing, you agree to our"
 	},
 	"awesome": {
 		"empty": "All questions done!",
@@ -93,17 +93,19 @@
 	"game": {
 		"answered": "Answered",
 		"deepQuestions": "{count} deep questions",
+		"difficultyIntimate": "Intimate",
+		"difficultySafe": "Safe",
 		"remaining": "Questions left: {count}",
 		"skip": "Skip",
 		"spicyBadge": "🎲 Spicy Card",
 		"super": "Super",
-		"difficultySafe": "Safe",
-		"difficultyIntimate": "Intimate",
 		"swipeAnswered": "ANSWERED",
 		"swipeAny": "Swipe in any direction",
 		"swipeDone": "DONE ✓",
 		"swipeSkip": "SKIP",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"cardRoleDescription": "Question card. Use arrow keys to swipe: left to skip, right to answer, up for super.",
+		"keyboardHint": "Arrow keys: ← Skip · → Answered · ↑ Super"
 	},
 	"landing": {
 		"bottomCta": {
@@ -288,6 +290,13 @@
 		"statsSuperliked": "Super",
 		"statsTotal": "Total",
 		"title": "Profile"
+	},
+	"pwaInstall": {
+		"dismiss": "Not now",
+		"install": "Install",
+		"iosMessage": "To add this app to your home screen: tap the Share button, then tap \"Add to Home Screen\".",
+		"message": "Install the app and play offline, anytime.",
+		"title": "Install Santykių Klausimai"
 	},
 	"settings": {
 		"backToGame": "Back to game",

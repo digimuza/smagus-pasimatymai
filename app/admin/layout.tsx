@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifyToken } from "@/lib/auth";
 import { db } from "@/drizzle/db";
 import { players } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
+import { verifyToken } from "@/lib/auth";
 
 const COOKIE_NAME = "auth-token";
 
@@ -45,20 +45,20 @@ export default async function AdminLayout({
 
 	return (
 		<div className="min-h-screen bg-gray-950 text-gray-100">
-			<nav className="border-b border-gray-800 bg-gray-900 px-6 py-4">
+			<nav className="border-gray-800 border-b bg-gray-900 px-6 py-4">
 				<div className="mx-auto flex max-w-7xl items-center gap-6">
-					<span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+					<span className="font-semibold text-gray-400 text-sm uppercase tracking-wider">
 						Admin
 					</span>
 					<a
+						className="text-gray-300 text-sm transition-colors hover:text-white"
 						href="/admin/questions"
-						className="text-sm text-gray-300 hover:text-white transition-colors"
 					>
 						Questions
 					</a>
 					<a
+						className="text-gray-300 text-sm transition-colors hover:text-white"
 						href="/admin/analytics"
-						className="text-sm text-gray-300 hover:text-white transition-colors"
 					>
 						Analytics
 					</a>

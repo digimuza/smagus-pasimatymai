@@ -1,6 +1,5 @@
+import { eq, sql } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
-import { sql } from "drizzle-orm";
-import { eq } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import { players } from "@/drizzle/schema";
 import { verifyToken } from "@/lib/auth";
@@ -33,12 +32,12 @@ async function isAdminRequest(req: NextRequest): Promise<boolean> {
 }
 
 interface QuestionStatRow {
+	answers: unknown;
 	id: unknown;
 	question: unknown;
-	views: unknown;
 	skips: unknown;
-	answers: unknown;
 	superlikes: unknown;
+	views: unknown;
 }
 
 export async function GET(req: NextRequest) {
@@ -79,8 +78,8 @@ export async function GET(req: NextRequest) {
 		const answers = Number(r.answers) || 0;
 		const superlikes = Number(r.superlikes) || 0;
 		return {
-			answers,
 			answerRate: views > 0 ? Math.round((answers / views) * 100) : 0,
+			answers,
 			id: Number(r.id),
 			question: String(r.question),
 			skipRate: views > 0 ? Math.round((skips / views) * 100) : 0,

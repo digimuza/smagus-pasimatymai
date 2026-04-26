@@ -24,7 +24,11 @@ export async function GET(request: Request) {
 				.from(subscriptions)
 				.where(eq(subscriptions.playerId, player.id))
 				.limit(1);
-			if (sub) subscription = { plan: sub.plan ?? "free", status: sub.status ?? "active" };
+			if (sub)
+				subscription = {
+					plan: sub.plan ?? "free",
+					status: sub.status ?? "active",
+				};
 		}
 
 		const { searchParams } = new URL(request.url);

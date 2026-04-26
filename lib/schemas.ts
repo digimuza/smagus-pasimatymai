@@ -71,4 +71,7 @@ export const ACTION_TO_STATUS = {
 	answer: "answered",
 	skip: "skipped",
 	superlike: "superliked",
-} as const satisfies Record<(typeof VALID_SWIPE_ACTIONS)[number], (typeof VALID_STATUSES)[number]>;
+} as const satisfies Record<
+	(typeof VALID_SWIPE_ACTIONS)[number],
+	(typeof VALID_STATUSES)[number]
+>;

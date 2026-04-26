@@ -126,9 +126,13 @@ export function getPreviewQuestions(
 	excludeId: number,
 	count: number,
 ): Question[] {
-	const categoryQuestions = getQuestionsByCategories(sections, activeCategories);
-	const available = getAvailableQuestions(categoryQuestions, questionStates).filter(
-		(q) => q.id !== excludeId,
+	const categoryQuestions = getQuestionsByCategories(
+		sections,
+		activeCategories,
 	);
+	const available = getAvailableQuestions(
+		categoryQuestions,
+		questionStates,
+	).filter((q) => q.id !== excludeId);
 	return available.slice(0, count);
 }

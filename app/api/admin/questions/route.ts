@@ -5,11 +5,11 @@ import { questions } from "@/drizzle/schema";
 import { requireAdminApi } from "@/lib/adminAuth";
 
 const CreateSchema = z.object({
-	question: z.string().min(1),
-	categoryId: z.number().int().positive(),
 	audience: z.enum(["romantic", "family", "kids", "friends"]),
-	status: z.enum(["draft", "published"]).default("published"),
+	categoryId: z.number().int().positive(),
 	locale: z.enum(["lt", "en"]).default("lt"),
+	question: z.string().min(1),
+	status: z.enum(["draft", "published"]).default("published"),
 });
 
 export async function POST(req: NextRequest) {
@@ -25,7 +25,10 @@ export async function POST(req: NextRequest) {
 
 	const parsed = CreateSchema.safeParse(body);
 	if (!parsed.success) {
-		return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+		return NextResponse.json(
+			{ error: parsed.error.flatten() },
+			{ status: 400 },
+		);
 	}
 
 	const [created] = await db.insert(questions).values(parsed.data).returning();

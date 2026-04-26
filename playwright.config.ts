@@ -4,13 +4,28 @@ export default defineConfig({
 	forbidOnly: !!process.env.CI,
 	fullyParallel: true,
 	projects: [
-		{ name: "setup", testMatch: /.*\.setup\.ts/ },
+		{ name: "setup", testMatch: /auth\.setup\.ts$/ },
+		{ name: "admin-setup", testMatch: /admin-auth\.setup\.ts$/ },
+		{
+			name: "smoke",
+			testMatch: /smoke-production\.spec\.ts/,
+			use: { ...devices["Desktop Chrome"] },
+		},
 		{
 			dependencies: ["setup"],
 			name: "chromium",
-			testIgnore: /.*\.unauth\.spec\.ts/,
+			testIgnore: [/.*\.unauth\.spec\.ts/, /.*admin\.spec\.ts/],
 			use: {
 				...devices["Desktop Chrome"],
+				storageState: "e2e/.auth/player.json",
+			},
+		},
+		{
+			dependencies: ["setup"],
+			name: "webkit",
+			testIgnore: [/.*\.unauth\.spec\.ts/, /.*admin\.spec\.ts/],
+			use: {
+				...devices["Desktop Safari"],
 				storageState: "e2e/.auth/player.json",
 			},
 		},
@@ -18,6 +33,25 @@ export default defineConfig({
 			name: "unauthenticated",
 			testMatch: /.*\.unauth\.spec\.ts/,
 			use: { ...devices["Desktop Chrome"] },
+		},
+		{
+			dependencies: ["admin-setup"],
+			name: "admin",
+			testIgnore: /.*admin\.nonadmin\.spec\.ts/,
+			testMatch: /.*admin\.spec\.ts/,
+			use: {
+				...devices["Desktop Chrome"],
+				storageState: "e2e/.auth/admin.json",
+			},
+		},
+		{
+			dependencies: ["setup"],
+			name: "non-admin",
+			testMatch: /.*admin\.nonadmin\.spec\.ts/,
+			use: {
+				...devices["Desktop Chrome"],
+				storageState: "e2e/.auth/player.json",
+			},
 		},
 	],
 	reporter: process.env.CI ? "github" : "html",

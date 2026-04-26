@@ -240,6 +240,8 @@ export async function POST(req: NextRequest) {
 						}
 						break;
 					}
+					default:
+						break;
 				}
 			},
 		);

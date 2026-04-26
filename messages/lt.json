@@ -33,16 +33,16 @@
 		"noAccount": "Neturite paskyros?",
 		"or": "arba",
 		"passwordPlaceholder": "Slaptažodis",
+		"privacyLink": "Privatumo politika",
+		"privacyNotice": "Kurdami paskyrą sutinkate su mūsų",
 		"profile": "Profilis",
 		"registerButton": "Registruotis",
 		"registerLink": "Registruotis",
 		"registerSubtitle": "Sukurkite paskyrą ir niekada nepraraskite progreso",
 		"registerTitle": "Registruotis",
-		"privacyNotice": "Kurdami paskyrą sutinkate su mūsų",
-		"privacyLink": "Privatumo politika",
 		"submitting": "Palaukite...",
-		"tosConsentNotice": "Tęsdami sutinkate su mūsų",
-		"tosConsentAnd": "ir"
+		"tosConsentAnd": "ir",
+		"tosConsentNotice": "Tęsdami sutinkate su mūsų"
 	},
 	"awesome": {
 		"empty": "Pasibaigė visi klausimai!",
@@ -93,17 +93,19 @@
 	"game": {
 		"answered": "Atsakyta",
 		"deepQuestions": "{count} gilių klausimų",
+		"difficultyIntimate": "Intimas",
+		"difficultySafe": "Saugus",
 		"remaining": "Liko klausimų: {count}",
 		"skip": "Praleisti",
 		"spicyBadge": "🎲 Spicy Card",
 		"super": "Super",
-		"difficultySafe": "Saugus",
-		"difficultyIntimate": "Intimas",
 		"swipeAnswered": "ATSAKYTA",
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
 		"swipeSkip": "PRALEISTI",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"cardRoleDescription": "Klausimo kortelė. Naudokite rodyklių klavišus: kairyn — praleisti, dešinėn — atsakyta, aukštyn — super.",
+		"keyboardHint": "Rodyklių klavišai: ← Praleisti · → Atsakyta · ↑ Super"
 	},
 	"landing": {
 		"bottomCta": {
@@ -276,13 +278,6 @@
 		},
 		"title": "Privatumo politika"
 	},
-	"pwaInstall": {
-		"dismiss": "Ne dabar",
-		"install": "Įdiegti",
-		"iosMessage": "Norėdami pridėti programą prie pagrindinio ekrano: paspauskite „Dalintis” mygtuką, tada „Pridėti prie pagrindinio ekrano”.",
-		"message": "Įdiekite programą ir žaiskite be interneto, bet kuriuo metu.",
-		"title": "Įdiegti Santykių Klausimai"
-	},
 	"profile": {
 		"dangerZone": "Pavojinga zona",
 		"deleteButton": "Ištrinti paskyrą",
@@ -295,6 +290,13 @@
 		"statsSuperliked": "Super",
 		"statsTotal": "Iš viso",
 		"title": "Profilis"
+	},
+	"pwaInstall": {
+		"dismiss": "Ne dabar",
+		"install": "Įdiegti",
+		"iosMessage": "Norėdami pridėti programą prie pagrindinio ekrano: paspauskite „Dalintis” mygtuką, tada „Pridėti prie pagrindinio ekrano”.",
+		"message": "Įdiekite programą ir žaiskite be interneto, bet kuriuo metu.",
+		"title": "Įdiegti Santykių Klausimai"
 	},
 	"settings": {
 		"backToGame": "Grįžti į žaidimą",
@@ -361,12 +363,12 @@
 				"title": "7. Intelektinė nuosavybė"
 			},
 			"liability": {
-				"title": "8. Atsakomybės apribojimas",
-				"content": "Paslauga teikiama „tokia, kokia yra”, be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę."
+				"content": "Paslauga teikiama „tokia, kokia yra”, be jokių garantijų. Negarantuojame nepertraukiamos prieigos ar kad Paslauga veiks be klaidų.\n\nDaugiausia, kiek leidžia įstatymai, mūsų bendra atsakomybė už bet kokius reikalavimus, kylančius iš jūsų naudojimosi Paslauga, ribojama suma, kurią sumokėjote mums per 12 mėnesių prieš reikalavimą.\n\nŠis apribojimas neturi įtakos jūsų teisėms kaip vartotojo pagal ES ar Lietuvos teisę.",
+				"title": "8. Atsakomybės apribojimas"
 			},
 			"service": {
-				"title": "1. Paslaugos aprašymas",
-				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms”.\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos."
+				"content": "Santykių Klausimai — tai pokalbių kortelių žaidimas, prieinamas kaip progresyvi žiniatinklio programa (PWA). Paslauga siūlo:\n\n• Nemokamą versiją: Prieiga prie 50 klausimų režime „Poroms”.\n• Premium versiją: Neribota prieiga prie visų klausimų visuose režimuose (Poroms, Šeimai, Draugams, Vaikams), Spicy Cards iššūkiai ir papildomos funkcijos.",
+				"title": "1. Paslaugos aprašymas"
 			},
 			"subscriptions": {
 				"content": "Premium prieiga galima per mokamas prenumeratas:\n\n• Mėnesinis planas: 4,99 € per mėnesį\n• Metinis planas: 29,99 € per metus\n\nVisi mokėjimai saugiai apdorojami per Stripe. Prenumeratos automatiškai atsinaujina kiekvieno atsiskaitymo laikotarpio pabaigoje. Kainos gali keistis pranešus ne mažiau kaip prieš 30 dienų.",

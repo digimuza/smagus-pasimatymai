@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { routing } from "@/i18n/routing";
 import "./globals.css";
 
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
 			<body className={inter.className}>
 				<NextIntlClientProvider messages={messages}>
 					{children}
+					<PWAInstallPrompt />
 				</NextIntlClientProvider>
 			</body>
 		</html>

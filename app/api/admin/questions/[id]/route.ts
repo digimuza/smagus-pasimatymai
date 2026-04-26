@@ -1,16 +1,16 @@
+import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import { questions } from "@/drizzle/schema";
 import { requireAdminApi } from "@/lib/adminAuth";
 
 const UpdateSchema = z.object({
-	question: z.string().min(1).optional(),
-	categoryId: z.number().int().positive().optional(),
 	audience: z.enum(["romantic", "family", "kids", "friends"]).optional(),
-	status: z.enum(["draft", "published"]).optional(),
+	categoryId: z.number().int().positive().optional(),
 	locale: z.enum(["lt", "en"]).optional(),
+	question: z.string().min(1).optional(),
+	status: z.enum(["draft", "published"]).optional(),
 });
 
 export async function PATCH(
@@ -35,7 +35,10 @@ export async function PATCH(
 
 	const parsed = UpdateSchema.safeParse(body);
 	if (!parsed.success) {
-		return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+		return NextResponse.json(
+			{ error: parsed.error.flatten() },
+			{ status: 400 },
+		);
 	}
 
 	const [updated] = await db

@@ -13,10 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useQuestions } from "@/context/QuestionContext";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useRouter } from "@/i18n/navigation";
-import {
-	getPreviewQuestions,
-	getQuestionSection,
-} from "@/lib/questionEngine";
+import { getPreviewQuestions, getQuestionSection } from "@/lib/questionEngine";
 import { AUDIENCE_DEFAULTS } from "@/types/audience";
 
 export default function GamePage() {
@@ -151,7 +148,9 @@ export default function GamePage() {
 									<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 								</svg>
 								<span className="absolute -top-1 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-warning font-bold text-background text-xs leading-none">
-									{superlikedQuestions.length > 9 ? "9+" : superlikedQuestions.length}
+									{superlikedQuestions.length > 9
+										? "9+"
+										: superlikedQuestions.length}
 								</span>
 							</button>
 						)}
@@ -173,9 +172,9 @@ export default function GamePage() {
 							/>
 						) : (
 							<CardDeck
-								key="deck"
 								category={currentSection?.name}
 								difficulty={currentSection?.type}
+								key="deck"
 								onSwipeLeft={handleSwipeLeft}
 								onSwipeRight={handleSwipeRight}
 								onSwipeUp={handleSwipeUp}

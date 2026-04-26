@@ -46,7 +46,13 @@ export async function POST(req: NextRequest) {
 		.where(eq(subscriptions.playerId, player.id))
 		.limit(1);
 
-	if (existingSub && isPremium({ plan: existingSub.plan ?? "free", status: existingSub.status ?? "active" })) {
+	if (
+		existingSub &&
+		isPremium({
+			plan: existingSub.plan ?? "free",
+			status: existingSub.status ?? "active",
+		})
+	) {
 		return NextResponse.json({ error: "Already subscribed" }, { status: 409 });
 	}
 
