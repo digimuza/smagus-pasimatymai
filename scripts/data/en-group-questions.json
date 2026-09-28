@@ -1,0 +1,79 @@
+{
+	"audiences": [
+		{
+			"sections": [
+				{
+					"name": "Around the table",
+					"questions": [
+						"What family tradition makes you feel most at home?",
+						"What is a story from your childhood you wish everyone here knew?",
+						"Who taught you something that still helps you today?",
+						"What is the funniest thing that happened to our family this year?",
+						"What meal would you choose for a family celebration?",
+						"When did someone in this family make you feel proud?",
+						"What is one thing we could do together more often?",
+						"Which family memory always makes you smile?",
+						"What is something new you would like us to try together?",
+						"How can we make ordinary evenings more fun?",
+						"What did you love doing at the age of the youngest person here?",
+						"What makes you feel listened to at home?",
+						"What family story should we make sure to pass on?",
+						"What is one kind thing someone did for you recently?",
+						"If we planned a day trip together, where would we go?"
+					]
+				}
+			],
+			"slug": "family"
+		},
+		{
+			"sections": [
+				{
+					"name": "Good company",
+					"questions": [
+						"What is a tiny thing that can instantly improve your day?",
+						"Which shared memory would you turn into a movie scene?",
+						"What hobby would you try if you had a free month?",
+						"What is the best unexpected invitation you ever accepted?",
+						"Which song should play when you enter a room?",
+						"What is a skill you wish one of us could teach you?",
+						"What is a place you would love to explore together?",
+						"When did a friend help you see something differently?",
+						"What is a harmless opinion you will defend forever?",
+						"Which fictional world would you visit for a weekend?",
+						"What is one thing you admire about a person in this room?",
+						"What would our ideal reunion look like in ten years?",
+						"What funny misunderstanding still makes you laugh?",
+						"What is something you have changed your mind about lately?",
+						"If we started a tradition, what should it be?"
+					]
+				}
+			],
+			"slug": "friends"
+		},
+		{
+			"sections": [
+				{
+					"name": "Big little ideas",
+					"questions": [
+						"If your backpack could talk, what would it say?",
+						"What is the kindest thing someone did for you this week?",
+						"If you invented a holiday, how would everyone celebrate?",
+						"Which animal would make the best teacher, and why?",
+						"What is something new you learned to do recently?",
+						"If you could build a tree house, what would be inside?",
+						"What makes you feel brave?",
+						"Which game would you teach someone from another planet?",
+						"What is one way to cheer up a friend?",
+						"If you could ask the moon one question, what would it be?",
+						"What made you laugh today?",
+						"What is your favorite thing to do with your family?",
+						"If you found a friendly dragon, where would you take it?",
+						"What is something you are proud of trying?",
+						"What would you plant in a magical garden?"
+					]
+				}
+			],
+			"slug": "kids"
+		}
+	]
+}

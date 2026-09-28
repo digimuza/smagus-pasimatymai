@@ -29,6 +29,11 @@ export const colors = {
 			dark: "#CA6F1E",
 			light: "#F0B27A",
 		},
+		kids: {
+			DEFAULT: "#34d399",
+			dark: "#059669",
+			light: "#6ee7b7",
+		},
 	},
 	primary: {
 		DEFAULT: "#c084fc",

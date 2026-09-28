@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+	const baseUrl = (
+		process.env.NEXT_PUBLIC_URL || "http://localhost:7743"
+	).replace(/\/$/, "");
 	return {
 		rules: [
 			{
@@ -9,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
 				userAgent: "*",
 			},
 		],
-		sitemap: "https://santykiuklausimai.lt/sitemap.xml",
+		sitemap: `${baseUrl}/sitemap.xml`,
 	};
 }

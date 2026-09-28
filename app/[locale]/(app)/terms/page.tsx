@@ -26,18 +26,14 @@ export default function TermsPage() {
 			<Header showBack title={t("title")} />
 			<PageContent>
 				<div className="mx-auto max-w-2xl space-y-6 pb-12">
-					<p className="text-text-dimmed text-sm">
-						{t("lastUpdated")}
-					</p>
-					<p className="text-text-secondary leading-relaxed">
-						{t("intro")}
-					</p>
+					<p className="text-sm text-text-dimmed">{t("lastUpdated")}</p>
+					<p className="text-text-secondary leading-relaxed">{t("intro")}</p>
 					{SECTION_KEYS.map((key) => (
-						<section key={key} className="space-y-2">
+						<section className="space-y-2" key={key}>
 							<h2 className="font-semibold text-lg text-text-primary">
 								{t(`sections.${key}.title`)}
 							</h2>
-							<div className="text-text-secondary whitespace-pre-line leading-relaxed text-sm">
+							<div className="whitespace-pre-line text-sm text-text-secondary leading-relaxed">
 								{t(`sections.${key}.content`)}
 							</div>
 						</section>

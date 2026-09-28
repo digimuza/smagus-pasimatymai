@@ -3,8 +3,11 @@ import "./load-env";
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getPayload } from "payload";
 import config from "../payload.config";
+
+const scriptDir = fileURLToPath(new URL(".", import.meta.url));
 
 const INTIMATE_CATEGORY_NAMES = [
 	"Intymūs klausimai",
@@ -35,32 +38,39 @@ async function seed() {
 
 	console.log("Starting seed...");
 
-	// 1. Create admin user
-	const existingUsers = await payload.find({
-		collection: "users",
-		limit: 1,
-		where: { email: { equals: "admin@santykiuklausimai.lt" } },
-	});
+	// 1. Create an admin only when credentials are explicitly supplied.
+	const adminEmail = process.env.SEED_ADMIN_EMAIL;
+	const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+	if (adminEmail && adminPassword && adminPassword.length < 12) {
+		throw new Error("SEED_ADMIN_PASSWORD must be at least 12 characters");
+	}
+	if (adminEmail && adminPassword) {
+		const existingUsers = await payload.find({
+			collection: "users",
+			limit: 1,
+			where: { email: { equals: adminEmail } },
+		});
 
-	if (existingUsers.docs.length > 0) {
-		console.log("Admin user already exists, skipping");
-	} else {
-		try {
-			await payload.create({
-				collection: "users",
-				data: {
-					email: "admin@santykiuklausimai.lt",
-					password: "changeme123",
-				},
-			});
-			console.log("Admin user created");
-		} catch (e: any) {
-			console.error("Error creating admin user:", e.message);
+		if (existingUsers.docs.length > 0) {
+			console.log("Admin user already exists, skipping");
+		} else {
+			try {
+				await payload.create({
+					collection: "users",
+					data: {
+						email: adminEmail,
+						password: adminPassword,
+					},
+				});
+				console.log("Admin user created");
+			} catch (e: any) {
+				console.error("Error creating admin user:", e.message);
+			}
 		}
 	}
 
 	// 2. Read data.json and create categories + questions
-	const dataPath = path.resolve(__dirname, "../public/data.json");
+	const dataPath = path.resolve(scriptDir, "../public/data.json");
 	const rawData = fs.readFileSync(dataPath, "utf-8");
 	const data = JSON.parse(rawData);
 
@@ -272,7 +282,7 @@ async function seed() {
 
 	for (const { audience, file } of AUDIENCE_DATA_FILES) {
 		console.log(`\n--- Seeding ${audience} questions ---`);
-		const filePath = path.resolve(__dirname, "data", file);
+		const filePath = path.resolve(scriptDir, "data", file);
 		const rawJson = fs.readFileSync(filePath, "utf-8");
 		const audienceData = JSON.parse(rawJson);
 
@@ -359,7 +369,7 @@ async function seed() {
 
 	for (const { audience, file } of SPICY_DATA_FILES) {
 		console.log(`\n--- Seeding ${audience} spicy cards ---`);
-		const filePath = path.resolve(__dirname, "data", file);
+		const filePath = path.resolve(scriptDir, "data", file);
 		const rawJson = fs.readFileSync(filePath, "utf-8");
 		const cards: { type: string; title: string; description: string }[] =
 			JSON.parse(rawJson);
@@ -406,6 +416,125 @@ async function seed() {
 			}
 		}
 		console.log(`  Spicy cards: ${createdSC} created, ${skippedSC} skipped`);
+	}
+
+	// A curated English starter deck keeps the English game playable.
+	const englishData = JSON.parse(
+		fs.readFileSync(
+			path.resolve(scriptDir, "data/en-couples-questions.json"),
+			"utf-8",
+		),
+	) as { sections: Array<{ name: string; questions: string[] }> };
+	let englishOrder = 100;
+	for (const section of englishData.sections) {
+		const existingCategory = await payload.find({
+			collection: "categories",
+			limit: 1,
+			where: {
+				and: [{ locale: { equals: "en" } }, { name: { equals: section.name } }],
+			},
+		});
+		const categoryId =
+			existingCategory.docs[0]?.id ??
+			(
+				await payload.create({
+					collection: "categories",
+					data: {
+						locale: "en",
+						name: section.name,
+						sortOrder: englishOrder++,
+						type: "safe",
+					},
+				})
+			).id;
+		for (const question of section.questions) {
+			const existingQuestion = await payload.find({
+				collection: "questions",
+				limit: 1,
+				where: {
+					and: [
+						{ locale: { equals: "en" } },
+						{ audience: { equals: "romantic" } },
+						{ question: { equals: question } },
+					],
+				},
+			});
+			if (existingQuestion.docs.length === 0) {
+				await payload.create({
+					collection: "questions",
+					data: {
+						audience: "romantic",
+						category: categoryId,
+						locale: "en",
+						question,
+						status: "published",
+					},
+				});
+			}
+		}
+	}
+	const englishGroups = JSON.parse(
+		fs.readFileSync(
+			path.resolve(scriptDir, "data/en-group-questions.json"),
+			"utf-8",
+		),
+	) as {
+		audiences: Array<{
+			slug: "family" | "friends" | "kids";
+			sections: Array<{ name: string; questions: string[] }>;
+		}>;
+	};
+	for (const group of englishGroups.audiences) {
+		for (const section of group.sections) {
+			const existingCategory = await payload.find({
+				collection: "categories",
+				limit: 1,
+				where: {
+					and: [
+						{ locale: { equals: "en" } },
+						{ name: { equals: section.name } },
+					],
+				},
+			});
+			const categoryId =
+				existingCategory.docs[0]?.id ??
+				(
+					await payload.create({
+						collection: "categories",
+						data: {
+							locale: "en",
+							name: section.name,
+							sortOrder: englishOrder++,
+							type: "safe",
+						},
+					})
+				).id;
+			for (const question of section.questions) {
+				const existingQuestion = await payload.find({
+					collection: "questions",
+					limit: 1,
+					where: {
+						and: [
+							{ locale: { equals: "en" } },
+							{ audience: { equals: group.slug } },
+							{ question: { equals: question } },
+						],
+					},
+				});
+				if (existingQuestion.docs.length === 0) {
+					await payload.create({
+						collection: "questions",
+						data: {
+							audience: group.slug,
+							category: categoryId,
+							locale: "en",
+							question,
+							status: "published",
+						},
+					});
+				}
+			}
+		}
 	}
 
 	console.log("\nSeed complete!");

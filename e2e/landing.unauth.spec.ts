@@ -6,14 +6,14 @@ test.describe("Landing page", () => {
 
 		await expect(page.getByText("Rediscover the one")).toBeVisible();
 
-		const cta = page.getByRole("link", { name: /Start Playing/i });
+		const cta = page.getByRole("link", { name: /Start Playing/i }).first();
 		await expect(cta).toBeVisible();
 	});
 
 	test("CTA links to audience selection", async ({ page }) => {
 		await page.goto("/en");
 
-		const cta = page.getByRole("link", { name: /Start Playing/i });
+		const cta = page.getByRole("link", { name: /Start Playing/i }).first();
 		await cta.click();
 
 		await expect(page).toHaveURL(/\/audience/);

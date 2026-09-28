@@ -27,10 +27,10 @@ export function HowItWorks() {
 	];
 
 	return (
-		<section className="bg-background-light/30 py-16 content-auto sm:py-24">
+		<section className="bg-[#1b1024] py-20 content-auto sm:py-28">
 			<div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 				<motion.h2
-					className="mb-12 text-center font-bold text-3xl text-text md:text-4xl"
+					className="mb-14 text-center font-serif text-4xl text-[#fff1e7] md:text-5xl"
 					initial={{ opacity: 0, y: 20 }}
 					transition={{ duration: 0.6 }}
 					viewport={{ once: true }}
@@ -42,7 +42,7 @@ export function HowItWorks() {
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 					{steps.map((step, i) => (
 						<motion.div
-							className="flex flex-col items-center gap-4 text-center"
+							className="flex flex-col items-center gap-4 rounded-[1.6rem] border border-white/10 bg-[#23162d] px-7 py-9 text-center"
 							initial={{ opacity: 0, y: 30 }}
 							key={i}
 							transition={{
@@ -54,23 +54,16 @@ export function HowItWorks() {
 							viewport={{ margin: "-50px", once: true }}
 							whileInView={{ opacity: 1, y: 0 }}
 						>
-							<motion.div
-								animate={{ y: [0, -4, 0] }}
-								className="flex h-16 w-16 items-center justify-center rounded-2xl border border-primary/10 bg-background-lighter text-3xl"
-								transition={{
-									delay: i * 0.5,
-									duration: 3,
-									ease: "easeInOut",
-									repeat: Infinity,
-								}}
-							>
+							<div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#f5c7a9]/15 bg-[#f5c7a9]/10 text-3xl">
 								{step.icon}
-							</motion.div>
-							<div className="font-medium text-primary text-sm">
+							</div>
+							<div className="font-medium text-[#f5c7a9] text-xs tracking-[0.2em]">
 								{String(i + 1).padStart(2, "0")}
 							</div>
-							<h3 className="font-semibold text-lg text-text">{step.title}</h3>
-							<p className="max-w-xs text-sm text-text-muted leading-relaxed">
+							<h3 className="font-serif text-2xl text-[#fff1e7]">
+								{step.title}
+							</h3>
+							<p className="max-w-xs text-[#cdb9ca] text-sm leading-relaxed">
 								{step.description}
 							</p>
 						</motion.div>

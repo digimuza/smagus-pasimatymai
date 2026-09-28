@@ -35,14 +35,19 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 	const currentAudience = AUDIENCE_DEFAULTS.find((a) => a.slug === audience);
 
 	return (
-		<Sheet isOpen={isOpen} onClose={onClose} side="left">
+		<Sheet
+			className="!bg-[#21142a]"
+			isOpen={isOpen}
+			onClose={onClose}
+			side="left"
+		>
 			<div className="p-6">
 				{/* Header */}
 				<div className="mb-6 flex items-center justify-between">
-					<h2 className="font-light text-2xl text-primary">{t("title")}</h2>
+					<h2 className="font-serif text-3xl text-[#fff1e7]">{t("title")}</h2>
 					<button
 						aria-label={tc("close")}
-						className="text-text-muted transition-colors hover:text-text"
+						className="text-[#d4bccb] transition-colors hover:text-white"
 						onClick={onClose}
 						type="button"
 					>
@@ -63,16 +68,16 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 				</div>
 
 				<Counter
-					className="mb-6 rounded-lg bg-background-lighter p-4"
+					className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4"
 					label={t("remaining")}
 					total={availableQuestionsCount}
 				/>
 
-				<div className="mb-6 rounded-lg bg-background-lighter p-4">
+				<div className="mb-6 rounded-2xl border border-white/10 bg-white/5 p-4">
 					<p className="mb-2 text-sm text-text-muted">
 						{t("activeCategories")}
 					</p>
-					<p className="font-light text-2xl text-primary">
+					<p className="font-serif text-2xl text-[#f5c7a9]">
 						{activeCategories.length} / {sections.length}
 					</p>
 				</div>
@@ -174,7 +179,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 				</div>
 
 				{/* Auth section */}
-				<div className="border-primary/10 border-t pt-6">
+				<div className="border-white/10 border-t pt-6">
 					{isAuthenticated && player ? (
 						<div className="space-y-3">
 							<div className="flex items-center gap-3 rounded-xl bg-background-lighter p-3">

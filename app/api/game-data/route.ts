@@ -5,7 +5,7 @@ import { getAllCategoriesWithQuestions, getAllSpicyCards } from "@/lib/api";
 import {
 	canAccessAudience,
 	canAccessSpicyCards,
-	limitQuestions,
+	limitSections,
 } from "@/lib/subscription";
 
 export const dynamic = "force-dynamic";
@@ -51,10 +51,9 @@ export async function GET(request: Request) {
 		]);
 
 		// Limit questions for free users
-		const gatedSections = sections.map((section) => ({
-			...section,
-			questions: limitQuestions(section.questions, subscription),
-		}));
+		const gatedSections = limitSections(sections, subscription).filter(
+			(section) => section.questions.length > 0,
+		);
 
 		// Strip spicy cards for non-premium users
 		const gatedSpicyCards = canAccessSpicyCards(subscription) ? spicyCards : [];
@@ -63,8 +62,13 @@ export async function GET(request: Request) {
 			(sum, s) => sum + s.questions.length,
 			0,
 		);
+		const libraryQuestions = sections.reduce(
+			(sum, s) => sum + s.questions.length,
+			0,
+		);
 
 		return NextResponse.json({
+			isContentLimited: libraryQuestions > totalQuestions,
 			sections: gatedSections,
 			spicyCards: gatedSpicyCards,
 			title: `${totalQuestions} gilių klausimų`,

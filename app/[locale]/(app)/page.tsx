@@ -3,17 +3,16 @@ import { getTranslations } from "next-intl/server";
 import { BackgroundGlow } from "@/components/landing/BackgroundGlow";
 import { BottomCTA } from "@/components/landing/BottomCTA";
 import { FAQ } from "@/components/landing/FAQ";
-import { FeaturesGrid } from "@/components/landing/FeaturesGrid";
-import { FloatingParticles } from "@/components/landing/FloatingParticles";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { ModeShowcase } from "@/components/landing/ModeShowcase";
-import { SocialProof } from "@/components/landing/SocialProof";
 import { locales } from "@/i18n/config";
 
-const BASE_URL = "https://santykiuklausimai.lt";
+const BASE_URL = (
+	process.env.NEXT_PUBLIC_URL || "http://localhost:7743"
+).replace(/\/$/, "");
 
 export async function generateStaticParams() {
 	return locales.map((locale) => ({ locale }));
@@ -53,12 +52,6 @@ async function JsonLd({ locale }: { locale: string }) {
 	const jsonLd = {
 		"@context": "https://schema.org",
 		"@type": "WebApplication",
-		aggregateRating: {
-			"@type": "AggregateRating",
-			bestRating: "5",
-			ratingCount: "150",
-			ratingValue: "4.8",
-		},
 		applicationCategory: "GameApplication",
 		description: t("description"),
 		inLanguage: locale === "lt" ? "lt" : "en",
@@ -91,15 +84,12 @@ export default async function LandingPage({
 		<div className="relative flex min-h-screen flex-col overflow-hidden">
 			<JsonLd locale={locale} />
 			<BackgroundGlow />
-			<FloatingParticles />
 			<LandingNav />
 
 			<main className="relative z-10 flex-1">
 				<HeroSection />
 				<ModeShowcase />
 				<HowItWorks />
-				<FeaturesGrid />
-				<SocialProof />
 				<FAQ />
 				<BottomCTA />
 			</main>

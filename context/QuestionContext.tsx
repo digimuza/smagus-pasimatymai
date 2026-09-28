@@ -93,6 +93,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 
 	// Load question data from API (gated on audience selection)
 	useEffect(() => {
+		if (!isStateLoaded) return;
 		if (!state.audience) {
 			setIsLoading(false);
 			return;
@@ -105,6 +106,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			.then((res) => res.json())
 			.then((data) => {
 				const qData: QuestionData = {
+					isContentLimited: data.isContentLimited,
 					sections: data.sections,
 					title: data.title,
 					total_questions: data.total_questions,
@@ -121,6 +123,16 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 					.filter((s: Section) => s.type === "safe")
 					.map((s: Section) => s.name);
 				setSafeCategoryNames(safeNames);
+				setState((prev) => {
+					const validNames = data.sections.map((s: Section) => s.name);
+					const selected = Array.from(new Set(prev.activeCategories)).filter(
+						(name) => validNames.includes(name),
+					);
+					return {
+						...prev,
+						activeCategories: selected.length > 0 ? selected : safeNames,
+					};
+				});
 
 				setIsLoading(false);
 			})
@@ -128,36 +140,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 				console.error("Failed to load questions:", error);
 				setIsLoading(false);
 			});
-	}, [state.audience, locale]);
-
-	// Initialize active categories once data loads and state is ready
-	useEffect(() => {
-		if (!questionData || !isStateLoaded || safeCategoryNames.length === 0)
-			return;
-
-		// If stored activeCategories is empty (first load), default to safe categories
-		if (state.activeCategories.length === 0) {
-			setState((prev) => ({ ...prev, activeCategories: safeCategoryNames }));
-			return;
-		}
-
-		const validCategoryNames = questionData.sections.map((s) => s.name);
-		const sanitized = Array.from(new Set(state.activeCategories)).filter(
-			(cat) => validCategoryNames.includes(cat),
-		);
-
-		if (sanitized.length === 0) {
-			setState((prev) => ({ ...prev, activeCategories: safeCategoryNames }));
-		} else if (sanitized.length !== state.activeCategories.length) {
-			setState((prev) => ({ ...prev, activeCategories: sanitized }));
-		}
-	}, [
-		questionData,
-		isStateLoaded,
-		safeCategoryNames,
-		state.activeCategories,
-		setState,
-	]);
+	}, [state.audience, locale, isStateLoaded, setState]);
 
 	// Question limit based on subscription
 	const questionLimit = useMemo(
@@ -174,13 +157,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	}, [questionData, questionLimit]);
 
 	// Whether the user is seeing a limited set of content
-	const isContentLimited = useMemo(() => {
-		if (!questionData) return false;
-		const totalAvailable = questionData.sections.flatMap(
-			(s) => s.questions,
-		).length;
-		return totalAvailable > questionLimit;
-	}, [questionData, questionLimit]);
+	const isContentLimited = questionData?.isContentLimited ?? false;
 
 	// Get current question
 	const currentQuestion = useMemo(() => {

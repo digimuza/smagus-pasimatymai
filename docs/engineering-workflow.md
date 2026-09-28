@@ -101,7 +101,7 @@ All of the following must pass before requesting PR merge. Run them locally firs
 pnpm lint:check      # Biome — zero errors required
 pnpm typecheck       # TypeScript strict — zero errors required
 pnpm build           # Production build must succeed
-pnpm test:coverage   # Unit tests ≥ 60% line/function/branch/statement
+pnpm test            # Unit tests must pass
 pnpm test:e2e        # Playwright chromium suite must pass
 ```
 
@@ -143,7 +143,7 @@ Closes SAN-XX
 
 - Location: `lib/__tests__/**/*.test.ts`
 - Write a unit test for every new function in `lib/`
-- Coverage thresholds enforced in CI: 60% lines/functions/branches/statements
+- Unit tests run in CI. Coverage thresholds are not configured yet.
 - Use a real test DB for DB query logic — no mocks
 
 ### E2E tests (Playwright)
@@ -223,8 +223,7 @@ docs/                  # Process and design documentation
 | Run linter | `pnpm lint` |
 | Typecheck | `pnpm typecheck` |
 | Run unit tests | `pnpm test` |
-| Run unit tests + coverage | `pnpm test:coverage` |
+| Run unit tests + coverage | `pnpm test` |
 | Run E2E tests | `pnpm test:e2e` |
-| Run DB migrations | `pnpm db:migrate` |
-| Open DB studio | `pnpm db:studio` |
+| Seed local content | `pnpm seed` |
 | Build for prod | `pnpm build` |

@@ -13,6 +13,7 @@ interface LoginSheetProps {
 
 export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 	const t = useTranslations("auth");
+	const tc = useTranslations("common");
 	const { login, register, loginWithGoogle } = useAuth();
 	const [mode, setMode] = useState<"login" | "register">("login");
 	const [email, setEmail] = useState("");
@@ -46,17 +47,31 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 	};
 
 	return (
-		<Sheet isOpen={isOpen} onClose={onClose} side="bottom">
-			<div className="mx-auto max-w-sm p-6">
-				<h2 className="mb-2 text-center font-semibold text-2xl text-text">
+		<Sheet
+			className="!bg-[#21142a]"
+			isOpen={isOpen}
+			onClose={onClose}
+			side="bottom"
+		>
+			<div className="relative mx-auto max-w-sm p-6">
+				<button
+					aria-label={tc("close")}
+					className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[#d4bccb] hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f5c7a9]"
+					onClick={onClose}
+					type="button"
+				>
+					×
+				</button>
+				<h2 className="mb-2 text-center font-serif text-3xl text-[#fff1e7]">
 					{mode === "login" ? t("loginTitle") : t("registerTitle")}
 				</h2>
-				<p className="mb-6 text-center text-sm text-text-muted">
+				<p className="mb-6 text-center text-[#d4bccb] text-sm">
 					{mode === "login" ? t("loginSubtitle") : t("registerSubtitle")}
 				</p>
 
 				{/* Google OAuth */}
 				<Button
+					className="!rounded-full !bg-[#f5c7a9]/10 !text-[#f5c7a9] hover:!bg-[#f5c7a9]/20"
 					fullWidth
 					icon={
 						<svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -94,7 +109,8 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 				<form className="space-y-3" onSubmit={handleSubmit}>
 					{mode === "register" && (
 						<input
-							className="w-full rounded-xl border border-primary/10 bg-background-lighter px-4 py-3 text-sm text-text placeholder:text-text-dimmed focus:border-primary/30 focus:outline-none"
+							aria-label={t("namePlaceholder")}
+							className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#fff1e7] text-sm placeholder:text-[#a995a9] focus:border-[#f5c7a9] focus:outline-none"
 							onChange={(e) => setName(e.target.value)}
 							placeholder={t("namePlaceholder")}
 							type="text"
@@ -102,7 +118,8 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						/>
 					)}
 					<input
-						className="w-full rounded-xl border border-primary/10 bg-background-lighter px-4 py-3 text-sm text-text placeholder:text-text-dimmed focus:border-primary/30 focus:outline-none"
+						aria-label={t("emailPlaceholder")}
+						className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#fff1e7] text-sm placeholder:text-[#a995a9] focus:border-[#f5c7a9] focus:outline-none"
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder={t("emailPlaceholder")}
 						required
@@ -110,7 +127,8 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						value={email}
 					/>
 					<input
-						className="w-full rounded-xl border border-primary/10 bg-background-lighter px-4 py-3 text-sm text-text placeholder:text-text-dimmed focus:border-primary/30 focus:outline-none"
+						aria-label={t("passwordPlaceholder")}
+						className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#fff1e7] text-sm placeholder:text-[#a995a9] focus:border-[#f5c7a9] focus:outline-none"
 						minLength={6}
 						onChange={(e) => setPassword(e.target.value)}
 						placeholder={t("passwordPlaceholder")}
@@ -132,7 +150,12 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						)}
 					</AnimatePresence>
 
-					<Button disabled={isSubmitting} fullWidth variant="primary">
+					<Button
+						className="!rounded-full !bg-[#f5c7a9] !text-[#281827] hover:!bg-[#ffe0c4]"
+						disabled={isSubmitting}
+						fullWidth
+						variant="primary"
+					>
 						{isSubmitting
 							? t("submitting")
 							: mode === "login"
@@ -141,10 +164,10 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 					</Button>
 				</form>
 
-				<p className="mt-4 text-center text-sm text-text-dimmed">
+				<p className="mt-4 text-center text-[#cdb9ca] text-sm">
 					{mode === "login" ? t("noAccount") : t("hasAccount")}{" "}
 					<button
-						className="text-primary hover:underline"
+						className="text-[#f5c7a9] hover:underline"
 						onClick={() => {
 							setMode(mode === "login" ? "register" : "login");
 							setError("");

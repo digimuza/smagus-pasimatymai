@@ -28,29 +28,29 @@ export function CookieConsent() {
 	};
 
 	return (
-		<div className="fixed inset-x-0 bottom-0 z-50 border-t border-primary/10 bg-surface p-4 shadow-lg">
-			<div className="mx-auto flex max-w-md flex-col gap-3">
-				<p className="text-text-secondary text-sm leading-relaxed">
+		<div className="fixed inset-x-4 bottom-4 z-50 max-w-md rounded-2xl border border-primary/20 bg-background-light p-5 shadow-lg sm:inset-x-auto sm:right-5">
+			<div className="flex flex-col gap-4">
+				<p className="text-sm text-text-muted leading-relaxed">
 					{t("message")}{" "}
 					<Link
-						href="/privacy"
 						className="text-primary underline underline-offset-2"
+						href="/privacy"
 					>
 						{t("learnMore")}
 					</Link>
 				</p>
 				<div className="flex gap-2">
 					<button
-						type="button"
+						className="flex-1 rounded-xl border border-primary/25 bg-background-lighter px-4 py-2.5 font-medium text-sm text-text transition-colors hover:bg-primary/10"
 						onClick={handleReject}
-						className="flex-1 rounded-lg border border-primary/20 px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-surface-elevated"
+						type="button"
 					>
 						{t("reject")}
 					</button>
 					<button
-						type="button"
+						className="flex-1 rounded-xl bg-primary px-4 py-2.5 font-semibold text-background text-sm transition-colors hover:bg-primary-light"
 						onClick={handleAccept}
-						className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+						type="button"
 					>
 						{t("accept")}
 					</button>

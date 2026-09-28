@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 
 interface ModeCardProps {
-	colorClass: "couples" | "family" | "friends";
+	colorClass: "couples" | "family" | "friends" | "kids";
 	cta: string;
 	delay?: number;
 	description: string;
@@ -13,32 +13,30 @@ interface ModeCardProps {
 	name: string;
 }
 
-const colorMap = {
+const colors = {
 	couples: {
-		border: "border-l-mode-couples",
-		boxShadow: "rgba(244, 63, 94, 0.3)",
-		button: "from-mode-couples-dark via-mode-couples to-mode-couples-light",
-		glow: "bg-mode-couples/10",
-		glowHover: "bg-mode-couples/20",
-		shadow: "shadow-mode-couples/25 hover:shadow-mode-couples/40",
+		glow: "bg-[#f1a99e]/15",
+		icon: "bg-[#f1a99e]/15 text-[#f6c4b3]",
+		line: "bg-[#f6c4b3]",
 	},
 	family: {
-		border: "border-l-mode-family",
-		boxShadow: "rgba(251, 146, 60, 0.3)",
-		button: "from-mode-family-dark via-mode-family to-mode-family-light",
-		glow: "bg-mode-family/10",
-		glowHover: "bg-mode-family/20",
-		shadow: "shadow-mode-family/25 hover:shadow-mode-family/40",
+		glow: "bg-[#e8b979]/12",
+		icon: "bg-[#e8b979]/15 text-[#f1d0a5]",
+		line: "bg-[#f1d0a5]",
 	},
 	friends: {
-		border: "border-l-mode-friends",
-		boxShadow: "rgba(59, 130, 246, 0.3)",
-		button: "from-mode-friends-dark via-mode-friends to-mode-friends-light",
-		glow: "bg-mode-friends/10",
-		glowHover: "bg-mode-friends/20",
-		shadow: "shadow-mode-friends/25 hover:shadow-mode-friends/40",
+		glow: "bg-[#aba1e7]/12",
+		icon: "bg-[#aba1e7]/15 text-[#cfc3ff]",
+		line: "bg-[#cfc3ff]",
+	},
+	kids: {
+		glow: "bg-[#8bcfbb]/12",
+		icon: "bg-[#8bcfbb]/15 text-[#aee5d1]",
+		line: "bg-[#aee5d1]",
 	},
 };
+
+const numbers = { couples: "01", family: "02", friends: "03", kids: "04" };
 
 export function ModeCard({
 	icon,
@@ -49,51 +47,54 @@ export function ModeCard({
 	href,
 	delay = 0,
 }: ModeCardProps) {
-	const colors = colorMap[colorClass];
+	const color = colors[colorClass];
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, y: 40 }}
-			transition={{ delay, duration: 0.6 }}
-			viewport={{ margin: "-50px", once: true }}
+			initial={{ opacity: 0, y: 30 }}
+			transition={{ delay, duration: 0.35 }}
+			viewport={{ margin: "-30px", once: true }}
 			whileInView={{ opacity: 1, y: 0 }}
 		>
-			<motion.div
-				className={`relative rounded-2xl border-l-[3px] bg-background-lighter ${colors.border} group flex flex-col gap-4 overflow-hidden p-6 transition-shadow sm:p-8`}
-				whileHover={{ boxShadow: `0 0 30px ${colors.boxShadow}` }}
-			>
-				{/* Background glow */}
+			<div className="group relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#201529] p-6 transition duration-200 hover:-translate-y-1 hover:border-white/25">
 				<div
-					className={`absolute -top-10 -right-10 h-32 w-32 ${colors.glow} rounded-full blur-[60px] transition-opacity duration-300 group-hover:opacity-200`}
+					aria-hidden="true"
+					className={`absolute -top-20 -right-20 h-52 w-52 rounded-full blur-[60px] ${color.glow}`}
 				/>
-				<div
-					className={`absolute -top-10 -right-10 h-32 w-32 ${colors.glowHover} rounded-full opacity-0 blur-[60px] transition-opacity duration-300 group-hover:opacity-100`}
-				/>
-
-				<div className="relative z-10">
-					<motion.span
-						className="mb-2 block text-4xl"
-						transition={{ damping: 10, stiffness: 400, type: "spring" }}
-						whileHover={{ scale: 1.2, y: -4 }}
+				<div className="relative flex items-start justify-between">
+					<span
+						aria-hidden="true"
+						className={`flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 text-3xl ${color.icon}`}
 					>
 						{icon}
-					</motion.span>
-					<h3 className="mb-2 font-semibold text-text text-xl">{name}</h3>
-					<p className="mb-6 text-sm text-text-muted leading-relaxed">
+					</span>
+					<span className="font-serif text-[#a98fa8] text-sm">
+						{numbers[colorClass]}
+					</span>
+				</div>
+				<div className="relative mt-7 flex-1">
+					<h3 className="font-serif text-3xl text-[#fff1e7]">{name}</h3>
+					<p className="mt-3 text-[#cdb9ca] text-sm leading-relaxed">
 						{description}
 					</p>
-
-					<Link href={href}>
-						<motion.div
-							className={`w-full rounded-xl bg-gradient-to-r px-6 py-3 ${colors.button} text-center font-medium text-sm text-white shadow-md ${colors.shadow} transition-shadow`}
-							whileHover={{ scale: 1.03 }}
-							whileTap={{ scale: 0.97 }}
-						>
-							{cta}
-						</motion.div>
-					</Link>
 				</div>
-			</motion.div>
+				<Link
+					className="relative mt-7 inline-flex min-h-11 items-center justify-between gap-3 border-white/15 border-t pt-4 font-medium text-[#f3d6c9] text-sm transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f5c7a9] focus-visible:outline-offset-4"
+					href={href}
+				>
+					{cta}
+					<span
+						aria-hidden="true"
+						className="text-lg transition-transform group-hover:translate-x-1"
+					>
+						↗
+					</span>
+				</Link>
+				<div
+					aria-hidden="true"
+					className={`absolute bottom-0 left-6 h-[2px] w-10 ${color.line}`}
+				/>
+			</div>
 		</motion.div>
 	);
 }

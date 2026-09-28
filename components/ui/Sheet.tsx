@@ -19,43 +19,37 @@ export function Sheet({
 	className = "",
 }: SheetProps) {
 	const isLeft = side === "left";
+	const hiddenPosition = isLeft ? { x: "-100%" } : { y: "100%" };
 
 	return (
-		<>
-			{/* Backdrop */}
-			<AnimatePresence>
-				{isOpen && (
+		<AnimatePresence>
+			{isOpen && (
+				<>
 					<motion.div
 						animate={{ opacity: 1 }}
+						aria-hidden="true"
 						className="fixed inset-0 z-40 bg-black/60"
 						exit={{ opacity: 0 }}
 						initial={{ opacity: 0 }}
 						onClick={onClose}
 					/>
-				)}
-			</AnimatePresence>
-
-			{/* Panel */}
-			<motion.div
-				animate={
-					isOpen
-						? isLeft
-							? { x: 0 }
-							: { y: 0 }
-						: isLeft
-							? { x: "-100%" }
-							: { y: "100%" }
-				}
-				className={`fixed z-50 overflow-y-auto bg-background-light shadow-2xl ${
-					isLeft
-						? "top-0 left-0 h-full w-80 max-w-full"
-						: "right-0 bottom-0 left-0 max-h-[85vh] rounded-t-2xl"
-				} ${className}`}
-				initial={isLeft ? { x: "-100%" } : { y: "100%" }}
-				transition={springs.snappy}
-			>
-				{children}
-			</motion.div>
-		</>
+					<motion.div
+						animate={isLeft ? { x: 0 } : { y: 0 }}
+						aria-modal="true"
+						className={`fixed z-50 overflow-y-auto bg-background-light shadow-2xl ${
+							isLeft
+								? "top-0 left-0 h-full w-80 max-w-full"
+								: "right-0 bottom-0 left-0 max-h-[85vh] rounded-t-2xl"
+						} ${className}`}
+						exit={hiddenPosition}
+						initial={hiddenPosition}
+						role="dialog"
+						transition={springs.snappy}
+					>
+						{children}
+					</motion.div>
+				</>
+			)}
+		</AnimatePresence>
 	);
 }

@@ -7,13 +7,12 @@ export const metadata: Metadata = {
 		title: "Santykių Klausimai",
 	},
 	manifest: "/manifest.json",
+	metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "http://localhost:7743"),
 };
 
 export const viewport: Viewport = {
 	initialScale: 1,
-	maximumScale: 1,
 	themeColor: "#c084fc",
-	userScalable: false,
 	width: "device-width",
 };
 

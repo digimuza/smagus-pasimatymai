@@ -6,23 +6,25 @@ export function LandingFooter() {
 	const tLegal = useTranslations("legal");
 
 	return (
-		<footer className="border-primary/5 border-t py-8 text-center">
-			<p className="text-text-dimmed/40 text-xs">{t("footer")}</p>
+		<footer className="border-white/10 border-t bg-[#120b1b] py-10 text-center">
+			<p className="font-serif text-[#d3bac9] text-base italic">
+				{t("footer")}
+			</p>
 			<div className="mt-3 flex justify-center gap-4">
 				<Link
+					className="text-[#bfaabb] text-xs underline-offset-2 hover:underline"
 					href="/privacy"
-					className="text-text-dimmed/40 text-xs underline-offset-2 hover:underline"
 				>
 					{tLegal("privacy")}
 				</Link>
 				<Link
+					className="text-[#bfaabb] text-xs underline-offset-2 hover:underline"
 					href="/terms"
-					className="text-text-dimmed/40 text-xs underline-offset-2 hover:underline"
 				>
 					{tLegal("terms")}
 				</Link>
 			</div>
-			<p className="mt-2 text-text-dimmed/30 text-xs">
+			<p className="mt-3 text-[#9d899b] text-xs">
 				© {new Date().getFullYear()}
 			</p>
 		</footer>
