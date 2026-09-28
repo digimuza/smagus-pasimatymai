@@ -5,10 +5,18 @@ test.describe("Audience selection", () => {
 		await page.goto("/en/audience");
 		await page.waitForLoadState("networkidle");
 
-		await expect(page.getByText("Couples")).toBeVisible();
-		await expect(page.getByText("Family")).toBeVisible();
-		await expect(page.getByText("Friends")).toBeVisible();
-		await expect(page.getByText("Kids")).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: /Couples Questions/i }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: /Family Warm questions/i }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: /Friends Questions/i }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("button", { name: /Kids Fun and safe/i }),
+		).toBeVisible();
 	});
 
 	test("selecting Couples navigates to game", async ({ page }) => {

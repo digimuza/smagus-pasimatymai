@@ -13,24 +13,10 @@ export async function GET() {
 	try {
 		const payload = await getPayload({ config });
 		await payload.find({ collection: "audiences", limit: 1 });
-		checks.database = { status: "ok", latencyMs: Date.now() - dbStart };
+		checks.database = { latencyMs: Date.now() - dbStart, status: "ok" };
 	} catch {
-		checks.database = { status: "error", latencyMs: Date.now() - dbStart };
+		checks.database = { latencyMs: Date.now() - dbStart, status: "error" };
 		healthy = false;
-	}
-
-	// Stripe API check
-	const stripeStart = Date.now();
-	try {
-		const { stripe } = await import("@/lib/stripe");
-		await stripe.balance.retrieve();
-		checks.stripe = { status: "ok", latencyMs: Date.now() - stripeStart };
-	} catch {
-		checks.stripe = {
-			status: "error",
-			latencyMs: Date.now() - stripeStart,
-		};
-		// Stripe down doesn't make the app unhealthy — game still works
 	}
 
 	return NextResponse.json(

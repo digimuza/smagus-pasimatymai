@@ -1,9 +1,12 @@
 import * as fs from "node:fs";
 import Module from "node:module";
 import * as path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const scriptDir = fileURLToPath(new URL(".", import.meta.url));
 
 // Load .env.local manually
-const envPath = path.resolve(__dirname, "../.env.local");
+const envPath = path.resolve(scriptDir, "../.env.local");
 
 if (fs.existsSync(envPath)) {
 	const content = fs.readFileSync(envPath, "utf-8");
@@ -25,7 +28,7 @@ const originalResolveFilename = (Module as any)._resolveFilename;
 (Module as any)._resolveFilename = function (request: string, ...args: any[]) {
 	if (request === "@next/env") {
 		// Return a path to our shim instead
-		return path.resolve(__dirname, "next-env-shim.ts");
+		return path.resolve(scriptDir, "next-env-shim.ts");
 	}
 	return originalResolveFilename.call(this, request, ...args);
 };

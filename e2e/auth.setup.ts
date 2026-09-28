@@ -18,12 +18,15 @@ setup("authenticate", async ({ page, request, baseURL }) => {
 	});
 
 	// 2. Login to get auth cookie
-	const loginRes = await request.post("/api/players/login", {
-		data: {
-			email: TEST_PLAYER.email,
-			password: TEST_PLAYER.password,
-		},
+	let loginRes = await request.post("/api/players/login", {
+		data: { email: TEST_PLAYER.email, password: TEST_PLAYER.password },
 	});
+	for (let attempt = 0; attempt < 10 && loginRes.status() === 404; attempt++) {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		loginRes = await request.post("/api/players/login", {
+			data: { email: TEST_PLAYER.email, password: TEST_PLAYER.password },
+		});
+	}
 	expect(loginRes.ok()).toBeTruthy();
 
 	const loginData = await loginRes.json();

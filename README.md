@@ -1,143 +1,69 @@
 # Santykių Klausimai
 
-Gilių klausimų žaidimas poroms - mobiliai pritaikyta web aplikacija su 546 klausimais.
+A conversation card game for couples, families, friends, and kids. The app is built with Next.js 15, Payload CMS, PostgreSQL, and next-intl. Lithuanian has the full question library; English has curated starter decks: 30 couples questions and 15 each for family, friends, and kids.
 
-## Technologijos
+## Local setup
 
-- **Next.js 14** - React framework su App Router
-- **TypeScript** - Tipų saugumas
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Animacijos ir gestai
-- **PWA** - Progressive Web App palaikymas
-
-## Pradėti darbą
-
-1. Įdiekite priklausomybes:
-```bash
-npm install
-```
-
-2. Paleiskite development serverį:
-```bash
-npm run dev
-```
-
-3. Atidarykite naršyklėje: [http://localhost:3000](http://localhost:3000)
-
-## Build production versija
+Requirements: Node.js 20, pnpm 10, Docker, and a Chromium browser for end-to-end tests.
 
 ```bash
-npm run build
-npm start
+pnpm install --frozen-lockfile
+cp .env.example .env.local
+# Edit .env.local: set a unique PAYLOAD_SECRET and the database URL
+docker compose up -d
+pnpm seed
+pnpm dev
 ```
 
-## Funkcijos
+Open <http://localhost:7743>. The database uses port 5433 by default. If that port is busy, run `POSTGRES_PORT=5434 docker compose up -d` and change the port in `DATABASE_URL` in `.env.local` to 5434.
 
-### Pagrindinis žaidimas (/)
-- Tinder stiliaus kortelės su klausimais
-- Trys gestai:
-  - **← Kairėn:** Praleisti klausimą
-  - **→ Dešinėn:** Atsakyta į klausimą
-  - **↑ Aukštyn:** Super like - išsaugoti į mėgstamiausius
-- Haptinė grįžtamoji reakcija
-- 546 klausimai iš 14 kategorijų
-- **Spicy Cards** - užduočių kortelės, kurios pasirodo tarp klausimų
+`PAYLOAD_SECRET` must be unique and at least 32 characters. Seeding does not create an admin account by default. To create one, set `SEED_ADMIN_EMAIL` and a unique `SEED_ADMIN_PASSWORD` of at least 12 characters before running `pnpm seed`. The seed is safe to rerun.
 
-### Kategorijų filtravimas
-- Atskiras puslapis visoms kategorijoms (/categories)
-- Šoninis meniu su visomis kategorijomis
-- Multi-select pasirinkimas
-- Minimaliai 1 kategorija turi būti pasirinkta
-- Real-time klausimų skaičiavimas
-- Vizualus kategorijų grupavimas (pagrindinės / intymios)
+Google sign-in requires Google OAuth credentials. Checkout requires Stripe keys, price IDs, and a webhook secret. Without those integrations, the conversation game still works; checkout and Google sign-in are unavailable. Never use the sample values in production.
 
-### Super klausimai (/awesome)
-- Peržiūrėti išsaugotus mėgstamiausius klausimus
-- Navigacija tarp kortelių
-- Automatinis nukreipimas, kai baigiasi visi klausimai
+## Quality checks
 
-### Spicy Cards
-- **Užduočių kortelės** - įdomios užduotys ir iššūkiai tarp klausimų
-- **10 tipų kortelių:**
-  - 💋 Bučinys - romantiškos užduotys
-  - 🎯 Iššūkis - įdomūs iššūkiai porai
-  - 💝 Komplimentas - gražūs žodžiai
-  - 💆 Masažas - atsipalaidavimo užduotys
-  - 👋 Žaismingas - linksmos užduotys
-  - 🤫 Šnibždesys - intymūs šnabždesiai
-  - 🔥 Išdrįsk - drąsios užduotys
-  - 💭 Tiesa - atvirumo klausimai
-  - 🤗 Apkabinimas - šiltos užduotys
-  - 💃 Šokis - judesio užduotys
-- **Nustatymai:**
-  - Įjungti/išjungti spicy cards
-  - Nustatyti dažnumą (kas kiek klausimų)
-  - Pasirinkti norimus kortelių tipus
-- **30+ įvairių užduočių** visų tipų
-
-### Duomenų išsaugojimas
-- LocalStorage persistence
-- Įsimena atsakytus klausimus
-- Įsimena pasirinktas kategorijas
-- "Iš naujo pradėti" funkcionalumas
-
-## Kategorijos
-
-**Įjungtos pagal nutylėjimą (12):**
-- Apie vaikystę ir praeitį
-- Apie svajones ir ateitį
-- Apie baimes ir pažeidžiamumą
-- Apie meilę ir santykius
-- Apie vertybes ir tikėjimą
-- Apie asmenybę ir savęs pažinimą
-- Apie mus
-- Egzistenciniai klausimai
-- Hipotetiniai klausimai
-- Apie ryšį ir žmones
-- Apie prasmę ir gyvenimo klausimus
-- Apie jausmus ir vidinį pasaulį
-
-**Išjungtos pagal nutylėjimą (3):**
-- Intymūs klausimai
-- Gilūs intymūs klausimai
-- Atviri klausimai apie seksą
-
-## Projekto struktūra
-
-```
-santykiuklausimai/
-├── app/              # Next.js App Router puslapiai
-├── components/       # React komponentai
-├── context/          # React Context (būsenos valdymas)
-├── hooks/            # Custom React hooks
-├── lib/              # Utility funkcijos
-├── types/            # TypeScript tipai
-└── public/           # Statiniai failai (data.json, manifest.json)
+```bash
+pnpm lint:check
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm exec playwright install chromium
+pnpm test:e2e
 ```
 
-## PWA
+End-to-end tests require a seeded PostgreSQL database and a running app. Playwright starts `pnpm dev` automatically when nothing is listening on port 7743. CI builds and seeds its own database, then runs the same tests against `pnpm start`.
 
-Aplikacija veikia kaip Progressive Web App:
-- Offline palaikymas
-- Instaliuojama į namų ekraną
-- Optimizuota mobiliam
-- Tamsus režimas
+## Docker deployment
 
-### iPhone / iOS Vartotojams
+Build the same image that GitHub Actions publishes. Set the public URL at build time because Next.js generates page metadata and client assets during the build:
 
-Fullscreen funkcija neveikia iOS Safari naršyklėje dėl Apple apribojimų.
+```bash
+docker build --build-arg NEXT_PUBLIC_URL=https://your-domain.example \
+  -t santykiu-klausimai:local .
+```
 
-**Kaip gauti fullscreen patirtį iPhone:**
-1. Atidarykite svetainę Safari naršyklėje
-2. Paspauskite „Dalintis" mygtuką (kvadratas su rodykle)
-3. Pasirinkite „Pridėti prie pradinio ekrano"
-4. Atidarykite programėlę iš pradinio ekrano - ji veiks fullscreen režimu!
+Provision persistent PostgreSQL 16 and seed its content once from a checkout of this repository:
 
-Fullscreen mygtukas veikia Android ir kompiuteryje.
+```bash
+DATABASE_URL='postgresql://user:password@db-host:5432/database' \
+PAYLOAD_SECRET='your-unique-secret-at-least-32-characters' pnpm seed
+```
 
-## Dizainas
+Create a private runtime environment file with `DATABASE_URL`, a unique `PAYLOAD_SECRET`, and `NEXT_PUBLIC_URL` set to the same HTTPS URL used at build time. Add Stripe and Google values only when enabling those integrations. The image does not contain the local environment file or credentials.
 
-- **Tema:** Tamsus režimas su šiltomis/romantiškoms spalvomis
-- **Spalvos:** Violetiniai, rožiniai, šilti pilki tonai
-- **Mobile-first:** Optimizuota telefono ekranams
-- **Minimalus:** Dėmesys klausimams, be triukšmo
+```bash
+docker run -d --name santykiu-klausimai --restart unless-stopped \
+  --env-file .env.production -p 7743:7743 santykiu-klausimai:local
+curl --fail http://localhost:7743/api/health
+```
+
+Put the container behind an HTTPS reverse proxy. `/api/health` checks database readiness and is also the image health check. Keep PostgreSQL storage persistent, back it up, and configure the Stripe webhook as `https://your-domain.example/api/webhooks/stripe` if payments are enabled. Rebuild the image when the public domain changes. The repository still includes a Vercel configuration if you choose that platform.
+
+### GitHub Actions image
+
+Pull requests run lint, type checks, unit tests, a production build, browser tests, and a Docker image smoke test. After those jobs pass, pushes to `main` publish `ghcr.io/digimuza/smagus-pasimatymai:latest` and an immutable `sha-...` tag. Tags matching `v*` publish a matching release tag and an immutable SHA tag. GitHub Actions uses `GITHUB_TOKEN` to publish to GHCR; no registry secret is needed. Set the repository Actions variable `APP_URL` to the final public HTTPS URL **before publishing** so generated metadata has the right domain. Deployment to a server remains a separate operation because this repository does not define a hosting target or server credentials.
+
+If the GHCR package is private, authenticate on the deployment host with a GitHub token that can read packages before pulling. Prefer deploying an immutable `sha-...` or release tag, then supply runtime secrets through your host's secret manager or a private environment file. Enable GitHub branch protection so the CI jobs must pass before merging to `main`.
+
+The PWA manifest and icons are in `public/`.

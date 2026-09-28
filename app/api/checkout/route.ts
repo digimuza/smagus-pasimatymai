@@ -15,14 +15,11 @@ export async function POST(req: NextRequest) {
 	}
 
 	const { success } = rateLimit(`checkout:${user.id}`, {
-		windowMs: 60_000,
 		maxRequests: 5,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const body = await req.json();
@@ -55,7 +52,7 @@ export async function POST(req: NextRequest) {
 	// Block checkout if user already has an active premium subscription
 	if (existingSub.docs.length > 0) {
 		const sub = existingSub.docs[0];
-		if (isPremium(sub)) {
+		if (isPremium({ plan: sub.plan, status: sub.status })) {
 			return NextResponse.json(
 				{ error: "Already subscribed" },
 				{ status: 409 },

@@ -17,10 +17,10 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
 
 const variantStyles: Record<ButtonVariant, string> = {
 	danger: "bg-accent/20 hover:bg-accent/30 text-accent font-medium",
-	ghost:
-		"bg-transparent hover:bg-background-lighter text-text-muted hover:text-text",
-	primary: "bg-primary hover:bg-primary-light text-background font-medium",
-	secondary: "bg-primary/20 hover:bg-primary/30 text-primary font-medium",
+	ghost: "bg-transparent hover:bg-white/5 text-[#d4bccb] hover:text-white",
+	primary: "bg-[#f5c7a9] hover:bg-[#ffe0c4] text-[#281827] font-medium",
+	secondary:
+		"border border-[#f5c7a9]/15 bg-[#f5c7a9]/10 hover:bg-[#f5c7a9]/20 text-[#f5c7a9] font-medium",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -47,7 +47,7 @@ export function Button({
         ${variantStyles[variant]}
         ${sizeStyles[size]}
         ${fullWidth ? "w-full" : ""}
-        ${disabled || loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"}inline-flex items-center justify-center gap-2 transition-colors ${className}
+        ${disabled || loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} inline-flex items-center justify-center gap-2 transition-colors ${className}
       `}
 			disabled={disabled || loading}
 			{...props}

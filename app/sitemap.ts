@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://santykiuklausimai.lt";
+const BASE_URL = (
+	process.env.NEXT_PUBLIC_URL || "http://localhost:7743"
+).replace(/\/$/, "");
 
 const routes = [
 	"",

@@ -50,14 +50,11 @@ export async function POST(req: NextRequest) {
 	}
 
 	const { success } = rateLimit(`progress:${user.id}`, {
-		windowMs: 60_000,
 		maxRequests: 20,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const body = await req.json();

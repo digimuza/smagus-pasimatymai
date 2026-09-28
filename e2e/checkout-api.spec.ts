@@ -10,21 +10,15 @@ test.describe("Checkout API", () => {
 		expect(response.status()).toBe(400);
 	});
 
-	test("rejects request without auth", async ({ page }) => {
-		// Create a fresh context without auth cookies
-		const browser = page.context().browser();
-		if (!browser) throw new Error("No browser instance");
-		const freshContext = await browser.newContext();
-
-		const response = await freshContext.request.post(
+	test("rejects request without auth", async () => {
+		const response = await fetch(
 			`${process.env.PLAYWRIGHT_BASE_URL || "http://localhost:7743"}/api/checkout`,
 			{
-				data: { plan: "monthly" },
+				body: JSON.stringify({ plan: "monthly" }),
 				headers: { "Content-Type": "application/json" },
+				method: "POST",
 			},
 		);
-
-		expect(response.status()).toBe(401);
-		await freshContext.close();
+		expect(response.status).toBe(401);
 	});
 });

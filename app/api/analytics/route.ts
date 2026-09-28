@@ -5,17 +5,13 @@ import { analyticsBodySchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
 	const ip =
-		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-		"unknown";
+		request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 	const { success } = rateLimit(`analytics:${ip}`, {
-		windowMs: 60_000,
 		maxRequests: 30,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	try {
@@ -39,9 +35,7 @@ export async function POST(request: Request) {
 				data: {
 					eventType: event.eventType,
 					questionId:
-						typeof event.questionId === "number"
-							? event.questionId
-							: 0,
+						typeof event.questionId === "number" ? event.questionId : 0,
 					sessionId: event.sessionId,
 					timeSpent: event.timeSpent,
 					timestamp: event.timestamp,

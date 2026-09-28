@@ -10,6 +10,7 @@ interface HeaderProps {
 	rightAction?: React.ReactNode;
 	showBack?: boolean;
 	title: string;
+	titleClassName?: string;
 }
 
 export function Header({
@@ -19,6 +20,7 @@ export function Header({
 	leftAction,
 	rightAction,
 	className = "",
+	titleClassName = "",
 }: HeaderProps) {
 	const router = useRouter();
 	const t = useTranslations("common");
@@ -55,7 +57,9 @@ export function Header({
 			className={`flex items-center justify-between bg-background-light p-6 ${className}`}
 		>
 			{left}
-			<h1 className="font-light text-2xl text-primary">{title}</h1>
+			<h1 className={`font-light text-2xl text-primary ${titleClassName}`}>
+				{title}
+			</h1>
 			{rightAction ?? <div className="w-8" />}
 		</header>
 	);

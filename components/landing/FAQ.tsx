@@ -16,17 +16,17 @@ function FAQItem({
 	onToggle: () => void;
 }) {
 	return (
-		<div className="border-primary/10 border-b last:border-b-0">
+		<div className="border-white/10 border-b last:border-b-0">
 			<button
 				aria-expanded={isOpen}
 				className="group flex w-full items-center justify-between py-5 text-left"
 				onClick={onToggle}
 				type="button"
 			>
-				<span className="pr-4 font-medium text-text">{question}</span>
+				<span className="pr-4 font-medium text-[#f5e6e3]">{question}</span>
 				<motion.span
 					animate={{ rotate: isOpen ? 45 : 0 }}
-					className="flex-shrink-0 text-primary text-xl"
+					className="flex-shrink-0 text-[#f5c7a9] text-xl"
 					transition={{ duration: 0.2 }}
 				>
 					+
@@ -41,7 +41,7 @@ function FAQItem({
 						initial={{ height: 0, opacity: 0 }}
 						transition={{ duration: 0.3, ease: "easeInOut" }}
 					>
-						<p className="pb-5 text-sm text-text-muted leading-relaxed">
+						<p className="pb-5 text-[#cdb9ca] text-sm leading-relaxed">
 							{answer}
 						</p>
 					</motion.div>
@@ -58,10 +58,10 @@ export function FAQ() {
 	const items = t.raw("items") as Array<{ question: string; answer: string }>;
 
 	return (
-		<section className="py-16 content-auto sm:py-24">
+		<section className="bg-[#160e1e] py-20 content-auto sm:py-28">
 			<div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
 				<motion.h2
-					className="mb-12 text-center font-bold text-3xl text-text md:text-4xl"
+					className="mb-12 text-center font-serif text-4xl text-[#fff1e7] md:text-5xl"
 					initial={{ opacity: 0, y: 20 }}
 					transition={{ duration: 0.6 }}
 					viewport={{ once: true }}
@@ -71,7 +71,7 @@ export function FAQ() {
 				</motion.h2>
 
 				<motion.div
-					className="rounded-2xl border border-primary/10 bg-background-lighter px-6"
+					className="rounded-[1.6rem] border border-white/10 bg-[#23162d] px-6 sm:px-8"
 					initial={{ opacity: 0, y: 20 }}
 					transition={{ delay: 0.1, duration: 0.6 }}
 					viewport={{ once: true }}
