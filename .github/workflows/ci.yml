@@ -115,7 +115,6 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
-      packages: write
 
     services:
       postgres:
@@ -162,7 +161,7 @@ jobs:
           push: false
           tags: santykiu-klausimai:ci
           build-args: |
-            NEXT_PUBLIC_URL=${{ vars.APP_URL || 'http://localhost:7743' }}
+            NEXT_PUBLIC_URL=https://pasimatymai.digimuza.ai
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -187,19 +186,19 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: docker.digimuza.ai/pasimatymai
           tags: |
             type=sha,prefix=sha-
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=tag
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to Digimuza registry
         if: github.event_name == 'push'
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.digimuza.ai
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Publish tested image
         if: github.event_name == 'push'
@@ -210,5 +209,33 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            NEXT_PUBLIC_URL=${{ vars.APP_URL || 'http://localhost:7743' }}
+            NEXT_PUBLIC_URL=https://pasimatymai.digimuza.ai
           cache-from: type=gha
+
+      - name: Deploy in Coolify
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        run: |
+          response=$(curl --fail-with-body --silent --show-error \
+            -X POST https://coolify.digimuza.ai/api/v1/deploy \
+            -H "Authorization: Bearer $COOLIFY_TOKEN" \
+            -H 'Content-Type: application/json' \
+            -d '{"uuid":"xmz4o79mozm02bj7ntmee7fv"}')
+          deployment_uuid=$(jq -r '.deployments[0].deployment_uuid // empty' <<< "$response")
+          test -n "$deployment_uuid"
+          echo "Coolify deployment: $deployment_uuid"
+          status=pending
+          for attempt in {1..90}; do
+            status=$(curl --fail-with-body --silent --show-error \
+              "https://coolify.digimuza.ai/api/v1/deployments/$deployment_uuid" \
+              -H "Authorization: Bearer $COOLIFY_TOKEN" | jq -r '.status')
+            case "$status" in
+              finished) break ;;
+              failed|cancelled|cancelled-by-user) echo "Coolify deployment $status"; exit 1 ;;
+            esac
+            sleep 5
+          done
+          test "$status" = finished
+          curl --fail --silent --show-error --retry 6 --retry-delay 5 \
+            https://pasimatymai.digimuza.ai/api/health -o /dev/null

@@ -60,10 +60,12 @@ curl --fail http://localhost:7743/api/health
 
 Put the container behind an HTTPS reverse proxy. `/api/health` checks database readiness and is also the image health check. Keep PostgreSQL storage persistent, back it up, and configure the Stripe webhook as `https://your-domain.example/api/webhooks/stripe` if payments are enabled. Rebuild the image when the public domain changes. The repository still includes a Vercel configuration if you choose that platform.
 
-### GitHub Actions image
+### Production deployment
 
-Pull requests run lint, type checks, unit tests, a production build, browser tests, and a Docker image smoke test. After those jobs pass, pushes to `main` publish `ghcr.io/digimuza/smagus-pasimatymai:latest` and an immutable `sha-...` tag. Tags matching `v*` publish a matching release tag and an immutable SHA tag. GitHub Actions uses `GITHUB_TOKEN` to publish to GHCR; no registry secret is needed. Set the repository Actions variable `APP_URL` to the final public HTTPS URL **before publishing** so generated metadata has the right domain. Deployment to a server remains a separate operation because this repository does not define a hosting target or server credentials.
+The production app is `pasimatymai` in Coolify's **Digimuza AI / production** environment at <https://pasimatymai.digimuza.ai>. It pulls `docker.digimuza.ai/pasimatymai:latest` and uses its own private PostgreSQL 16 database, `pasimatymai-postgres`. Coolify stores `DATABASE_URL`, `PAYLOAD_SECRET`, and `NEXT_PUBLIC_URL` as app environment variables. The database has a daily local backup with seven-day retention.
 
-If the GHCR package is private, authenticate on the deployment host with a GitHub token that can read packages before pulling. Prefer deploying an immutable `sha-...` or release tag, then supply runtime secrets through your host's secret manager or a private environment file. Enable GitHub branch protection so the CI jobs must pass before merging to `main`.
+Pull requests run lint, type checks, unit tests, a production build, browser tests, and a Docker image smoke test. After those jobs pass, pushes to `main` publish `latest` and `sha-...` tags to `docker.digimuza.ai/pasimatymai`, trigger the Coolify deployment, and check `/api/health`. Tags matching `v*` publish a release tag and SHA tag without deploying. The build uses `https://pasimatymai.digimuza.ai` for generated metadata.
+
+GitHub Actions needs repository secrets `REGISTRY_USERNAME`, `REGISTRY_PASSWORD`, and `COOLIFY_TOKEN`. The registry credentials come from the Coolify `docker` registry service; the token needs permission to deploy the app. The app UUID in the workflow is `xmz4o79mozm02bj7ntmee7fv`. Seed the database once with `pnpm seed` from a checkout that can reach the private database. Keep the database private and monitor the backup schedule and CI deployment job.
 
 The PWA manifest and icons are in `public/`.
