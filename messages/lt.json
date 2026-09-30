@@ -269,6 +269,7 @@
 			"readerWins": "Apgavote!",
 			"readerWinsDesc": "{reader} sėkmingai apgavo spėjėją.",
 			"readHint": "{reader}, garsiai perskaitykite tris teiginius. Pasirūpinkite, kad {guesser} nematytų ekrano!",
+			"guessHint": "{guesser}, kuris teiginys yra melas?",
 			"readyToGuess": "Perduoti spėjėjui",
 			"round": "Raundas {current}/{total}",
 			"seeResults": "Žiūrėti rezultatus",

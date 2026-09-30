@@ -269,6 +269,7 @@
 			"readerWins": "You fooled them!",
 			"readerWinsDesc": "{reader} successfully tricked the guesser.",
 			"readHint": "{reader}, read the three statements out loud. Make sure {guesser} can't see the screen!",
+			"guessHint": "{guesser}, which statement is the lie?",
 			"readyToGuess": "Pass to guesser",
 			"round": "Round {current}/{total}",
 			"seeResults": "See results",
