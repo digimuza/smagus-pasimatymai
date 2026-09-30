@@ -106,6 +106,18 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
 					<Button
 						fullWidth
+						icon={<span className="text-lg">🎉</span>}
+						onClick={() => {
+							router.push("/games");
+							onClose();
+						}}
+						variant="secondary"
+					>
+						{t("games")}
+					</Button>
+
+					<Button
+						fullWidth
 						icon={<span className="text-lg">🎲</span>}
 						onClick={() => {
 							router.push("/settings");
