@@ -120,6 +120,7 @@
 			"undo": "Atšaukti"
 		},
 		"dateJar": {
+			"title": "Pasimatymų stiklainis",
 			"completed": "Atlikta",
 			"empty": "Paspauskite stiklainį",
 			"emptyHint": "…ir ištrauksite idėją šiam vakarui",
@@ -200,6 +201,7 @@
 		},
 		"intro": "Šeši žaidimai poroms — rinkitės ir žaiskite",
 		"loveMap": {
+			"title": "Meilės žemėlapis",
 			"correct": "Teisingai!",
 			"correctDesc": "Jūs tikrai pažįstate savo partnerį.",
 			"difficulty": {
@@ -225,6 +227,7 @@
 			"title": "Meilės žemėlapis"
 		},
 		"thisOrThat": {
+			"title": "Šis ar tas?",
 			"intro": "Abu atsakykite į tuos pačius klausimus — pažiūrėkite, ar atsakymai sutapo.",
 			"match": "Sutapo! 💚",
 			"matchDesc": "Jūsų atsakymai vienodi — tai ženklas, kad pažįstate vienas kitą.",
@@ -248,6 +251,7 @@
 		"title": "Žaidimai poroms",
 		"tryAnother": "Išbandykite kitą žaidimą",
 		"twoTruths": {
+			"title": "Dvi tiesos ir melas",
 			"aWins": "A laimi!",
 			"bWins": "B laimi!",
 			"guesserLabel": "spėja",

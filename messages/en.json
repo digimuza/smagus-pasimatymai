@@ -120,6 +120,7 @@
 			"undo": "Undo"
 		},
 		"dateJar": {
+			"title": "Date Night Jar",
 			"completed": "Completed",
 			"empty": "Tap the jar",
 			"emptyHint": "…and you'll pull out an idea for tonight",
@@ -200,6 +201,7 @@
 		},
 		"intro": "Six games for two — pick one and play",
 		"loveMap": {
+			"title": "Love Map",
 			"correct": "Correct!",
 			"correctDesc": "You really know your partner.",
 			"difficulty": {
@@ -225,6 +227,7 @@
 			"title": "Love Map"
 		},
 		"thisOrThat": {
+			"title": "This or That",
 			"intro": "Both answer the same questions — see if your answers match.",
 			"match": "Match! 💚",
 			"matchDesc": "Your answers line up — a sign that you know each other.",
@@ -248,6 +251,7 @@
 		"title": "Couple games",
 		"tryAnother": "Try another game",
 		"twoTruths": {
+			"title": "Two Truths and a Lie",
 			"aWins": "A wins!",
 			"bWins": "B wins!",
 			"guesserLabel": "guesses",
