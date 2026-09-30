@@ -2,9 +2,18 @@ import { useCallback } from "react";
 
 type HapticPattern = "light" | "medium" | "heavy";
 
+function prefersReducedMotion(): boolean {
+	if (typeof window === "undefined") return false;
+	return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function useHaptic() {
 	const vibrate = useCallback((pattern: HapticPattern = "medium") => {
-		if (typeof window === "undefined" || !("vibrate" in navigator)) {
+		if (
+			typeof window === "undefined" ||
+			!("vibrate" in navigator) ||
+			prefersReducedMotion()
+		) {
 			return;
 		}
 
@@ -22,7 +31,11 @@ export function useHaptic() {
 	}, []);
 
 	const vibratePattern = useCallback((pattern: number[]) => {
-		if (typeof window === "undefined" || !("vibrate" in navigator)) {
+		if (
+			typeof window === "undefined" ||
+			!("vibrate" in navigator) ||
+			prefersReducedMotion()
+		) {
 			return;
 		}
 

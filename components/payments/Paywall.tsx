@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LoginSheet } from "@/components/auth/LoginSheet";
@@ -13,7 +12,6 @@ interface PaywallProps {
 	trigger?: string;
 }
 
-const _FEATURES_FREE = ["50questions", "romanticOnly", "basicCategories"];
 const FEATURES_PREMIUM = [
 	"allQuestions",
 	"allAudiences",
@@ -22,7 +20,7 @@ const FEATURES_PREMIUM = [
 	"noAds",
 ];
 
-export function Paywall({ isOpen, onClose, trigger: _trigger }: PaywallProps) {
+export function Paywall({ isOpen, onClose }: PaywallProps) {
 	const t = useTranslations("payments");
 	const tc = useTranslations("common");
 	const { isAuthenticated } = useAuth();
@@ -138,21 +136,19 @@ export function Paywall({ isOpen, onClose, trigger: _trigger }: PaywallProps) {
 					</div>
 
 					{/* CTA */}
-					<motion.div whileTap={{ scale: 0.97 }}>
-						<Button
-							className="!rounded-full !bg-[#f5c7a9] !text-[#281827] hover:!bg-[#ffe0c4]"
-							disabled={isLoading}
-							fullWidth
-							onClick={handleCheckout}
-							variant="primary"
-						>
-							{isLoading
-								? t("processing")
-								: isAuthenticated
-									? t("startTrial")
-									: t("signInToContinue")}
-						</Button>
-					</motion.div>
+					<Button
+						className="!rounded-full !bg-[#f5c7a9] !text-[#281827] hover:!bg-[#ffe0c4]"
+						disabled={isLoading}
+						fullWidth
+						onClick={handleCheckout}
+						variant="primary"
+					>
+						{isLoading
+							? t("processing")
+							: isAuthenticated
+								? t("startTrial")
+								: t("signInToContinue")}
+					</Button>
 
 					<p className="mt-3 text-center text-[#bfaabb] text-xs">
 						{t("trialNote")}

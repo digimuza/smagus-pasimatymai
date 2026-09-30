@@ -1,6 +1,6 @@
 "use client";
 
-import { type HTMLMotionProps, motion } from "framer-motion";
+import { type HTMLMotionProps, motion, useReducedMotion } from "framer-motion";
 import { pressAnimation } from "@/lib/animations";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
@@ -40,14 +40,15 @@ export function Button({
 	disabled,
 	...props
 }: ButtonProps) {
+	const prefersReducedMotion = useReducedMotion();
 	return (
 		<motion.button
-			{...pressAnimation}
+			{...(prefersReducedMotion ? {} : pressAnimation)}
 			className={`
         ${variantStyles[variant]}
         ${sizeStyles[size]}
         ${fullWidth ? "w-full" : ""}
-        ${disabled || loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} inline-flex items-center justify-center gap-2 transition-colors ${className}
+        ${disabled || loading ? "cursor-not-allowed opacity-50" : "cursor-pointer"} inline-flex items-center justify-center gap-2 transition-colors motion-reduce:transition-none ${className}
       `}
 			disabled={disabled || loading}
 			{...props}

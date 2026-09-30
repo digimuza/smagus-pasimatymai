@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Sheet } from "@/components/ui";
 import { useAuth } from "@/context/AuthContext";
 
@@ -21,6 +21,23 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 	const [name, setName] = useState("");
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const emailInputRef = useRef<HTMLInputElement>(null);
+	const prefersReducedMotion = useReducedMotion();
+
+	useEffect(() => {
+		if (isOpen) {
+			emailInputRef.current?.focus();
+		}
+	}, [isOpen]);
+
+	useEffect(() => {
+		if (!isOpen) return;
+		function handleKeyDown(e: KeyboardEvent) {
+			if (e.key === "Escape") onClose();
+		}
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [isOpen, onClose]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -122,6 +139,7 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 						className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-[#fff1e7] text-sm placeholder:text-[#a995a9] focus:border-[#f5c7a9] focus:outline-none"
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder={t("emailPlaceholder")}
+						ref={emailInputRef}
 						required
 						type="email"
 						value={email}
@@ -144,6 +162,8 @@ export function LoginSheet({ isOpen, onClose }: LoginSheetProps) {
 								className="text-center text-red-400 text-sm"
 								exit={{ opacity: 0 }}
 								initial={{ opacity: 0, y: -5 }}
+								role="alert"
+								transition={prefersReducedMotion ? { duration: 0 } : undefined}
 							>
 								{error}
 							</motion.p>

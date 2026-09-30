@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { springs } from "@/lib/animations";
 
 interface SheetProps {
@@ -20,6 +20,7 @@ export function Sheet({
 }: SheetProps) {
 	const isLeft = side === "left";
 	const hiddenPosition = isLeft ? { x: "-100%" } : { y: "100%" };
+	const prefersReducedMotion = useReducedMotion();
 
 	return (
 		<AnimatePresence>
@@ -44,7 +45,7 @@ export function Sheet({
 						exit={hiddenPosition}
 						initial={hiddenPosition}
 						role="dialog"
-						transition={springs.snappy}
+						transition={prefersReducedMotion ? { duration: 0 } : springs.snappy}
 					>
 						{children}
 					</motion.div>

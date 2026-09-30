@@ -1,8 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Sheet } from "@/components/ui";
 import { useAuth } from "@/context/AuthContext";
 import { useQuestions } from "@/context/QuestionContext";
@@ -19,6 +19,16 @@ export function SubmitQuestion({ isOpen, onClose }: SubmitQuestionProps) {
 	const [text, setText] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitted, setSubmitted] = useState(false);
+	const prefersReducedMotion = useReducedMotion();
+	const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+	useEffect(() => {
+		return () => {
+			if (resetTimerRef.current) {
+				clearTimeout(resetTimerRef.current);
+			}
+		};
+	}, []);
 
 	const handleSubmit = async () => {
 		if (!text.trim() || text.trim().length < 10) return;
@@ -38,10 +48,12 @@ export function SubmitQuestion({ isOpen, onClose }: SubmitQuestionProps) {
 			if (res.ok) {
 				setSubmitted(true);
 				setText("");
-				setTimeout(() => {
+				const delay = prefersReducedMotion ? 800 : 2000;
+				resetTimerRef.current = setTimeout(() => {
+					resetTimerRef.current = null;
 					setSubmitted(false);
 					onClose();
-				}, 2000);
+				}, delay);
 			}
 		} finally {
 			setIsSubmitting(false);

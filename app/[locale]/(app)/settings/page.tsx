@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
 	Button,
@@ -27,6 +27,10 @@ export default function SettingsPage() {
 		updateSpicyCardsRarity,
 		toggleSpicyCardType,
 	} = useQuestions();
+	const prefersReducedMotion = useReducedMotion();
+	const cardTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { delay: 0.1 };
 
 	const rarityOptions = Object.entries(RARITY_LABELS).map(([value, label]) => ({
 		label: label as string,
@@ -38,7 +42,10 @@ export default function SettingsPage() {
 			<Header showBack title={t("title")} />
 
 			<PageContent>
-				<Card {...fadeInUp}>
+				<Card
+					{...fadeInUp}
+					transition={prefersReducedMotion ? { duration: 0 } : undefined}
+				>
 					<div className="space-y-6">
 						<Toggle
 							description={t("spicyToggleDescription")}
@@ -99,7 +106,7 @@ export default function SettingsPage() {
 					</div>
 				</Card>
 
-				<motion.div {...fadeInUp} transition={{ delay: 0.1 }}>
+				<motion.div {...fadeInUp} transition={cardTransition}>
 					<Card className="border-primary/30 bg-primary/10" variant="outlined">
 						<p
 							className="text-sm text-text-muted"

@@ -1,11 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { ModeCard } from "./ModeCard";
 
 export function ModeShowcase() {
 	const t = useTranslations("landing.modes");
+	const prefersReducedMotion = useReducedMotion();
+	const headerTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { duration: 0.6 };
 
 	return (
 		<section className="relative border-white/5 border-t bg-[#160e1e] py-20 sm:py-28">
@@ -13,7 +17,7 @@ export function ModeShowcase() {
 				<motion.h2
 					className="mx-auto mb-14 max-w-2xl text-center font-serif text-4xl text-[#fff1e7] leading-tight sm:text-5xl"
 					initial={{ opacity: 0, y: 20 }}
-					transition={{ duration: 0.6 }}
+					transition={headerTransition}
 					viewport={{ once: true }}
 					whileInView={{ opacity: 1, y: 0 }}
 				>
@@ -33,7 +37,7 @@ export function ModeShowcase() {
 					<ModeCard
 						colorClass="family"
 						cta={t("family.cta")}
-						delay={0.05}
+						delay={prefersReducedMotion ? 0 : 0.05}
 						description={t("family.description")}
 						href="/audience"
 						icon="🏠"
@@ -42,7 +46,7 @@ export function ModeShowcase() {
 					<ModeCard
 						colorClass="friends"
 						cta={t("friends.cta")}
-						delay={0.1}
+						delay={prefersReducedMotion ? 0 : 0.1}
 						description={t("friends.description")}
 						href="/audience"
 						icon="🎉"
@@ -51,7 +55,7 @@ export function ModeShowcase() {
 					<ModeCard
 						colorClass="kids"
 						cta={t("kids.cta")}
-						delay={0.15}
+						delay={prefersReducedMotion ? 0 : 0.15}
 						description={t("kids.description")}
 						href="/audience"
 						icon="🌈"

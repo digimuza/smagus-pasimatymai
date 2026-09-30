@@ -1,12 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 const STEP_ICONS = ["🎯", "👆", "💬"];
 
 export function HowItWorks() {
 	const t = useTranslations("landing.howItWorks");
+	const prefersReducedMotion = useReducedMotion();
 
 	const steps = [
 		{
@@ -45,12 +46,16 @@ export function HowItWorks() {
 							className="flex flex-col items-center gap-4 rounded-[1.6rem] border border-white/10 bg-[#23162d] px-7 py-9 text-center"
 							initial={{ opacity: 0, y: 30 }}
 							key={i}
-							transition={{
-								bounce: 0.4,
-								delay: i * 0.15,
-								duration: 0.5,
-								type: "spring",
-							}}
+							transition={
+								prefersReducedMotion
+									? { duration: 0 }
+									: {
+											damping: 18,
+											delay: i * 0.15,
+											stiffness: 200,
+											type: "spring",
+										}
+							}
 							viewport={{ margin: "-50px", once: true }}
 							whileInView={{ opacity: 1, y: 0 }}
 						>

@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -9,11 +9,13 @@ function FAQItem({
 	answer,
 	isOpen,
 	onToggle,
+	prefersReducedMotion,
 }: {
 	question: string;
 	answer: string;
 	isOpen: boolean;
 	onToggle: () => void;
+	prefersReducedMotion: boolean | null;
 }) {
 	return (
 		<div className="border-white/10 border-b last:border-b-0">
@@ -27,7 +29,9 @@ function FAQItem({
 				<motion.span
 					animate={{ rotate: isOpen ? 45 : 0 }}
 					className="flex-shrink-0 text-[#f5c7a9] text-xl"
-					transition={{ duration: 0.2 }}
+					transition={
+						prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+					}
 				>
 					+
 				</motion.span>
@@ -39,7 +43,11 @@ function FAQItem({
 						className="overflow-hidden"
 						exit={{ height: 0, opacity: 0 }}
 						initial={{ height: 0, opacity: 0 }}
-						transition={{ duration: 0.3, ease: "easeInOut" }}
+						transition={
+							prefersReducedMotion
+								? { duration: 0 }
+								: { duration: 0.3, ease: "easeInOut" }
+						}
 					>
 						<p className="pb-5 text-[#cdb9ca] text-sm leading-relaxed">
 							{answer}
@@ -54,6 +62,7 @@ function FAQItem({
 export function FAQ() {
 	const t = useTranslations("landing.faq");
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
+	const prefersReducedMotion = useReducedMotion();
 
 	const items = t.raw("items") as Array<{ question: string; answer: string }>;
 
@@ -63,7 +72,9 @@ export function FAQ() {
 				<motion.h2
 					className="mb-12 text-center font-serif text-4xl text-[#fff1e7] md:text-5xl"
 					initial={{ opacity: 0, y: 20 }}
-					transition={{ duration: 0.6 }}
+					transition={
+						prefersReducedMotion ? { duration: 0 } : { duration: 0.6 }
+					}
 					viewport={{ once: true }}
 					whileInView={{ opacity: 1, y: 0 }}
 				>
@@ -73,7 +84,11 @@ export function FAQ() {
 				<motion.div
 					className="rounded-[1.6rem] border border-white/10 bg-[#23162d] px-6 sm:px-8"
 					initial={{ opacity: 0, y: 20 }}
-					transition={{ delay: 0.1, duration: 0.6 }}
+					transition={
+						prefersReducedMotion
+							? { duration: 0 }
+							: { delay: 0.1, duration: 0.6 }
+					}
 					viewport={{ once: true }}
 					whileInView={{ opacity: 1, y: 0 }}
 				>
@@ -83,6 +98,7 @@ export function FAQ() {
 							isOpen={openIndex === i}
 							key={i}
 							onToggle={() => setOpenIndex(openIndex === i ? null : i)}
+							prefersReducedMotion={prefersReducedMotion}
 							question={item.question}
 						/>
 					))}

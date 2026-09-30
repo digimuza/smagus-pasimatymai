@@ -1,12 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimatedCard } from "./AnimatedCard";
 
 export function HeroSection() {
 	const t = useTranslations("landing");
+	const prefersReducedMotion = useReducedMotion();
+	const enterTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { duration: 0.65 };
+	const cardTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { delay: 0.18, duration: 0.7 };
 
 	return (
 		<section className="romance-hero relative isolate overflow-hidden px-5 pt-14 pb-24 sm:px-8 sm:pt-24 lg:py-32">
@@ -16,7 +23,7 @@ export function HeroSection() {
 				<motion.div
 					animate={{ opacity: 1, y: 0 }}
 					initial={{ opacity: 0, y: 22 }}
-					transition={{ duration: 0.65 }}
+					transition={enterTransition}
 				>
 					<div className="mb-8 flex items-center gap-3 text-[#f6c7b2] text-xs uppercase tracking-[0.24em]">
 						<span aria-hidden="true" className="h-px w-8 bg-[#f6c7b2]/70" />
@@ -32,13 +39,13 @@ export function HeroSection() {
 					</p>
 					<div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
 						<Link
-							className="group inline-flex min-h-14 items-center justify-center gap-4 rounded-full bg-[#f5c7a9] px-8 py-4 font-semibold text-[#281827] shadow-[0_16px_40px_rgba(245,165,153,0.23)] transition duration-200 hover:-translate-y-1 hover:bg-[#ffe0c4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4"
+							className="group inline-flex min-h-14 items-center justify-center gap-4 rounded-full bg-[#f5c7a9] px-8 py-4 font-semibold text-[#281827] shadow-[0_16px_40px_rgba(245,165,153,0.23)] transition duration-200 hover:-translate-y-1 hover:bg-[#ffe0c4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:hover:translate-y-0"
 							href="/audience"
 						>
 							{t("cta")}
 							<span
 								aria-hidden="true"
-								className="text-xl transition-transform group-hover:translate-x-1"
+								className="text-xl transition-transform group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
 							>
 								↗
 							</span>
@@ -50,7 +57,7 @@ export function HeroSection() {
 					animate={{ opacity: 1, rotate: 0, y: 0 }}
 					className="relative mx-auto w-full max-w-md"
 					initial={{ opacity: 0, rotate: 2, y: 30 }}
-					transition={{ delay: 0.18, duration: 0.7 }}
+					transition={cardTransition}
 				>
 					<div
 						aria-hidden="true"

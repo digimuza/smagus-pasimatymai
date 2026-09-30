@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
 	Button,
@@ -25,6 +25,10 @@ export default function CategoriesPage() {
 		activeCategories,
 		audience,
 	} = useQuestions();
+	const prefersReducedMotion = useReducedMotion();
+	const warningTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { duration: 0.25 };
 
 	const safeCategories = sections.filter((s) => s.type === "safe");
 	const intimateSections = sections.filter((s) => s.type === "intimate");
@@ -147,6 +151,7 @@ export default function CategoriesPage() {
 						animate={{ opacity: 1, scale: 1 }}
 						className="rounded-xl border border-accent/30 bg-accent/10 p-4 text-center"
 						initial={{ opacity: 0, scale: 0.95 }}
+						transition={warningTransition}
 					>
 						<p className="text-sm text-text-muted">{t("minWarning")}</p>
 					</motion.div>
