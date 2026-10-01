@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useMemo, useState } from "react";
 import { Button, Card, Header, PageContent, PageLayout } from "@/components/ui";
@@ -26,6 +26,10 @@ export default function AwesomePage() {
 		updateQuestionState,
 		audience,
 	} = useQuestions();
+	const prefersReducedMotion = useReducedMotion();
+	const cardEnterTransition = prefersReducedMotion
+		? { duration: 0 }
+		: { duration: 0.2 };
 	const [search, setSearch] = useState("");
 	const [view, setView] = useState<"cards" | "list">("cards");
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -84,7 +88,11 @@ export default function AwesomePage() {
 		return (
 			<PageLayout>
 				<PageContent centered>
-					<motion.div {...fadeInUp} className="space-y-6 text-center">
+					<motion.div
+						{...fadeInUp}
+						className="space-y-6 text-center"
+						transition={cardEnterTransition}
+					>
 						<div className="mb-4 text-6xl">⭐</div>
 						<h1 className="mb-4 font-light text-3xl text-primary">
 							{t("empty")}
@@ -174,7 +182,7 @@ export default function AwesomePage() {
 									padding="lg"
 									variant="elevated"
 									{...scaleIn}
-									transition={{ duration: 0.2 }}
+									transition={cardEnterTransition}
 								>
 									<div className="flex h-full flex-col items-center justify-center">
 										<p className="text-balance text-center font-light text-2xl text-text leading-relaxed md:text-3xl">

@@ -4,6 +4,7 @@ import {
 	motion,
 	type PanInfo,
 	useMotionValue,
+	useReducedMotion,
 	useTransform,
 } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -20,6 +21,7 @@ interface SpicyCardDisplayProps {
 
 export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 	const t = useTranslations("game");
+	const prefersReducedMotion = useReducedMotion();
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
 	const [exitX, setExitX] = useState(0);
@@ -30,6 +32,11 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 		x,
 		[-200, -100, 0, 100, 200],
 		[0.5, 1, 1, 1, 0.5],
+	);
+	const dismissHintOpacity = useTransform(
+		x,
+		[-150, -50, 0, 50, 150],
+		[1, 0, 0, 0, 1],
 	);
 
 	const handleDragEnd = (
@@ -55,8 +62,8 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 					? { opacity: 0, transition: { duration: 0.3 }, x: exitX, y: exitY }
 					: spicyCardFlip.animate
 			}
-			className="absolute relative flex h-full w-full max-w-md cursor-grab flex-col items-center justify-center overflow-y-auto rounded-2xl p-6 shadow-lg active:cursor-grabbing sm:p-8"
-			drag
+			className="absolute flex h-full w-full max-w-md cursor-grab flex-col items-center justify-center overflow-y-auto rounded-2xl p-6 shadow-lg active:cursor-grabbing sm:p-8"
+			drag={!prefersReducedMotion}
 			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
 			dragElastic={0.7}
 			initial={spicyCardFlip.initial}
@@ -133,10 +140,8 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 			</div>
 
 			<motion.div
-				className="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 font-bold text-white text-xl opacity-0"
-				style={{
-					opacity: useTransform(x, [-150, -50, 0, 50, 150], [1, 0, 0, 0, 1]),
-				}}
+				className="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 font-bold text-white text-xl"
+				style={{ opacity: dismissHintOpacity }}
 			>
 				{t("swipeDone")}
 			</motion.div>

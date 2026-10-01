@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { springs } from "@/lib/animations";
 
 interface ToggleProps {
@@ -18,6 +18,7 @@ export function Toggle({
 	description,
 	className = "",
 }: ToggleProps) {
+	const prefersReducedMotion = useReducedMotion();
 	return (
 		<div className={`flex items-center justify-between ${className}`}>
 			{(label || description) && (
@@ -30,7 +31,7 @@ export function Toggle({
 			)}
 			<button
 				aria-checked={enabled}
-				className={`relative h-8 w-14 flex-shrink-0 rounded-full transition-colors ${
+				className={`relative h-8 w-14 flex-shrink-0 rounded-full transition-colors motion-reduce:transition-none ${
 					enabled ? "bg-primary" : "bg-background-lighter"
 				}`}
 				onClick={() => onChange(!enabled)}
@@ -40,7 +41,7 @@ export function Toggle({
 				<motion.div
 					animate={{ x: enabled ? 24 : 0 }}
 					className="absolute top-1 left-1 h-6 w-6 rounded-full bg-white shadow-md"
-					transition={springs.snappy}
+					transition={prefersReducedMotion ? { duration: 0 } : springs.snappy}
 				/>
 			</button>
 		</div>

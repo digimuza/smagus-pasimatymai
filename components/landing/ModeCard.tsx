@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 
 interface ModeCardProps {
@@ -48,15 +48,18 @@ export function ModeCard({
 	delay = 0,
 }: ModeCardProps) {
 	const color = colors[colorClass];
+	const prefersReducedMotion = useReducedMotion();
 
 	return (
 		<motion.div
 			initial={{ opacity: 0, y: 30 }}
-			transition={{ delay, duration: 0.35 }}
+			transition={
+				prefersReducedMotion ? { duration: 0 } : { delay, duration: 0.35 }
+			}
 			viewport={{ margin: "-30px", once: true }}
 			whileInView={{ opacity: 1, y: 0 }}
 		>
-			<div className="group relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#201529] p-6 transition duration-200 hover:-translate-y-1 hover:border-white/25">
+			<div className="group relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#201529] p-6 transition duration-200 hover:-translate-y-1 hover:border-white/25 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:border-white/10">
 				<div
 					aria-hidden="true"
 					className={`absolute -top-20 -right-20 h-52 w-52 rounded-full blur-[60px] ${color.glow}`}
@@ -85,7 +88,7 @@ export function ModeCard({
 					{cta}
 					<span
 						aria-hidden="true"
-						className="text-lg transition-transform group-hover:translate-x-1"
+						className="text-lg transition-transform group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0"
 					>
 						↗
 					</span>

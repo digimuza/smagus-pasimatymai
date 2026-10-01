@@ -4,6 +4,7 @@ import {
 	motion,
 	type PanInfo,
 	useMotionValue,
+	useReducedMotion,
 	useTransform,
 } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -26,6 +27,7 @@ export function SwipeCard({
 	onSwipeUp,
 }: SwipeCardProps) {
 	const t = useTranslations("game");
+	const prefersReducedMotion = useReducedMotion();
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
 	const [exitX, setExitX] = useState(0);
@@ -37,6 +39,9 @@ export function SwipeCard({
 		[-200, -100, 0, 100, 200],
 		[0.5, 1, 1, 1, 0.5],
 	);
+	const skipHintOpacity = useTransform(x, [-150, -50], [1, 0]);
+	const answerHintOpacity = useTransform(x, [50, 150], [0, 1]);
+	const superHintOpacity = useTransform(y, [-150, -50], [1, 0]);
 
 	const handleDragEnd = (
 		_event: MouseEvent | TouchEvent | PointerEvent,
@@ -66,7 +71,7 @@ export function SwipeCard({
 					: cardSwipe.animate
 			}
 			className="paper-card absolute h-full w-full max-w-md cursor-grab overflow-hidden rounded-[1.8rem] border border-[#fff8ea] p-6 text-[#382838] shadow-[0_28px_60px_rgba(0,0,0,0.35)] active:cursor-grabbing sm:p-8"
-			drag
+			drag={!prefersReducedMotion}
 			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
 			dragElastic={0.7}
 			initial={cardSwipe.initial}
@@ -110,22 +115,22 @@ export function SwipeCard({
 			</div>
 
 			<motion.div
-				className="absolute top-14 left-8 rotate-[-15deg] font-bold text-[#b94d64] text-xl opacity-0"
-				style={{ opacity: useTransform(x, [-150, -50], [1, 0]) }}
+				className="pointer-events-none absolute top-14 left-8 rotate-[-15deg] font-bold text-[#b94d64] text-xl"
+				style={{ opacity: skipHintOpacity }}
 			>
 				{t("swipeSkip")}
 			</motion.div>
 
 			<motion.div
-				className="absolute top-14 right-8 rotate-[15deg] font-bold text-[#6d3d78] text-xl opacity-0"
-				style={{ opacity: useTransform(x, [50, 150], [0, 1]) }}
+				className="pointer-events-none absolute top-14 right-8 rotate-[15deg] font-bold text-[#6d3d78] text-xl"
+				style={{ opacity: answerHintOpacity }}
 			>
 				{t("swipeAnswered")}
 			</motion.div>
 
 			<motion.div
-				className="absolute bottom-8 left-1/2 -translate-x-1/2 font-bold text-primary-light text-xl opacity-0"
-				style={{ opacity: useTransform(y, [-150, -50], [1, 0]) }}
+				className="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 font-bold text-primary-light text-xl"
+				style={{ opacity: superHintOpacity }}
 			>
 				{t("swipeSuper")}
 			</motion.div>

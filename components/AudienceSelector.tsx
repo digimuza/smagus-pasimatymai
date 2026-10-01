@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { DailyQuestion } from "@/components/DailyQuestion";
@@ -19,6 +19,7 @@ export function AudienceSelector() {
 	const { setAudience } = useQuestions();
 	const { subscription } = useAuth();
 	const [showPaywall, setShowPaywall] = useState(false);
+	const prefersReducedMotion = useReducedMotion();
 
 	const handleSelect = (slug: string) => {
 		if (!canAccessAudience(slug, subscription)) {
@@ -57,7 +58,7 @@ export function AudienceSelector() {
 				<motion.div
 					{...fadeInUp}
 					className="mb-9 text-center"
-					transition={{ delay: 0.2 }}
+					transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.2 }}
 				>
 					<h1 className="mb-3 font-serif text-4xl text-[#fff3e8] leading-tight sm:text-5xl">
 						{t("audience.title")}
@@ -75,9 +76,11 @@ export function AudienceSelector() {
 								animate={{ opacity: 1, y: 0 }}
 								initial={{ opacity: 0, y: 30 }}
 								key={audience.slug}
-								transition={staggerDelay(index)}
-								{...pressAnimation}
-								className={`group relative flex min-h-[235px] flex-col items-start rounded-[1.6rem] border p-5 text-left transition duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f5c7a9] focus-visible:outline-offset-4 sm:p-6 ${audience.slug === "romantic" ? "border-[#f5c7a9]/50 bg-[linear-gradient(150deg,#4d2b45,#251729)]" : "border-white/10 bg-[linear-gradient(150deg,#281b33,#1e1428)] hover:border-white/25"}`}
+								transition={
+									prefersReducedMotion ? { duration: 0 } : staggerDelay(index)
+								}
+								{...(prefersReducedMotion ? {} : pressAnimation)}
+								className={`group relative flex min-h-[235px] flex-col items-start rounded-[1.6rem] border p-5 text-left transition duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f5c7a9] focus-visible:outline-offset-4 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-6 ${audience.slug === "romantic" ? "border-[#f5c7a9]/50 bg-[linear-gradient(150deg,#4d2b45,#251729)]" : "border-white/10 bg-[linear-gradient(150deg,#281b33,#1e1428)] hover:border-white/25 motion-reduce:hover:border-white/10"}`}
 								onClick={() => handleSelect(audience.slug)}
 								style={{ boxShadow: `0 16px 35px ${audience.color}10` }}
 							>
@@ -113,17 +116,13 @@ export function AudienceSelector() {
 				<motion.div
 					{...fadeInUp}
 					className="mt-8 w-full max-w-lg"
-					transition={{ delay: 0.8 }}
+					transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.8 }}
 				>
 					<DailyQuestion audience="romantic" />
 				</motion.div>
 			</main>
 
-			<Paywall
-				isOpen={showPaywall}
-				onClose={() => setShowPaywall(false)}
-				trigger="audience_locked"
-			/>
+			<Paywall isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
 		</PageLayout>
 	);
 }

@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Paywall } from "@/components/payments/Paywall";
 import { Sidebar } from "@/components/Sidebar";
 import { SpicyCardDisplay } from "@/components/SpicyCardDisplay";
@@ -36,7 +36,7 @@ export default function GamePage() {
 	const { isAuthenticated, updateStreak } = useAuth();
 	const router = useRouter();
 	const t = useTranslations();
-	const streakUpdatedRef = useState(false);
+	const streakUpdatedRef = useRef(false);
 
 	useEffect(() => {
 		if (!audience) {
@@ -46,11 +46,11 @@ export default function GamePage() {
 
 	// Update streak when game starts
 	useEffect(() => {
-		if (audience && isAuthenticated && !streakUpdatedRef[0]) {
-			streakUpdatedRef[1](true);
+		if (audience && isAuthenticated && !streakUpdatedRef.current) {
+			streakUpdatedRef.current = true;
 			updateStreak();
 		}
-	}, [audience, isAuthenticated, updateStreak, streakUpdatedRef]);
+	}, [audience, isAuthenticated, updateStreak]);
 
 	useEffect(() => {
 		if (
@@ -197,11 +197,7 @@ export default function GamePage() {
 			</main>
 
 			<Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-			<Paywall
-				isOpen={showPaywall}
-				onClose={() => setShowPaywall(false)}
-				trigger="question_limit"
-			/>
+			<Paywall isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
 		</PageLayout>
 	);
 }

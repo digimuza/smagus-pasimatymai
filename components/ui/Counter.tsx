@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 interface CounterProps {
 	className?: string;
@@ -24,6 +24,9 @@ export function Counter({
 	className = "",
 }: CounterProps) {
 	const styles = sizeStyles[size];
+	const prefersReducedMotion = useReducedMotion();
+	const key =
+		current === undefined || current === total ? `${total}-static` : current;
 
 	return (
 		<div className={`text-center ${className}`}>
@@ -36,8 +39,10 @@ export function Counter({
 					className={`${styles.number} font-light text-primary`}
 					exit={{ opacity: 0, y: -10 }}
 					initial={{ opacity: 0, y: 10 }}
-					key={current ?? total}
-					transition={{ duration: 0.2 }}
+					key={key}
+					transition={
+						prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
+					}
 				>
 					{current !== undefined ? `${current} / ${total}` : total}
 				</motion.p>

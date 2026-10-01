@@ -1,8 +1,8 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "@/i18n/navigation";
 
@@ -12,6 +12,8 @@ export function UserMenu() {
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
+	const menuId = useId();
+	const transitionDuration = useReducedMotion() ? 0 : 0.15;
 
 	useEffect(() => {
 		function handleClickOutside(e: MouseEvent) {
@@ -34,6 +36,9 @@ export function UserMenu() {
 	return (
 		<div className="relative" ref={menuRef}>
 			<button
+				aria-controls={menuId}
+				aria-expanded={isOpen}
+				aria-haspopup="menu"
 				className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-accent ring-2 ring-primary/20 transition-all hover:ring-primary/40"
 				onClick={() => setIsOpen(!isOpen)}
 				type="button"
@@ -55,8 +60,10 @@ export function UserMenu() {
 						animate={{ opacity: 1, scale: 1, y: 0 }}
 						className="absolute top-12 right-0 z-50 w-56 overflow-hidden rounded-xl border border-primary/10 bg-background-lighter shadow-xl"
 						exit={{ opacity: 0, scale: 0.95, y: -5 }}
+						id={menuId}
 						initial={{ opacity: 0, scale: 0.95, y: -5 }}
-						transition={{ duration: 0.15 }}
+						role="menu"
+						transition={{ duration: transitionDuration }}
 					>
 						<div className="border-primary/10 border-b p-3">
 							<p className="truncate font-medium text-sm text-text">
@@ -76,6 +83,7 @@ export function UserMenu() {
 									router.push("/profile");
 									setIsOpen(false);
 								}}
+								role="menuitem"
 								type="button"
 							>
 								{t("profile")}
@@ -86,6 +94,7 @@ export function UserMenu() {
 									await logout();
 									setIsOpen(false);
 								}}
+								role="menuitem"
 								type="button"
 							>
 								{t("logout")}
