@@ -88,6 +88,7 @@
 	},
 	"game": {
 		"answered": "Atsakyta",
+		"conversationPrompt": "Po vieną klausimą",
 		"deepQuestions": "{count} gilių klausimų",
 		"remaining": "Liko klausimų: {count}",
 		"skip": "Praleisti",
@@ -97,7 +98,8 @@
 		"swipeAny": "Braukite bet kuria kryptimi",
 		"swipeDone": "ATLIKTA ✓",
 		"swipeSkip": "PRALEISTI",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"takeYourTime": "Neskubėkite. Klausykitės, dalinkitės ir leiskite pokalbiui tekėti savaime."
 	},
 	"games": {
 		"dailyChallenge": {
@@ -120,7 +122,6 @@
 			"undo": "Atšaukti"
 		},
 		"dateJar": {
-			"title": "Pasimatymų stiklainis",
 			"completed": "Atlikta",
 			"empty": "Paspauskite stiklainį",
 			"emptyHint": "…ir ištrauksite idėją šiam vakarui",
@@ -147,7 +148,8 @@
 			"spin": "Sukti stiklainį",
 			"spinAgain": "Sukti dar kartą",
 			"statsCompleted": "Atlikta pasimatymų",
-			"statsFavorites": "Mėgstamiausi"
+			"statsFavorites": "Mėgstamiausi",
+			"title": "Pasimatymų stiklainis"
 		},
 		"gratitude": {
 			"authorALabel": "Pirmojo partnerio vardas",
@@ -201,7 +203,6 @@
 		},
 		"intro": "Šeši žaidimai poroms — rinkitės ir žaiskite",
 		"loveMap": {
-			"title": "Meilės žemėlapis",
 			"correct": "Teisingai!",
 			"correctDesc": "Jūs tikrai pažįstate savo partnerį.",
 			"difficulty": {
@@ -227,7 +228,6 @@
 			"title": "Meilės žemėlapis"
 		},
 		"thisOrThat": {
-			"title": "Šis ar tas?",
 			"intro": "Abu atsakykite į tuos pačius klausimus — pažiūrėkite, ar atsakymai sutapo.",
 			"match": "Sutapo! 💚",
 			"matchDesc": "Jūsų atsakymai vienodi — tai ženklas, kad pažįstate vienas kitą.",
@@ -251,12 +251,12 @@
 		"title": "Žaidimai poroms",
 		"tryAnother": "Išbandykite kitą žaidimą",
 		"twoTruths": {
-			"title": "Dvi tiesos ir melas",
 			"aWins": "A laimi!",
 			"bWins": "B laimi!",
 			"guesserLabel": "spėja",
 			"guesserWins": "Atspėjai!",
 			"guesserWinsDesc": "{guesser} atspėjo melą.",
+			"guessHint": "{guesser}, kuris teiginys yra melas?",
 			"intro": "Vienas partneris skaito tris teiginius — kitas atspėja, kuris yra melas.",
 			"nextRound": "Kitas raundas",
 			"ofTotal": "iš {total}",
@@ -269,7 +269,6 @@
 			"readerWins": "Apgavote!",
 			"readerWinsDesc": "{reader} sėkmingai apgavo spėjėją.",
 			"readHint": "{reader}, garsiai perskaitykite tris teiginius. Pasirūpinkite, kad {guesser} nematytų ekrano!",
-			"guessHint": "{guesser}, kuris teiginys yra melas?",
 			"readyToGuess": "Perduoti spėjėjui",
 			"round": "Raundas {current}/{total}",
 			"seeResults": "Žiūrėti rezultatus",
@@ -283,19 +282,22 @@
 	"landing": {
 		"bottomCta": {
 			"cta": "Pradėti žaidimą 💜",
-			"noCta": "Nereikia registracijos. Tiesiog žaiskite.",
+			"noCta": "Porų klausimus galite išbandyti nemokamai, be registracijos.",
 			"subtitle": "Pradėkite pokalbį, kuris iš tikrųjų svarbus.",
 			"title": "Pasiruošę?"
 		},
+		"cardCaption": "Vienas klausimas gali pakeisti visą vakarą.",
+		"cardLabel": "Pokalbių kortelės",
 		"cta": "Pradėti žaidimą 💜",
+		"eyebrow": "Arčiau vienas kito, po klausimą",
 		"faq": {
 			"items": [
 				{
-					"answer": "Taip! Visa pagrindinė žaidimo patirtis yra visiškai nemokama ir nereikia registracijos. Tiesiog atidaryk ir žaisk.",
+					"answer": "Porų klausimus galite išbandyti nemokamai ir be paskyros. Daugiau klausimų bei šeimos, draugų ir vaikų režimai pasiekiami su Premium.",
 					"question": "Ar tikrai nemokama?"
 				},
 				{
-					"answer": "Pirmu kartu reikia interneto, kad užsikrautų klausimai. Po to gali žaisti ir be ryšio — klausimai saugomi tavo naršyklėje.",
+					"answer": "Klausimų rinkiniui įkelti reikia interneto. Anksčiau atverti puslapiai ir klausimai gali veikti be ryšio, priklausomai nuo naršyklės.",
 					"question": "Ar reikia interneto?"
 				},
 				{
@@ -314,12 +316,21 @@
 			"title": "Dažnai užduodami klausimai"
 		},
 		"features": {
-			"categories": { "count": "13", "label": "kategorijų" },
-			"questions": { "count": "500+", "label": "klausimų" },
-			"spicy": { "count": "Spicy", "label": "iššūkiai" }
+			"categories": {
+				"count": "13",
+				"label": "kategorijų"
+			},
+			"questions": {
+				"count": "500+",
+				"label": "klausimų"
+			},
+			"spicy": {
+				"count": "Spicy",
+				"label": "iššūkiai"
+			}
 		},
-		"footer": "Sukurta su 💜 tiems, kurie nori daugiau nei \u201Egerai\u201C",
-		"heroDescription": "500+ klausimų, kurie privers juoktis, raudonuoti ir pamilti vienam kitą dar kartą. Nes \u201Ekaip sekėsi\u201C nėra tikras pokalbis. 😏",
+		"footer": "Sukurta su 💜 tiems, kurie nori daugiau nei „gerai“",
+		"heroDescription": "Trumpam sustokite. Išsirinkite kortelę, įsiklausykite ir sužinokite ką nors naujo vienas apie kitą.",
 		"heroHighlight": "mylimiausią",
 		"heroTitle1": "Pažink savo",
 		"heroTitle2": "žmogų iš naujo",
@@ -354,12 +365,17 @@
 				"description": "Sužinok tai, ko niekada neklausei. Tobula vakarėliams ir susitikimams.",
 				"name": "Draugams"
 			},
-			"title": "Trys būdai žaisti"
+			"kids": {
+				"cta": "Atrasti vaikų režimą",
+				"description": "Smalsūs, amžių atitinkantys klausimai mažiesiems pasakotojams.",
+				"name": "Vaikams"
+			},
+			"title": "Pokalbiai kiekvienam bendrystės vakarui"
 		},
 		"nav": {
 			"logo": "Santykių Klausimai"
 		},
-		"noCta": "Nereikia registracijos. Tiesiog žaiskite.",
+		"noCta": "Pradėkite nemokamai · Registracija nebūtina",
 		"sampleQuestions": [
 			"Koks buvo pirmasis įspūdis, kai mane pamatei?",
 			"Jei galėtume nukeliauti bet kur pasaulyje, kur norėtum vykti su manimi?",
@@ -368,16 +384,14 @@
 			"Jei mūsų meilė būtų daina, kokia ji būtų?"
 		],
 		"swipeLeft": "← praleisti",
-		"swipeRight": "atsakyti →",
-		"testimonial": "\u201EGeresnis už Tinder \u2014 čia tikrai kalbatės.\u201C",
-		"testimonialAuthor": "— Kiekviena pora, kuri nebijojo atsakyti"
+		"swipeRight": "atsakyti →"
 	},
 	"legal": {
 		"privacy": "Privatumo politika",
 		"terms": "Naudojimo sąlygos"
 	},
 	"metadata": {
-		"description": "500+ gilių klausimų, kurie privers juoktis, raudonuoti ir pamilti iš naujo. Žaiskite poroms, šeimai ar draugams. Nemokama, be registracijos.",
+		"description": "Pokalbių kortelės poroms, šeimai, draugams ir vaikams. Pradėkite nuo nemokamų porų klausimų ir skirkite laiko prasmingam ryšiui.",
 		"title": "Santykių Klausimai — Pokalbių žaidimas poroms, šeimai ir draugams"
 	},
 	"payments": {
@@ -391,18 +405,19 @@
 		"freeBadge": "Nemokama",
 		"manageSubscription": "Valdyti prenumeratą",
 		"monthly": "Mėnesinis",
-		"monthlyPrice": "4,99 \u20ac",
+		"monthlyPrice": "4,99 €",
 		"perMonth": "per mėnesį",
 		"perYear": "per metus",
 		"premiumBadge": "Premium",
 		"processing": "Palaukite...",
 		"savePercent": "-50%",
+		"signInToContinue": "Prisijunkite, kad tęstumėte",
 		"startTrial": "Išbandyti 7 dienas nemokamai",
 		"subtitle": "Gaukite neribotą prieigą prie visų režimų ir klausimų",
 		"title": "Atrakinkite visus klausimus",
 		"trialNote": "7 dienų nemokamas bandomasis laikotarpis. Galite atšaukti bet kada.",
 		"yearly": "Metinis",
-		"yearlyPrice": "29,99 \u20ac"
+		"yearlyPrice": "29,99 €"
 	},
 	"privacy": {
 		"intro": "Santykių Klausimai (\"mes\") valdo svetainę santykiuklausimai.lt. Ši privatumo politika paaiškina, kaip renkame, naudojame ir saugome jūsų asmens duomenis pagal Bendrąjį duomenų apsaugos reglamentą (BDAR).",

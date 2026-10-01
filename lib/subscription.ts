@@ -44,3 +44,29 @@ export function limitQuestions<T>(
 	if (limit === Infinity) return questions;
 	return questions.slice(0, limit);
 }
+
+export function limitSections<T extends { questions: Q[] }, Q>(
+	sections: T[],
+	subscription: SubscriptionInfo | null | undefined,
+): T[] {
+	const limit = getQuestionLimit(subscription);
+	if (limit === Infinity) return sections;
+	const selected = sections.map(() => [] as Q[]);
+	let count = 0;
+	for (let index = 0; count < limit; index++) {
+		let added = false;
+		sections.forEach((section, sectionIndex) => {
+			const question = section.questions[index];
+			if (question !== undefined && count < limit) {
+				selected[sectionIndex].push(question);
+				count++;
+				added = true;
+			}
+		});
+		if (!added) break;
+	}
+	return sections.map((section, index) => ({
+		...section,
+		questions: selected[index],
+	}));
+}

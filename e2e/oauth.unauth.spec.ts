@@ -6,6 +6,11 @@ test.describe("Google OAuth", () => {
 			maxRedirects: 0,
 		});
 
+		if (!process.env.GOOGLE_CLIENT_ID) {
+			expect(response.status()).toBe(503);
+			return;
+		}
+
 		// Next.js redirect (307) to Google OAuth
 		expect([302, 307]).toContain(response.status());
 		const { location } = response.headers();

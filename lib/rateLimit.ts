@@ -1,8 +1,8 @@
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 export interface RateLimitConfig {
-	windowMs: number;
 	maxRequests: number;
+	windowMs: number;
 }
 
 export function rateLimit(
@@ -14,15 +14,15 @@ export function rateLimit(
 
 	if (!entry || now > entry.resetAt) {
 		rateLimitMap.set(key, { count: 1, resetAt: now + config.windowMs });
-		return { success: true, remaining: config.maxRequests - 1 };
+		return { remaining: config.maxRequests - 1, success: true };
 	}
 
 	if (entry.count >= config.maxRequests) {
-		return { success: false, remaining: 0 };
+		return { remaining: 0, success: false };
 	}
 
 	entry.count++;
-	return { success: true, remaining: config.maxRequests - entry.count };
+	return { remaining: config.maxRequests - entry.count, success: true };
 }
 
 // Periodic cleanup to prevent memory leaks in long-running processes

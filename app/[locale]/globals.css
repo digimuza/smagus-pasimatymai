@@ -56,6 +56,15 @@
 		font: inherit;
 		color: inherit;
 	}
+
+	button {
+		background-color: transparent;
+		cursor: pointer;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+	}
 }
 
 @layer utilities {
@@ -67,6 +76,80 @@
 		content-visibility: auto;
 		contain-intrinsic-size: auto 500px;
 	}
+}
+
+.romance-hero {
+	background:
+		radial-gradient(
+			circle at 82% 22%,
+			rgba(143, 69, 107, 0.24),
+			transparent 34%
+		),
+		radial-gradient(circle at 6% 78%, rgba(148, 75, 101, 0.13), transparent 36%),
+		linear-gradient(155deg, #170f20 0%, #120b1b 65%, #1b1023 100%);
+}
+
+.romance-hero::before {
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(
+		rgba(255, 222, 206, 0.34) 0.7px,
+		transparent 0.7px
+	);
+	background-size: 30px 30px;
+	content: "";
+	mask-image: linear-gradient(
+		to bottom,
+		transparent,
+		black 15%,
+		black 80%,
+		transparent
+	);
+	opacity: 0.23;
+	pointer-events: none;
+}
+
+.hero-orbit {
+	position: absolute;
+	border: 1px solid rgba(248, 200, 178, 0.1);
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+.hero-orbit-one {
+	width: 43rem;
+	height: 43rem;
+	top: -23rem;
+	right: -19rem;
+}
+
+.hero-orbit-two {
+	width: 54rem;
+	height: 54rem;
+	top: -29rem;
+	right: -25rem;
+}
+
+.hero-highlight {
+	background: linear-gradient(110deg, #ffd9b9, #f5a7af 80%);
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.paper-card {
+	background:
+		radial-gradient(
+			circle at 85% 8%,
+			rgba(235, 176, 164, 0.18),
+			transparent 40%
+		),
+		linear-gradient(145deg, #fff3e3, #f4dfd3);
+}
+
+.game-atmosphere {
+	background:
+		radial-gradient(circle at 50% 28%, rgba(111, 52, 94, 0.22), transparent 42%),
+		linear-gradient(180deg, #1b1024, #120b1b 50%, #180e20);
 }
 
 @keyframes shimmer {
@@ -106,4 +189,12 @@
 }
 .animate-float {
 	animation: float 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animate-shimmer,
+	.animate-heartbeat,
+	.animate-float {
+		animation: none;
+	}
 }

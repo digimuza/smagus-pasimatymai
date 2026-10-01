@@ -11,16 +11,21 @@ test.describe("Game flow", () => {
 	test("displays question card", async ({ page }) => {
 		await page.waitForLoadState("networkidle");
 
-		// Game should show a question or at minimum the control area
-		await expect(page.getByText(/Questions left/i)).toBeVisible();
+		// The localized deck must contain a playable question.
+		await expect(
+			page.locator("main").getByText("Questions left: 30"),
+		).toBeVisible();
+		await expect(page.locator("main .cursor-grab p")).toBeVisible();
 	});
 
 	test("shows game controls", async ({ page }) => {
 		await page.waitForLoadState("networkidle");
 
-		await expect(page.getByText("Skip")).toBeVisible();
-		await expect(page.getByText("Super")).toBeVisible();
-		await expect(page.getByText("Answered")).toBeVisible();
+		await expect(page.getByRole("button", { name: /Skip/i })).toBeVisible();
+		await expect(page.getByRole("button", { name: /Super/i })).toBeVisible();
+		await expect(page.getByRole("button", { name: /Answered/i })).toBeVisible();
+		await page.getByRole("button", { name: /Answered/i }).click();
+		await expect(page.getByText("Questions left: 29")).toBeVisible();
 	});
 
 	test("menu button opens sidebar", async ({ page }) => {
@@ -28,7 +33,11 @@ test.describe("Game flow", () => {
 
 		await page.getByLabel("Open menu").click();
 
-		await expect(page.getByText("Categories")).toBeVisible();
-		await expect(page.getByText("Change mode")).toBeVisible();
+		await expect(
+			page.getByRole("dialog").getByRole("heading", { name: "Categories" }),
+		).toBeVisible();
+		await expect(
+			page.getByRole("dialog").getByRole("button", { name: /Change mode/i }),
+		).toBeVisible();
 	});
 });

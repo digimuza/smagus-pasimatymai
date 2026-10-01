@@ -65,7 +65,7 @@ export function SwipeCard({
 					? { opacity: 0, transition: { duration: 0.3 }, x: exitX, y: exitY }
 					: cardSwipe.animate
 			}
-			className="absolute h-96 w-full max-w-md cursor-grab rounded-2xl bg-gradient-to-br from-background-light to-background-lighter p-8 shadow-lg active:cursor-grabbing"
+			className="paper-card absolute h-full w-full max-w-md cursor-grab overflow-hidden rounded-[1.8rem] border border-[#fff8ea] p-6 text-[#382838] shadow-[0_28px_60px_rgba(0,0,0,0.35)] active:cursor-grabbing sm:p-8"
 			drag
 			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
 			dragElastic={0.7}
@@ -82,21 +82,42 @@ export function SwipeCard({
 			style={{ opacity, rotateZ, x, y }}
 			transition={cardSwipe.transition}
 		>
-			<div className="flex h-full items-center justify-center">
-				<p className="text-balance text-center font-light text-2xl text-text leading-relaxed md:text-3xl">
+			<div
+				aria-hidden="true"
+				className="absolute inset-3 rounded-[1.3rem] border border-[#a88686]/25"
+			/>
+			<div className="absolute top-7 right-8 left-8 flex items-center justify-between text-[10px] uppercase tracking-[0.2em]">
+				<span>{t("conversationPrompt")}</span>
+				<span
+					aria-hidden="true"
+					className="font-serif text-[#a76773] text-xl leading-none"
+				>
+					✦
+				</span>
+			</div>
+			<div className="flex h-full items-center justify-center px-1 pt-6 pb-4">
+				<p className="text-balance text-center font-serif text-[#39283b] text-[1.8rem] leading-[1.25] md:text-[2.15rem]">
 					{question.question}
 				</p>
 			</div>
+			<div
+				aria-hidden="true"
+				className="absolute right-8 bottom-7 left-8 flex items-center justify-center gap-3 text-[#a76773]"
+			>
+				<span className="h-px w-8 bg-[#a76773]/40" />
+				<span className="font-serif text-lg leading-none">♥</span>
+				<span className="h-px w-8 bg-[#a76773]/40" />
+			</div>
 
 			<motion.div
-				className="absolute top-8 left-8 rotate-[-15deg] font-bold text-accent text-xl opacity-0"
+				className="absolute top-14 left-8 rotate-[-15deg] font-bold text-[#b94d64] text-xl opacity-0"
 				style={{ opacity: useTransform(x, [-150, -50], [1, 0]) }}
 			>
 				{t("swipeSkip")}
 			</motion.div>
 
 			<motion.div
-				className="absolute top-8 right-8 rotate-[15deg] font-bold text-primary text-xl opacity-0"
+				className="absolute top-14 right-8 rotate-[15deg] font-bold text-[#6d3d78] text-xl opacity-0"
 				style={{ opacity: useTransform(x, [50, 150], [0, 1]) }}
 			>
 				{t("swipeAnswered")}

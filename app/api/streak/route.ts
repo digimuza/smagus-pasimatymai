@@ -13,14 +13,11 @@ export async function POST(req: NextRequest) {
 	}
 
 	const { success } = rateLimit(`streak:${user.id}`, {
-		windowMs: 60_000,
 		maxRequests: 10,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const streakData = calculateStreak({

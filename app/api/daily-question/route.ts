@@ -10,6 +10,8 @@ export async function GET(req: NextRequest) {
 	const audience: Audience = VALID_AUDIENCES.includes(rawAudience as Audience)
 		? (rawAudience as Audience)
 		: "romantic";
+	const rawLocale = req.nextUrl.searchParams.get("locale");
+	const locale = rawLocale === "en" ? "en" : "lt";
 	const today = new Date().toISOString().slice(0, 10);
 	const payload = await getPayload({ config });
 
@@ -25,8 +27,10 @@ export async function GET(req: NextRequest) {
 
 	if (existing.docs.length > 0) {
 		const doc = existing.docs[0];
-		const q = doc.question as { id: number; question: string } | number;
-		if (typeof q === "object" && q !== null) {
+		const q = doc.question as
+			| { id: number; question: string; locale: string }
+			| number;
+		if (typeof q === "object" && q !== null && q.locale === locale) {
 			return NextResponse.json({
 				date: doc.date,
 				id: q.id,
@@ -43,6 +47,7 @@ export async function GET(req: NextRequest) {
 		where: {
 			and: [
 				{ audience: { equals: audience } },
+				{ locale: { equals: locale } },
 				{ status: { equals: "published" } },
 			],
 		},
@@ -59,20 +64,6 @@ export async function GET(req: NextRequest) {
 	const seed = today.split("-").reduce((acc, n) => acc + parseInt(n, 10), 0);
 	const index = seed % questions.docs.length;
 	const picked = questions.docs[index];
-
-	// Save for today
-	try {
-		await payload.create({
-			collection: "daily-questions",
-			data: {
-				audience,
-				date: today,
-				question: picked.id,
-			},
-		});
-	} catch {
-		// Might already exist from concurrent request
-	}
 
 	return NextResponse.json({
 		date: today,

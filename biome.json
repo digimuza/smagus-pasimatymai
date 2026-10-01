@@ -21,7 +21,8 @@
 		}
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": ["**", "!app/(payload)/admin/importMap.js"]
 	},
 	"formatter": {
 		"enabled": true,

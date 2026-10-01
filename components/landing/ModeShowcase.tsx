@@ -8,10 +8,10 @@ export function ModeShowcase() {
 	const t = useTranslations("landing.modes");
 
 	return (
-		<section className="py-16 sm:py-24">
+		<section className="relative border-white/5 border-t bg-[#160e1e] py-20 sm:py-28">
 			<div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
 				<motion.h2
-					className="mb-12 text-center font-bold text-3xl text-text md:text-4xl"
+					className="mx-auto mb-14 max-w-2xl text-center font-serif text-4xl text-[#fff1e7] leading-tight sm:text-5xl"
 					initial={{ opacity: 0, y: 20 }}
 					transition={{ duration: 0.6 }}
 					viewport={{ once: true }}
@@ -20,7 +20,7 @@ export function ModeShowcase() {
 					{t("title")}
 				</motion.h2>
 
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+				<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 					<ModeCard
 						colorClass="couples"
 						cta={t("couples.cta")}
@@ -33,7 +33,7 @@ export function ModeShowcase() {
 					<ModeCard
 						colorClass="family"
 						cta={t("family.cta")}
-						delay={0.15}
+						delay={0.05}
 						description={t("family.description")}
 						href="/audience"
 						icon="🏠"
@@ -42,11 +42,20 @@ export function ModeShowcase() {
 					<ModeCard
 						colorClass="friends"
 						cta={t("friends.cta")}
-						delay={0.3}
+						delay={0.1}
 						description={t("friends.description")}
 						href="/audience"
 						icon="🎉"
 						name={t("friends.name")}
+					/>
+					<ModeCard
+						colorClass="kids"
+						cta={t("kids.cta")}
+						delay={0.15}
+						description={t("kids.description")}
+						href="/audience"
+						icon="🌈"
+						name={t("kids.name")}
 					/>
 				</div>
 			</div>

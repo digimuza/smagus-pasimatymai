@@ -1,92 +1,71 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { AnimatedCard } from "./AnimatedCard";
 
 export function HeroSection() {
 	const t = useTranslations("landing");
-	const [isHovered, setIsHovered] = useState(false);
 
 	return (
-		<section className="relative py-12 sm:py-20 lg:py-28">
-			<div className="mx-auto flex max-w-6xl flex-col items-center px-4 sm:px-6 lg:px-8">
-				{/* Headline */}
+		<section className="romance-hero relative isolate overflow-hidden px-5 pt-14 pb-24 sm:px-8 sm:pt-24 lg:py-32">
+			<div aria-hidden="true" className="hero-orbit hero-orbit-one" />
+			<div aria-hidden="true" className="hero-orbit hero-orbit-two" />
+			<div className="relative mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
 				<motion.div
 					animate={{ opacity: 1, y: 0 }}
-					className="mb-4 text-center"
-					initial={{ opacity: 0, y: 30 }}
-					transition={{ delay: 0.4, duration: 0.7 }}
+					initial={{ opacity: 0, y: 22 }}
+					transition={{ duration: 0.65 }}
 				>
-					<h1 className="mb-2 font-bold text-4xl text-text leading-tight md:text-5xl lg:text-6xl">
+					<div className="mb-8 flex items-center gap-3 text-[#f6c7b2] text-xs uppercase tracking-[0.24em]">
+						<span aria-hidden="true" className="h-px w-8 bg-[#f6c7b2]/70" />
+						{t("eyebrow")}
+					</div>
+					<h1 className="max-w-3xl font-serif text-[#fff7ef] text-[2.9rem] leading-[0.99] tracking-[-0.045em] lg:text-[clamp(5rem,6.5vw,6.25rem)] min-[360px]:text-[3.45rem]">
 						{t("heroTitle1")}{" "}
-						<span className="animate-shimmer bg-[length:200%_auto] bg-gradient-to-r from-primary-light via-primary to-accent bg-clip-text text-transparent">
-							{t("heroHighlight")}
-						</span>
-					</h1>
-					<h2 className="font-bold text-4xl text-text leading-tight md:text-5xl lg:text-6xl">
+						<span className="hero-highlight italic">{t("heroHighlight")}</span>{" "}
 						{t("heroTitle2")}
-					</h2>
-				</motion.div>
-
-				{/* Subtitle */}
-				<motion.p
-					animate={{ opacity: 1, y: 0 }}
-					className="mb-10 max-w-md text-center font-light text-lg text-text-muted leading-relaxed"
-					initial={{ opacity: 0, y: 20 }}
-					transition={{ delay: 0.7, duration: 0.6 }}
-				>
-					{t("heroDescription")}
-				</motion.p>
-
-				{/* Animated card */}
-				<motion.div
-					animate={{ opacity: 1, y: 0 }}
-					className="mb-12 w-full"
-					initial={{ opacity: 0, y: 40 }}
-					transition={{ delay: 0.9, duration: 0.7 }}
-				>
-					<AnimatedCard />
-				</motion.div>
-
-				{/* CTA */}
-				<motion.div
-					animate={{ opacity: 1, y: 0 }}
-					className="flex w-full max-w-sm flex-col items-center gap-4"
-					initial={{ opacity: 0, y: 20 }}
-					transition={{ delay: 1.2, duration: 0.6 }}
-				>
-					<Link
-						className="relative w-full"
-						href="/audience"
-						onMouseEnter={() => setIsHovered(true)}
-						onMouseLeave={() => setIsHovered(false)}
-					>
-						<motion.div
-							className="w-full animate-heartbeat rounded-2xl bg-gradient-to-r from-primary-dark via-primary to-accent px-8 py-4 text-center font-semibold text-lg text-white shadow-lg shadow-primary/25 transition-shadow hover:shadow-primary/30 hover:shadow-xl"
-							whileHover={{ scale: 1.03 }}
-							whileTap={{ scale: 0.97 }}
+					</h1>
+					<p className="mt-8 max-w-lg text-[#e7d0df] text-lg leading-relaxed sm:text-xl">
+						{t("heroDescription")}
+					</p>
+					<div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+						<Link
+							className="group inline-flex min-h-14 items-center justify-center gap-4 rounded-full bg-[#f5c7a9] px-8 py-4 font-semibold text-[#281827] shadow-[0_16px_40px_rgba(245,165,153,0.23)] transition duration-200 hover:-translate-y-1 hover:bg-[#ffe0c4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-4"
+							href="/audience"
 						>
 							{t("cta")}
-						</motion.div>
-						{/* Floating heart on hover */}
-						<AnimatePresence>
-							{isHovered && (
-								<motion.span
-									animate={{ opacity: 0, scale: 1, y: -40 }}
-									className="pointer-events-none absolute -top-2 right-4 text-xl"
-									exit={{ opacity: 0 }}
-									initial={{ opacity: 1, scale: 0, y: 0 }}
-									transition={{ duration: 0.8, ease: "easeOut" }}
-								>
-									💗
-								</motion.span>
-							)}
-						</AnimatePresence>
-					</Link>
-					<p className="font-light text-sm text-text-dimmed">{t("noCta")}</p>
+							<span
+								aria-hidden="true"
+								className="text-xl transition-transform group-hover:translate-x-1"
+							>
+								↗
+							</span>
+						</Link>
+						<span className="text-[#cdb8ca] text-sm">{t("noCta")}</span>
+					</div>
+				</motion.div>
+				<motion.div
+					animate={{ opacity: 1, rotate: 0, y: 0 }}
+					className="relative mx-auto w-full max-w-md"
+					initial={{ opacity: 0, rotate: 2, y: 30 }}
+					transition={{ delay: 0.18, duration: 0.7 }}
+				>
+					<div
+						aria-hidden="true"
+						className="absolute -inset-9 rounded-full bg-[#ef9b91]/10 blur-[75px]"
+					/>
+					<div
+						aria-hidden="true"
+						className="absolute -top-7 right-3 font-serif text-4xl text-[#f6c7b2]"
+					>
+						✦
+					</div>
+					<AnimatedCard />
+					<p className="mt-10 text-center font-serif text-[#d5b9cb] text-lg italic">
+						{t("cardCaption")}
+					</p>
 				</motion.div>
 			</div>
 		</section>

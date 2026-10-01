@@ -155,7 +155,9 @@ export default function TwoTruthsPage() {
 					className="mb-6 rounded-xl border border-primary/30 bg-primary/10 p-4"
 					initial={{ opacity: 0, y: 10 }}
 				>
-					<p className="text-primary text-sm">{t("readHint", { guesser, reader })}</p>
+					<p className="text-primary text-sm">
+						{t("readHint", { guesser, reader })}
+					</p>
 				</motion.div>
 
 				<div className="mb-6 space-y-3">

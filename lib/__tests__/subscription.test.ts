@@ -5,6 +5,7 @@ import {
 	getQuestionLimit,
 	isPremium,
 	limitQuestions,
+	limitSections,
 } from "../subscription";
 
 describe("isPremium", () => {
@@ -46,6 +47,27 @@ describe("isPremium", () => {
 
 	it("returns false for past_due", () => {
 		expect(isPremium({ plan: "monthly", status: "past_due" })).toBe(false);
+	});
+});
+
+describe("limitSections", () => {
+	const sections = [
+		{ name: "first", questions: Array.from({ length: 40 }, (_, i) => i) },
+		{ name: "second", questions: Array.from({ length: 40 }, (_, i) => i + 40) },
+	];
+
+	it("limits the complete free deck to 50 across categories", () => {
+		const result = limitSections(sections, null);
+		expect(result.map((section) => section.questions.length)).toEqual([25, 25]);
+		expect(sections[1].questions).toHaveLength(40);
+	});
+
+	it("keeps every question for premium players", () => {
+		const result = limitSections(sections, {
+			plan: "yearly",
+			status: "active",
+		});
+		expect(result.map((section) => section.questions.length)).toEqual([40, 40]);
 	});
 });
 
@@ -91,9 +113,9 @@ describe("canAccessSpicyCards", () => {
 	});
 
 	it("returns true for premium users", () => {
-		expect(
-			canAccessSpicyCards({ plan: "monthly", status: "active" }),
-		).toBe(true);
+		expect(canAccessSpicyCards({ plan: "monthly", status: "active" })).toBe(
+			true,
+		);
 	});
 });
 
@@ -103,9 +125,9 @@ describe("getQuestionLimit", () => {
 	});
 
 	it("returns Infinity for premium users", () => {
-		expect(
-			getQuestionLimit({ plan: "monthly", status: "active" }),
-		).toBe(Infinity);
+		expect(getQuestionLimit({ plan: "monthly", status: "active" })).toBe(
+			Infinity,
+		);
 	});
 });
 

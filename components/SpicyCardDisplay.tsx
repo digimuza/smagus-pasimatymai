@@ -55,7 +55,7 @@ export function SpicyCardDisplay({ card, onDismiss }: SpicyCardDisplayProps) {
 					? { opacity: 0, transition: { duration: 0.3 }, x: exitX, y: exitY }
 					: spicyCardFlip.animate
 			}
-			className="absolute relative flex h-96 w-full max-w-md cursor-grab flex-col items-center justify-center overflow-hidden rounded-2xl p-8 shadow-lg active:cursor-grabbing"
+			className="absolute relative flex h-full w-full max-w-md cursor-grab flex-col items-center justify-center overflow-y-auto rounded-2xl p-6 shadow-lg active:cursor-grabbing sm:p-8"
 			drag
 			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
 			dragElastic={0.7}

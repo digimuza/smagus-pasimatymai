@@ -88,6 +88,7 @@
 	},
 	"game": {
 		"answered": "Answered",
+		"conversationPrompt": "One question at a time",
 		"deepQuestions": "{count} deep questions",
 		"remaining": "Questions left: {count}",
 		"skip": "Skip",
@@ -97,7 +98,8 @@
 		"swipeAny": "Swipe in any direction",
 		"swipeDone": "DONE ✓",
 		"swipeSkip": "SKIP",
-		"swipeSuper": "⭐ SUPER"
+		"swipeSuper": "⭐ SUPER",
+		"takeYourTime": "Take your time. Listen, share, and follow the conversation wherever it goes."
 	},
 	"games": {
 		"dailyChallenge": {
@@ -120,7 +122,6 @@
 			"undo": "Undo"
 		},
 		"dateJar": {
-			"title": "Date Night Jar",
 			"completed": "Completed",
 			"empty": "Tap the jar",
 			"emptyHint": "…and you'll pull out an idea for tonight",
@@ -147,7 +148,8 @@
 			"spin": "Spin the jar",
 			"spinAgain": "Spin again",
 			"statsCompleted": "Dates completed",
-			"statsFavorites": "Favorites"
+			"statsFavorites": "Favorites",
+			"title": "Date Night Jar"
 		},
 		"gratitude": {
 			"authorALabel": "First partner's name",
@@ -201,7 +203,6 @@
 		},
 		"intro": "Six games for two — pick one and play",
 		"loveMap": {
-			"title": "Love Map",
 			"correct": "Correct!",
 			"correctDesc": "You really know your partner.",
 			"difficulty": {
@@ -227,7 +228,6 @@
 			"title": "Love Map"
 		},
 		"thisOrThat": {
-			"title": "This or That",
 			"intro": "Both answer the same questions — see if your answers match.",
 			"match": "Match! 💚",
 			"matchDesc": "Your answers line up — a sign that you know each other.",
@@ -251,12 +251,12 @@
 		"title": "Couple games",
 		"tryAnother": "Try another game",
 		"twoTruths": {
-			"title": "Two Truths and a Lie",
 			"aWins": "A wins!",
 			"bWins": "B wins!",
 			"guesserLabel": "guesses",
 			"guesserWins": "You guessed it!",
 			"guesserWinsDesc": "{guesser} spotted the lie.",
+			"guessHint": "{guesser}, which statement is the lie?",
 			"intro": "One partner reads three statements — the other guesses which is the lie.",
 			"nextRound": "Next round",
 			"ofTotal": "of {total}",
@@ -269,7 +269,6 @@
 			"readerWins": "You fooled them!",
 			"readerWinsDesc": "{reader} successfully tricked the guesser.",
 			"readHint": "{reader}, read the three statements out loud. Make sure {guesser} can't see the screen!",
-			"guessHint": "{guesser}, which statement is the lie?",
 			"readyToGuess": "Pass to guesser",
 			"round": "Round {current}/{total}",
 			"seeResults": "See results",
@@ -283,23 +282,26 @@
 	"landing": {
 		"bottomCta": {
 			"cta": "Start Playing 💜",
-			"noCta": "No registration needed. Just play.",
+			"noCta": "Start free with couples questions. No account needed.",
 			"subtitle": "Start a conversation that actually matters.",
 			"title": "Ready?"
 		},
+		"cardCaption": "A question can change the whole evening.",
+		"cardLabel": "The conversation deck",
 		"cta": "Start Playing 💜",
+		"eyebrow": "A little closer, one question at a time",
 		"faq": {
 			"items": [
 				{
-					"answer": "Yes! The entire core game experience is completely free and requires no registration. Just open and play.",
+					"answer": "You can start with couples questions for free and without an account. More questions and the family, friends, and kids modes are included with Premium.",
 					"question": "Is it really free?"
 				},
 				{
-					"answer": "You need internet the first time to load the questions. After that, you can play offline — questions are cached in your browser.",
+					"answer": "You need an internet connection to load the question deck. Pages and questions you have already opened may be available offline, depending on your browser.",
 					"question": "Do I need an internet connection?"
 				},
 				{
-					"answer": "Over 500 questions across different categories — from light and fun to deep and intimate. Each mode (couples, family, friends, kids) has unique questions.",
+					"answer": "The Lithuanian library has more than 500 questions. The English edition currently has a curated starter deck for couples, family, friends, and kids.",
 					"question": "How many questions are there?"
 				},
 				{
@@ -314,12 +316,21 @@
 			"title": "Frequently asked questions"
 		},
 		"features": {
-			"categories": { "count": "13", "label": "categories" },
-			"questions": { "count": "500+", "label": "questions" },
-			"spicy": { "count": "Spicy", "label": "challenges" }
+			"categories": {
+				"count": "75",
+				"label": "English prompts"
+			},
+			"questions": {
+				"count": "4",
+				"label": "ways to connect"
+			},
+			"spicy": {
+				"count": "30",
+				"label": "free couples prompts"
+			}
 		},
 		"footer": "Made with 💜 for those who want more than \"fine\"",
-		"heroDescription": "500+ questions that will make you laugh, blush, and fall in love all over again. Because \"how was your day\" isn't a real conversation. 😏",
+		"heroDescription": "Put the day on pause. Pick a card, listen closely, and discover something new about each other.",
 		"heroHighlight": "you love",
 		"heroTitle1": "Rediscover the one",
 		"heroTitle2": "all over again",
@@ -354,12 +365,17 @@
 				"description": "Find out what you never asked. Perfect for parties and get-togethers.",
 				"name": "Friends"
 			},
-			"title": "Three ways to play"
+			"kids": {
+				"cta": "Explore kids mode",
+				"description": "Curious, age-appropriate prompts for little storytellers.",
+				"name": "Kids"
+			},
+			"title": "A conversation for every kind of together"
 		},
 		"nav": {
 			"logo": "Relationship Questions"
 		},
-		"noCta": "No registration needed. Just play.",
+		"noCta": "Start free · No account needed",
 		"sampleQuestions": [
 			"What was your first impression when you saw me?",
 			"If we could travel anywhere in the world, where would you go with me?",
@@ -368,16 +384,14 @@
 			"If our love were a song, what would it be?"
 		],
 		"swipeLeft": "← skip",
-		"swipeRight": "answer →",
-		"testimonial": "\"Better than Tinder — here you actually talk.\"",
-		"testimonialAuthor": "— Every couple that wasn't afraid to answer"
+		"swipeRight": "answer →"
 	},
 	"legal": {
 		"privacy": "Privacy Policy",
 		"terms": "Terms of Service"
 	},
 	"metadata": {
-		"description": "500+ deep questions that will make you laugh, blush, and fall in love again. Play for couples, family, or friends. Free, no registration.",
+		"description": "Conversation cards for couples, families, friends, and kids. Start with free couples questions and make time for meaningful connection.",
 		"title": "Relationship Questions — Conversation game for couples, family & friends"
 	},
 	"payments": {
@@ -391,18 +405,19 @@
 		"freeBadge": "Free",
 		"manageSubscription": "Manage subscription",
 		"monthly": "Monthly",
-		"monthlyPrice": "\u20ac4.99",
+		"monthlyPrice": "€4.99",
 		"perMonth": "per month",
 		"perYear": "per year",
 		"premiumBadge": "Premium",
 		"processing": "Processing...",
 		"savePercent": "-50%",
+		"signInToContinue": "Sign in to continue",
 		"startTrial": "Try 7 days free",
 		"subtitle": "Get unlimited access to all modes and questions",
 		"title": "Unlock all questions",
 		"trialNote": "7-day free trial. Cancel anytime.",
 		"yearly": "Yearly",
-		"yearlyPrice": "\u20ac29.99"
+		"yearlyPrice": "€29.99"
 	},
 	"privacy": {
 		"intro": "Santykių Klausimai (\"we\", \"us\", or \"our\") operates the website santykiuklausimai.lt. This Privacy Policy explains how we collect, use, and protect your personal data in accordance with the General Data Protection Regulation (GDPR).",

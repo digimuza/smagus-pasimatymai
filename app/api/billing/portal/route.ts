@@ -13,14 +13,11 @@ export async function POST(req: NextRequest) {
 	}
 
 	const { success } = rateLimit(`billing:${user.id}`, {
-		windowMs: 60_000,
 		maxRequests: 5,
+		windowMs: 60_000,
 	});
 	if (!success) {
-		return NextResponse.json(
-			{ error: "Too many requests" },
-			{ status: 429 },
-		);
+		return NextResponse.json({ error: "Too many requests" }, { status: 429 });
 	}
 
 	const sub = await payload.find({

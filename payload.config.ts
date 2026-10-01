@@ -22,8 +22,6 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
-	serverURL: process.env.NEXT_PUBLIC_URL || "http://localhost:7743",
-	cors: [process.env.NEXT_PUBLIC_URL || "http://localhost:7743"],
 	admin: {
 		components: {
 			afterDashboard: ["./components/admin/StatisticsDashboard"],
@@ -49,6 +47,7 @@ export default buildConfig({
 		DailyQuestions,
 		QuestionSubmissions,
 	],
+	cors: [process.env.NEXT_PUBLIC_URL || "http://localhost:7743"],
 	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URL || "",
@@ -56,6 +55,7 @@ export default buildConfig({
 	}),
 	editor: lexicalEditor(),
 	secret: process.env.PAYLOAD_SECRET || "",
+	serverURL: process.env.NEXT_PUBLIC_URL || "http://localhost:7743",
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts"),
 	},

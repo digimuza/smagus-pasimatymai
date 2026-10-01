@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { fadeInUp } from "@/lib/animations";
 import { shareQuestion } from "@/lib/share";
@@ -14,14 +14,17 @@ interface DailyQuestionData {
 
 export function DailyQuestion({ audience }: { audience: string }) {
 	const t = useTranslations("daily");
+	const locale = useLocale();
 	const [data, setData] = useState<DailyQuestionData | null>(null);
 
 	useEffect(() => {
-		fetch(`/api/daily-question?audience=${encodeURIComponent(audience)}`)
+		fetch(
+			`/api/daily-question?audience=${encodeURIComponent(audience)}&locale=${encodeURIComponent(locale)}`,
+		)
 			.then((r) => (r.ok ? r.json() : null))
 			.then(setData)
 			.catch(() => {});
-	}, [audience]);
+	}, [audience, locale]);
 
 	if (!data) return null;
 
@@ -32,19 +35,21 @@ export function DailyQuestion({ audience }: { audience: string }) {
 	return (
 		<motion.div
 			{...fadeInUp}
-			className="mx-auto w-full max-w-md rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/10 p-5"
+			className="mx-auto w-full max-w-lg rounded-[1.6rem] border border-[#f5c7a9]/25 bg-[#2c1a31] p-6"
 		>
 			<div className="mb-3 flex items-center gap-2">
-				<span className="text-lg">📅</span>
-				<span className="font-semibold text-primary text-xs uppercase tracking-wider">
+				<span aria-hidden="true" className="text-[#f5c7a9] text-lg">
+					✦
+				</span>
+				<span className="font-semibold text-[#f5c7a9] text-xs uppercase tracking-wider">
 					{t("label")}
 				</span>
 			</div>
-			<p className="mb-4 font-light text-lg text-text leading-relaxed">
+			<p className="mb-5 font-serif text-2xl text-[#fff1e7] leading-snug">
 				{data.question}
 			</p>
 			<button
-				className="flex items-center gap-1.5 text-sm text-text-muted transition-colors hover:text-primary"
+				className="flex items-center gap-1.5 text-[#e0c6d1] text-sm transition-colors hover:text-white"
 				onClick={handleShare}
 				type="button"
 			>
