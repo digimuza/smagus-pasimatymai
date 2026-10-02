@@ -15,14 +15,8 @@ const withPWA = withPWAInit({
 	register: true,
 	runtimeCaching: [
 		{
-			handler: "NetworkFirst",
-			options: {
-				cacheName: "game-data-cache",
-				expiration: {
-					maxAgeSeconds: 300,
-					maxEntries: 1,
-				},
-			},
+			// Responses depend on the signed-in player and must never cross sessions.
+			handler: "NetworkOnly",
 			urlPattern: /\/api\/game-data/,
 		},
 	],

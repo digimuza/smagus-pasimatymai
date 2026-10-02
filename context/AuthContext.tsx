@@ -81,6 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				`/api/subscriptions?where[player][equals]=${playerId}&limit=1`,
 				{
 					credentials: "include",
+					signal: AbortSignal.timeout(10000),
 				},
 			);
 			if (res.ok) {
@@ -105,7 +106,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const checkSession = useCallback(async () => {
 		try {
-			const res = await fetch("/api/players/me", { credentials: "include" });
+			const res = await fetch("/api/players/me", {
+				credentials: "include",
+				signal: AbortSignal.timeout(10000),
+			});
 			if (res.ok) {
 				const data = await res.json();
 				if (data.user) {
@@ -127,7 +131,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	const refreshPlayer = useCallback(async () => {
 		try {
-			const res = await fetch("/api/players/me", { credentials: "include" });
+			const res = await fetch("/api/players/me", {
+				credentials: "include",
+				signal: AbortSignal.timeout(10000),
+			});
 			if (res.ok) {
 				const data = await res.json();
 				if (data.user) {
@@ -139,27 +146,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	}, []);
 
-	const login = useCallback(async (email: string, password: string) => {
-		try {
-			const res = await fetch("/api/players/login", {
-				body: JSON.stringify({ email, password }),
-				credentials: "include",
-				headers: { "Content-Type": "application/json" },
-				method: "POST",
-			});
+	const login = useCallback(
+		async (email: string, password: string) => {
+			try {
+				const res = await fetch("/api/players/login", {
+					body: JSON.stringify({ email, password }),
+					credentials: "include",
+					headers: { "Content-Type": "application/json" },
+					method: "POST",
+					signal: AbortSignal.timeout(10000),
+				});
 
-			if (res.ok) {
-				const data = await res.json();
-				setPlayer(data.user);
-				return { success: true };
+				if (res.ok) {
+					const data = await res.json();
+					setPlayer(data.user);
+					await fetchSubscription(data.user.id);
+					return { success: true };
+				}
+
+				const error = await res.json().catch(() => ({}));
+				return { error: error.message || "Login failed", success: false };
+			} catch {
+				return { error: "Network error", success: false };
 			}
-
-			const error = await res.json().catch(() => ({}));
-			return { error: error.message || "Login failed", success: false };
-		} catch {
-			return { error: "Network error", success: false };
-		}
-	}, []);
+		},
+		[fetchSubscription],
+	);
 
 	const register = useCallback(
 		async (email: string, password: string, name?: string) => {
@@ -169,6 +181,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 					credentials: "include",
 					headers: { "Content-Type": "application/json" },
 					method: "POST",
+					signal: AbortSignal.timeout(10000),
 				});
 
 				if (res.ok) {
@@ -197,6 +210,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			await fetch("/api/players/logout", {
 				credentials: "include",
 				method: "POST",
+				signal: AbortSignal.timeout(10000),
 			});
 		} catch {
 			// ignore
@@ -211,6 +225,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			const res = await fetch("/api/streak", {
 				credentials: "include",
 				method: "POST",
+				signal: AbortSignal.timeout(10000),
 			});
 			if (res.ok) {
 				const data = await res.json();
@@ -230,6 +245,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 					credentials: "include",
 					headers: { "Content-Type": "application/json" },
 					method: "PATCH",
+					signal: AbortSignal.timeout(10000),
 				});
 				if (res.ok) {
 					const updated = await res.json();

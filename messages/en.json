@@ -64,16 +64,19 @@
 	"common": {
 		"appName": "Relationship Questions",
 		"back": "Back",
+		"chooseAudience": "Choose an audience",
 		"close": "Close",
 		"confirm": "Are you sure you want to start over? All progress will be lost.",
 		"languageSwitcher": {
 			"label": "Language"
 		},
+		"loadError": "Questions could not be loaded. Please try again.",
 		"loading": "Loading...",
 		"next": "Next",
 		"openMenu": "Open menu",
 		"previous": "Previous",
-		"questions": "questions"
+		"questions": "questions",
+		"retry": "Try again"
 	},
 	"cookieConsent": {
 		"accept": "Accept",

@@ -64,16 +64,19 @@
 	"common": {
 		"appName": "Santykių Klausimai",
 		"back": "Grįžti",
+		"chooseAudience": "Pasirinkti auditoriją",
 		"close": "Uždaryti",
 		"confirm": "Ar tikrai norite iš naujo pradėti? Prarasite visą progresą.",
 		"languageSwitcher": {
 			"label": "Kalba"
 		},
+		"loadError": "Nepavyko įkelti klausimų. Bandykite dar kartą.",
 		"loading": "Kraunama...",
 		"next": "Kitas",
 		"openMenu": "Atidaryti meniu",
 		"previous": "Ankstesnis",
-		"questions": "klausimų"
+		"questions": "klausimų",
+		"retry": "Bandyti dar kartą"
 	},
 	"cookieConsent": {
 		"accept": "Sutinku",

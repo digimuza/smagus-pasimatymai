@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { CookieConsent } from "@/components/CookieConsent";
 import { BackgroundGlow } from "@/components/landing/BackgroundGlow";
 import { BottomCTA } from "@/components/landing/BottomCTA";
 import { FAQ } from "@/components/landing/FAQ";
@@ -95,6 +96,7 @@ export default async function LandingPage({
 			</main>
 
 			<LandingFooter />
+			<CookieConsent />
 		</div>
 	);
 }

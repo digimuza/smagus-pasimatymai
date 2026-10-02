@@ -15,7 +15,7 @@ export function HeroSection() {
 			<div className="relative mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
 				<motion.div
 					animate={{ opacity: 1, y: 0 }}
-					initial={{ opacity: 0, y: 22 }}
+					initial={false}
 					transition={{ duration: 0.65 }}
 				>
 					<div className="mb-8 flex items-center gap-3 text-[#f6c7b2] text-xs uppercase tracking-[0.24em]">
@@ -49,7 +49,7 @@ export function HeroSection() {
 				<motion.div
 					animate={{ opacity: 1, rotate: 0, y: 0 }}
 					className="relative mx-auto w-full max-w-md"
-					initial={{ opacity: 0, rotate: 2, y: 30 }}
+					initial={false}
 					transition={{ delay: 0.18, duration: 0.7 }}
 				>
 					<div

@@ -14,6 +14,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { useSessionTracking } from "@/hooks/useSessionTracking";
+import { Link, usePathname } from "@/i18n/navigation";
 import { trackEvent } from "@/lib/analytics";
 import { STORAGE_KEY } from "@/lib/constants";
 import {
@@ -22,7 +23,7 @@ import {
 	getSuperlikedQuestions,
 } from "@/lib/questionEngine";
 import { DEFAULT_SPICY_SETTINGS } from "@/lib/spicyCardsData";
-import { canAccessSpicyCards, getQuestionLimit } from "@/lib/subscription";
+import { canAccessSpicyCards } from "@/lib/subscription";
 import type {
 	QuestionContextType,
 	QuestionData,
@@ -41,8 +42,14 @@ const QuestionContext = createContext<QuestionContextType | undefined>(
 
 export function QuestionProvider({ children }: { children: React.ReactNode }) {
 	const locale = useLocale();
+	const pathname = usePathname();
+	const needsQuestions = ["/game", "/categories", "/awesome"].includes(
+		pathname,
+	);
 	const t = useTranslations("common");
-	const { isAuthenticated, subscription } = useAuth();
+	const { isAuthenticated, subscription, player } = useAuth();
+	const [loadError, setLoadError] = useState(false);
+	const [retryCount, setRetryCount] = useState(0);
 	const [questionData, setQuestionData] = useState<QuestionData | null>(null);
 	const [spicyCards, setSpicyCards] = useState<SpicyCard[]>([]);
 	const [safeCategoryNames, setSafeCategoryNames] = useState<string[]>([]);
@@ -91,20 +98,41 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		}
 	}, [isAuthenticated, state.audience, state.questionStates]);
 
-	// Load question data from API (gated on audience selection)
+	// Refetch on retry or account/entitlement changes, even with the same audience.
+	// biome-ignore lint/correctness/useExhaustiveDependencies: account and retry changes invalidate the response
 	useEffect(() => {
-		if (!isStateLoaded) return;
+		if (!isStateLoaded || !needsQuestions) return;
 		if (!state.audience) {
 			setIsLoading(false);
 			return;
 		}
 
+		const controller = new AbortController();
+		let active = true;
+		const timeout = setTimeout(() => controller.abort(), 10000);
 		setIsLoading(true);
+		setLoadError(false);
+		setQuestionData(null);
+		setCurrentSpicyCard(null);
 		fetch(
 			`/api/game-data?audience=${encodeURIComponent(state.audience)}&locale=${encodeURIComponent(locale)}`,
+			{ cache: "no-store", signal: controller.signal },
 		)
-			.then((res) => res.json())
+			.then((res) => {
+				if (!res.ok) throw new Error(`Game data request failed: ${res.status}`);
+				return res.json();
+			})
 			.then((data) => {
+				if (!active) return;
+				if (
+					!Array.isArray(data.sections) ||
+					!data.sections.length ||
+					!data.sections.every((section: Section) =>
+						Array.isArray(section.questions),
+					)
+				) {
+					throw new Error("No questions available");
+				}
 				const qData: QuestionData = {
 					isContentLimited: data.isContentLimited,
 					sections: data.sections,
@@ -112,11 +140,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 					total_questions: data.total_questions,
 				};
 				setQuestionData(qData);
-
-				// Set spicy cards from API
-				if (data.spicyCards) {
-					setSpicyCards(data.spicyCards);
-				}
+				setSpicyCards(data.spicyCards || []);
 
 				// Derive safe categories from API data
 				const safeNames = data.sections
@@ -137,24 +161,34 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 				setIsLoading(false);
 			})
 			.catch((error) => {
+				if (!active) return;
 				console.error("Failed to load questions:", error);
+				setLoadError(true);
 				setIsLoading(false);
-			});
-	}, [state.audience, locale, isStateLoaded, setState]);
+			})
+			.finally(() => clearTimeout(timeout));
+		return () => {
+			active = false;
+			clearTimeout(timeout);
+			controller.abort();
+		};
+	}, [
+		state.audience,
+		locale,
+		isStateLoaded,
+		setState,
+		needsQuestions,
+		retryCount,
+		player?.id,
+		subscription?.plan,
+		subscription?.status,
+	]);
 
-	// Question limit based on subscription
-	const questionLimit = useMemo(
-		() => getQuestionLimit(subscription),
-		[subscription],
+	// The API applies subscription limits; use the same pool for display and selection.
+	const allQuestions = useMemo(
+		() => questionData?.sections.flatMap((section) => section.questions) || [],
+		[questionData],
 	);
-
-	// Get all questions (flattened from all sections, limited for free users)
-	const allQuestions = useMemo(() => {
-		if (!questionData) return [];
-		const all = questionData.sections.flatMap((section) => section.questions);
-		if (questionLimit === Infinity) return all;
-		return all.slice(0, questionLimit);
-	}, [questionData, questionLimit]);
 
 	// Whether the user is seeing a limited set of content
 	const isContentLimited = questionData?.isContentLimited ?? false;
@@ -291,7 +325,11 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 					newQuestionStates.push({ answeredAt, id: questionId, status });
 				}
 
-				return { ...prev, questionStates: newQuestionStates };
+				return {
+					...prev,
+					currentQuestionId: null,
+					questionStates: newQuestionStates,
+				};
 			});
 
 			// Sync to server if authenticated
@@ -312,11 +350,8 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 					method: "POST",
 				}).catch(() => {});
 			}
-
-			// Load next question after updating state
-			setTimeout(loadNextQuestion, 0);
 		},
-		[setState, loadNextQuestion, isAuthenticated, state.audience],
+		[setState, isAuthenticated, state.audience],
 	);
 
 	// Actions
@@ -358,13 +393,11 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 				return {
 					...prev,
 					activeCategories: newCategories,
+					currentQuestionId: null,
 				};
 			});
-
-			// Reload question after category change
-			setTimeout(loadNextQuestion, 0);
 		},
-		[setState, loadNextQuestion],
+		[setState],
 	);
 
 	const isCategoryActive = useCallback(
@@ -379,8 +412,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			trackEvent("spicy_dismissed", currentSpicyCard.id);
 		}
 		setCurrentSpicyCard(null);
-		setTimeout(loadNextQuestion, 0);
-	}, [currentSpicyCard, loadNextQuestion]);
+	}, [currentSpicyCard]);
 
 	const toggleSpicyCards = useCallback(
 		(enabled: boolean) => {
@@ -452,8 +484,7 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 			spicyCardTypes: DEFAULT_SPICY_SETTINGS.enabledTypes,
 		}));
 		setCurrentSpicyCard(null);
-		setTimeout(loadNextQuestion, 0);
-	}, [setState, loadNextQuestion, safeCategoryNames]);
+	}, [setState, safeCategoryNames]);
 
 	const value: QuestionContextType = {
 		activeCategories: state.activeCategories,
@@ -486,7 +517,27 @@ export function QuestionProvider({ children }: { children: React.ReactNode }) {
 		updateSpicyCardsRarity,
 	};
 
-	if (isLoading) {
+	if (needsQuestions && loadError) {
+		return (
+			<div className="flex min-h-screen flex-col items-center justify-center gap-6 p-6 text-center">
+				<p role="alert">{t("loadError")}</p>
+				<button
+					className="rounded-full bg-primary px-6 py-3 text-background"
+					onClick={() => {
+						setLoadError(false);
+						setIsLoading(true);
+						setRetryCount((count) => count + 1);
+					}}
+					type="button"
+				>
+					{t("retry")}
+				</button>
+				<Link href="/audience">{t("chooseAudience")}</Link>
+			</div>
+		);
+	}
+
+	if (needsQuestions && (isLoading || !isStateLoaded)) {
 		return (
 			<div className="flex min-h-screen items-center justify-center">
 				<div className="text-primary text-xl">{t("loading")}</div>
