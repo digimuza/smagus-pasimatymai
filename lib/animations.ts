@@ -81,8 +81,8 @@ export const staggerItem: Variants = {
 // --- Card-specific ---
 export const cardSwipe = {
 	animate: { opacity: 1, scale: 1 },
-	initial: { opacity: 0, scale: 0 },
-	transition: { damping: 30, stiffness: 300, type: "spring" } as Transition,
+	initial: { opacity: 0, scale: 0.98 },
+	transition: { duration: 0.18, ease: "easeOut" } as Transition,
 };
 
 export const spicyCardFlip = {

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
@@ -8,14 +5,8 @@ export function BottomCTA() {
 	const t = useTranslations("landing.bottomCta");
 
 	return (
-		<section className="bg-[#160e1e] px-5 py-16 content-auto sm:px-8 sm:py-24">
-			<motion.div
-				className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.2rem] border border-[#eab8a5]/25 bg-[radial-gradient(circle_at_85%_0%,#633850_0%,#352038_38%,#24172e_75%)] px-6 py-16 text-center shadow-[0_25px_75px_rgba(0,0,0,0.25)] sm:px-12 sm:py-20"
-				initial={{ opacity: 0, y: 24 }}
-				transition={{ duration: 0.6 }}
-				viewport={{ once: true }}
-				whileInView={{ opacity: 1, y: 0 }}
-			>
+		<section className="bg-[#160e1e] px-5 py-16 sm:px-8 sm:py-24">
+			<div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.2rem] border border-[#eab8a5]/25 bg-[radial-gradient(circle_at_85%_0%,#633850_0%,#352038_38%,#24172e_75%)] px-6 py-16 text-center shadow-[0_25px_75px_rgba(0,0,0,0.25)] sm:px-12 sm:py-20">
 				<div
 					aria-hidden="true"
 					className="pointer-events-none absolute -top-32 -right-16 h-80 w-80 rounded-full border border-[#f5c7a9]/15"
@@ -40,7 +31,7 @@ export function BottomCTA() {
 					{t("cta")}
 				</Link>
 				<p className="relative mt-5 text-[#d0b9c8] text-sm">{t("noCta")}</p>
-			</motion.div>
+			</div>
 		</section>
 	);
 }

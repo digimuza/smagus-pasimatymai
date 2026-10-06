@@ -1,12 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 
 interface ModeCardProps {
 	colorClass: "couples" | "family" | "friends" | "kids";
 	cta: string;
-	delay?: number;
 	description: string;
 	href: string;
 	icon: string;
@@ -45,21 +41,15 @@ export function ModeCard({
 	cta,
 	colorClass,
 	href,
-	delay = 0,
 }: ModeCardProps) {
 	const color = colors[colorClass];
 
 	return (
-		<motion.div
-			initial={{ opacity: 0, y: 30 }}
-			transition={{ delay, duration: 0.35 }}
-			viewport={{ margin: "-30px", once: true }}
-			whileInView={{ opacity: 1, y: 0 }}
-		>
+		<div>
 			<div className="group relative flex h-full min-h-[19rem] flex-col overflow-hidden rounded-[1.7rem] border border-white/10 bg-[#201529] p-6 transition duration-200 hover:-translate-y-1 hover:border-white/25">
 				<div
 					aria-hidden="true"
-					className={`absolute -top-20 -right-20 h-52 w-52 rounded-full blur-[60px] ${color.glow}`}
+					className={`absolute -top-20 -right-20 hidden h-52 w-52 rounded-full blur-[60px] sm:block ${color.glow}`}
 				/>
 				<div className="relative flex items-start justify-between">
 					<span
@@ -95,6 +85,6 @@ export function ModeCard({
 					className={`absolute bottom-0 left-6 h-[2px] w-10 ${color.line}`}
 				/>
 			</div>
-		</motion.div>
+		</div>
 	);
 }

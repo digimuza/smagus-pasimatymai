@@ -198,3 +198,28 @@
 		animation: none;
 	}
 }
+
+.landing-glow {
+	background: radial-gradient(
+		ellipse at 70% 10%,
+		rgba(192, 132, 252, 0.07),
+		transparent 45%
+	);
+}
+
+@media (min-width: 768px) and (hover: hover) and (
+		prefers-reduced-motion: no-preference
+	) {
+	.preview-question {
+		animation: preview-fade 180ms ease-out;
+	}
+}
+
+@keyframes preview-fade {
+	from {
+		opacity: 0.5;
+	}
+	to {
+		opacity: 1;
+	}
+}

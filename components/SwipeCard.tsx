@@ -69,6 +69,7 @@ export function SwipeCard({
 			drag
 			dragConstraints={{ bottom: 0, left: 0, right: 0, top: 0 }}
 			dragElastic={0.7}
+			dragMomentum={false}
 			initial={cardSwipe.initial}
 			key={question.id}
 			onAnimationComplete={() => {
@@ -79,7 +80,7 @@ export function SwipeCard({
 				}
 			}}
 			onDragEnd={handleDragEnd}
-			style={{ opacity, rotateZ, x, y }}
+			style={{ opacity, rotateZ, touchAction: "none", x, y }}
 			transition={cardSwipe.transition}
 		>
 			<div

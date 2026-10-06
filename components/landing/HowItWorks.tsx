@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 const STEP_ICONS = ["🎯", "👆", "💬"];
@@ -27,32 +24,17 @@ export function HowItWorks() {
 	];
 
 	return (
-		<section className="bg-[#1b1024] py-20 content-auto sm:py-28">
+		<section className="bg-[#1b1024] py-20 sm:py-28">
 			<div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-				<motion.h2
-					className="mb-14 text-center font-serif text-4xl text-[#fff1e7] md:text-5xl"
-					initial={{ opacity: 0, y: 20 }}
-					transition={{ duration: 0.6 }}
-					viewport={{ once: true }}
-					whileInView={{ opacity: 1, y: 0 }}
-				>
+				<h2 className="mb-14 text-center font-serif text-4xl text-[#fff1e7] md:text-5xl">
 					{t("title")}
-				</motion.h2>
+				</h2>
 
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 					{steps.map((step, i) => (
-						<motion.div
+						<div
 							className="flex flex-col items-center gap-4 rounded-[1.6rem] border border-white/10 bg-[#23162d] px-7 py-9 text-center"
-							initial={{ opacity: 0, y: 30 }}
 							key={i}
-							transition={{
-								bounce: 0.4,
-								delay: i * 0.15,
-								duration: 0.5,
-								type: "spring",
-							}}
-							viewport={{ margin: "-50px", once: true }}
-							whileInView={{ opacity: 1, y: 0 }}
 						>
 							<div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#f5c7a9]/15 bg-[#f5c7a9]/10 text-3xl">
 								{step.icon}
@@ -66,7 +48,7 @@ export function HowItWorks() {
 							<p className="max-w-xs text-[#cdb9ca] text-sm leading-relaxed">
 								{step.description}
 							</p>
-						</motion.div>
+						</div>
 					))}
 				</div>
 			</div>

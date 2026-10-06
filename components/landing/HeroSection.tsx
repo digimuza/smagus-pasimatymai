@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimatedCard } from "./AnimatedCard";
@@ -13,11 +10,7 @@ export function HeroSection() {
 			<div aria-hidden="true" className="hero-orbit hero-orbit-one" />
 			<div aria-hidden="true" className="hero-orbit hero-orbit-two" />
 			<div className="relative mx-auto grid max-w-6xl items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-20">
-				<motion.div
-					animate={{ opacity: 1, y: 0 }}
-					initial={false}
-					transition={{ duration: 0.65 }}
-				>
+				<div>
 					<div className="mb-8 flex items-center gap-3 text-[#f6c7b2] text-xs uppercase tracking-[0.24em]">
 						<span aria-hidden="true" className="h-px w-8 bg-[#f6c7b2]/70" />
 						{t("eyebrow")}
@@ -45,16 +38,11 @@ export function HeroSection() {
 						</Link>
 						<span className="text-[#cdb8ca] text-sm">{t("noCta")}</span>
 					</div>
-				</motion.div>
-				<motion.div
-					animate={{ opacity: 1, rotate: 0, y: 0 }}
-					className="relative mx-auto w-full max-w-md"
-					initial={false}
-					transition={{ delay: 0.18, duration: 0.7 }}
-				>
+				</div>
+				<div className="relative mx-auto w-full max-w-md">
 					<div
 						aria-hidden="true"
-						className="absolute -inset-9 rounded-full bg-[#ef9b91]/10 blur-[75px]"
+						className="absolute -inset-9 hidden rounded-full bg-[#ef9b91]/10 blur-[75px] sm:block"
 					/>
 					<div
 						aria-hidden="true"
@@ -66,7 +54,7 @@ export function HeroSection() {
 					<p className="mt-10 text-center font-serif text-[#d5b9cb] text-lg italic">
 						{t("cardCaption")}
 					</p>
-				</motion.div>
+				</div>
 			</div>
 		</section>
 	);

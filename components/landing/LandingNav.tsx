@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -8,12 +5,7 @@ export function LandingNav() {
 	const t = useTranslations("landing.nav");
 
 	return (
-		<motion.header
-			animate={{ opacity: 1, y: 0 }}
-			className="sticky top-0 z-50 border-white/10 border-b bg-[#160e1e]/90 backdrop-blur-xl"
-			initial={false}
-			transition={{ delay: 0.2, duration: 0.6 }}
-		>
+		<header className="sticky top-0 z-50 border-white/10 border-b bg-[#160e1e]">
 			<div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center gap-3">
 					<span
@@ -28,6 +20,6 @@ export function LandingNav() {
 				</div>
 				<LanguageSwitcher />
 			</div>
-		</motion.header>
+		</header>
 	);
 }

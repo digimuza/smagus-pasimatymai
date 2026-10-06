@@ -1,22 +1,37 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export function AnimatedCard() {
 	const t = useTranslations("landing");
 	const [index, setIndex] = useState(0);
-	const reduceMotion = useReducedMotion();
 	const questions = t.raw("sampleQuestions") as string[];
 
 	useEffect(() => {
-		if (reduceMotion) return;
-		const timer = setInterval(() => {
-			setIndex((prev) => (prev + 1) % questions.length);
-		}, 7000);
-		return () => clearInterval(timer);
-	}, [questions.length, reduceMotion]);
+		// Keep the preview still on touch devices and when motion is reduced.
+		const media = window.matchMedia(
+			"(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)",
+		);
+		let timer: ReturnType<typeof setInterval> | undefined;
+		const update = () => {
+			clearInterval(timer);
+			if (media.matches && document.visibilityState === "visible") {
+				timer = setInterval(
+					() => setIndex((value) => (value + 1) % questions.length),
+					7000,
+				);
+			}
+		};
+		update();
+		media.addEventListener("change", update);
+		document.addEventListener("visibilitychange", update);
+		return () => {
+			clearInterval(timer);
+			media.removeEventListener("change", update);
+			document.removeEventListener("visibilitychange", update);
+		};
+	}, [questions.length]);
 
 	return (
 		<div className="relative mx-auto h-[19rem] w-full max-w-sm sm:h-[22rem]">
@@ -36,18 +51,14 @@ export function AnimatedCard() {
 						{String(questions.length).padStart(2, "0")}
 					</span>
 				</div>
-				<AnimatePresence mode="wait">
-					<motion.p
-						animate={{ opacity: 1, y: 0 }}
-						className="m-auto max-w-xs text-center font-serif text-[1.75rem] leading-[1.25] sm:text-[2rem]"
-						exit={{ opacity: 0, y: -10 }}
-						initial={{ opacity: 0, y: 10 }}
+				<div className="flex flex-1 items-center justify-center">
+					<p
+						className="preview-question m-auto max-w-xs text-center font-serif text-[1.75rem] leading-[1.25] sm:text-[2rem]"
 						key={index}
-						transition={{ duration: 0.32 }}
 					>
-						{questions[index]}
-					</motion.p>
-				</AnimatePresence>
+						{questions[index % questions.length]}
+					</p>
+				</div>
 				<div className="flex items-center justify-between border-[#a57f83]/30 border-t pt-5 text-[11px] uppercase tracking-[0.15em]">
 					<span>{t("swipeLeft")}</span>
 					<span
