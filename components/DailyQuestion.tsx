@@ -1,9 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { fadeInUp } from "@/lib/animations";
 import { shareQuestion } from "@/lib/share";
 
 interface DailyQuestionData {
@@ -33,10 +31,7 @@ export function DailyQuestion({ audience }: { audience: string }) {
 	};
 
 	return (
-		<motion.div
-			{...fadeInUp}
-			className="mx-auto w-full max-w-lg rounded-[1.6rem] border border-[#f5c7a9]/25 bg-[#2c1a31] p-6"
-		>
+		<div className="mx-auto w-full max-w-lg rounded-[1.6rem] border border-[#f5c7a9]/25 bg-[#2c1a31] p-6">
 			<div className="mb-3 flex items-center gap-2">
 				<span aria-hidden="true" className="text-[#f5c7a9] text-lg">
 					✦
@@ -68,6 +63,6 @@ export function DailyQuestion({ audience }: { audience: string }) {
 				</svg>
 				{t("share")}
 			</button>
-		</motion.div>
+		</div>
 	);
 }
